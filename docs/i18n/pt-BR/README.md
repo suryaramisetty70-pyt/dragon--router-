@@ -331,7 +331,6 @@ AI providers can become unstable, return 5xx errors, or hit temporary rate limit
 <details>
 <summary><b>🔧 7. "Configuring each AI tool is tedious and repetitive"</b></summary>
 
-
 **How Dragon Router solves it:**
 
 - **CLI Tools Dashboard** — Dedicated page with one-click setup for Claude Code, Codex CLI, OpenClaw, Kilo Code, Antigravity, Cline
@@ -774,8 +773,8 @@ yay -S dragonrouter-bin
 systemctl --user enable --now dragonrouter.service
 ```
 
-| Command                 | Description                                                 |
-| ----------------------- | ----------------------------------------------------------- |
+| Command                    | Description                                                 |
+| -------------------------- | ----------------------------------------------------------- |
 | `dragonrouter`             | Start server (`PORT=20128`, API and dashboard on same port) |
 | `dragonrouter --port 3000` | Set canonical/API port to 3000                              |
 | `dragonrouter --mcp`       | Start MCP server (stdio transport)                          |
@@ -794,10 +793,10 @@ PORT=20128 DASHBOARD_PORT=20129 dragonrouter
 
 When you no longer need Dragon Router, we provide two quick scripts for a clean removal:
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 > Note: To run these commands, navigate to the Dragon Router project folder (if you cloned it) and run them. Alternatively, if globally installed, you can simply run `npm uninstall -g dragonrouter`.
 
@@ -808,7 +807,7 @@ For most deployments, you only need:
 | Variable                 | Default                       | Purpose                                                                                                                                      |
 | ------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `REQUEST_TIMEOUT_MS`     | `600000`                      | Shared baseline for upstream response-start timeout, hidden Undici timeouts, TLS fingerprint requests, and API bridge request/proxy timeouts |
-| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                                  |
+| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                              |
 
 Backward compatibility is preserved: existing `FETCH_TIMEOUT_MS`, `API_BRIDGE_PROXY_TIMEOUT_MS`, and other per-layer timeout vars still work and override the shared baseline.
 
@@ -853,7 +852,6 @@ Base URL: http://localhost:20128/v1
 API Key:  [copy from Endpoint page]
 Model:    if/kimi-k2-thinking (or any provider/model prefix)
 ```
-
 
 ### 4) Enable and validate protocols (v2.0)
 
@@ -1089,8 +1087,8 @@ volumes:
   dragonrouter-data:
 ```
 
-| Image                    | Tag      | Size   | Description           |
-| ------------------------ | -------- | ------ | --------------------- |
+| Image                       | Tag      | Size   | Description           |
+| --------------------------- | -------- | ------ | --------------------- |
 | `diegosouzapw/dragonrouter` | `latest` | ~250MB | Latest stable release |
 | `diegosouzapw/dragonrouter` | `3.6.2`  | ~250MB | Current version       |
 
@@ -1221,7 +1219,6 @@ Cerebras (cerebras/)   → Llama/Qwen world-fastest — 1M tok/day
 | `qwen3-coder-next`  | `qw/`  | **Unlimited** | No reported cap     |
 | `vision-model`      | `qw/`  | **Unlimited** | Multimodal (images) |
 
-
 ### ⚫ NVIDIA NIM (Free API Key — build.nvidia.com)
 
 | Tier       | Daily Limit  | Rate Limit  | Notes                                                  |
@@ -1351,7 +1348,7 @@ Dragon Router v3.6 is built as an operational platform, not just a relay proxy.
 | 🗑️ **Uninstall / Full Uninstall**  | `npm run uninstall` keeps data, `npm run uninstall:full` removes everything — clean removal for all install methods                               |
 | 🔧 **OAuth Env Repair**            | One-click "Repair env" action for OAuth providers restores missing env vars and fixes broken auth state                                           |
 | 🔒 **Graceful Electron Shutdown**  | Electron `before-quit` shuts down Next.js gracefully, preventing SQLite WAL database locks on desktop close                                       |
-| 👁️ **Model Visibility Toggle**     | Per-model visibility toggle (👁 icon) with search filter and active-count badge (`N/M active`) on provider pages                                  |
+| 👁️ **Model Visibility Toggle**     | Per-model visibility toggle (👁 icon) with search filter and active-count badge (`N/M active`) on provider pages                                   |
 | 📧 **Email Privacy Masking**       | OAuth account emails masked (`di*****@g****.com`), full address visible on hover                                                                  |
 | 🔗 **Context Relay Strategy**      | Combo strategy preserving session continuity via structured handoff summaries when accounts rotate mid-conversation                               |
 | 🛡️ **Proxy Hardening**             | Token health check, API key validation, and undici dispatcher all honor proxy config                                                              |
@@ -1374,14 +1371,14 @@ Dragon Router v3.6 is built as an operational platform, not just a relay proxy.
 
 ### 🚀 Previous v2.0.9+ — Playground, CLI Fingerprints & ACP
 
-| Feature                                    | What It Does                                                                                                                                                                                                                            |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🎮 **Model Playground**                    | Dashboard page to test any model directly — provider/model/endpoint selectors, Monaco Editor, streaming, abort, timing                                                                                                                  |
-| 🔏 **CLI Fingerprint Matching**            | Per-provider header/body ordering to match native CLI signatures — toggle per provider in Settings > Security. **Your proxy IP is preserved**                                                                                           |
-| 🤖 **ACP Agents Dashboard**                | Debug › Agents page — grid of 14 agents with install status, version, custom agent form for any CLI tool. **OpenCode** users get a "Download opencode.json" button that auto-generates a ready-to-use config with all available models. |
-| 🔧 **Custom Model `apiFormat` Routing**    | Custom models with `apiFormat: "responses"` now correctly route to the Responses API translator                                                                                                                                         |
-| 🏢 **Codex Workspace Isolation**           | Multiple Codex workspaces per email — OAuth correctly separates connections by workspace ID                                                                                                                                             |
-| 🔄 **Electron Auto-Update**                | Desktop app checks for updates + auto-install on restart                                                                                                                                                                                |
+| Feature                                 | What It Does                                                                                                                                                                                                                            |
+| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🎮 **Model Playground**                 | Dashboard page to test any model directly — provider/model/endpoint selectors, Monaco Editor, streaming, abort, timing                                                                                                                  |
+| 🔏 **CLI Fingerprint Matching**         | Per-provider header/body ordering to match native CLI signatures — toggle per provider in Settings > Security. **Your proxy IP is preserved**                                                                                           |
+| 🤖 **ACP Agents Dashboard**             | Debug › Agents page — grid of 14 agents with install status, version, custom agent form for any CLI tool. **OpenCode** users get a "Download opencode.json" button that auto-generates a ready-to-use config with all available models. |
+| 🔧 **Custom Model `apiFormat` Routing** | Custom models with `apiFormat: "responses"` now correctly route to the Responses API translator                                                                                                                                         |
+| 🏢 **Codex Workspace Isolation**        | Multiple Codex workspaces per email — OAuth correctly separates connections by workspace ID                                                                                                                                             |
+| 🔄 **Electron Auto-Update**             | Desktop app checks for updates + auto-install on restart                                                                                                                                                                                |
 
 ### 🤖 Agent & Protocol Operations (v2.0)
 
@@ -1679,8 +1676,6 @@ Scenarios:
 - `5h OFF` + `Weekly ON`: only weekly usage can block the account.
 - `5h ON` + `Weekly OFF`: only 5-hour usage can block the account.
 - `resetAt` passed: account re-enters rotation automatically (no manual re-enable).
-
-
 
 ### GitHub Copilot
 
@@ -2023,8 +2018,6 @@ opencode
 
 > **⚠️ Important for users running Dragon Router on a VPS, Docker, or any remote server**
 
-
-
 The OAuth credentials bundled in Dragon Router are registered **for `localhost` only**. When you access Dragon Router on a remote server (e.g. `https://dragonrouter.myserver.com`), Google rejects the authentication with:
 
 ```
@@ -2086,7 +2079,6 @@ docker restart dragonrouter
 
 **7. Try connecting again**
 
-
 Google will now redirect correctly to `https://your-server.com/callback`.
 
 ---
@@ -2107,8 +2099,6 @@ If you don't want to set up your own credentials right now, you can still use th
 
 <details>
 <summary><b>🇧🇷 Versão em Português</b></summary>
-
-
 
 As credenciais OAuth embutidas no Dragon Router estão cadastradas **apenas para `localhost`**. Quando você acessa o Dragon Router em um servidor remoto (ex: `https://dragonrouter.meuservidor.com`), o Google rejeita a autenticação com:
 
@@ -2170,7 +2160,6 @@ docker restart dragonrouter
 ```
 
 **7. Tente conectar novamente**
-
 
 Agora o Google redirecionará corretamente para `https://seu-servidor.com/callback` e a autenticação funcionará.
 

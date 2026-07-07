@@ -29,23 +29,23 @@ This means you can:
 
 ### Positioning vs. the market
 
-| Feature           | 9router | anti-api | llm-interceptor | **Dragon Router AgentBridge** |
-| ----------------- | :-----: | :------: | :-------------: | :-----------------------: |
-| Antigravity       |    ✓    |    ✓     |        —        |             ✓             |
-| GitHub Copilot    |    ✓    |    ✓     |        —        |             ✓             |
-| Kiro (AWS)        |    ✓    |    ✓     |        —        |             ✓             |
-| OpenAI Codex      |    —    |    ✓     |        —        |             ✓             |
-| Cursor IDE        |    ✓    |    ✓     |        —        |             ✓             |
-| Zed Industries    |    —    |    ✓     |        —        |             ✓             |
-| Claude Code       |    —    |    —     |        ✓        |             ✓             |
-| Open Code         |    —    |    —     |        ✓        |             ✓             |
-| Trae              |    —    |    —     |        —        |     🔍 Investigating      |
-| Dashboard UI      |    ✓    |    ✗     |        ✗        |             ✓             |
-| Traffic Inspector |    ✗    |    ✗     |        ✓        |             ✓             |
-| Dragon Router routing |    ✗    |    ✗     |        ✗        |             ✓             |
-| Model mapping UI  |    ✗    |    ✗     |        ✗        |             ✓             |
-| Bypass list       |    ✗    |    ✗     |        ✓        |             ✓             |
-| Upstream CA cert  |    ✗    |    ✗     |        ✓        |             ✓             |
+| Feature               | 9router | anti-api | llm-interceptor | **Dragon Router AgentBridge** |
+| --------------------- | :-----: | :------: | :-------------: | :---------------------------: |
+| Antigravity           |    ✓    |    ✓     |        —        |               ✓               |
+| GitHub Copilot        |    ✓    |    ✓     |        —        |               ✓               |
+| Kiro (AWS)            |    ✓    |    ✓     |        —        |               ✓               |
+| OpenAI Codex          |    —    |    ✓     |        —        |               ✓               |
+| Cursor IDE            |    ✓    |    ✓     |        —        |               ✓               |
+| Zed Industries        |    —    |    ✓     |        —        |               ✓               |
+| Claude Code           |    —    |    —     |        ✓        |               ✓               |
+| Open Code             |    —    |    —     |        ✓        |               ✓               |
+| Trae                  |    —    |    —     |        —        |       🔍 Investigating        |
+| Dashboard UI          |    ✓    |    ✗     |        ✗        |               ✓               |
+| Traffic Inspector     |    ✗    |    ✗     |        ✓        |               ✓               |
+| Dragon Router routing |    ✗    |    ✗     |        ✗        |               ✓               |
+| Model mapping UI      |    ✗    |    ✗     |        ✗        |               ✓               |
+| Bypass list           |    ✗    |    ✗     |        ✓        |               ✓               |
+| Upstream CA cert      |    ✗    |    ✗     |        ✓        |               ✓               |
 
 ---
 
@@ -243,9 +243,9 @@ Example `/etc/hosts` entries for GitHub Copilot:
 Use the Model Mapping Table in each agent card to define source → target mappings:
 
 | Source model (agent native) | Target model (Dragon Router) |
-| --------------------------- | ------------------------ |
-| `gpt-4o`                    | `claude-sonnet-4.7`      |
-| `*` (wildcard)              | `claude-haiku-4.7`       |
+| --------------------------- | ---------------------------- |
+| `gpt-4o`                    | `claude-sonnet-4.7`          |
+| `*` (wildcard)              | `claude-haiku-4.7`           |
 
 Wildcard `*` maps any unrecognized model to the specified target. Persisted in `agent_bridge_mappings` table.
 

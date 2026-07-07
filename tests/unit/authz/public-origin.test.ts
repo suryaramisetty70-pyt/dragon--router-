@@ -80,9 +80,12 @@ describe("public origin resolution", () => {
   it("accepts all configured public origins while resolving the highest-priority one", () => {
     process.env.DRAGONROUTER_PUBLIC_BASE_URL = "https://assets.example.test/images";
     process.env.NEXT_PUBLIC_BASE_URL = "https://gateway.example.test/app";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: { origin: "https://gateway.example.test" },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: { origin: "https://gateway.example.test" },
+      }
+    );
 
     assert.deepEqual(resolvePublicOrigin(request), {
       origin: "https://assets.example.test",
@@ -107,13 +110,16 @@ describe("public origin resolution", () => {
   });
 
   it("does not trust spoofed forwarded headers by default", () => {
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        origin: "https://attacker.example",
-        "x-forwarded-host": "attacker.example",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          origin: "https://attacker.example",
+          "x-forwarded-host": "attacker.example",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(trustsForwardedHeaders(request), false);
     assert.equal(validateBrowserMutationOrigin(request).ok, false);
@@ -121,14 +127,17 @@ describe("public origin resolution", () => {
 
   it("fails closed for unknown proxy trust mode values", () => {
     process.env.DRAGONROUTER_TRUST_PROXY = "flase";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        ...stampedPeer("127.0.0.1"),
-        origin: "https://gateway.example.test",
-        "x-forwarded-host": "gateway.example.test",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          ...stampedPeer("127.0.0.1"),
+          origin: "https://gateway.example.test",
+          "x-forwarded-host": "gateway.example.test",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(trustsForwardedHeaders(request), false);
     assert.equal(validateBrowserMutationOrigin(request).ok, false);
@@ -136,14 +145,17 @@ describe("public origin resolution", () => {
 
   it("can trust forwarded headers from a token-stamped loopback proxy when explicitly enabled", () => {
     process.env.DRAGONROUTER_TRUST_PROXY = "true";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        ...stampedPeer("127.0.0.1"),
-        origin: "https://gateway.example.test",
-        "x-forwarded-host": "gateway.example.test",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          ...stampedPeer("127.0.0.1"),
+          origin: "https://gateway.example.test",
+          "x-forwarded-host": "gateway.example.test",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(trustsForwardedHeaders(request), true);
     assert.equal(validateBrowserMutationOrigin(request).ok, true);
@@ -152,14 +164,17 @@ describe("public origin resolution", () => {
   it("does not allow trusted forwarded headers to widen a configured public origin", () => {
     process.env.NEXT_PUBLIC_BASE_URL = "https://gateway.example.test";
     process.env.DRAGONROUTER_TRUST_PROXY = "true";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        ...stampedPeer("127.0.0.1"),
-        origin: "https://evil.example.test",
-        "x-forwarded-host": "evil.example.test",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          ...stampedPeer("127.0.0.1"),
+          origin: "https://evil.example.test",
+          "x-forwarded-host": "evil.example.test",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(
       getPublicOriginCandidates(request).some(
@@ -172,14 +187,17 @@ describe("public origin resolution", () => {
 
   it("does not derive trusted forwarded origin from the raw host header", () => {
     process.env.DRAGONROUTER_TRUST_PROXY = "true";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        ...stampedPeer("127.0.0.1"),
-        host: "gateway.example.test",
-        origin: "https://gateway.example.test",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          ...stampedPeer("127.0.0.1"),
+          host: "gateway.example.test",
+          origin: "https://gateway.example.test",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(
       getPublicOriginCandidates(request).some(
@@ -192,26 +210,32 @@ describe("public origin resolution", () => {
 
   it("rejects malformed forwarded origins even when proxy trust is enabled", () => {
     process.env.DRAGONROUTER_TRUST_PROXY = "true";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        ...stampedPeer("127.0.0.1"),
-        origin: "https://gateway.example.test",
-        "x-forwarded-host": "gateway.example.test/evil",
-        "x-forwarded-proto": "https",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          ...stampedPeer("127.0.0.1"),
+          origin: "https://gateway.example.test",
+          "x-forwarded-host": "gateway.example.test/evil",
+          "x-forwarded-proto": "https",
+        },
+      }
+    );
 
     assert.equal(validateBrowserMutationOrigin(request).ok, false);
   });
 
   it("rejects cross-site fetch metadata before origin candidate matching", () => {
     process.env.NEXT_PUBLIC_BASE_URL = "https://gateway.example.test";
-    const request = new Request("http://dragonrouter:20128/api/providers/health-autopilot/actions", {
-      headers: {
-        origin: "https://gateway.example.test",
-        "sec-fetch-site": "cross-site",
-      },
-    });
+    const request = new Request(
+      "http://dragonrouter:20128/api/providers/health-autopilot/actions",
+      {
+        headers: {
+          origin: "https://gateway.example.test",
+          "sec-fetch-site": "cross-site",
+        },
+      }
+    );
 
     assert.deepEqual(validateBrowserMutationOrigin(request), {
       ok: false,

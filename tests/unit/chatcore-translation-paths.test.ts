@@ -1670,7 +1670,10 @@ test("chatCore attaches Dragon Router response metadata headers to non-stream re
   assert.equal(result.response.headers.get("X-Dragon Router-Tokens-In"), "12");
   assert.equal(result.response.headers.get("X-Dragon Router-Tokens-Out"), "3");
   assert.ok(Number(result.response.headers.get("X-Dragon Router-Latency-Ms")) >= 0);
-  assert.match(String(result.response.headers.get("X-Dragon Router-Response-Cost")), /^\d+\.\d{10}$/);
+  assert.match(
+    String(result.response.headers.get("X-Dragon Router-Response-Cost")),
+    /^\d+\.\d{10}$/
+  );
 });
 
 test("chatCore does not expose provider request credentials in non-stream response headers", async () => {
@@ -2289,7 +2292,10 @@ test("chatCore records Claude prompt cache and cache usage metadata in call logs
   assert.equal(detail.responseBody._dragonrouter.claudePromptCache.applied, true);
   assert.equal(detail.responseBody._dragonrouter.claudePromptCache.totalBreakpoints, 3);
   assert.equal(typeof detail.responseBody._dragonrouter.claudePromptCache.anthropicBeta, "string");
-  assert.match(detail.responseBody._dragonrouter.claudePromptCache.anthropicBeta, /prompt-caching/i);
+  assert.match(
+    detail.responseBody._dragonrouter.claudePromptCache.anthropicBeta,
+    /prompt-caching/i
+  );
   assert.deepEqual(detail.responseBody._dragonrouter.claudePromptCacheUsage, {
     cacheReadTokens: 4,
     cacheCreationTokens: 2,

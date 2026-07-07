@@ -7,9 +7,8 @@ import assert from "node:assert/strict";
 // can get a Codex OAuth token revoked). MinIntervalThrottle serializes the actual
 // network calls and spaces each start >= minIntervalMs after the previous one.
 
-const { MinIntervalThrottle, resolveQuotaFetchMinIntervalMs } = await import(
-  "../../open-sse/services/quotaFetchThrottle.ts"
-);
+const { MinIntervalThrottle, resolveQuotaFetchMinIntervalMs } =
+  await import("../../open-sse/services/quotaFetchThrottle.ts");
 
 class FakeClock {
   t = 1000;
@@ -65,7 +64,10 @@ test("#6009 jitter adds a bounded extra spacing on top of the min gap", async ()
 
 test("#6009 env resolver clamps to sane bounds and defaults", () => {
   assert.equal(resolveQuotaFetchMinIntervalMs({}), 250); // default
-  assert.equal(resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "0" }), 0);
+  assert.equal(
+    resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "0" }),
+    0
+  );
   assert.equal(
     resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "1000" }),
     1000
@@ -75,7 +77,10 @@ test("#6009 env resolver clamps to sane bounds and defaults", () => {
     resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "abc" }),
     250
   );
-  assert.equal(resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "-5" }), 250);
+  assert.equal(
+    resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "-5" }),
+    250
+  );
   // absurdly high → clamped to max 5000
   assert.equal(
     resolveQuotaFetchMinIntervalMs({ DRAGONROUTER_QUOTA_FETCH_MIN_INTERVAL_MS: "999999" }),

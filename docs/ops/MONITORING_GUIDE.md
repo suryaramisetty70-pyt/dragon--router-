@@ -272,9 +272,7 @@ The MCP tool `observability_snapshot` returns a **complete system snapshot** for
       "ageMs": 109
     }
   ],
-  "quotaMonitors": {
-    /* see above */
-  },
+  "quotaMonitors": {/* see above */},
   "uptime": 12345,
   "version": "3.8.16"
 }

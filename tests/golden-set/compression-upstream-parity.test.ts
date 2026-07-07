@@ -130,7 +130,10 @@ describe("upstream Caveman parity benchmark", () => {
           `${fixture.name}: fallback must preserve original fixture verbatim`
         );
       } else {
-        assert.ok(ours.text.length < original.length, `${fixture.name}: Dragon Router did not reduce`);
+        assert.ok(
+          ours.text.length < original.length,
+          `${fixture.name}: Dragon Router did not reduce`
+        );
         assert.ok(
           ours.text.length <= Math.ceil(Math.max(expected.length, upstreamShrink.length) * 1.35),
           `${fixture.name}: Dragon Router drifted too far from upstream fixture budget`

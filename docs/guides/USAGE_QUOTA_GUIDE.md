@@ -204,14 +204,14 @@ Request ──▶ quotaCheck()
 
 `quotaSnapshots` table stores **historical quota state** for trend analysis:
 
-| Field       | Description                      |
+| Field | Description |
 | ----------- | -------------------------------- | ------ | ------- |
-| `apiKeyId`  | The key being tracked            |
-| `window`    | "day"                            | "week" | "month" |
-| `used`      | Cost used in this window (cents) |
-| `limit`     | The limit (cents)                |
-| `resetAt`   | When the window resets           |
-| `createdAt` | When the snapshot was taken      |
+| `apiKeyId` | The key being tracked |
+| `window` | "day" | "week" | "month" |
+| `used` | Cost used in this window (cents) |
+| `limit` | The limit (cents) |
+| `resetAt` | When the window resets |
+| `createdAt` | When the snapshot was taken |
 
 Snapshots are taken **on every request** that uses > 0 cost, and used to:
 
@@ -297,8 +297,8 @@ Usage data is accessed via the dashboard or MCP tools, not direct REST export en
 
 Two MCP tools expose usage data to agents (see `open-sse/mcp-server/tools/`):
 
-| Tool                    | Description                                        |
-| ----------------------- | -------------------------------------------------- |
+| Tool                       | Description                                        |
+| -------------------------- | -------------------------------------------------- |
 | `dragonrouter_cost_report` | Generates a per-key cost report for a given period |
 | `dragonrouter_check_quota` | Returns current quota status for an API key        |
 

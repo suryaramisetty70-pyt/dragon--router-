@@ -157,7 +157,10 @@ test("runConfigLangSetCommand salva locale no .env e chama setLocale imediatamen
     const envPath = join(tmpDir, ".env");
     assert.ok(existsSync(envPath), ".env deve existir após set");
     const content = readFileSync(envPath, "utf8");
-    assert.ok(content.includes("DRAGONROUTER_LANG=pt-BR"), "Deve persistir DRAGONROUTER_LANG=pt-BR");
+    assert.ok(
+      content.includes("DRAGONROUTER_LANG=pt-BR"),
+      "Deve persistir DRAGONROUTER_LANG=pt-BR"
+    );
     assert.equal(getLocale(), "pt-BR", "setLocale deve ter sido chamado imediatamente em-processo");
   } finally {
     console.log = origLog;

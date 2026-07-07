@@ -4,7 +4,9 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-providers-validate-route-"));
+const TEST_DATA_DIR = fs.mkdtempSync(
+  path.join(os.tmpdir(), "dragonrouter-providers-validate-route-")
+);
 process.env.DATA_DIR = TEST_DATA_DIR;
 const originalAllowPrivateProviderUrls = process.env.DRAGONROUTER_ALLOW_PRIVATE_PROVIDER_URLS;
 const originalAllowLocalProviderUrls = process.env.DRAGONROUTER_ALLOW_LOCAL_PROVIDER_URLS;

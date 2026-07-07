@@ -46,7 +46,7 @@ Current list (v3.0.0-rc.16):
 | **Cline**          | `cline`       | `cline`    | custom     | npm            |
 | **Kilo Code**      | `kilo`        | `kilocode` | custom     | npm            |
 | **Continue**       | `continue`    | extension  | guide      | VS Code        |
-| **Antigravity**    | `antigravity` | internal   | mitm       | Dragon Router      |
+| **Antigravity**    | `antigravity` | internal   | mitm       | Dragon Router  |
 | **GitHub Copilot** | `copilot`     | extension  | custom     | VS Code        |
 | **OpenCode**       | `opencode`    | `opencode` | guide      | npm            |
 | **Kiro AI**        | `kiro`        | app/cli    | mitm       | desktop/CLI    |
@@ -358,14 +358,14 @@ They run as internal routes and use Dragon Router's model routing automatically.
 
 ## Vianmääritys
 
-| Error                     | Cause                   | Fix                                        |
-| ------------------------- | ----------------------- | ------------------------------------------ |
-| `Connection refused`      | Dragon Router not running   | `pm2 start dragonrouter`                      |
-| `401 Unauthorized`        | Wrong API key           | Check in `/dashboard/api-manager`          |
-| `No combo configured`     | No active routing combo | Set up in `/dashboard/combos`              |
-| `invalid model`           | Model not in catalog    | Use `auto` or check `/dashboard/providers` |
-| CLI shows "not installed" | Binary not in PATH      | Check `which <command>`                    |
-| `kiro-cli: not found`     | Not in PATH             | `export PATH="$HOME/.local/bin:$PATH"`     |
+| Error                     | Cause                     | Fix                                        |
+| ------------------------- | ------------------------- | ------------------------------------------ |
+| `Connection refused`      | Dragon Router not running | `pm2 start dragonrouter`                   |
+| `401 Unauthorized`        | Wrong API key             | Check in `/dashboard/api-manager`          |
+| `No combo configured`     | No active routing combo   | Set up in `/dashboard/combos`              |
+| `invalid model`           | Model not in catalog      | Use `auto` or check `/dashboard/providers` |
+| CLI shows "not installed" | Binary not in PATH        | Check `which <command>`                    |
+| `kiro-cli: not found`     | Not in PATH               | `export PATH="$HOME/.local/bin:$PATH"`     |
 
 ---
 

@@ -11,7 +11,7 @@ Objective feature comparison vs popular open-source AI routers.
 > **Methodology**: Public repos audited 2026-Q2. Versions as listed.
 > Submit corrections via PR — we want this to be accurate.
 
-| Feature                                            |                  Dragon Router 3.8                   |  LiteLLM 1.x   | OpenRouter (SaaS) |   Portkey   |
+| Feature                                            |                Dragon Router 3.8                 |  LiteLLM 1.x   | OpenRouter (SaaS) |   Portkey   |
 | -------------------------------------------------- | :----------------------------------------------: | :------------: | :---------------: | :---------: |
 | **Providers**                                      |                     **237+**                     |      ~100      |        ~50        |     ~30     |
 | **Free-tier providers**                            |                     **90+**                      |      n/a       |    passthrough    |     n/a     |

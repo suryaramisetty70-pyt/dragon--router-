@@ -122,8 +122,11 @@ test("extractApiKey skips the path-scoped token when allowUrl is false (manageme
   const req = new Request("https://dragonrouter.test/api/v1/vscode/sk-test-path-token/models");
   assert.equal(extractApiKey(req, { allowUrl: false }), null);
   // Headers still work regardless of allowUrl.
-  const withHeader = new Request("https://dragonrouter.test/api/v1/vscode/sk-test-path-token/models", {
-    headers: { Authorization: "Bearer sk-header-wins" },
-  });
+  const withHeader = new Request(
+    "https://dragonrouter.test/api/v1/vscode/sk-test-path-token/models",
+    {
+      headers: { Authorization: "Bearer sk-header-wins" },
+    }
+  );
   assert.equal(extractApiKey(withHeader, { allowUrl: false }), "sk-header-wins");
 });

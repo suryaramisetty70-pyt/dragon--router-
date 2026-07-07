@@ -412,11 +412,11 @@ The badge also shows the resolved proxy IP for verification.
 
 For providers that use the CLIProxyAPI pattern, Dragon Router supports three upstream proxy modes:
 
-| Mode          | Description                                        |
-| ------------- | -------------------------------------------------- |
+| Mode          | Description                                            |
+| ------------- | ------------------------------------------------------ |
 | `native`      | Dragon Router handles proxy routing directly (default) |
-| `cliproxyapi` | Delegates to an external CLIProxyAPI instance      |
-| `fallback`    | Tries native first, falls back to CLIProxyAPI      |
+| `cliproxyapi` | Delegates to an external CLIProxyAPI instance          |
+| `fallback`    | Tries native first, falls back to CLIProxyAPI          |
 
 Configure per-provider:
 

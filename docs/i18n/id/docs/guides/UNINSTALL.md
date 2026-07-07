@@ -114,24 +114,24 @@ rm -rf ~/.dragonrouter
 
 Dragon Router menyimpan data di lokasi-lokasi berikut secara default:
 
-| Platform      | Jalur Default                 | Pengganti                 |
-| ------------- | ----------------------------- | ------------------------- |
+| Platform      | Jalur Default                    | Pengganti                 |
+| ------------- | -------------------------------- | ------------------------- |
 | Linux         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
 | macOS         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
 | Windows       | `%APPDATA%/dragonrouter/`        | `DATA_DIR` env var        |
-| Docker        | `/app/data/` (mounted volume) | `DATA_DIR` env var        |
+| Docker        | `/app/data/` (mounted volume)    | `DATA_DIR` env var        |
 | XDG-compliant | `$XDG_CONFIG_HOME/dragonrouter/` | `XDG_CONFIG_HOME` env var |
 
 ### Berkas di dalam direktori data
 
-| Berkas/Direktori     | Deskripsi                                                    |
-| -------------------- | ------------------------------------------------------------ |
-| `storage.sqlite`     | Basis data utama (penyedia, combo, pengaturan, kunci)        |
-| `storage.sqlite-wal` | Write-ahead log SQLite (sementara)                           |
-| `storage.sqlite-shm` | Shared memory SQLite (sementara)                             |
-| `call_logs/`         | Arsip payload permintaan                                     |
-| `backups/`           | Cadangan basis data otomatis                                 |
-| `log.txt`            | Log permintaan lama (opsional)                               |
+| Berkas/Direktori     | Deskripsi                                             |
+| -------------------- | ----------------------------------------------------- |
+| `storage.sqlite`     | Basis data utama (penyedia, combo, pengaturan, kunci) |
+| `storage.sqlite-wal` | Write-ahead log SQLite (sementara)                    |
+| `storage.sqlite-shm` | Shared memory SQLite (sementara)                      |
+| `call_logs/`         | Arsip payload permintaan                              |
+| `backups/`           | Cadangan basis data otomatis                          |
+| `log.txt`            | Log permintaan lama (opsional)                        |
 
 ---
 

@@ -114,19 +114,23 @@ Built applications are placed in `dist-electron/`:
 4. Launch from Applications.
 
 > ⚠️ **Note:** The app is not signed with an Apple Developer certificate yet. If macOS blocks the app, run:
+>
 > ```bash
 > xattr -cr /Applications/Dragon Router.app
 > ```
+>
 > Or right-click the app → Open → Open (to bypass Gatekeeper on first launch).
 
 ### Windows
 
 **Installer (Recommended):**
+
 1. Download `Dragon Router.Setup.*.exe` from [Releases](https://github.com/diegosouzapw/Dragon Router/releases).
 2. Run the installer.
 3. Launch from Start Menu or Desktop shortcut.
 
 **Portable (No Installation):**
+
 1. Download `Dragon Router.exe` from [Releases](https://github.com/diegosouzapw/Dragon Router/releases).
 2. Run directly from any folder.
 
@@ -156,11 +160,11 @@ Built applications are placed in `dist-electron/`:
 
 ### Environment Variables
 
-| Variable              | Default      | Description                       |
-| --------------------- | ------------ | --------------------------------- |
+| Variable                 | Default      | Description                       |
+| ------------------------ | ------------ | --------------------------------- |
 | `DRAGONROUTER_PORT`      | `20128`      | Server port                       |
 | `DRAGONROUTER_MEMORY_MB` | `512`        | Node.js heap limit (64–16384 MB)  |
-| `NODE_ENV`            | `production` | Set to `development` for dev mode |
+| `NODE_ENV`               | `production` | Set to `development` for dev mode |
 
 ### Custom Icon
 

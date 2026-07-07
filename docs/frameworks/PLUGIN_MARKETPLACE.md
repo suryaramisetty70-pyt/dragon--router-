@@ -256,7 +256,7 @@ Validated by `PluginManifestSchema` (`src/lib/plugins/manifest.ts`):
 | `main`             | string?   | Entry file; defaults to `index.js`                          |
 | `source`           | enum?     | `local` \| `marketplace` (defaults to `local`)              |
 | `tags`             | string[]? | Search tags                                                 |
-| `requires`         | object?   | `{ dragonrouter?, permissions[] }`                             |
+| `requires`         | object?   | `{ dragonrouter?, permissions[] }`                          |
 | `hooks`            | object?   | Booleans declaring which hooks the plugin implements        |
 | `skills`           | object[]? | Optional skill definitions                                  |
 | `enabledByDefault` | boolean?  | Auto-activate on install                                    |

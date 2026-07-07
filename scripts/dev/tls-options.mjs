@@ -29,8 +29,10 @@ export function resolveTlsOptions(
   env = process.env,
   { readFileSync = fs.readFileSync, warn = (m) => console.warn(m) } = {}
 ) {
-  const certPath = typeof env?.DRAGONROUTER_TLS_CERT === "string" ? env.DRAGONROUTER_TLS_CERT.trim() : "";
-  const keyPath = typeof env?.DRAGONROUTER_TLS_KEY === "string" ? env.DRAGONROUTER_TLS_KEY.trim() : "";
+  const certPath =
+    typeof env?.DRAGONROUTER_TLS_CERT === "string" ? env.DRAGONROUTER_TLS_CERT.trim() : "";
+  const keyPath =
+    typeof env?.DRAGONROUTER_TLS_KEY === "string" ? env.DRAGONROUTER_TLS_KEY.trim() : "";
 
   // Neither provided → plain HTTP, no warning (the common, default case).
   if (!certPath && !keyPath) return null;

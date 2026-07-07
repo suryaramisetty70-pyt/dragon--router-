@@ -81,10 +81,10 @@ Or via dashboard: **Settings → Tunnels → Cloudflare**.
 
 ### Optional env vars
 
-| Variable                                             | Purpose                                                                               |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Variable                                             | Purpose                                                                                   |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | `CLOUDFLARED_BIN`                                    | Override the binary path. If set and valid, Dragon Router uses it instead of downloading. |
-| `CLOUDFLARED_PROTOCOL` / `TUNNEL_TRANSPORT_PROTOCOL` | Transport protocol (default `http2`).                                                 |
+| `CLOUDFLARED_PROTOCOL` / `TUNNEL_TRANSPORT_PROTOCOL` | Transport protocol (default `http2`).                                                     |
 
 ## 2. ngrok
 

@@ -291,8 +291,8 @@ Management routes require management authentication or API-key policy checks.
 
 Compression exposes five MCP tools:
 
-| Tool                                | Scope               | Purpose                          |
-| ----------------------------------- | ------------------- | -------------------------------- |
+| Tool                                   | Scope               | Purpose                          |
+| -------------------------------------- | ------------------- | -------------------------------- |
 | `dragonrouter_compression_status`      | `read:compression`  | Settings, analytics, cache stats |
 | `dragonrouter_compression_configure`   | `write:compression` | Update global settings           |
 | `dragonrouter_set_compression_engine`  | `write:compression` | Set mode and optional pipeline   |

@@ -137,9 +137,9 @@ This deduplication is **the most common breakage** seen in older configs. If you
 
 ## Authentication modes
 
-| Dragon Router setting                           | Recommended `apiKey` value                         |
+| Dragon Router setting                       | Recommended `apiKey` value                         |
 | ------------------------------------------- | -------------------------------------------------- |
-| `REQUIRE_API_KEY=false` (default for local) | `sk_dragonrouter` (literal placeholder)               |
+| `REQUIRE_API_KEY=false` (default for local) | `sk_dragonrouter` (literal placeholder)            |
 | `REQUIRE_API_KEY=true`                      | A real per-user API key from Dashboard → API Keys. |
 
 For Anthropic-style clients that send `x-api-key` + `anthropic-version`, Dragon Router's `extractApiKey` also honours the key from `x-api-key`. OpenCode uses the OpenAI surface, so it'll always send `Authorization: Bearer ${apiKey}` — no Anthropic special-case applies here.
@@ -148,12 +148,12 @@ For Anthropic-style clients that send `x-api-key` + `anthropic-version`, Dragon 
 
 ## Troubleshooting
 
-| Symptom                                              | Cause                                                               | Fix                                                                                                  |
-| ---------------------------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `404` on every request with URL containing `/v1/v1/` | Stale config from pre-v3.8 plugin that double-suffixed `/v1`.       | Regenerate via Path 1 or 2.                                                                          |
+| Symptom                                              | Cause                                                                   | Fix                                                                                                     |
+| ---------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `404` on every request with URL containing `/v1/v1/` | Stale config from pre-v3.8 plugin that double-suffixed `/v1`.           | Regenerate via Path 1 or 2.                                                                             |
 | `401 Invalid API key`                                | Dragon Router has `REQUIRE_API_KEY=true` and the key is unknown.        | Create the key in the dashboard, or set `REQUIRE_API_KEY=false` (local only) and use `sk_dragonrouter`. |
-| Model list empty in OpenCode UI                      | All 4 default models are hidden in Dragon Router's provider visibility. | Pass `models: ["auto", ...]` to surface ones you've enabled.                                         |
-| OpenCode 500 with `cannot read property 'models'`    | Older OpenCode (< 0.1.x) didn't accept inline `models`.             | Upgrade OpenCode to a version that follows the v1 schema (`opencode.ai/config.json`).                |
+| Model list empty in OpenCode UI                      | All 4 default models are hidden in Dragon Router's provider visibility. | Pass `models: ["auto", ...]` to surface ones you've enabled.                                            |
+| OpenCode 500 with `cannot read property 'models'`    | Older OpenCode (< 0.1.x) didn't accept inline `models`.                 | Upgrade OpenCode to a version that follows the v1 schema (`opencode.ai/config.json`).                   |
 
 ---
 

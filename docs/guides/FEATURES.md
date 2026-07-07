@@ -215,10 +215,10 @@ One-click "Repair env" action for OAuth providers that restores missing environm
 
 Clean removal scripts for all installation methods:
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 ---
 

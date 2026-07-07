@@ -29,21 +29,21 @@ See [IDE Configs](integrations/ide-configs.md) for Antigravity, Cursor, Copilot,
 
 ## Essential Tools (8)
 
-| Tool                            | Description                              |
-| :------------------------------ | :--------------------------------------- |
-| `dragonrouter_get_health`          | Gateway health, circuit breakers, uptime |
-| `dragonrouter_list_combos`         | All configured combos with models        |
-| `dragonrouter_get_combo_metrics`   | Performance metrics for a specific combo |
-| `dragonrouter_switch_combo`        | Switch active combo by ID/name           |
-| `dragonrouter_check_quota`         | Quota status per provider or all         |
+| Tool                               | Description                                  |
+| :--------------------------------- | :------------------------------------------- |
+| `dragonrouter_get_health`          | Gateway health, circuit breakers, uptime     |
+| `dragonrouter_list_combos`         | All configured combos with models            |
+| `dragonrouter_get_combo_metrics`   | Performance metrics for a specific combo     |
+| `dragonrouter_switch_combo`        | Switch active combo by ID/name               |
+| `dragonrouter_check_quota`         | Quota status per provider or all             |
 | `dragonrouter_route_request`       | Send a chat completion through Dragon Router |
-| `dragonrouter_cost_report`         | Cost analytics for a time period         |
-| `dragonrouter_list_models_catalog` | Full model catalog with capabilities     |
+| `dragonrouter_cost_report`         | Cost analytics for a time period             |
+| `dragonrouter_list_models_catalog` | Full model catalog with capabilities         |
 
 ## Advanced Tools (8)
 
-| Tool                               | Description                                                 |
-| :--------------------------------- | :---------------------------------------------------------- |
+| Tool                                  | Description                                                 |
+| :------------------------------------ | :---------------------------------------------------------- |
 | `dragonrouter_simulate_route`         | Dry-run routing simulation with fallback tree               |
 | `dragonrouter_set_budget_guard`       | Session budget with degrade/block/alert actions             |
 | `dragonrouter_set_resilience_profile` | Apply conservative/balanced/aggressive preset               |

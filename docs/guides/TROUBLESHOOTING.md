@@ -20,7 +20,7 @@ Common problems and solutions for Dragon Router.
 
 | I see this              | What it means                       | What to do                                                                                        |
 | ----------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------- |
-| "Can't connect"         | Dragon Router isn't running             | Run `dragonrouter` or `docker restart dragonrouter`                                                     |
+| "Can't connect"         | Dragon Router isn't running         | Run `dragonrouter` or `docker restart dragonrouter`                                               |
 | "Invalid API key"       | Your key is wrong or expired        | Re-copy the key from the provider's website                                                       |
 | "Rate limit exceeded"   | You're sending too many requests    | Wait 1 minute, or use `model: "auto"` for automatic fallback                                      |
 | "Quota exceeded"        | You've used up your free/paid quota | Connect more providers, or use free providers (Kiro, Pollinations)                                |
@@ -40,16 +40,16 @@ Common problems and solutions for Dragon Router.
 
 ## Quick Fixes
 
-| Problem                                             | Solution                                                                                                                                                 |
-| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| First login not working                             | Set `INITIAL_PASSWORD` in `.env` (no hardcoded default)                                                                                                  |
-| Dashboard opens on wrong port                       | Set `PORT=20128` and `NEXT_PUBLIC_BASE_URL=http://localhost:20128`                                                                                       |
-| No logs written to disk                             | Set `APP_LOG_TO_FILE=true` and verify call log capture is enabled                                                                                        |
-| EACCES: permission denied                           | Set `DATA_DIR=/path/to/writable/dir` to override `~/.dragonrouter`                                                                                          |
-| Routing strategy not saving                         | Update to the latest v3.x release (Zod schema fix for settings persistence shipped in earlier versions)                                                  |
-| Login crash / blank page                            | Check Node.js version — see [Node.js Compatibility](#nodejs-compatibility) below                                                                         |
+| Problem                                             | Solution                                                                                                                                                       |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| First login not working                             | Set `INITIAL_PASSWORD` in `.env` (no hardcoded default)                                                                                                        |
+| Dashboard opens on wrong port                       | Set `PORT=20128` and `NEXT_PUBLIC_BASE_URL=http://localhost:20128`                                                                                             |
+| No logs written to disk                             | Set `APP_LOG_TO_FILE=true` and verify call log capture is enabled                                                                                              |
+| EACCES: permission denied                           | Set `DATA_DIR=/path/to/writable/dir` to override `~/.dragonrouter`                                                                                             |
+| Routing strategy not saving                         | Update to the latest v3.x release (Zod schema fix for settings persistence shipped in earlier versions)                                                        |
+| Login crash / blank page                            | Check Node.js version — see [Node.js Compatibility](#nodejs-compatibility) below                                                                               |
 | `dlopen` / `slice is not valid mach-o file` (macOS) | Run `cd $(npm root -g)/dragonrouter/app && npm rebuild better-sqlite3 && dragonrouter` — see [macOS native module rebuild](#macos-native-module-rebuild) below |
-| Proxy "fetch failed"                                | Ensure proxy config is set at the correct level — see [Proxy Issues](#proxy-issues) below                                                                |
+| Proxy "fetch failed"                                | Ensure proxy config is set at the correct level — see [Proxy Issues](#proxy-issues) below                                                                      |
 
 ---
 

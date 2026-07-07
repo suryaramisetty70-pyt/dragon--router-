@@ -169,21 +169,21 @@ If you want to initialize the backend password unattended, you can add it later:
 
 The following variables are recommended for Fly Secrets:
 
-| Variable                      | Recommendation         | Description                                           |
-| ----------------------------- | ---------------------- | ----------------------------------------------------- |
-| `API_KEY_SECRET`              | Required               | Used for API Key generation and validation            |
-| `JWT_SECRET`                  | Required               | Used for login sessions and JWT signing               |
-| `DRAGONROUTER_WS_BRIDGE_SECRET`  | Required in production | WebSocket bridge authentication secret                |
-| `STORAGE_ENCRYPTION_KEY`      | Strongly recommended   | Encrypts sensitive connection information at rest     |
-| `MACHINE_ID_SALT`             | Recommended            | Generates a stable machine identifier                 |
-| `INITIAL_PASSWORD`            | Optional               | Sets the initial backend password at first deployment |
-| OAuth/API private credentials | As needed              | External platform authentication configuration        |
+| Variable                        | Recommendation         | Description                                           |
+| ------------------------------- | ---------------------- | ----------------------------------------------------- |
+| `API_KEY_SECRET`                | Required               | Used for API Key generation and validation            |
+| `JWT_SECRET`                    | Required               | Used for login sessions and JWT signing               |
+| `DRAGONROUTER_WS_BRIDGE_SECRET` | Required in production | WebSocket bridge authentication secret                |
+| `STORAGE_ENCRYPTION_KEY`        | Strongly recommended   | Encrypts sensitive connection information at rest     |
+| `MACHINE_ID_SALT`               | Recommended            | Generates a stable machine identifier                 |
+| `INITIAL_PASSWORD`              | Optional               | Sets the initial backend password at first deployment |
+| OAuth/API private credentials   | As needed              | External platform authentication configuration        |
 
 ### 6.2 Recommended Values for the Current Project
 
-| Variable               | Recommended Value           |
-| ---------------------- | --------------------------- |
-| `DATA_DIR`             | `/data`                     |
+| Variable               | Recommended Value              |
+| ---------------------- | ------------------------------ |
+| `DATA_DIR`             | `/data`                        |
 | `NEXT_PUBLIC_BASE_URL` | `https://dragonrouter.fly.dev` |
 
 Notes:

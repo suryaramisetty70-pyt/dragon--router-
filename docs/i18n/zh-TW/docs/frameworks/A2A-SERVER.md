@@ -122,10 +122,10 @@ curl -X POST http://localhost:20128/a2a \
 
 ## Available Skills
 
-| Skill              | Description                                                                                                                     |
-| :----------------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| Skill              | Description                                                                                                                         |
+| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
 | `smart-routing`    | Routes prompts through Dragon Router's intelligent pipeline. Returns response with routing explanation, cost, and resilience trace. |
-| `quota-management` | Answers natural-language queries about provider quotas, suggests free combos, and provides quota rankings.                      |
+| `quota-management` | Answers natural-language queries about provider quotas, suggests free combos, and provides quota rankings.                          |
 
 ---
 

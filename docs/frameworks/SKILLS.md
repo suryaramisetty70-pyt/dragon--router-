@@ -19,15 +19,15 @@ A skill is a versioned, schema-defined unit of work. Dragon Router can inject sk
 
 Dragon Router has two distinct but complementary skill systems:
 
-| Dimension       | **Omni Skills** (this doc)                                    | **Agent Skills**                                                                            |
-| :-------------- | :------------------------------------------------------------ | :------------------------------------------------------------------------------------------ |
-| Purpose         | LLM tool injection + sandboxed execution                      | SKILL.md catalog for external agents to discover and consume                                |
-| Source of truth | `src/lib/skills/` + marketplace                               | `src/lib/agentSkills/` + `skills/` directory                                                |
-| Runtime mode    | Injected into outbound requests, executed on tool-call events | Static markdown catalog + REST/MCP/A2A discovery endpoints                                  |
-| Who uses it     | Dragon Router itself (combo routing, inbound LLM calls)           | External agents, MCP clients, A2A orchestrators                                             |
-| Count           | Variable (marketplace-driven)                                 | 42 canonical entries (22 API + 20 CLI)                                                      |
-| Format          | `SkillDefinition` with tool schema + handler                  | `SKILL.md` frontmatter + markdown body                                                      |
-| Discovery       | `/api/skills/*` REST + `dragonrouter_skills_*` MCP tools         | `/api/agent-skills/*` REST + `dragonrouter_agent_skills_*` MCP tools + A2A `list-capabilities` |
+| Dimension       | **Omni Skills** (this doc)                                    | **Agent Skills**                                                                               |
+| :-------------- | :------------------------------------------------------------ | :--------------------------------------------------------------------------------------------- |
+| Purpose         | LLM tool injection + sandboxed execution                      | SKILL.md catalog for external agents to discover and consume                                   |
+| Source of truth | `src/lib/skills/` + marketplace                               | `src/lib/agentSkills/` + `skills/` directory                                                   |
+| Runtime mode    | Injected into outbound requests, executed on tool-call events | Static markdown catalog + REST/MCP/A2A discovery endpoints                                     |
+| Who uses it     | Dragon Router itself (combo routing, inbound LLM calls)       | External agents, MCP clients, A2A orchestrators                                                |
+| Count           | Variable (marketplace-driven)                                 | 42 canonical entries (22 API + 20 CLI)                                                         |
+| Format          | `SkillDefinition` with tool schema + handler                  | `SKILL.md` frontmatter + markdown body                                                         |
+| Discovery       | `/api/skills/*` REST + `dragonrouter_skills_*` MCP tools      | `/api/agent-skills/*` REST + `dragonrouter_agent_skills_*` MCP tools + A2A `list-capabilities` |
 
 **Omni Skills** are the execution engine — they define what Dragon Router _can do_ when an LLM invokes a tool.
 
@@ -207,18 +207,18 @@ Schema lives in two migrations:
 
 All endpoints live under `src/app/api/skills/`. Management endpoints (`/api/skills`, `/api/skills/[id]`, `/api/skills/install`) require **management auth** via `requireManagementAuth()`. The marketplace/install flows use the lighter `isAuthenticated()` (session or API key).
 
-| Endpoint                          | Method | Purpose                                                                  |
+| Endpoint | Method | Purpose |
 | --------------------------------- | ------ | ------------------------------------------------------------------------ | --- | ------------------------ | -------- | ------------------ |
-| `/api/skills`                     | GET    | List registered skills. Supports `?q=`, `?mode=on                        | off | auto`, `?source=skillsmp | skillssh | local`, pagination |
-| `/api/skills/[id]`                | PUT    | Update `enabled` or `mode`                                               |
-| `/api/skills/[id]`                | DELETE | Unregister by id                                                         |
-| `/api/skills/install`             | POST   | Install a custom skill (handler code + schema)                           |
-| `/api/skills/marketplace`         | GET    | Search the SkillsMP catalog (returns popular defaults when `q` is empty) |
-| `/api/skills/marketplace/install` | POST   | Install a SkillsMP skill (requires active provider = `skillsmp`)         |
-| `/api/skills/skillssh`            | GET    | Search the skills.sh catalog (`?q=&limit=`, capped at 100)               |
-| `/api/skills/skillssh/install`    | POST   | Install a skills.sh skill (requires active provider = `skillssh`)        |
-| `/api/skills/executions`          | GET    | Paginated execution history (`?apiKeyId=`)                               |
-| `/api/skills/executions`          | POST   | Execute a registered skill ad-hoc                                        |
+| `/api/skills` | GET | List registered skills. Supports `?q=`, `?mode=on                        | off | auto`, `?source=skillsmp | skillssh | local`, pagination |
+| `/api/skills/[id]` | PUT | Update `enabled` or `mode` |
+| `/api/skills/[id]` | DELETE | Unregister by id |
+| `/api/skills/install` | POST | Install a custom skill (handler code + schema) |
+| `/api/skills/marketplace` | GET | Search the SkillsMP catalog (returns popular defaults when `q` is empty) |
+| `/api/skills/marketplace/install` | POST | Install a SkillsMP skill (requires active provider = `skillsmp`) |
+| `/api/skills/skillssh` | GET | Search the skills.sh catalog (`?q=&limit=`, capped at 100) |
+| `/api/skills/skillssh/install` | POST | Install a skills.sh skill (requires active provider = `skillssh`) |
+| `/api/skills/executions` | GET | Paginated execution history (`?apiKeyId=`) |
+| `/api/skills/executions` | POST | Execute a registered skill ad-hoc |
 
 The `POST /api/skills/executions` endpoint returns HTTP `503` with `{ error: "Skills execution is disabled..." }` when `settings.skillsEnabled === false` (`executor.ts:42-45`). Operators can flip the master switch from **Settings → AI**.
 
@@ -249,8 +249,8 @@ The `handlerCode` string is a **handler name lookup** — not executable code. T
 
 Four MCP tools wrap the skills surface (`open-sse/mcp-server/tools/skillTools.ts`). They are auto-registered when the MCP server boots.
 
-| Tool                          | Description                                                  |
-| ----------------------------- | ------------------------------------------------------------ |
+| Tool                             | Description                                                  |
+| -------------------------------- | ------------------------------------------------------------ |
 | `dragonrouter_skills_list`       | List skills, optional filters: `apiKeyId`, `name`, `enabled` |
 | `dragonrouter_skills_enable`     | Enable/disable a skill by `skillId`                          |
 | `dragonrouter_skills_execute`    | Execute a skill with an input payload                        |

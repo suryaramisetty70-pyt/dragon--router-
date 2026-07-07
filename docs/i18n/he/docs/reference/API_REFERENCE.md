@@ -40,18 +40,18 @@ Content-Type: application/json
 
 ### Custom Headers
 
-| Header                   | Direction | Description                                      |
-| ------------------------ | --------- | ------------------------------------------------ |
+| Header                       | Direction | Description                                      |
+| ---------------------------- | --------- | ------------------------------------------------ |
 | `X-Dragon Router-No-Cache`   | Request   | Set to `true` to bypass cache                    |
 | `X-Dragon Router-Progress`   | Request   | Set to `true` for progress events                |
-| `X-Session-Id`           | Request   | Sticky session key for external session affinity |
-| `x_session_id`           | Request   | Underscore variant also accepted (direct HTTP)   |
-| `Idempotency-Key`        | Request   | Dedup key (5s window)                            |
-| `X-Request-Id`           | Request   | Alternative dedup key                            |
+| `X-Session-Id`               | Request   | Sticky session key for external session affinity |
+| `x_session_id`               | Request   | Underscore variant also accepted (direct HTTP)   |
+| `Idempotency-Key`            | Request   | Dedup key (5s window)                            |
+| `X-Request-Id`               | Request   | Alternative dedup key                            |
 | `X-Dragon Router-Cache`      | Response  | `HIT` or `MISS` (non-streaming)                  |
 | `X-Dragon Router-Idempotent` | Response  | `true` if deduplicated                           |
 | `X-Dragon Router-Progress`   | Response  | `enabled` if progress tracking on                |
-| `X-Dragon Router-Session-Id` | Response  | Effective session ID used by Dragon Router           |
+| `X-Dragon Router-Session-Id` | Response  | Effective session ID used by Dragon Router       |
 
 > Nginx note: if you rely on underscore headers (for example `x_session_id`), enable `underscores_in_headers on;`.
 

@@ -203,20 +203,20 @@ base Codex setup (the `[model_providers.dragonrouter]` block), see
 Each supported CLI has a remote-aware setup command (all honour the active
 context, or `--remote <url> --api-key <key>`):
 
-| CLI | Command | What it writes |
-|-----|---------|----------------|
-| Codex | `dragonrouter setup-codex` | `~/.codex/<name>.config.toml` profiles (per model) |
-| Claude Code | `dragonrouter setup-claude` | `~/.claude/profiles/<name>/settings.json` (per model) |
-| OpenCode | `dragonrouter setup-opencode` | `~/.config/opencode/opencode.json` — the `dragonrouter` openai-compatible provider with every catalog model (run `opencode -m dragonrouter/<model>`) |
-| Cline | `dragonrouter setup-cline` | `~/.cline/data/{globalState,secrets}.json` (CLI mode) + prints the VS Code extension settings to paste (OpenAI-compatible, Base URL **without** `/v1`) |
-| Kilo Code | `dragonrouter setup-kilo` | `~/.local/share/kilo/auth.json` (CLI) + VS Code `kilocode.*` settings — OpenAI-compatible, Base URL **with** `/v1` |
-| Continue | `dragonrouter setup-continue` | `~/.continue/config.yaml` (VS Code/JetBrains + `cn` CLI) — `provider: openai`, `apiBase` **with** `/v1`, key via `${{ secrets.DRAGONROUTER_API_KEY }}` |
-| Cursor | `dragonrouter setup-cursor` | prints the in-app steps (Settings → Models → Override OpenAI Base URL **with** `/v1` + key + model). Cursor config is opaque SQLite — chat panel only |
-| Roo Code | `dragonrouter setup-roo` | writes a Roo import JSON (`~/.dragonrouter/roo-settings.json`) + sets `roo-cline.autoImportSettingsPath` + prints UI steps (OpenAI-compatible, Base URL **with** `/v1`) |
-| Crush | `dragonrouter setup-crush` | `~/.config/crush/crush.json` — `openai-compat` provider, `base_url` **with** `/v1`, key via `$DRAGONROUTER_API_KEY` |
-| Goose | `dragonrouter setup-goose` | `~/.config/goose/config.yaml` (`GOOSE_PROVIDER=openai` + `OPENAI_HOST` **without** `/v1` + `GOOSE_MODEL`) + env recipe |
-| Qwen Code | `dragonrouter setup-qwen` | `~/.qwen/settings.json` — openai `modelProvider`, `baseUrl` **with** `/v1`, key via `envKey` (DRAGONROUTER_API_KEY) |
-| Aider | `dragonrouter setup-aider` | `~/.aider.conf.yml` (`openai-api-base` **without** `/v1` + `model: openai/<id>`) + env recipe (`aider --message --yes`) |
+| CLI         | Command                       | What it writes                                                                                                                                                          |
+| ----------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Codex       | `dragonrouter setup-codex`    | `~/.codex/<name>.config.toml` profiles (per model)                                                                                                                      |
+| Claude Code | `dragonrouter setup-claude`   | `~/.claude/profiles/<name>/settings.json` (per model)                                                                                                                   |
+| OpenCode    | `dragonrouter setup-opencode` | `~/.config/opencode/opencode.json` — the `dragonrouter` openai-compatible provider with every catalog model (run `opencode -m dragonrouter/<model>`)                    |
+| Cline       | `dragonrouter setup-cline`    | `~/.cline/data/{globalState,secrets}.json` (CLI mode) + prints the VS Code extension settings to paste (OpenAI-compatible, Base URL **without** `/v1`)                  |
+| Kilo Code   | `dragonrouter setup-kilo`     | `~/.local/share/kilo/auth.json` (CLI) + VS Code `kilocode.*` settings — OpenAI-compatible, Base URL **with** `/v1`                                                      |
+| Continue    | `dragonrouter setup-continue` | `~/.continue/config.yaml` (VS Code/JetBrains + `cn` CLI) — `provider: openai`, `apiBase` **with** `/v1`, key via `${{ secrets.DRAGONROUTER_API_KEY }}`                  |
+| Cursor      | `dragonrouter setup-cursor`   | prints the in-app steps (Settings → Models → Override OpenAI Base URL **with** `/v1` + key + model). Cursor config is opaque SQLite — chat panel only                   |
+| Roo Code    | `dragonrouter setup-roo`      | writes a Roo import JSON (`~/.dragonrouter/roo-settings.json`) + sets `roo-cline.autoImportSettingsPath` + prints UI steps (OpenAI-compatible, Base URL **with** `/v1`) |
+| Crush       | `dragonrouter setup-crush`    | `~/.config/crush/crush.json` — `openai-compat` provider, `base_url` **with** `/v1`, key via `$DRAGONROUTER_API_KEY`                                                     |
+| Goose       | `dragonrouter setup-goose`    | `~/.config/goose/config.yaml` (`GOOSE_PROVIDER=openai` + `OPENAI_HOST` **without** `/v1` + `GOOSE_MODEL`) + env recipe                                                  |
+| Qwen Code   | `dragonrouter setup-qwen`     | `~/.qwen/settings.json` — openai `modelProvider`, `baseUrl` **with** `/v1`, key via `envKey` (DRAGONROUTER_API_KEY)                                                     |
+| Aider       | `dragonrouter setup-aider`    | `~/.aider.conf.yml` (`openai-api-base` **without** `/v1` + `model: openai/<id>`) + env recipe (`aider --message --yes`)                                                 |
 
 ```bash
 # OpenCode (openai-compatible provider, all catalog models, remote VPS)

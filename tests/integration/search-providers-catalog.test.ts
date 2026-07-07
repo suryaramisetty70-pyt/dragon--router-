@@ -271,11 +271,7 @@ test("search-providers-catalog: back-compat data field has legacy shape", async 
 
   // Legacy shape: { id, object, created, name, search_types }
   assert.ok(Array.isArray(body.data), "`data` array must be present for back-compat");
-  assert.equal(
-    body.data.length,
-    EXPECTED_TOTAL,
-    "data array should have same length as providers"
-  );
+  assert.equal(body.data.length, EXPECTED_TOTAL, "data array should have same length as providers");
 
   for (const item of body.data) {
     assert.ok(typeof item.id === "string", "data item must have id");
@@ -331,10 +327,7 @@ test("search-providers-catalog: search providers have correct fields", async () 
     assert.ok(typeof item.id === "string", "search item must have id");
     assert.ok(typeof item.name === "string", "search item must have name");
     assert.ok(typeof item.costPerQuery === "number", "search item must have costPerQuery");
-    assert.ok(
-      typeof item.freeMonthlyQuota === "number",
-      "search item must have freeMonthlyQuota"
-    );
+    assert.ok(typeof item.freeMonthlyQuota === "number", "search item must have freeMonthlyQuota");
     assert.ok(Array.isArray(item.searchTypes), "search item must have searchTypes array");
     assert.equal(
       item.configureHref,
@@ -355,9 +348,8 @@ test("search-providers-catalog: response validates against SearchProviderCatalog
   const res = await route.GET(req);
   const body = await res.json();
 
-  const { SearchProviderCatalogResponseSchema } = await import(
-    "../../src/shared/schemas/searchTools.ts"
-  );
+  const { SearchProviderCatalogResponseSchema } =
+    await import("../../src/shared/schemas/searchTools.ts");
 
   const result = SearchProviderCatalogResponseSchema.safeParse({ providers: body.providers });
   assert.ok(

@@ -355,10 +355,10 @@ The CLI automatically loads `.env` from `~/.dragonrouter/.env` or `./.env`.
 
 When you no longer need Dragon Router, we provide two quick scripts for a clean removal:
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 > Note: To run these commands, navigate to the Dragon Router project folder (if you cloned it) and run them. Alternatively, if globally installed, you can simply run `npm uninstall -g dragonrouter`.
 
@@ -532,28 +532,28 @@ post_install() {
 
 ### Environment Variables
 
-| Variable                                | Default                              | Description                                                                                               |
-| --------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Variable                                | Default                                 | Description                                                                                               |
+| --------------------------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `JWT_SECRET`                            | `dragonrouter-default-secret-change-me` | JWT signing secret (**change in production**)                                                             |
-| `INITIAL_PASSWORD`                      | `CHANGEME`                           | First login password                                                                                      |
+| `INITIAL_PASSWORD`                      | `CHANGEME`                              | First login password                                                                                      |
 | `DATA_DIR`                              | `~/.dragonrouter`                       | Data directory (db, usage, logs)                                                                          |
-| `PORT`                                  | framework default                    | Service port (`20128` in examples)                                                                        |
-| `HOSTNAME`                              | framework default                    | Bind host (Docker defaults to `0.0.0.0`)                                                                  |
-| `NODE_ENV`                              | runtime default                      | Set `production` for deploy                                                                               |
-| `NEXT_PUBLIC_BASE_URL`                  | `http://localhost:20128`             | Public base URL surfaced to the dashboard and exposed to the server (replaces legacy `BASE_URL`)          |
+| `PORT`                                  | framework default                       | Service port (`20128` in examples)                                                                        |
+| `HOSTNAME`                              | framework default                       | Bind host (Docker defaults to `0.0.0.0`)                                                                  |
+| `NODE_ENV`                              | runtime default                         | Set `production` for deploy                                                                               |
+| `NEXT_PUBLIC_BASE_URL`                  | `http://localhost:20128`                | Public base URL surfaced to the dashboard and exposed to the server (replaces legacy `BASE_URL`)          |
 | `NEXT_PUBLIC_CLOUD_URL`                 | `https://dragonrouter.dev`              | Cloud sync endpoint base URL (replaces legacy `CLOUD_URL`)                                                |
-| `API_KEY_SECRET`                        | `endpoint-proxy-api-key-secret`      | HMAC secret for generated API keys                                                                        |
-| `REQUIRE_API_KEY`                       | `false`                              | Enforce Bearer API key on `/v1/*`                                                                         |
-| `ALLOW_API_KEY_REVEAL`                  | `false`                              | Allow authenticated dashboard users to reveal full stored API key values on demand                        |
-| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES` | `70`                                 | Server-side refresh cadence for cached Provider Limits data; UI refresh buttons still trigger manual sync |
-| `DISABLE_SQLITE_AUTO_BACKUP`            | `false`                              | Disable automatic SQLite snapshots before writes/import/restore; manual backups still work                |
-| `APP_LOG_TO_FILE`                       | `true`                               | Enables application and audit log output to disk                                                          |
-| `AUTH_COOKIE_SECURE`                    | `false`                              | Force `Secure` auth cookie (behind HTTPS reverse proxy)                                                   |
-| `CLOUDFLARED_BIN`                       | unset                                | Use an existing `cloudflared` binary instead of managed download                                          |
-| `CLOUDFLARED_PROTOCOL`                  | `http2`                              | Transport for managed Quick Tunnels (`http2`, `quic`, or `auto`)                                          |
-| `DRAGONROUTER_MEMORY_MB`                   | `512`                                | Node.js heap limit in MB                                                                                  |
-| `PROMPT_CACHE_MAX_SIZE`                 | `50`                                 | Max prompt cache entries                                                                                  |
-| `SEMANTIC_CACHE_MAX_SIZE`               | `100`                                | Max semantic cache entries                                                                                |
+| `API_KEY_SECRET`                        | `endpoint-proxy-api-key-secret`         | HMAC secret for generated API keys                                                                        |
+| `REQUIRE_API_KEY`                       | `false`                                 | Enforce Bearer API key on `/v1/*`                                                                         |
+| `ALLOW_API_KEY_REVEAL`                  | `false`                                 | Allow authenticated dashboard users to reveal full stored API key values on demand                        |
+| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES` | `70`                                    | Server-side refresh cadence for cached Provider Limits data; UI refresh buttons still trigger manual sync |
+| `DISABLE_SQLITE_AUTO_BACKUP`            | `false`                                 | Disable automatic SQLite snapshots before writes/import/restore; manual backups still work                |
+| `APP_LOG_TO_FILE`                       | `true`                                  | Enables application and audit log output to disk                                                          |
+| `AUTH_COOKIE_SECURE`                    | `false`                                 | Force `Secure` auth cookie (behind HTTPS reverse proxy)                                                   |
+| `CLOUDFLARED_BIN`                       | unset                                   | Use an existing `cloudflared` binary instead of managed download                                          |
+| `CLOUDFLARED_PROTOCOL`                  | `http2`                                 | Transport for managed Quick Tunnels (`http2`, `quic`, or `auto`)                                          |
+| `DRAGONROUTER_MEMORY_MB`                | `512`                                   | Node.js heap limit in MB                                                                                  |
+| `PROMPT_CACHE_MAX_SIZE`                 | `50`                                    | Max prompt cache entries                                                                                  |
+| `SEMANTIC_CACHE_MAX_SIZE`               | `100`                                   | Max semantic cache entries                                                                                |
 
 For the full environment variable reference, see the [README](../README.md).
 
@@ -1224,8 +1224,8 @@ Output → `electron/dist-electron/`
 
 ### Environment Variables
 
-| Variable              | Default | Description                      |
-| --------------------- | ------- | -------------------------------- |
+| Variable                 | Default | Description                      |
+| ------------------------ | ------- | -------------------------------- |
 | `DRAGONROUTER_PORT`      | `20128` | Server port                      |
 | `DRAGONROUTER_MEMORY_MB` | `512`   | Node.js heap limit (64–16384 MB) |
 

@@ -14,14 +14,14 @@ lastUpdated: 2026-06-28
 
 ## 前提条件
 
-| 项目         | 最低配置                  | 推荐配置          |
-| ------------ | ------------------------- | ----------------- |
-| **CPU**      | 1 vCPU                    | 2 vCPU            |
-| **RAM**      | 1 GB                      | 2 GB              |
-| **磁盘**     | 10 GB SSD                 | 25 GB SSD         |
-| **操作系统** | Ubuntu 22.04 LTS          | Ubuntu 24.04 LTS  |
-| **域名**     | 已在 Cloudflare 注册      | —                 |
-| **Docker**   | Docker Engine 24+         | Docker 27+        |
+| 项目         | 最低配置             | 推荐配置         |
+| ------------ | -------------------- | ---------------- |
+| **CPU**      | 1 vCPU               | 2 vCPU           |
+| **RAM**      | 1 GB                 | 2 GB             |
+| **磁盘**     | 10 GB SSD            | 25 GB SSD        |
+| **操作系统** | Ubuntu 22.04 LTS     | Ubuntu 24.04 LTS |
+| **域名**     | 已在 Cloudflare 注册 | —                |
+| **Docker**   | Docker Engine 24+    | Docker 27+       |
 
 **已验证的服务商**：Akamai (Linode)、DigitalOcean、Vultr、Hetzner、AWS Lightsail���
 
@@ -264,8 +264,8 @@ nginx -t && systemctl reload nginx
 
 在 Cloudflare 控制台 → DNS：
 
-| 类型 | 名称   | 内容                     | 代理       |
-| ---- | ------ | ------------------------ | ---------- |
+| 类型 | 名称   | 内容                        | 代理      |
+| ---- | ------ | --------------------------- | --------- |
 | A    | `llms` | `203.0.113.10`（虚拟机 IP） | ✅ 已代理 |
 
 ### 4.2 配置 SSL
@@ -408,9 +408,9 @@ npx wrangler deploy
 
 ## 端口汇总
 
-| 端口   | 服务          | 访问方式                     |
-| ------ | ------------- | ---------------------------- |
-| 22     | SSH           | 公开（配合 fail2ban）        |
-| 80     | nginx HTTP    | 跳转 → HTTPS                 |
-| 443    | nginx HTTPS   | 通过 Cloudflare 代理         |
-| 20128  | Dragon Router      | 仅本地（通过 nginx）         |
+| 端口  | 服务          | 访问方式              |
+| ----- | ------------- | --------------------- |
+| 22    | SSH           | 公开（配合 fail2ban） |
+| 80    | nginx HTTP    | 跳转 → HTTPS          |
+| 443   | nginx HTTPS   | 通过 Cloudflare 代理  |
+| 20128 | Dragon Router | 仅本地（通过 nginx）  |

@@ -13,11 +13,11 @@ Dragon Router exposes three different agent-related surfaces. They look similar 
 
 ## TL;DR
 
-| Surface                       | Best for                                                                                                                                   | Transport                   | Standard             |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | -------------------- |
-| **A2A — Agent-to-Agent**      | Cross-agent collaboration with peer agents that speak the A2A protocol                                                                     | JSON-RPC 2.0 over HTTP      | A2A v0.3 (open spec) |
-| **ACP — CLI Agents Registry** | Detecting / registering / launching CLI coding agents installed on the user's machine (Cursor, Cline, Codex CLI, Claude Code, Aider, etc.) | HTTP REST                   | Dragon Router-specific   |
-| **Cloud Agents**              | Submitting long-running coding tasks to external cloud services (Codex Cloud, Devin, Jules, Cursor Cloud)                                  | HTTP REST + DB-backed tasks | Dragon Router-specific   |
+| Surface                       | Best for                                                                                                                                   | Transport                   | Standard               |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ---------------------- |
+| **A2A — Agent-to-Agent**      | Cross-agent collaboration with peer agents that speak the A2A protocol                                                                     | JSON-RPC 2.0 over HTTP      | A2A v0.3 (open spec)   |
+| **ACP — CLI Agents Registry** | Detecting / registering / launching CLI coding agents installed on the user's machine (Cursor, Cline, Codex CLI, Claude Code, Aider, etc.) | HTTP REST                   | Dragon Router-specific |
+| **Cloud Agents**              | Submitting long-running coding tasks to external cloud services (Codex Cloud, Devin, Jules, Cursor Cloud)                                  | HTTP REST + DB-backed tasks | Dragon Router-specific |
 
 The three are independent — pick any subset.
 
@@ -166,13 +166,13 @@ See [CLOUD_AGENT.md](./CLOUD_AGENT.md) for the `CloudAgentBase` contract, per-ag
 
 Both have "long-running tasks" but at different layers:
 
-| Aspect             | A2A                                                                               | Cloud Agents                             |
-| ------------------ | --------------------------------------------------------------------------------- | ---------------------------------------- |
-| Standard           | Open A2A v0.3                                                                     | Dragon Router-specific                       |
-| Where compute runs | Inside Dragon Router (uses configured combos)                                         | External (Codex / Devin / Jules servers) |
-| Task duration      | Default TTL 5 min (configurable in `TaskManager`)                                 | Minutes to hours                         |
-| Repo-aware         | No (passes prompts only)                                                          | Yes (repo URL + branch)                  |
-| Use case           | Cross-agent collab, smart routing as a service                                    | Delegate "implement feature X in repo Y" |
+| Aspect             | A2A                                                                                  | Cloud Agents                             |
+| ------------------ | ------------------------------------------------------------------------------------ | ---------------------------------------- |
+| Standard           | Open A2A v0.3                                                                        | Dragon Router-specific                   |
+| Where compute runs | Inside Dragon Router (uses configured combos)                                        | External (Codex / Devin / Jules servers) |
+| Task duration      | Default TTL 5 min (configurable in `TaskManager`)                                    | Minutes to hours                         |
+| Repo-aware         | No (passes prompts only)                                                             | Yes (repo URL + branch)                  |
+| Use case           | Cross-agent collab, smart routing as a service                                       | Delegate "implement feature X in repo Y" |
 | Auth               | Optional `DRAGONROUTER_API_KEY` for `/a2a`; management for `/api/a2a/*` REST helpers | Always management                        |
 
 ## Integration Examples

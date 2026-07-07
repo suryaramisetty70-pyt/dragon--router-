@@ -70,27 +70,27 @@ Cursor, Cline, and compatible MCP client setup.
 
 ## Essential Tools (8) — Phase 1
 
-| Tool                            | Scopes                | Description                                                   |
-| :------------------------------ | :-------------------- | :------------------------------------------------------------ |
+| Tool                               | Scopes                | Description                                                   |
+| :--------------------------------- | :-------------------- | :------------------------------------------------------------ |
 | `dragonrouter_get_health`          | `read:health`         | Uptime, memory, circuit breakers, rate limits, cache stats    |
 | `dragonrouter_list_combos`         | `read:combos`         | All configured combos with strategies (optional metrics)      |
 | `dragonrouter_get_combo_metrics`   | `read:combos`         | Performance metrics for a specific combo                      |
 | `dragonrouter_switch_combo`        | `write:combos`        | Activate or deactivate a combo                                |
 | `dragonrouter_check_quota`         | `read:quota`          | Quota used/total, percent remaining, reset time, token health |
-| `dragonrouter_route_request`       | `execute:completions` | Send a chat completion through Dragon Router routing              |
+| `dragonrouter_route_request`       | `execute:completions` | Send a chat completion through Dragon Router routing          |
 | `dragonrouter_cost_report`         | `read:usage`          | Cost report by period (session/day/week/month)                |
 | `dragonrouter_list_models_catalog` | `read:models`         | Full model catalog with capabilities, status, pricing         |
 
 ## Phase 1 — Search
 
-| Tool                   | Scopes           | Description                                                                                                                        |
-| :--------------------- | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
+| Tool                      | Scopes           | Description                                                                                                                            |
+| :------------------------ | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
 | `dragonrouter_web_search` | `execute:search` | Web search through Dragon Router search gateway (Serper/Brave/Perplexity/Exa/Tavily/Google PSE/Linkup/SearchAPI/SearXNG) with failover |
 
 ## Advanced Tools (11) — Phase 2
 
-| Tool                               | Scopes                               | Description                                                                               |
-| :--------------------------------- | :----------------------------------- | :---------------------------------------------------------------------------------------- |
+| Tool                                  | Scopes                               | Description                                                                               |
+| :------------------------------------ | :----------------------------------- | :---------------------------------------------------------------------------------------- |
 | `dragonrouter_simulate_route`         | `read:health`, `read:combos`         | Dry-run routing simulation with fallback tree                                             |
 | `dragonrouter_set_budget_guard`       | `write:budget`                       | Session budget with degrade/block/alert action                                            |
 | `dragonrouter_set_routing_strategy`   | `write:combos`                       | Update combo strategy at runtime (priority/weighted/auto/etc.)                            |
@@ -105,15 +105,15 @@ Cursor, Cline, and compatible MCP client setup.
 
 ## Cache Tools (2)
 
-| Tool                    | Scopes        | Description                                         |
-| :---------------------- | :------------ | :-------------------------------------------------- |
+| Tool                       | Scopes        | Description                                         |
+| :------------------------- | :------------ | :-------------------------------------------------- |
 | `dragonrouter_cache_stats` | `read:cache`  | Semantic cache, prompt-cache, and idempotency stats |
 | `dragonrouter_cache_flush` | `write:cache` | Flush cache globally or by signature/model          |
 
 ## Compression Tools (5)
 
-| Tool                                | Scopes              | Description                                                                                                              |
-| :---------------------------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------- |
+| Tool                                   | Scopes              | Description                                                                                                              |
+| :------------------------------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------- |
 | `dragonrouter_compression_status`      | `read:compression`  | Compression settings, analytics summary, and cache-aware stats (includes `analytics.mcpDescriptionCompression` metadata) |
 | `dragonrouter_compression_configure`   | `write:compression` | Configure compression mode, threshold, target ratio, system-prompt preservation, MCP description compression toggle      |
 | `dragonrouter_set_compression_engine`  | `write:compression` | Pick the active engine (off/caveman/rtk/stacked) and Caveman/RTK intensity                                               |
@@ -148,8 +148,8 @@ the runtime compression model behind these tools.
 
 ## 1Proxy Tools (3)
 
-| Tool                        | Scopes         | Description                                                                             |
-| :-------------------------- | :------------- | :-------------------------------------------------------------------------------------- |
+| Tool                           | Scopes         | Description                                                                             |
+| :----------------------------- | :------------- | :-------------------------------------------------------------------------------------- |
 | `dragonrouter_oneproxy_fetch`  | `read:proxies` | Fetch free proxies from the 1proxy marketplace (protocol/country/quality/limit filters) |
 | `dragonrouter_oneproxy_rotate` | `read:proxies` | Get the next available proxy by strategy (`random` / `quality` / `sequential`)          |
 | `dragonrouter_oneproxy_stats`  | `read:proxies` | Pool stats, sync status, distribution by protocol and country                           |
@@ -158,8 +158,8 @@ the runtime compression model behind these tools.
 
 Defined in `open-sse/mcp-server/tools/memoryTools.ts`. Auth/scope is enforced through the standard MCP scope pipeline.
 
-| Tool                      | Scopes         | Description                                                                         |
-| :------------------------ | :------------- | :---------------------------------------------------------------------------------- |
+| Tool                         | Scopes         | Description                                                                         |
+| :--------------------------- | :------------- | :---------------------------------------------------------------------------------- |
 | `dragonrouter_memory_search` | `read:memory`  | Search memories by query / type / API key with token-budget enforcement             |
 | `dragonrouter_memory_add`    | `write:memory` | Add a new memory entry (`factual` / `episodic` / `procedural` / `semantic`)         |
 | `dragonrouter_memory_clear`  | `write:memory` | Clear memories for an API key, optionally filtered by type or `olderThan` timestamp |
@@ -168,8 +168,8 @@ Defined in `open-sse/mcp-server/tools/memoryTools.ts`. Auth/scope is enforced th
 
 Defined in `open-sse/mcp-server/tools/skillTools.ts`. Backed by `src/lib/skills/registry` + `src/lib/skills/executor`.
 
-| Tool                          | Scopes           | Description                                                                       |
-| :---------------------------- | :--------------- | :-------------------------------------------------------------------------------- |
+| Tool                             | Scopes           | Description                                                                       |
+| :------------------------------- | :--------------- | :-------------------------------------------------------------------------------- |
 | `dragonrouter_skills_list`       | `read:skills`    | List registered skills with optional filtering by API key, name, or enabled state |
 | `dragonrouter_skills_enable`     | `write:skills`   | Enable or disable a specific skill by ID                                          |
 | `dragonrouter_skills_execute`    | `execute:skills` | Execute a skill with provided input and return the execution record               |
@@ -207,8 +207,8 @@ curl -X DELETE http://localhost:20128/api/settings/notion
 
 Defined in `open-sse/mcp-server/tools/agentSkillTools.ts`. Backed by `src/lib/agentSkills/catalog`. These tools expose the 42-entry Agent Skills documentation catalog to MCP clients and external agents. Scope: `read:catalog`.
 
-| Tool                              | Scopes         | Description                                                                                                      |
-| :-------------------------------- | :------------- | :--------------------------------------------------------------------------------------------------------------- |
+| Tool                                 | Scopes         | Description                                                                                                      |
+| :----------------------------------- | :------------- | :--------------------------------------------------------------------------------------------------------------- |
 | `dragonrouter_agent_skills_list`     | `read:catalog` | List all 42 agent skills with optional `category` (api\|cli) and `area` filters; returns metadata + coverage     |
 | `dragonrouter_agent_skills_get`      | `read:catalog` | Get full metadata + SKILL.md content for a single skill by canonical `id`                                        |
 | `dragonrouter_agent_skills_coverage` | `read:catalog` | Coverage stats: how many of the 22 API and 20 CLI skills have SKILL.md files on the filesystem vs catalog totals |
@@ -302,17 +302,17 @@ Wildcard scopes are supported: `read:*` grants all read-scopes, `*` grants full 
 
 ## Environment Variables
 
-| Variable                                | Default                            | Purpose                                                                                                                  |
-| :-------------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `DRAGONROUTER_BASE_URL`                    | `http://localhost:20128`           | Base URL the MCP server uses when calling Dragon Router internal APIs                                                        |
+| Variable                                   | Default                            | Purpose                                                                                                                  |
+| :----------------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| `DRAGONROUTER_BASE_URL`                    | `http://localhost:20128`           | Base URL the MCP server uses when calling Dragon Router internal APIs                                                    |
 | `DRAGONROUTER_API_KEY`                     | (empty)                            | API key forwarded as `Authorization: Bearer` to internal API calls                                                       |
 | `DRAGONROUTER_MCP_ENFORCE_SCOPES`          | `false` (only `"true"` enables it) | When enabled, missing scopes deny tool calls and log `scope_denied:<reason>` in audit log                                |
 | `DRAGONROUTER_MCP_SCOPES`                  | (empty)                            | Comma-separated allowlist of scopes considered "available" by default (used when caller does not provide its own scopes) |
 | `DRAGONROUTER_MCP_COMPRESS_DESCRIPTIONS`   | (unset = on)                       | When set to `0/false/off/no`, disables MCP description compression at registration time                                  |
 | `DRAGONROUTER_MCP_DESCRIPTION_COMPRESSION` | (unset = on)                       | Alternate alias for the same toggle as above                                                                             |
-| `MCP_TOOL_DENY`                         | (unset = no filter)                | Comma-separated tool names to drop from `tools/list` (tool-cardinality reduction — see below)                            |
-| `MCP_TOOL_ALLOW`                        | (unset = no filter)                | Comma-separated tool names to keep exclusively (allow-list mode — see below)                                             |
-| `DATA_DIR`                              | `~/.dragonrouter`                     | Heartbeat file is written to `${DATA_DIR}/runtime/mcp-heartbeat.json`                                                    |
+| `MCP_TOOL_DENY`                            | (unset = no filter)                | Comma-separated tool names to drop from `tools/list` (tool-cardinality reduction — see below)                            |
+| `MCP_TOOL_ALLOW`                           | (unset = no filter)                | Comma-separated tool names to keep exclusively (allow-list mode — see below)                                             |
+| `DATA_DIR`                                 | `~/.dragonrouter`                  | Heartbeat file is written to `${DATA_DIR}/runtime/mcp-heartbeat.json`                                                    |
 
 ---
 

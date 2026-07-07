@@ -37,8 +37,8 @@ The two profiles here are **scale-out options for deployments that hit the SQLit
 
 **What it adds:**
 
-| Service  | Image                   | Ports       | Notes                                                 |
-| -------- | ----------------------- | ----------- | ----------------------------------------------------- |
+| Service  | Image                   | Ports       | Notes                                                    |
+| -------- | ----------------------- | ----------- | -------------------------------------------------------- |
 | `qdrant` | `qdrant/qdrant:v1.12.4` | `6333` HTTP | HNSW index; persistent volume `dragonrouter_qdrant_data` |
 
 **Activation:** flip `qdrantEnabled = true` in the Settings UI **or** set `QDRANT_HOST=qdrant` env. See [`src/lib/memory/qdrant.ts:60`](../../src/lib/memory/qdrant.ts) for the precedence rules (settings table → env var → default).
@@ -55,8 +55,8 @@ The two profiles here are **scale-out options for deployments that hit the SQLit
 
 **What it adds:**
 
-| Service   | Image                            | Ports  | Notes                                                                   |
-| --------- | -------------------------------- | ------ | ----------------------------------------------------------------------- |
+| Service   | Image                            | Ports  | Notes                                                                      |
+| --------- | -------------------------------- | ------ | -------------------------------------------------------------------------- |
 | `bifrost` | `ghcr.io/maximhq/bifrost:1.5.21` | `8080` | Go-based Tier-1 router; persistent logs volume `dragonrouter_bifrost_logs` |
 
 **Activation:** set `BIFROST_BASE_URL=http://bifrost:8080` in `.env.example`. The existing sidecar proxy route at [`src/app/api/v1/relay/chat/completions/bifrost/route.ts`](../../src/app/api/v1/relay/chat/completions/bifrost/route.ts) (added in PR #4381) will pick this up automatically.
@@ -70,7 +70,7 @@ The original issue thread floated a larger cluster rewrite. After auditing the a
 | Component                            | Verdict  | Reason                                                                                                 |
 | ------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------ |
 | **Dragonfly**                        | **DROP** | `redis:7-alpine` is already fine for the rate-limit workload at production scale; no ceiling to break. |
-| **NATS**                             | **DROP** | Each `dragonrouter` replica is a single Node.js process; no multi-process pub/sub workload exists.        |
+| **NATS**                             | **DROP** | Each `dragonrouter` replica is a single Node.js process; no multi-process pub/sub workload exists.     |
 | **PostgreSQL**                       | **DROP** | SQLite + sqlite-vec + FTS5 cover all 3 use cases; 97 migrations + Electron packaging block migration.  |
 | **Neo4j**                            | **DROP** | Routing is a 5-table join; recursive CTE on SQLite is sufficient.                                      |
 | **MinIO**                            | **DROP** | No multi-MB blob workload; images/audio are passthrough proxies.                                       |

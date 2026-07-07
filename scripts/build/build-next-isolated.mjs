@@ -24,7 +24,10 @@ import {
 
 const projectRoot = process.cwd();
 const distDir = path.resolve(process.env.NEXT_DIST_DIR || ".build/next");
-const backupRoot = path.join(os.tmpdir(), `dragonrouter-build-isolated-${process.pid}-${Date.now()}`);
+const backupRoot = path.join(
+  os.tmpdir(),
+  `dragonrouter-build-isolated-${process.pid}-${Date.now()}`
+);
 
 export function getTransientBuildPaths(rootDir = projectRoot, env = process.env) {
   const paths = [

@@ -51,7 +51,8 @@ const ERROR_STUB = `${HEADER}"use client";\nexport default function BackendOnlyE
 // global-error replaces the root layout on a root error, so it must render <html>/<body>.
 const GLOBAL_ERROR_STUB = `${HEADER}"use client";\nexport default function BackendOnlyGlobalErrorStub() {\n  return (\n    <html>\n      <body></body>\n    </html>\n  );\n}\n`;
 
-const UI_BASENAME_RE = /^(page|layout|template|loading|error|global-error|not-found|default)\.(tsx|jsx|ts|js)$/;
+const UI_BASENAME_RE =
+  /^(page|layout|template|loading|error|global-error|not-found|default)\.(tsx|jsx|ts|js)$/;
 const ROUTE_FILE_RE = /[\\/]route\.(ts|js|tsx|jsx)$/;
 
 /**
@@ -83,7 +84,9 @@ function stripLeadingUseServer(src) {
 
 /** True when the current build should skip the dashboard frontend. */
 export function isBackendOnlyBuild(env = process.env) {
-  return env.DRAGONROUTER_BUILD_BACKEND_ONLY === "1" || env.DRAGONROUTER_BUILD_PROFILE === "backend";
+  return (
+    env.DRAGONROUTER_BUILD_BACKEND_ONLY === "1" || env.DRAGONROUTER_BUILD_PROFILE === "backend"
+  );
 }
 
 function walkFiles(dir, out = []) {

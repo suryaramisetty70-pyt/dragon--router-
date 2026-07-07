@@ -175,14 +175,14 @@ So delegated clearing shows up in compression analytics alongside the local engi
 
 ## Relationship to the local compression engines
 
-| Aspect            | Local engines (Caveman / RTK / LLMLingua / stacked) | Delegated Context Editing                   |
-| ----------------- | --------------------------------------------------- | ------------------------------------------- |
-| Where it runs     | In Dragon Router, before the request leaves the proxy   | In the provider (Claude), server-side       |
-| What it edits     | Prompt / context / tool-result text                 | Old tool-use / tool-result blocks           |
-| Provider scope    | All providers                                       | `claude` + `anthropic-compatible-cc-*` only |
-| Toggle            | Compression mode settings                           | `contextEditing.enabled`                    |
-| Failure mode      | Fail-open (original text)                           | 400-fallback: strip param, retry once       |
-| Savings telemetry | `engine: <engine id>`                               | `engine: "context-editing"`                 |
+| Aspect            | Local engines (Caveman / RTK / LLMLingua / stacked)   | Delegated Context Editing                   |
+| ----------------- | ----------------------------------------------------- | ------------------------------------------- |
+| Where it runs     | In Dragon Router, before the request leaves the proxy | In the provider (Claude), server-side       |
+| What it edits     | Prompt / context / tool-result text                   | Old tool-use / tool-result blocks           |
+| Provider scope    | All providers                                         | `claude` + `anthropic-compatible-cc-*` only |
+| Toggle            | Compression mode settings                             | `contextEditing.enabled`                    |
+| Failure mode      | Fail-open (original text)                             | 400-fallback: strip param, retry once       |
+| Savings telemetry | `engine: <engine id>`                                 | `engine: "context-editing"`                 |
 
 The two are complementary: local engines compress the bytes Dragon Router sends; Context Editing lets
 Claude prune the running context across turns. They can be enabled together.

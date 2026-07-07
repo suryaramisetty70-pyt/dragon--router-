@@ -14,10 +14,7 @@ test("#4055: resolvePackageRoot points at the dir above scripts/", () => {
   const scriptUrl = pathToFileURL(
     "/opt/homebrew/lib/node_modules/dragonrouter/scripts/start-ws-server.mjs"
   ).href;
-  assert.equal(
-    mod.resolvePackageRoot(scriptUrl),
-    "/opt/homebrew/lib/node_modules/dragonrouter"
-  );
+  assert.equal(mod.resolvePackageRoot(scriptUrl), "/opt/homebrew/lib/node_modules/dragonrouter");
 });
 
 test("#4055: the bootstrap spawn pins cwd to the package root so tsx + @/ aliases resolve", () => {

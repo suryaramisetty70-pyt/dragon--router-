@@ -19,20 +19,20 @@ Traffic Inspector is Dragon Router's built-in HTTPS traffic debugger — a Charl
 ### What makes Traffic Inspector unique
 
 | Feature                                                             | mitmweb | Charles | Fiddler | **Dragon Router Traffic Inspector** |
-| ------------------------------------------------------------------- | :-----: | :-----: | :-----: | :-----------------------------: |
-| Web-based                                                           |    ✓    |    ✗    |    ✗    |                ✓                |
-| Open-source                                                         |    ✓    |    ✗    | partial |                ✓                |
-| **Agent-aware** (knows if request is from Antigravity/Copilot/etc.) |    ✗    |    ✗    |    ✗    |                ✓                |
-| **LLM-aware** (parses OpenAI/Anthropic/Gemini shape, tokens, model) |    ✗    |    ✗    |    ✗    |                ✓                |
-| **Model mapping visible** (gemini-3-flash → claude-sonnet-4.7)      |    ✗    |    ✗    |    ✗    |                ✓                |
-| **Proxy/upstream latency split**                                    | partial |    ✗    |    ✗    |                ✓                |
-| **Integrated with Dragon Router** routing, fallback, cost               |    ✗    |    ✗    |    ✗    |                ✓                |
-| **System-wide proxy debug** (any app on the machine)                |    ✓    |    ✓    |    ✓    |                ✓                |
-| **Custom host capture** (per-host DNS redirect)                     |    ✓    |    ✓    |    ✓    |                ✓                |
-| **HTTP_PROXY env mode**                                             |    ✓    |    ✓    |    ✓    |                ✓                |
-| **Conversation view** (multi-turn bubbles, tool_use/tool_result)    |    ✗    |    ✗    |    ✗    |                ✓                |
-| **SSE stream merger** (reconstruct from delta events)               |    ✗    |    ✗    |    ✗    |                ✓                |
-| **Session recording** (named, exportable .har/.jsonl)               |    ✗    |    ✓    |    ✓    |                ✓                |
+| ------------------------------------------------------------------- | :-----: | :-----: | :-----: | :---------------------------------: |
+| Web-based                                                           |    ✓    |    ✗    |    ✗    |                  ✓                  |
+| Open-source                                                         |    ✓    |    ✗    | partial |                  ✓                  |
+| **Agent-aware** (knows if request is from Antigravity/Copilot/etc.) |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **LLM-aware** (parses OpenAI/Anthropic/Gemini shape, tokens, model) |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **Model mapping visible** (gemini-3-flash → claude-sonnet-4.7)      |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **Proxy/upstream latency split**                                    | partial |    ✗    |    ✗    |                  ✓                  |
+| **Integrated with Dragon Router** routing, fallback, cost           |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **System-wide proxy debug** (any app on the machine)                |    ✓    |    ✓    |    ✓    |                  ✓                  |
+| **Custom host capture** (per-host DNS redirect)                     |    ✓    |    ✓    |    ✓    |                  ✓                  |
+| **HTTP_PROXY env mode**                                             |    ✓    |    ✓    |    ✓    |                  ✓                  |
+| **Conversation view** (multi-turn bubbles, tool_use/tool_result)    |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **SSE stream merger** (reconstruct from delta events)               |    ✗    |    ✗    |    ✗    |                  ✓                  |
+| **Session recording** (named, exportable .har/.jsonl)               |    ✗    |    ✓    |    ✓    |                  ✓                  |
 
 ### Architecture in one paragraph
 
@@ -174,7 +174,7 @@ This is a substantial subsystem with its own dedicated operator guide — see **
 | Control          | Action                                                                |
 | ---------------- | --------------------------------------------------------------------- |
 | ⎉ Pause          | Stops rendering new requests; "X new" badge accumulates               |
-| 🗑 Clear         | Clears the UI list (server buffer is not affected)                    |
+| 🗑 Clear          | Clears the UI list (server buffer is not affected)                    |
 | ⬇ Export .har    | Downloads current filtered list as HAR file                           |
 | ● Record session | Starts a named recording session                                      |
 | Profile selector | LLM only / Custom hosts / All                                         |
@@ -433,7 +433,7 @@ Base path: `/api/tools/traffic-inspector/`
 | GET    | `/requests`                 | List requests (filterable: `?profile=llm&host=&agent=&status=&source=&sessionId=`) |
 | GET    | `/requests/{id}`            | Single request details                                                             |
 | DELETE | `/requests`                 | Clear the in-memory buffer                                                         |
-| POST   | `/requests/{id}/replay`     | Re-execute the same request through Dragon Router router                               |
+| POST   | `/requests/{id}/replay`     | Re-execute the same request through Dragon Router router                           |
 | PUT    | `/requests/{id}/annotation` | Save or update a note on a request                                                 |
 
 ### WebSocket

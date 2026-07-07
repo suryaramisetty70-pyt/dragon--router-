@@ -773,8 +773,8 @@ yay -S dragonrouter-bin
 systemctl --user enable --now dragonrouter.service
 ```
 
-| Command                 | Description                                                 |
-| ----------------------- | ----------------------------------------------------------- |
+| Command                    | Description                                                 |
+| -------------------------- | ----------------------------------------------------------- |
 | `dragonrouter`             | Start server (`PORT=20128`, API and dashboard on same port) |
 | `dragonrouter --port 3000` | Set canonical/API port to 3000                              |
 | `dragonrouter --mcp`       | Start MCP server (stdio transport)                          |
@@ -793,10 +793,10 @@ PORT=20128 DASHBOARD_PORT=20129 dragonrouter
 
 When you no longer need Dragon Router, we provide two quick scripts for a clean removal:
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 > Note: To run these commands, navigate to the Dragon Router project folder (if you cloned it) and run them. Alternatively, if globally installed, you can simply run `npm uninstall -g dragonrouter`.
 
@@ -807,7 +807,7 @@ For most deployments, you only need:
 | Variable                 | Default                       | Purpose                                                                                                                                      |
 | ------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `REQUEST_TIMEOUT_MS`     | `600000`                      | Shared baseline for upstream response-start timeout, hidden Undici timeouts, TLS fingerprint requests, and API bridge request/proxy timeouts |
-| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                                  |
+| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                              |
 
 Backward compatibility is preserved: existing `FETCH_TIMEOUT_MS`, `API_BRIDGE_PROXY_TIMEOUT_MS`, and other per-layer timeout vars still work and override the shared baseline.
 
@@ -1087,8 +1087,8 @@ volumes:
   dragonrouter-data:
 ```
 
-| Image                    | Tag      | Size   | Description           |
-| ------------------------ | -------- | ------ | --------------------- |
+| Image                       | Tag      | Size   | Description           |
+| --------------------------- | -------- | ------ | --------------------- |
 | `diegosouzapw/dragonrouter` | `latest` | ~250MB | Latest stable release |
 | `diegosouzapw/dragonrouter` | `3.6.2`  | ~250MB | Current version       |
 

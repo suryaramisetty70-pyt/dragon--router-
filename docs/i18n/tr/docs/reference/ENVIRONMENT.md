@@ -69,21 +69,21 @@ Dragon Router uses **SQLite** (via `better-sqlite3`) for all persistence. These 
 
 | Variable                         | Default              | Source File                                     | Description                                                                                                        |
 | -------------------------------- | -------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `DATA_DIR`                       | `~/.dragonrouter/`      | `src/lib/db/core.ts`                            | Root directory for SQLite DB, backups, and data files. Override for Docker volumes or custom paths.                |
+| `DATA_DIR`                       | `~/.dragonrouter/`   | `src/lib/db/core.ts`                            | Root directory for SQLite DB, backups, and data files. Override for Docker volumes or custom paths.                |
 | `STORAGE_ENCRYPTION_KEY`         | _(empty = disabled)_ | `src/lib/db/encryption.ts`                      | AES key for full SQLite database encryption at rest. Generate with `openssl rand -hex 32`.                         |
 | `STORAGE_ENCRYPTION_KEY_VERSION` | `v1`                 | `scripts/bootstrap-env.mjs`, `electron/main.js` | Version label for the encryption key. Increment when performing key rotation to support decryption of old backups. |
 | `DISABLE_SQLITE_AUTO_BACKUP`     | `false`              | `src/lib/db/backup.ts`                          | When `true`, skips the automatic database backup that runs before migrations on every startup.                     |
-| `DRAGONROUTER_CRYPT_KEY`            | _(unset)_            | `src/lib/db/encryption.ts`                      | **Legacy alias** for `STORAGE_ENCRYPTION_KEY`. Accepted as a fallback when the primary variable is absent.         |
-| `DRAGONROUTER_API_KEY_BASE64`       | _(unset)_            | `src/lib/db/encryption.ts`                      | **Legacy alias** (Base64-encoded form) accepted as a fallback. Decoded automatically before use.                   |
+| `DRAGONROUTER_CRYPT_KEY`         | _(unset)_            | `src/lib/db/encryption.ts`                      | **Legacy alias** for `STORAGE_ENCRYPTION_KEY`. Accepted as a fallback when the primary variable is absent.         |
+| `DRAGONROUTER_API_KEY_BASE64`    | _(unset)_            | `src/lib/db/encryption.ts`                      | **Legacy alias** (Base64-encoded form) accepted as a fallback. Decoded automatically before use.                   |
 
 ### Scenarios
 
 | Scenario              | Configuration                                                                    |
 | --------------------- | -------------------------------------------------------------------------------- |
-| **Local development** | Leave all defaults. DB lives at `~/.dragonrouter/dragonrouter.db`.                     |
+| **Local development** | Leave all defaults. DB lives at `~/.dragonrouter/dragonrouter.db`.               |
 | **Docker**            | `DATA_DIR=/data` + mount a volume at `/data`.                                    |
 | **Encrypted at rest** | Set `STORAGE_ENCRYPTION_KEY` + keep backups of the key! Losing it = losing data. |
-| **CI/Testing**        | `DATA_DIR=/tmp/dragonrouter-test` — ephemeral, no encryption needed.                |
+| **CI/Testing**        | `DATA_DIR=/tmp/dragonrouter-test` — ephemeral, no encryption needed.             |
 
 ---
 
@@ -97,7 +97,7 @@ Dragon Router uses **SQLite** (via `better-sqlite3`) for all persistence. These 
 | `DASHBOARD_PORT`      | _(unset)_    | `src/lib/runtime/ports.ts` | When set, serves the Dashboard UI on this separate port.                               |
 | `PROD_DASHBOARD_PORT` | `20130`      | `docker-compose.prod.yml`  | Host-side published port for the Dashboard in Docker production mode.                  |
 | `PROD_API_PORT`       | `20131`      | `docker-compose.prod.yml`  | Host-side published port for the API in Docker production mode.                        |
-| `DRAGONROUTER_PORT`      | _(unset)_    | `src/lib/runtime/ports.ts` | Takes precedence over `PORT` when running inside Electron or other wrappers.           |
+| `DRAGONROUTER_PORT`   | _(unset)_    | `src/lib/runtime/ports.ts` | Takes precedence over `PORT` when running inside Electron or other wrappers.           |
 | `NODE_ENV`            | `production` | Next.js core               | Controls logging verbosity, caching, error detail exposure, and Next.js optimizations. |
 
 ### Port Modes
@@ -234,20 +234,20 @@ Route upstream LLM provider calls through an HTTP or SOCKS5 proxy for egress con
 
 Controls how Dragon Router discovers and launches CLI sidecars (Claude Code, Codex, etc.).
 
-| Variable                  | Default    | Source File                         | Description                                                                |
-| ------------------------- | ---------- | ----------------------------------- | -------------------------------------------------------------------------- |
-| `CLI_MODE`                | `auto`     | `src/shared/services/cliRuntime.ts` | `auto` = search system PATH; `manual` = use explicit paths only.           |
-| `CLI_EXTRA_PATHS`         | _(unset)_  | `src/shared/services/cliRuntime.ts` | Additional PATH entries for CLI binary discovery (colon-separated).        |
-| `CLI_CONFIG_HOME`         | _(unset)_  | `src/shared/services/cliRuntime.ts` | Override home directory for reading CLI configs (`~/.claude`, `~/.codex`). |
-| `CLI_ALLOW_CONFIG_WRITES` | `false`    | `src/shared/services/cliRuntime.ts` | Allow Dragon Router to write CLI config files (token refresh, session data).   |
-| `CLI_CLAUDE_BIN`          | `claude`   | `src/shared/services/cliRuntime.ts` | Custom path to Claude CLI binary.                                          |
-| `CLI_CODEX_BIN`           | `codex`    | `src/shared/services/cliRuntime.ts` | Custom path to Codex CLI binary.                                           |
-| `CLI_DROID_BIN`           | `droid`    | `src/shared/services/cliRuntime.ts` | Custom path to Droid CLI binary.                                           |
-| `CLI_OPENCLAW_BIN`        | `openclaw` | `src/shared/services/cliRuntime.ts` | Custom path to OpenClaw CLI binary.                                        |
-| `CLI_CURSOR_BIN`          | `agent`    | `src/shared/services/cliRuntime.ts` | Custom path to Cursor agent binary.                                        |
-| `CLI_CLINE_BIN`           | `cline`    | `src/shared/services/cliRuntime.ts` | Custom path to Cline CLI binary.                                           |
-| `CLI_CONTINUE_BIN`        | `cn`       | `src/shared/services/cliRuntime.ts` | Custom path to Continue CLI binary.                                        |
-| `CLI_QODER_BIN`           | `qoder`    | `src/shared/services/cliRuntime.ts` | Custom path to Qoder CLI binary.                                           |
+| Variable                  | Default    | Source File                         | Description                                                                  |
+| ------------------------- | ---------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| `CLI_MODE`                | `auto`     | `src/shared/services/cliRuntime.ts` | `auto` = search system PATH; `manual` = use explicit paths only.             |
+| `CLI_EXTRA_PATHS`         | _(unset)_  | `src/shared/services/cliRuntime.ts` | Additional PATH entries for CLI binary discovery (colon-separated).          |
+| `CLI_CONFIG_HOME`         | _(unset)_  | `src/shared/services/cliRuntime.ts` | Override home directory for reading CLI configs (`~/.claude`, `~/.codex`).   |
+| `CLI_ALLOW_CONFIG_WRITES` | `false`    | `src/shared/services/cliRuntime.ts` | Allow Dragon Router to write CLI config files (token refresh, session data). |
+| `CLI_CLAUDE_BIN`          | `claude`   | `src/shared/services/cliRuntime.ts` | Custom path to Claude CLI binary.                                            |
+| `CLI_CODEX_BIN`           | `codex`    | `src/shared/services/cliRuntime.ts` | Custom path to Codex CLI binary.                                             |
+| `CLI_DROID_BIN`           | `droid`    | `src/shared/services/cliRuntime.ts` | Custom path to Droid CLI binary.                                             |
+| `CLI_OPENCLAW_BIN`        | `openclaw` | `src/shared/services/cliRuntime.ts` | Custom path to OpenClaw CLI binary.                                          |
+| `CLI_CURSOR_BIN`          | `agent`    | `src/shared/services/cliRuntime.ts` | Custom path to Cursor agent binary.                                          |
+| `CLI_CLINE_BIN`           | `cline`    | `src/shared/services/cliRuntime.ts` | Custom path to Cline CLI binary.                                             |
+| `CLI_CONTINUE_BIN`        | `cn`       | `src/shared/services/cliRuntime.ts` | Custom path to Continue CLI binary.                                          |
+| `CLI_QODER_BIN`           | `qoder`    | `src/shared/services/cliRuntime.ts` | Custom path to Qoder CLI binary.                                             |
 
 ### Docker Example
 
@@ -263,30 +263,30 @@ CLI_CLAUDE_BIN=/host-cli/bin/claude
 
 ## 10. Internal Agent & MCP Integrations
 
-| Variable                                | Default     | Source File                                 | Description                                                                                                                   |
-| --------------------------------------- | ----------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `DRAGONROUTER_BASE_URL`                    | auto-detect | `open-sse/mcp-server/server.ts`             | Explicit URL for MCP/A2A tools to reach Dragon Router. Overrides localhost auto-detection.                                        |
+| Variable                                   | Default     | Source File                                 | Description                                                                                                                   |
+| ------------------------------------------ | ----------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `DRAGONROUTER_BASE_URL`                    | auto-detect | `open-sse/mcp-server/server.ts`             | Explicit URL for MCP/A2A tools to reach Dragon Router. Overrides localhost auto-detection.                                    |
 | `DRAGONROUTER_API_KEY`                     | _(unset)_   | MCP/A2A modules                             | API key for internal MCP tool and A2A skill calls.                                                                            |
 | `DRAGONROUTER_API_KEY_ID`                  | _(unset)_   | `open-sse/mcp-server/audit.ts`              | Key ID for MCP audit log attribution.                                                                                         |
-| `ROUTER_API_KEY`                        | _(unset)_   | Legacy                                      | Legacy alias for `DRAGONROUTER_API_KEY`.                                                                                         |
+| `ROUTER_API_KEY`                           | _(unset)_   | Legacy                                      | Legacy alias for `DRAGONROUTER_API_KEY`.                                                                                      |
 | `DRAGONROUTER_MCP_ENFORCE_SCOPES`          | `false`     | `open-sse/mcp-server/server.ts`             | Enforce scope-based access control on MCP tool calls.                                                                         |
 | `DRAGONROUTER_MCP_SCOPES`                  | _(all)_     | `open-sse/mcp-server/server.ts`             | Comma-separated scopes: `admin`, `combos`, `health`, `models`, `routing`, `budget`, `metrics`, `pricing`, `memory`, `skills`. |
-| `MODEL_SYNC_INTERVAL_HOURS`             | `24`        | `src/shared/services/modelSyncScheduler.ts` | Model catalog sync interval in hours.                                                                                         |
-| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES` | `70`        | `src/server-init.ts`                        | Provider rate-limit and quota polling interval.                                                                               |
+| `MODEL_SYNC_INTERVAL_HOURS`                | `24`        | `src/shared/services/modelSyncScheduler.ts` | Model catalog sync interval in hours.                                                                                         |
+| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES`    | `70`        | `src/server-init.ts`                        | Provider rate-limit and quota polling interval.                                                                               |
 | `DRAGONROUTER_DISABLE_BACKGROUND_SERVICES` | `false`     | `src/instrumentation-node.ts`               | Disable all background services (sync, pricing, model refresh). Useful for CI/test.                                           |
 | `DRAGONROUTER_BOOTSTRAPPED`                | `false`     | `src/app/(dashboard)/dashboard/page.tsx`    | Set `true` by bootstrap script after initial setup. Controls setup wizard visibility.                                         |
 | `DRAGONROUTER_ALLOW_BODY_PROJECT_OVERRIDE` | `0`         | `open-sse/executors/antigravity.ts`         | Escape hatch: allow request body to override the Antigravity project field.                                                   |
 
 ### OAuth CLI Bridge (Internal)
 
-| Variable            | Default     | Source File                     | Description                               |
-| ------------------- | ----------- | ------------------------------- | ----------------------------------------- |
+| Variable               | Default     | Source File                     | Description                                   |
+| ---------------------- | ----------- | ------------------------------- | --------------------------------------------- |
 | `DRAGONROUTER_SERVER`  | auto-detect | `src/lib/oauth/config/index.ts` | Server URL for CLI↔Dragon Router auth bridge. |
-| `DRAGONROUTER_TOKEN`   | _(unset)_   | `src/lib/oauth/config/index.ts` | Auth token for CLI bridge.                |
-| `DRAGONROUTER_USER_ID` | `cli`       | `src/lib/oauth/config/index.ts` | User ID for CLI bridge sessions.          |
-| `SERVER_URL`        | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_SERVER`.      |
-| `CLI_TOKEN`         | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_TOKEN`.       |
-| `CLI_USER_ID`       | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_USER_ID`.     |
+| `DRAGONROUTER_TOKEN`   | _(unset)_   | `src/lib/oauth/config/index.ts` | Auth token for CLI bridge.                    |
+| `DRAGONROUTER_USER_ID` | `cli`       | `src/lib/oauth/config/index.ts` | User ID for CLI bridge sessions.              |
+| `SERVER_URL`           | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_SERVER`.       |
+| `CLI_TOKEN`            | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_TOKEN`.        |
+| `CLI_USER_ID`          | _(unset)_   | `src/lib/oauth/config/index.ts` | Legacy alias for `DRAGONROUTER_USER_ID`.      |
 
 ---
 
@@ -313,7 +313,7 @@ Built-in credentials for **localhost development**. For remote deployments, regi
 | `QODER_OAUTH_CLIENT_ID`           | Qoder                   | —                                                                                 |
 | `QODER_PERSONAL_ACCESS_TOKEN`     | Qoder                   | Direct API key fallback (bypasses OAuth).                                         |
 | `QODER_CLI_WORKSPACE`             | Qoder                   | Workspace ID for Qoder CLI.                                                       |
-| `DRAGONROUTER_QODER_WORKSPACE`       | Qoder                   | Alias for `QODER_CLI_WORKSPACE`.                                                  |
+| `DRAGONROUTER_QODER_WORKSPACE`    | Qoder                   | Alias for `QODER_CLI_WORKSPACE`.                                                  |
 
 > [!WARNING]
 >
@@ -481,18 +481,18 @@ The logging system writes to both stdout and rotated log files. All configuratio
 
 ## 17. Memory Optimization
 
-| Variable                   | Default                         | Description                                                            |
-| -------------------------- | ------------------------------- | ---------------------------------------------------------------------- |
-| `DRAGONROUTER_MEMORY_MB`      | `512`                           | Runtime V8 heap limit. Docker standalone and `dragonrouter serve` use it to set `--max-old-space-size`. |
-| `PROMPT_CACHE_MAX_SIZE`    | `50`                            | Max cached system prompt entries.                                      |
-| `PROMPT_CACHE_MAX_BYTES`   | `2097152` (2 MB)                | Max total prompt cache size.                                           |
-| `PROMPT_CACHE_TTL_MS`      | `300000` (5 min)                | Prompt cache entry TTL.                                                |
-| `SEMANTIC_CACHE_MAX_SIZE`  | `100`                           | Max cached temperature=0 responses.                                    |
-| `SEMANTIC_CACHE_MAX_BYTES` | `4194304` (4 MB)                | Max total semantic cache size.                                         |
-| `SEMANTIC_CACHE_TTL_MS`    | `1800000` (30 min)              | Semantic cache entry TTL.                                              |
-| `STREAM_HISTORY_MAX`       | `50`                            | Max recent stream events in the Dashboard live view buffer.            |
-| `CONTEXT_LENGTH_DEFAULT`   | `128000`                        | Global fallback max context length for models without explicit config. |
-| `USAGE_TOKEN_BUFFER`       | `100`                           | Extra token headroom reserved when tracking usage quotas.              |
+| Variable                   | Default            | Description                                                                                             |
+| -------------------------- | ------------------ | ------------------------------------------------------------------------------------------------------- |
+| `DRAGONROUTER_MEMORY_MB`   | `512`              | Runtime V8 heap limit. Docker standalone and `dragonrouter serve` use it to set `--max-old-space-size`. |
+| `PROMPT_CACHE_MAX_SIZE`    | `50`               | Max cached system prompt entries.                                                                       |
+| `PROMPT_CACHE_MAX_BYTES`   | `2097152` (2 MB)   | Max total prompt cache size.                                                                            |
+| `PROMPT_CACHE_TTL_MS`      | `300000` (5 min)   | Prompt cache entry TTL.                                                                                 |
+| `SEMANTIC_CACHE_MAX_SIZE`  | `100`              | Max cached temperature=0 responses.                                                                     |
+| `SEMANTIC_CACHE_MAX_BYTES` | `4194304` (4 MB)   | Max total semantic cache size.                                                                          |
+| `SEMANTIC_CACHE_TTL_MS`    | `1800000` (30 min) | Semantic cache entry TTL.                                                                               |
+| `STREAM_HISTORY_MAX`       | `50`               | Max recent stream events in the Dashboard live view buffer.                                             |
+| `CONTEXT_LENGTH_DEFAULT`   | `128000`           | Global fallback max context length for models without explicit config.                                  |
+| `USAGE_TOKEN_BUFFER`       | `100`              | Extra token headroom reserved when tracking usage quotas.                                               |
 
 ### Low-RAM Docker Example
 
@@ -563,11 +563,11 @@ Automatic model pricing data synchronization from external sources.
 > [!CAUTION]
 > These variables produce **verbose output** and may leak sensitive data. **Never enable in production.**
 
-| Variable                         | Default   | Source File                               | Description                                                    |
-| -------------------------------- | --------- | ----------------------------------------- | -------------------------------------------------------------- |
-| `CURSOR_PROTOBUF_DEBUG`          | _(unset)_ | `open-sse/utils/cursorProtobuf.ts`        | Set `1` to dump Cursor protobuf decode/encode details.         |
-| `CURSOR_STREAM_DEBUG`            | _(unset)_ | `open-sse/executors/cursor.ts`            | Set `1` to dump raw Cursor SSE stream data.                    |
-| `DEBUG_RESPONSES_SSE_TO_JSON`    | _(unset)_ | `open-sse/handlers/responseTranslator.ts` | Set `true` to log Responses API SSE→JSON translation details.  |
+| Variable                            | Default   | Source File                               | Description                                                    |
+| ----------------------------------- | --------- | ----------------------------------------- | -------------------------------------------------------------- |
+| `CURSOR_PROTOBUF_DEBUG`             | _(unset)_ | `open-sse/utils/cursorProtobuf.ts`        | Set `1` to dump Cursor protobuf decode/encode details.         |
+| `CURSOR_STREAM_DEBUG`               | _(unset)_ | `open-sse/executors/cursor.ts`            | Set `1` to dump raw Cursor SSE stream data.                    |
+| `DEBUG_RESPONSES_SSE_TO_JSON`       | _(unset)_ | `open-sse/handlers/responseTranslator.ts` | Set `true` to log Responses API SSE→JSON translation details.  |
 | `NEXT_PUBLIC_DRAGONROUTER_E2E_MODE` | _(unset)_ | E2E test harness                          | Set `true` to enable E2E test mode (relaxed auth, test hooks). |
 
 ---
@@ -650,7 +650,7 @@ The following variables appeared in previous versions of `.env.example` but have
 | Variable                                              | Reason                                                                                                  |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `STORAGE_DRIVER=sqlite`                               | Never read by any source file. SQLite is the only supported driver — no selection needed.               |
-| `INSTANCE_NAME=dragonrouter`                             | Present in old docs/env templates but unused at runtime. May return in a future multi-instance feature. |
+| `INSTANCE_NAME=dragonrouter`                          | Present in old docs/env templates but unused at runtime. May return in a future multi-instance feature. |
 | `SQLITE_MAX_SIZE_MB=2048`                             | Not referenced in source code. Database size is not artificially limited.                               |
 | `SQLITE_CLEAN_LEGACY_FILES=true`                      | Not referenced in source code. Legacy cleanup was likely removed.                                       |
 | `CLI_ROO_BIN`                                         | Not registered in `src/shared/services/cliRuntime.ts`.                                                  |

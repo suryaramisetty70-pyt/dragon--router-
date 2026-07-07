@@ -118,12 +118,12 @@ rm -rf ~/.dragonrouter
 
 Dragon Router stores data in the following locations by default:
 
-| Platform      | Default Path                  | Override                  |
-| ------------- | ----------------------------- | ------------------------- |
+| Platform      | Default Path                     | Override                  |
+| ------------- | -------------------------------- | ------------------------- |
 | Linux         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
 | macOS         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
 | Windows       | `%APPDATA%/dragonrouter/`        | `DATA_DIR` env var        |
-| Docker        | `/app/data/` (mounted volume) | `DATA_DIR` env var        |
+| Docker        | `/app/data/` (mounted volume)    | `DATA_DIR` env var        |
 | XDG-compliant | `$XDG_CONFIG_HOME/dragonrouter/` | `XDG_CONFIG_HOME` env var |
 
 ### Files in the data directory

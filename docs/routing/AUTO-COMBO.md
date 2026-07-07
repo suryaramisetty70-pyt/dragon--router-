@@ -155,10 +155,10 @@ combo's stored config. These apply only to the `auto` strategy and only for the 
 that carries them; the combo's saved `modePack`/`budgetCap` are used when the header is
 absent.
 
-| Header               | Accepts                                                                                              | Effect                                                                                                            |
-| :------------------- | :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
-| `X-Dragon Router-Mode`   | a preset alias (`fast`, `balanced`, `quality`, `cheap`, `reliable`, `offline`) or a raw pack name (`ship-fast`, `cost-saver`, `quality-first`, `offline-friendly`, `reliability-first`) | Overrides the scoring weights for this request. `balanced`/`default` force the default weights (no pack). Unknown values are ignored (config preserved). |
-| `X-Dragon Router-Budget` | a positive number (max USD per request)                                                             | Hard cost ceiling: candidates whose estimated cost exceeds it are filtered before selection, falling back to the cheapest healthy candidate if all exceed. Non-positive/garbage values are ignored. |
+| Header                   | Accepts                                                                                                                                                                                 | Effect                                                                                                                                                                                              |
+| :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `X-Dragon Router-Mode`   | a preset alias (`fast`, `balanced`, `quality`, `cheap`, `reliable`, `offline`) or a raw pack name (`ship-fast`, `cost-saver`, `quality-first`, `offline-friendly`, `reliability-first`) | Overrides the scoring weights for this request. `balanced`/`default` force the default weights (no pack). Unknown values are ignored (config preserved).                                            |
+| `X-Dragon Router-Budget` | a positive number (max USD per request)                                                                                                                                                 | Hard cost ceiling: candidates whose estimated cost exceeds it are filtered before selection, falling back to the cheapest healthy candidate if all exceed. Non-positive/garbage values are ignored. |
 
 ```bash
 # Force the fastest profile and cap this request at $0.05
@@ -616,11 +616,11 @@ This suite runs in CI (`test:integration` job) with `--test-concurrency=1` and
 
 ### Gated live smoke (NOT in CI — real providers)
 
-| Command                                | What it does                                                                   |
-| :------------------------------------- | :----------------------------------------------------------------------------- |
+| Command                                | What it does                                                                       |
+| :------------------------------------- | :--------------------------------------------------------------------------------- |
 | `npm run test:combo:live`              | In-process real routing with `RUN_COMBO_LIVE=1`; snapshots a live Dragon Router DB |
 | `npm run test:combo:live:vps`          | HTTP calls against a live Dragon Router server (set `COMBO_LIVE_BASE_URL`)         |
-| `npm run test:combo:live:vps:failover` | Same, with deliberate failover scenarios                                       |
+| `npm run test:combo:live:vps:failover` | Same, with deliberate failover scenarios                                           |
 
 These smoke tests exercise the real wire path (combo → provider → completion). They are
 intentionally excluded from CI because they require live credentials and VPS access.

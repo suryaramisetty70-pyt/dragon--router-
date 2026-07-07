@@ -122,7 +122,7 @@ in Dragon Router settings.
 | `obsidian_get_periodic_note` | Get the daily/weekly/monthly periodic note for a date (today if omitted).            |
 | `obsidian_get_tags`          | List all vault tags with their frequencies.                                          |
 | `obsidian_list_commands`     | List available Obsidian command IDs (use with `obsidian_execute_command`).           |
-| `obsidian_sync_status`       | Dragon Router sync server status: running, vault name, port, uptime, last sync.          |
+| `obsidian_sync_status`       | Dragon Router sync server status: running, vault name, port, uptime, last sync.      |
 | `obsidian_sync_conflicts`    | List unresolved sync conflicts (path, conflict path, detected-at).                   |
 
 ### Write tools (`write:obsidian`)

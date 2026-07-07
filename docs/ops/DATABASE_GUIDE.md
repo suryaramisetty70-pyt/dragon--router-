@@ -57,9 +57,9 @@ The SQLite file is stored at:
 
 | OS      | Path                                                     |
 | ------- | -------------------------------------------------------- |
-| Linux   | `~/.dragonrouter/storage.sqlite`                            |
-| macOS   | `~/.dragonrouter/storage.sqlite`                            |
-| Windows | `%USERPROFILE%\.dragonrouter\storage.sqlite`                |
+| Linux   | `~/.dragonrouter/storage.sqlite`                         |
+| macOS   | `~/.dragonrouter/storage.sqlite`                         |
+| Windows | `%USERPROFILE%\.dragonrouter\storage.sqlite`             |
 | Docker  | `/app/data/storage.sqlite` (configurable via `DATA_DIR`) |
 
 Companion files:

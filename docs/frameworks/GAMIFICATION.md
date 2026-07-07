@@ -38,7 +38,7 @@ sharing, invite rewards).
 | Leaderboards      | Global, weekly, monthly, token-sharing, and contribution scopes |
 | Token Sharing     | Transfer credits between users via double-entry ledger          |
 | Invite & Redeem   | Referral codes with SHA-256 hashed storage                      |
-| Community Servers | Federate with external Dragon Router instances                      |
+| Community Servers | Federate with external Dragon Router instances                  |
 | Anti-Cheat        | Server-side scoring, rate limiting, z-score anomaly detection   |
 
 ### Design Principles
@@ -812,16 +812,16 @@ Route → CORS preflight → Body validation (Zod) → Auth (extractApiKey)
 Registered in `open-sse/mcp-server/` alongside existing tools. Scoped under
 the `gamification` permission scope.
 
-| Tool                       | Description                           | Input Schema                 |
+| Tool | Description | Input Schema |
 | -------------------------- | ------------------------------------- | ---------------------------- | --------- |
-| `gamification_leaderboard` | Get leaderboard for a scope/period    | `{ scope, period?, limit? }` |
-| `gamification_rank`        | Get caller's rank and neighbors       | `{ scope }`                  |
-| `gamification_profile`     | Get XP, level, title, streak summary  | `{}`                         |
-| `gamification_badges`      | List earned badges or all definitions | `{ earned?: boolean }`       |
-| `gamification_transfer`    | Send tokens to another user           | `{ to, amount }`             |
-| `gamification_invite`      | Generate or list invite codes         | `{ action: "create"          | "list" }` |
-| `gamification_servers`     | List or connect community servers     | `{ action, token? }`         |
-| `gamification_anomalies`   | View anomaly reports (admin scope)    | `{ limit?, since? }`         |
+| `gamification_leaderboard` | Get leaderboard for a scope/period | `{ scope, period?, limit? }` |
+| `gamification_rank` | Get caller's rank and neighbors | `{ scope }` |
+| `gamification_profile` | Get XP, level, title, streak summary | `{}` |
+| `gamification_badges` | List earned badges or all definitions | `{ earned?: boolean }` |
+| `gamification_transfer` | Send tokens to another user | `{ to, amount }` |
+| `gamification_invite` | Generate or list invite codes | `{ action: "create"          | "list" }` |
+| `gamification_servers` | List or connect community servers | `{ action, token? }` |
+| `gamification_anomalies` | View anomaly reports (admin scope) | `{ limit?, since? }` |
 
 ---
 

@@ -1,25 +1,27 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-const { exportCode, exportAllLanguages, endpointToPath, API_KEY_PLACEHOLDER } = await import(
-  "../../src/lib/playground/codeExport.ts"
-);
+const { exportCode, exportAllLanguages, endpointToPath, API_KEY_PLACEHOLDER } =
+  await import("../../src/lib/playground/codeExport.ts");
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 /** Assert security invariants on every generated snippet. */
 function assertSecurityInvariants(generated: string, label: string) {
-  assert.ok(generated.includes(API_KEY_PLACEHOLDER), `${label}: must include $DRAGONROUTER_API_KEY`);
+  assert.ok(
+    generated.includes(API_KEY_PLACEHOLDER),
+    `${label}: must include $DRAGONROUTER_API_KEY`
+  );
   assert.ok(generated.length > 0, `${label}: must not be empty`);
   assert.doesNotMatch(
     generated,
     /sk-[A-Za-z0-9_\-]{16,}/,
-    `${label}: must not contain real API keys`,
+    `${label}: must not contain real API keys`
   );
   assert.doesNotMatch(
     generated,
     /Bearer\s+[A-Za-z0-9_\-]{20,}\s/,
-    `${label}: must not contain real Bearer tokens`,
+    `${label}: must not contain real Bearer tokens`
   );
 }
 
@@ -93,9 +95,7 @@ test("chat.completions: uses systemPrompt when messages is empty", () => {
 test("chat.completions: uses messages when provided", () => {
   const state = {
     ...baseState,
-    messages: [
-      { role: "user" as const, content: "My custom message" },
-    ],
+    messages: [{ role: "user" as const, content: "My custom message" }],
   };
   for (const lang of ["curl", "python", "typescript"] as const) {
     const generated = exportCode(state, lang);
@@ -261,7 +261,7 @@ test("exportAllLanguages returns all 3 snippets with valid content", () => {
   assert.ok(typeof result.python === "string" && result.python.length > 0, "python non-empty");
   assert.ok(
     typeof result.typescript === "string" && result.typescript.length > 0,
-    "typescript non-empty",
+    "typescript non-empty"
   );
 
   for (const [lang, snippet] of Object.entries(result)) {
@@ -321,7 +321,10 @@ test("chat.completions: defaults model when not provided", () => {
     // default prompt "Hello!" should appear (no messages, no systemPrompt, no prompt)
     assert.ok(generated.includes("Hello!"), `${lang}: default prompt fallback`);
     // default stream=false
-    assert.ok(generated.includes("false") || generated.includes("stream"), `${lang}: stream default`);
+    assert.ok(
+      generated.includes("false") || generated.includes("stream"),
+      `${lang}: stream default`
+    );
   }
 });
 

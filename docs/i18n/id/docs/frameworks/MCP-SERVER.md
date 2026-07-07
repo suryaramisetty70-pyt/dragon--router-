@@ -29,21 +29,21 @@ Lihat [Konfigurasi IDE](integrations/ide-configs.md) untuk pengaturan Antigravit
 
 ## Alat Esensial (8)
 
-| Alat                            | Deskripsi                                                         |
-| :------------------------------ | :---------------------------------------------------------------- |
-| `dragonrouter_get_health`          | Kesehatan gateway, pemutus sirkuit, uptime                        |
-| `dragonrouter_list_combos`         | Semua combo yang dikonfigurasi beserta modelnya                   |
-| `dragonrouter_get_combo_metrics`   | Metrik performa untuk combo tertentu                              |
-| `dragonrouter_switch_combo`        | Ganti combo aktif berdasarkan ID/nama                             |
-| `dragonrouter_check_quota`         | Status kuota per penyedia atau semua penyedia                     |
-| `dragonrouter_route_request`       | Kirim penyelesaian chat melalui Dragon Router                         |
-| `dragonrouter_cost_report`         | Analitik biaya untuk periode waktu tertentu                       |
-| `dragonrouter_list_models_catalog` | Katalog model lengkap beserta kemampuannya                        |
+| Alat                               | Deskripsi                                       |
+| :--------------------------------- | :---------------------------------------------- |
+| `dragonrouter_get_health`          | Kesehatan gateway, pemutus sirkuit, uptime      |
+| `dragonrouter_list_combos`         | Semua combo yang dikonfigurasi beserta modelnya |
+| `dragonrouter_get_combo_metrics`   | Metrik performa untuk combo tertentu            |
+| `dragonrouter_switch_combo`        | Ganti combo aktif berdasarkan ID/nama           |
+| `dragonrouter_check_quota`         | Status kuota per penyedia atau semua penyedia   |
+| `dragonrouter_route_request`       | Kirim penyelesaian chat melalui Dragon Router   |
+| `dragonrouter_cost_report`         | Analitik biaya untuk periode waktu tertentu     |
+| `dragonrouter_list_models_catalog` | Katalog model lengkap beserta kemampuannya      |
 
 ## Alat Lanjutan (8)
 
-| Alat                               | Deskripsi                                                              |
-| :--------------------------------- | :--------------------------------------------------------------------- |
+| Alat                                  | Deskripsi                                                              |
+| :------------------------------------ | :--------------------------------------------------------------------- |
 | `dragonrouter_simulate_route`         | Simulasi routing percobaan dengan pohon fallback                       |
 | `dragonrouter_set_budget_guard`       | Anggaran sesi dengan tindakan degrade/block/alert                      |
 | `dragonrouter_set_resilience_profile` | Terapkan preset conservative/balanced/aggressive                       |
@@ -78,10 +78,10 @@ Setiap pemanggilan alat dicatat ke `mcp_tool_audit` dengan:
 
 ## Berkas
 
-| Berkas                                       | Tujuan                                               |
-| :------------------------------------------- | :--------------------------------------------------- |
-| `open-sse/mcp-server/server.ts`              | Pembuatan server MCP + pendaftaran 16 alat           |
-| `open-sse/mcp-server/transport.ts`           | Transportasi Stdio + HTTP                            |
-| `open-sse/mcp-server/auth.ts`                | Validasi kunci API + lingkup                         |
-| `open-sse/mcp-server/audit.ts`               | Pencatatan audit pemanggilan alat                    |
-| `open-sse/mcp-server/tools/advancedTools.ts` | 8 pengendali alat lanjutan                           |
+| Berkas                                       | Tujuan                                     |
+| :------------------------------------------- | :----------------------------------------- |
+| `open-sse/mcp-server/server.ts`              | Pembuatan server MCP + pendaftaran 16 alat |
+| `open-sse/mcp-server/transport.ts`           | Transportasi Stdio + HTTP                  |
+| `open-sse/mcp-server/auth.ts`                | Validasi kunci API + lingkup               |
+| `open-sse/mcp-server/audit.ts`               | Pencatatan audit pemanggilan alat          |
+| `open-sse/mcp-server/tools/advancedTools.ts` | 8 pengendali alat lanjutan                 |

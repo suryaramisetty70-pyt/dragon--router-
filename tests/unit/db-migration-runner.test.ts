@@ -283,7 +283,9 @@ test(
         assert.equal(names.has(expected), true, `${expected} should exist`);
       }
       assert.deepEqual(
-        db.prepare("SELECT version, name FROM _dragonrouter_migrations WHERE version = ?").get("032"),
+        db
+          .prepare("SELECT version, name FROM _dragonrouter_migrations WHERE version = ?")
+          .get("032"),
         { version: "032", name: "apikey_lifecycle" }
       );
     } finally {
@@ -321,7 +323,9 @@ test(
       assert.equal(names.has("expires_at"), true);
       assert.equal(names.has("should_not_run"), false);
       assert.deepEqual(
-        db.prepare("SELECT version, name FROM _dragonrouter_migrations WHERE version = ?").get("032"),
+        db
+          .prepare("SELECT version, name FROM _dragonrouter_migrations WHERE version = ?")
+          .get("032"),
         { version: "032", name: "renamed_lifecycle_patch" }
       );
     } finally {
@@ -1067,11 +1071,13 @@ test(
 
         assert.equal(count, 1);
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("041")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("041")
+            ?.name,
           "compression_receipts"
         );
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("050")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("050")
+            ?.name,
           "session_account_affinity"
         );
 
@@ -1130,11 +1136,13 @@ test(
         );
 
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("056")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("056")
+            ?.name,
           "mcp_accessibility_compression"
         );
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("059")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("059")
+            ?.name,
           "manifest_routing"
         );
 
@@ -1200,11 +1208,13 @@ test(
         );
 
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("051")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("051")
+            ?.name,
           "hot_path_db_indexes"
         );
         assert.equal(
-          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("054")?.name,
+          db.prepare("SELECT name FROM _dragonrouter_migrations WHERE version = ?").get("054")
+            ?.name,
           "usage_history_service_tier"
         );
 

@@ -157,7 +157,9 @@ const bootstrapEnvVars = bootstrapEnv({
 const runtimePorts = resolveRuntimePorts(bootstrapEnvVars);
 const bootstrapMode = process.env.DRAGONROUTER_E2E_BOOTSTRAP_MODE || "auth";
 const playwrightPassword =
-  process.env.DRAGONROUTER_E2E_PASSWORD || process.env.INITIAL_PASSWORD || "dragonrouter-e2e-password";
+  process.env.DRAGONROUTER_E2E_PASSWORD ||
+  process.env.INITIAL_PASSWORD ||
+  "dragonrouter-e2e-password";
 const testServerEnv = {
   ...sanitizeColorEnv(bootstrapEnvVars),
   ...sanitizeColorEnv(process.env),
@@ -166,8 +168,10 @@ const testServerEnv = {
   NEXT_PUBLIC_DRAGONROUTER_E2E_MODE: process.env.NEXT_PUBLIC_DRAGONROUTER_E2E_MODE || "1",
   DRAGONROUTER_DISABLE_BACKGROUND_SERVICES:
     process.env.DRAGONROUTER_DISABLE_BACKGROUND_SERVICES || "true",
-  DRAGONROUTER_DISABLE_TOKEN_HEALTHCHECK: process.env.DRAGONROUTER_DISABLE_TOKEN_HEALTHCHECK || "true",
-  DRAGONROUTER_DISABLE_LOCAL_HEALTHCHECK: process.env.DRAGONROUTER_DISABLE_LOCAL_HEALTHCHECK || "true",
+  DRAGONROUTER_DISABLE_TOKEN_HEALTHCHECK:
+    process.env.DRAGONROUTER_DISABLE_TOKEN_HEALTHCHECK || "true",
+  DRAGONROUTER_DISABLE_LOCAL_HEALTHCHECK:
+    process.env.DRAGONROUTER_DISABLE_LOCAL_HEALTHCHECK || "true",
   DRAGONROUTER_HIDE_HEALTHCHECK_LOGS: process.env.DRAGONROUTER_HIDE_HEALTHCHECK_LOGS || "true",
   ...(bootstrapMode === "open"
     ? {

@@ -88,8 +88,8 @@ Model names are normalized first (provider-path prefixes such as `openai/` or
   [`SpendBatchWriter`](../../src/lib/spend/batchWriter.ts) (default 60s flush interval,
   1,000-entry buffer). Tunable via:
 
-  | Env var                             | Default | Purpose                            |
-  | ----------------------------------- | ------- | ---------------------------------- |
+  | Env var                                | Default | Purpose                            |
+  | -------------------------------------- | ------- | ---------------------------------- |
   | `DRAGONROUTER_SPEND_FLUSH_INTERVAL_MS` | `60000` | Flush interval in milliseconds.    |
   | `DRAGONROUTER_SPEND_MAX_BUFFER_SIZE`   | `1000`  | Max buffered entries before flush. |
 

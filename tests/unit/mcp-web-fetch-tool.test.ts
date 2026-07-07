@@ -31,10 +31,7 @@ test("webFetchTool is registered in MCP_TOOLS and MCP_TOOL_MAP", () => {
     toolNames.includes("dragonrouter_web_fetch"),
     "webFetchTool must be in MCP_TOOLS array"
   );
-  assert.ok(
-    "dragonrouter_web_fetch" in MCP_TOOL_MAP,
-    "webFetchTool must be in MCP_TOOL_MAP"
-  );
+  assert.ok("dragonrouter_web_fetch" in MCP_TOOL_MAP, "webFetchTool must be in MCP_TOOL_MAP");
 });
 
 // ── Scope mapping ──

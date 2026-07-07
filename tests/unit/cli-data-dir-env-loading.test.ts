@@ -115,9 +115,11 @@ test("CLI startup loads later non-conflicting .env files without overriding earl
     );
     fs.writeFileSync(
       path.join(appDataDir, ".env"),
-      ["DRAGONROUTER_BASE_URL=https://appdata.example/v1", "DRAGONROUTER_HTTP_TIMEOUT_MS=1234", ""].join(
-        "\n"
-      ),
+      [
+        "DRAGONROUTER_BASE_URL=https://appdata.example/v1",
+        "DRAGONROUTER_HTTP_TIMEOUT_MS=1234",
+        "",
+      ].join("\n"),
       "utf-8"
     );
     fs.writeFileSync(

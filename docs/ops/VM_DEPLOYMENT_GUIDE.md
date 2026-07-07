@@ -416,9 +416,9 @@ See also [TUNNELS_GUIDE.md](./TUNNELS_GUIDE.md) for the in-repo Cloudflare Tunne
 
 ## Port Summary
 
-| Port  | Service     | Access                     |
-| ----- | ----------- | -------------------------- |
-| 22    | SSH         | Public (with fail2ban)     |
-| 80    | nginx HTTP  | Redirect → HTTPS           |
-| 443   | nginx HTTPS | Via Cloudflare Proxy       |
-| 20128 | Dragon Router   | Localhost only (via nginx) |
+| Port  | Service       | Access                     |
+| ----- | ------------- | -------------------------- |
+| 22    | SSH           | Public (with fail2ban)     |
+| 80    | nginx HTTP    | Redirect → HTTPS           |
+| 443   | nginx HTTPS   | Via Cloudflare Proxy       |
+| 20128 | Dragon Router | Localhost only (via nginx) |

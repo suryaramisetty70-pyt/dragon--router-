@@ -137,14 +137,14 @@ curl -X POST http://localhost:20128/a2a \
 
 Dragon Router 暴露了 6 个 A2A 技能，连接到 `src/lib/a2a/taskExecution.ts::A2A_SKILL_HANDLERS`。每个技能模块位于 `src/lib/a2a/skills/`。
 
-| 技能 | ID | 描述 | 标签 | 示例 |
-| :--- | :--- | :--- | :--- | :--- |
-| Smart Routing | `smart-routing` | 通过 Dragon Router 的 Combo 引擎与评分，将提示路由到最优服务商/Combo | routing, 服务商 | "通过最佳模型路由此提示" |
-| Quota Management | `quota-management` | 报告每个服务商的配额状态，帮助调用方决定何时限流/切换 | 配额, 服务商 | "检查 anthropic 的配额" |
-| Provider Discovery | `provider-discovery` | 列出已安装的服务商及其能力、免费层标志、OAuth 状态 | 服务商, 发现 | "有哪些可用服务商？" |
-| Cost Analysis | `cost-analysis` | 根据目录和近期用量估算请求/对话的成本 | 成本, 用量 | "估算本次对话的成本" |
-| Health Report | `health-report` | 聚合每个服务商的熔断器、冷却、锁定状态 | 健康, 容灾 | "显示所有服务商的健康状态" |
-| List Capabilities | `list-capabilities` | 返回完整的 42 项代理技能目录，以 Markdown 表格形式列出，附带原始 SKILL.md URL 用于上下文注入 | 目录, 发现, 技能 | "列出所有 Dragon Router 能力" |
+| 技能               | ID                   | 描述                                                                                         | 标签             | 示例                          |
+| :----------------- | :------------------- | :------------------------------------------------------------------------------------------- | :--------------- | :---------------------------- |
+| Smart Routing      | `smart-routing`      | 通过 Dragon Router 的 Combo 引擎与评分，将提示路由到最优服务商/Combo                         | routing, 服务商  | "通过最佳模型路由此提示"      |
+| Quota Management   | `quota-management`   | 报告每个服务商的配额状态，帮助调用方决定何时限流/切换                                        | 配额, 服务商     | "检查 anthropic 的配额"       |
+| Provider Discovery | `provider-discovery` | 列出已安装的服务商及其能力、免费层标志、OAuth 状态                                           | 服务商, 发现     | "有哪些可用服务商？"          |
+| Cost Analysis      | `cost-analysis`      | 根据目录和近期用量估算请求/对话的成本                                                        | 成本, 用量       | "估算本次对话的成本"          |
+| Health Report      | `health-report`      | 聚合每个服务商的熔断器、冷却、锁定状态                                                       | 健康, 容灾       | "显示所有服务商的健康状态"    |
+| List Capabilities  | `list-capabilities`  | 返回完整的 42 项代理技能目录，以 Markdown 表格形式列出，附带原始 SKILL.md URL 用于上下文注入 | 目录, 发现, 技能 | "列出所有 Dragon Router 能力" |
 
 > 注意：Agent Card 描述目前宣传 "36+ providers"（`src/app/.well-known/agent.json/route.ts:26` 和 `:55`）。实际目录已增长至 180+ 个服务商——该字符串应在后续变更中更新（作为单独的文档/代码 TODO 跟踪；此处不作修改）。
 
@@ -167,13 +167,13 @@ Dragon Router 暴露了 6 个 A2A 技能，连接到 `src/lib/a2a/taskExecution.
 
 JSON-RPC 端点 `/a2a` 是 A2A 的正式入口。以下 REST 端点提供仪表盘和外部工具的辅助访问：
 
-| 端点 | 方法 | 描述 | 认证 |
-| :--- | :--- | :--- | :--- |
-| `/api/a2a/status` | GET | 服务器状态、已注册技能 | （公开） |
-| `/api/a2a/tasks` | GET | 列出任务（支持过滤） | 管理 |
-| `/api/a2a/tasks/[id]` | GET | 按 ID 获取任务 | 管理 |
-| `/api/a2a/tasks/[id]/cancel` | POST | 取消运行中的任务 | 管理 |
-| `/.well-known/agent.json` | GET | Agent Card（A2A 发现） | （公开, 缓存 3600s） |
+| 端点                         | 方法 | 描述                   | 认证                 |
+| :--------------------------- | :--- | :--------------------- | :------------------- |
+| `/api/a2a/status`            | GET  | 服务器状态、已注册技能 | （公开）             |
+| `/api/a2a/tasks`             | GET  | 列出任务（支持过滤）   | 管理                 |
+| `/api/a2a/tasks/[id]`        | GET  | 按 ID 获取任务         | 管理                 |
+| `/api/a2a/tasks/[id]/cancel` | POST | 取消运行中的任务       | 管理                 |
+| `/.well-known/agent.json`    | GET  | Agent Card（A2A 发现） | （公开, 缓存 3600s） |
 
 ---
 
@@ -235,14 +235,14 @@ submitted → working → completed
 
 ## 错误码
 
-| Code | 含义 |
-| :--- | :--- |
+| Code   | 含义                  |
+| :----- | :-------------------- |
 | -32700 | 解析错误（JSON 无效） |
-| -32600 | 无效请求 / 未授权 |
-| -32601 | 方法或技能未找到 |
-| -32602 | 参数无效 |
-| -32603 | 内部错误 |
-| -32000 | A2A 端点已禁用 |
+| -32600 | 无效请求 / 未授权     |
+| -32601 | 方法或技能未找到      |
+| -32602 | 参数无效              |
+| -32603 | 内部错误              |
+| -32000 | A2A 端点已禁用        |
 
 ---
 

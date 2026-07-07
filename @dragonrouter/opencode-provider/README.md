@@ -12,7 +12,7 @@
 > // opencode.json
 > {
 >   "$schema": "https://opencode.ai/config.json",
->   "plugin": ["@dragonrouter/opencode-plugin"]
+>   "plugin": ["@dragonrouter/opencode-plugin"],
 > }
 > ```
 >
@@ -95,13 +95,13 @@ If you already have an `opencode.json` on disk and want a non-destructive merge 
 
 Returns the value to place under `provider.dragonrouter` inside `opencode.json`.
 
-| Option        | Type                    | Required | Description                                                                                                  |
-| ------------- | ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
+| Option        | Type                    | Required | Description                                                                                                      |
+| ------------- | ----------------------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
 | `baseURL`     | `string`                | Yes      | Dragon Router base URL. Accepts `http://host:port` **or** `http://host:port/v1`. Trailing slashes are tolerated. |
-| `apiKey`      | `string`                | Yes      | Dragon Router API key. Use `sk_dragonrouter` for local installs that have `REQUIRE_API_KEY=false`.                  |
+| `apiKey`      | `string`                | Yes      | Dragon Router API key. Use `sk_dragonrouter` for local installs that have `REQUIRE_API_KEY=false`.               |
 | `displayName` | `string`                | No       | Custom name shown in the OpenCode UI. Default: `"Dragon Router"`.                                                |
-| `models`      | `string[]`              | No       | Override the surfaced model catalog. Default: 4 curated models — see `DRAGONROUTER_DEFAULT_OPENCODE_MODELS`.    |
-| `modelLabels` | `Record<string,string>` | No       | Human-readable labels keyed by model id.                                                                     |
+| `models`      | `string[]`              | No       | Override the surfaced model catalog. Default: 4 curated models — see `DRAGONROUTER_DEFAULT_OPENCODE_MODELS`.     |
+| `modelLabels` | `Record<string,string>` | No       | Human-readable labels keyed by model id.                                                                         |
 
 Throws on empty/invalid input — `baseURL` must be a real URL, `apiKey` must be a non-empty string.
 

@@ -300,12 +300,16 @@ export async function POST(req: NextRequest) {
           controller.close();
           return;
         }
-        send({ step: "install", status: "running", message: `Installing dragon-router@${latest}...` });
-          await execFileAsync(
-            "npm",
-            ["install", "-g", `dragon-router@${latest}`, "--ignore-scripts", "--legacy-peer-deps"],
-            buildNpmExecOptions(process.platform, { cwd: PROJECT_ROOT, timeoutMs: 300_000 })
-          );
+        send({
+          step: "install",
+          status: "running",
+          message: `Installing dragon-router@${latest}...`,
+        });
+        await execFileAsync(
+          "npm",
+          ["install", "-g", `dragon-router@${latest}`, "--ignore-scripts", "--legacy-peer-deps"],
+          buildNpmExecOptions(process.platform, { cwd: PROJECT_ROOT, timeoutMs: 300_000 })
+        );
         send({ step: "install", status: "done", message: `Installed dragon-router@${latest}` });
 
         // Step 2: Rebuild native modules (critical for better-sqlite3)
@@ -324,20 +328,20 @@ export async function POST(req: NextRequest) {
 
         // Step 3: Restart PM2
         send({ step: "restart", status: "running", message: "Restarting service via PM2..." });
-          try {
-            await execFileAsync("pm2", ["restart", "dragon-router", "--update-env"], {
-              timeout: 30000,
-              cwd: PROJECT_ROOT,
-            });
-            send({ step: "restart", status: "done", message: "Service restarted" });
-          } catch {
-            // PM2 may not be available (Docker/manual setups)
-            send({
-              step: "restart",
-              status: "skipped",
-              message: "PM2 not available — manual restart needed",
-            });
-          }
+        try {
+          await execFileAsync("pm2", ["restart", "dragon-router", "--update-env"], {
+            timeout: 30000,
+            cwd: PROJECT_ROOT,
+          });
+          send({ step: "restart", status: "done", message: "Service restarted" });
+        } catch {
+          // PM2 may not be available (Docker/manual setups)
+          send({
+            step: "restart",
+            status: "skipped",
+            message: "PM2 not available — manual restart needed",
+          });
+        }
 
         send({
           step: "complete",

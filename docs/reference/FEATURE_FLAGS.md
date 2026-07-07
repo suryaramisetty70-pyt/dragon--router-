@@ -63,16 +63,16 @@ used when neither a DB override nor an environment variable is present.
 
 ### Network (8)
 
-| Key                                             | Type    | Default | Restart | Description                                                                                                                                                                                   |
-| ----------------------------------------------- | ------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ENABLE_TLS_FINGERPRINT`                        | boolean | `false` | ✓       | Enable TLS fingerprint stealth mode.                                                                                                                                                          |
-| `ONEPROXY_ENABLED`                              | boolean | `true`  |         | Enable 1proxy request proxying.                                                                                                                                                               |
-| `PROXY_AUTO_SELECT_ENABLED`                     | boolean | `false` |         | When no proxy is assigned to a connection, auto-select the first working proxy from the registry. Off by default (otherwise any registry proxy becomes a global fallback — #3332).            |
+| Key                                                | Type    | Default | Restart | Description                                                                                                                                                                                   |
+| -------------------------------------------------- | ------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ENABLE_TLS_FINGERPRINT`                           | boolean | `false` | ✓       | Enable TLS fingerprint stealth mode.                                                                                                                                                          |
+| `ONEPROXY_ENABLED`                                 | boolean | `true`  |         | Enable 1proxy request proxying.                                                                                                                                                               |
+| `PROXY_AUTO_SELECT_ENABLED`                        | boolean | `false` |         | When no proxy is assigned to a connection, auto-select the first working proxy from the registry. Off by default (otherwise any registry proxy becomes a global fallback — #3332).            |
 | `DRAGONROUTER_CONTROL_PLANE_PROXY_DIRECT_FALLBACK` | boolean | `false` |         | Allow OAuth and provider validation flows to bypass a pinned proxy and connect directly when proxy reachability pre-checks fail. Off by default because this can change egress IP.            |
-| `MITM_DISABLE_TLS_VERIFY`                       | boolean | `false` | ✓       | Disable TLS certificate verification for the MITM proxy. **Danger.**                                                                                                                          |
+| `MITM_DISABLE_TLS_VERIFY`                          | boolean | `false` | ✓       | Disable TLS certificate verification for the MITM proxy. **Danger.**                                                                                                                          |
 | `DRAGONROUTER_ALLOW_PRIVATE_PROVIDER_URLS`         | boolean | `false` |         | Allow provider URLs pointing to private/internal networks.                                                                                                                                    |
 | `DRAGONROUTER_ALLOW_LOCAL_PROVIDER_URLS`           | boolean | `true`  |         | Allow adding/validating providers on local/private addresses (127.0.0.1, localhost, LAN). On by default (local-first); disable for strict public-only blocking. Cloud-metadata stays blocked. |
-| `ENABLE_CC_COMPATIBLE_PROVIDER`                 | boolean | `false` | ✓       | Enable Claude Code compatible provider mode.                                                                                                                                                  |
+| `ENABLE_CC_COMPATIBLE_PROVIDER`                    | boolean | `false` | ✓       | Enable Claude Code compatible provider mode.                                                                                                                                                  |
 
 ### Policies (3)
 
@@ -84,8 +84,8 @@ used when neither a DB override nor an environment variable is present.
 
 ### Runtime (10)
 
-| Key                                         | Type    | Default | Restart | Description                                                                                                                                         |
-| ------------------------------------------- | ------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Key                                            | Type    | Default | Restart | Description                                                                                                                                         |
+| ---------------------------------------------- | ------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `DRAGONROUTER_MCP_ENFORCE_SCOPES`              | boolean | `true`  |         | Enforce scope restrictions on MCP tool access.                                                                                                      |
 | `DRAGONROUTER_MCP_COMPRESS_DESCRIPTIONS`       | boolean | `false` |         | Compress MCP tool descriptions to reduce token usage.                                                                                               |
 | `DRAGONROUTER_ENABLE_RUNTIME_BACKGROUND_TASKS` | boolean | `false` |         | Enable background task processing at runtime.                                                                                                       |
@@ -94,8 +94,8 @@ used when neither a DB override nor an environment variable is present.
 | `DRAGONROUTER_ENABLE_LIVE_WS`                  | boolean | `true`  | ✓       | Start the real-time dashboard WebSocket server on import (port 20129 by default).                                                                   |
 | `DRAGONROUTER_CODEX_WS_ENABLED`                | boolean | `true`  |         | Allow Codex to use the Responses-over-WebSocket transport. When off, Codex falls back to HTTP Responses.                                            |
 | `DRAGONROUTER_EMERGENCY_FALLBACK`              | boolean | `true`  |         | Route budget-exhausted requests to the emergency free fallback provider/model. (See [Emergency Budget Fallback](#emergency-budget-fallback) below.) |
-| `MODEL_CATALOG_INCLUDE_NAMES`               | boolean | `true`  |         | Include display-friendly name fields in `/v1/models` responses. Disable for clients that expect model IDs only.                                     |
-| `ARENA_ELO_SYNC_ENABLED`                    | boolean | `true`  |         | Enable periodic Arena AI leaderboard ELO sync for model intelligence rankings.                                                                      |
+| `MODEL_CATALOG_INCLUDE_NAMES`                  | boolean | `true`  |         | Include display-friendly name fields in `/v1/models` responses. Disable for clients that expect model IDs only.                                     |
+| `ARENA_ELO_SYNC_ENABLED`                       | boolean | `true`  |         | Enable periodic Arena AI leaderboard ELO sync for model intelligence rankings.                                                                      |
 
 ### CLI (3)
 
@@ -107,11 +107,11 @@ used when neither a DB override nor an environment variable is present.
 
 ### Health (3)
 
-| Key                                   | Type    | Default | Description                                              |
-| ------------------------------------- | ------- | ------- | -------------------------------------------------------- |
+| Key                                      | Type    | Default | Description                                              |
+| ---------------------------------------- | ------- | ------- | -------------------------------------------------------- |
 | `DRAGONROUTER_DISABLE_LOCAL_HEALTHCHECK` | boolean | `false` | Disable the local instance health check endpoint.        |
 | `DRAGONROUTER_DISABLE_TOKEN_HEALTHCHECK` | boolean | `false` | Disable the token validation health check.               |
-| `SKILLS_SANDBOX_NETWORK_ENABLED`      | boolean | `false` | Enable network access in the skills sandbox environment. |
+| `SKILLS_SANDBOX_NETWORK_ENABLED`         | boolean | `false` | Enable network access in the skills sandbox environment. |
 
 > [!NOTE]
 > The `Restart` column marks flags with `requiresRestart: true` — the value is

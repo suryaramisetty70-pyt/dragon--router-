@@ -22,28 +22,27 @@ Complete guide for configuring providers, creating combos, integrating CLI tools
 
 ## 💰 Pricing at a Glance
 
-| Tier                | Provider          | Cost        | Quota Reset      | Best For             |
-| ------------------- | ----------------- | ----------- | ---------------- | -------------------- |
-| **💳 SUBSCRIPTION** | Claude Code (Pro) | $20/mo      | 5h + weekly      | Already subscribed   |
-|                     | Codex (Plus/Pro)  | $20-200/mo  | 5h + weekly      | OpenAI users         |
-|                     | GitHub Copilot    | $10-19/mo   | Monthly          | GitHub users         |
-| **🔑 API KEY**      | DeepSeek          | Pay per use | None             | Cheap reasoning      |
-|                     | Groq              | Pay per use | None             | Ultra-fast inference |
-|                     | xAI (Grok)        | Pay per use | None             | Grok 4 reasoning     |
-|                     | Mistral           | Pay per use | None             | EU-hosted models     |
-|                     | Perplexity        | Pay per use | None             | Search-augmented     |
-|                     | Together AI       | Pay per use | None             | Open-source models   |
-|                     | Fireworks AI      | Pay per use | None             | Fast FLUX images     |
-|                     | Cerebras          | Pay per use | None             | Wafer-scale speed    |
-|                     | Cohere            | Pay per use | None             | Command R+ RAG       |
-|                     | NVIDIA NIM        | Pay per use | None             | Enterprise models    |
-| **💰 CHEAP**        | GLM-4.7           | $0.6/1M     | Daily 10AM       | Budget backup        |
-|                     | MiniMax M2.1      | $0.2/1M     | 5-hour rolling   | Cheapest option      |
-|                     | Kimi K2           | $9/mo flat  | 10M tokens/mo    | Predictable cost     |
-| **🆓 FREE**         | Qoder             | $0          | Unlimited        | 8 models free        |
-|                     | Qwen              | $0          | Unlimited        | 3 models free        |
-|                     | Kiro              | $0          | Unlimited        | Claude free          |
-
+| Tier                | Provider          | Cost        | Quota Reset    | Best For             |
+| ------------------- | ----------------- | ----------- | -------------- | -------------------- |
+| **💳 SUBSCRIPTION** | Claude Code (Pro) | $20/mo      | 5h + weekly    | Already subscribed   |
+|                     | Codex (Plus/Pro)  | $20-200/mo  | 5h + weekly    | OpenAI users         |
+|                     | GitHub Copilot    | $10-19/mo   | Monthly        | GitHub users         |
+| **🔑 API KEY**      | DeepSeek          | Pay per use | None           | Cheap reasoning      |
+|                     | Groq              | Pay per use | None           | Ultra-fast inference |
+|                     | xAI (Grok)        | Pay per use | None           | Grok 4 reasoning     |
+|                     | Mistral           | Pay per use | None           | EU-hosted models     |
+|                     | Perplexity        | Pay per use | None           | Search-augmented     |
+|                     | Together AI       | Pay per use | None           | Open-source models   |
+|                     | Fireworks AI      | Pay per use | None           | Fast FLUX images     |
+|                     | Cerebras          | Pay per use | None           | Wafer-scale speed    |
+|                     | Cohere            | Pay per use | None           | Command R+ RAG       |
+|                     | NVIDIA NIM        | Pay per use | None           | Enterprise models    |
+| **💰 CHEAP**        | GLM-4.7           | $0.6/1M     | Daily 10AM     | Budget backup        |
+|                     | MiniMax M2.1      | $0.2/1M     | 5-hour rolling | Cheapest option      |
+|                     | Kimi K2           | $9/mo flat  | 10M tokens/mo  | Predictable cost     |
+| **🆓 FREE**         | Qoder             | $0          | Unlimited      | 8 models free        |
+|                     | Qwen              | $0          | Unlimited      | 3 models free        |
+|                     | Kiro              | $0          | Unlimited      | Claude free          |
 
 ---
 
@@ -138,8 +137,6 @@ Models:
   cx/gpt-5.2-codex
   cx/gpt-5.1-codex-max
 ```
-
-
 
 #### GitHub Copilot
 
@@ -329,10 +326,10 @@ The CLI automatically loads `.env` from `~/.dragonrouter/.env` or `./.env`.
 
 When you no longer need Dragon Router, we provide two quick scripts for a clean removal:
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 > Note: To run these commands, navigate to the Dragon Router project folder (if you cloned it) and run them. Alternatively, if globally installed, you can simply run `npm uninstall -g dragonrouter`.
 
@@ -506,28 +503,28 @@ post_install() {
 
 ### Environment Variables
 
-| Variable                                | Default                              | Description                                                                                               |
-| --------------------------------------- | ------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Variable                                | Default                                 | Description                                                                                               |
+| --------------------------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `JWT_SECRET`                            | `dragonrouter-default-secret-change-me` | JWT signing secret (**change in production**)                                                             |
-| `INITIAL_PASSWORD`                      | `123456`                             | First login password                                                                                      |
+| `INITIAL_PASSWORD`                      | `123456`                                | First login password                                                                                      |
 | `DATA_DIR`                              | `~/.dragonrouter`                       | Data directory (db, usage, logs)                                                                          |
-| `PORT`                                  | framework default                    | Service port (`20128` in examples)                                                                        |
-| `HOSTNAME`                              | framework default                    | Bind host (Docker defaults to `0.0.0.0`)                                                                  |
-| `NODE_ENV`                              | runtime default                      | Set `production` for deploy                                                                               |
-| `BASE_URL`                              | `http://localhost:20128`             | Server-side internal base URL                                                                             |
+| `PORT`                                  | framework default                       | Service port (`20128` in examples)                                                                        |
+| `HOSTNAME`                              | framework default                       | Bind host (Docker defaults to `0.0.0.0`)                                                                  |
+| `NODE_ENV`                              | runtime default                         | Set `production` for deploy                                                                               |
+| `BASE_URL`                              | `http://localhost:20128`                | Server-side internal base URL                                                                             |
 | `CLOUD_URL`                             | `https://dragonrouter.dev`              | Cloud sync endpoint base URL                                                                              |
-| `API_KEY_SECRET`                        | `endpoint-proxy-api-key-secret`      | HMAC secret for generated API keys                                                                        |
-| `REQUIRE_API_KEY`                       | `false`                              | Enforce Bearer API key on `/v1/*`                                                                         |
-| `ALLOW_API_KEY_REVEAL`                  | `false`                              | Allow Api Manager to copy full API keys on demand                                                         |
-| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES` | `70`                                 | Server-side refresh cadence for cached Provider Limits data; UI refresh buttons still trigger manual sync |
-| `DISABLE_SQLITE_AUTO_BACKUP`            | `false`                              | Disable automatic SQLite snapshots before writes/import/restore; manual backups still work                |
-| `APP_LOG_TO_FILE`                       | `true`                               | Enables application and audit log output to disk                                                          |
-| `AUTH_COOKIE_SECURE`                    | `false`                              | Force `Secure` auth cookie (behind HTTPS reverse proxy)                                                   |
-| `CLOUDFLARED_BIN`                       | unset                                | Use an existing `cloudflared` binary instead of managed download                                          |
-| `CLOUDFLARED_PROTOCOL`                  | `http2`                              | Transport for managed Quick Tunnels (`http2`, `quic`, or `auto`)                                          |
-| `DRAGONROUTER_MEMORY_MB`                   | `512`                                | Node.js heap limit in MB                                                                                  |
-| `PROMPT_CACHE_MAX_SIZE`                 | `50`                                 | Max prompt cache entries                                                                                  |
-| `SEMANTIC_CACHE_MAX_SIZE`               | `100`                                | Max semantic cache entries                                                                                |
+| `API_KEY_SECRET`                        | `endpoint-proxy-api-key-secret`         | HMAC secret for generated API keys                                                                        |
+| `REQUIRE_API_KEY`                       | `false`                                 | Enforce Bearer API key on `/v1/*`                                                                         |
+| `ALLOW_API_KEY_REVEAL`                  | `false`                                 | Allow Api Manager to copy full API keys on demand                                                         |
+| `PROVIDER_LIMITS_SYNC_INTERVAL_MINUTES` | `70`                                    | Server-side refresh cadence for cached Provider Limits data; UI refresh buttons still trigger manual sync |
+| `DISABLE_SQLITE_AUTO_BACKUP`            | `false`                                 | Disable automatic SQLite snapshots before writes/import/restore; manual backups still work                |
+| `APP_LOG_TO_FILE`                       | `true`                                  | Enables application and audit log output to disk                                                          |
+| `AUTH_COOKIE_SECURE`                    | `false`                                 | Force `Secure` auth cookie (behind HTTPS reverse proxy)                                                   |
+| `CLOUDFLARED_BIN`                       | unset                                   | Use an existing `cloudflared` binary instead of managed download                                          |
+| `CLOUDFLARED_PROTOCOL`                  | `http2`                                 | Transport for managed Quick Tunnels (`http2`, `quic`, or `auto`)                                          |
+| `DRAGONROUTER_MEMORY_MB`                | `512`                                   | Node.js heap limit in MB                                                                                  |
+| `PROMPT_CACHE_MAX_SIZE`                 | `50`                                    | Max prompt cache entries                                                                                  |
+| `SEMANTIC_CACHE_MAX_SIZE`               | `100`                                   | Max semantic cache entries                                                                                |
 
 For the full environment variable reference, see the [README](../README.md).
 
@@ -541,7 +538,6 @@ For the full environment variable reference, see the [README](../README.md).
 **Claude Code (`cc/`)** — Pro/Max: `cc/claude-opus-4-7`, `cc/claude-sonnet-4-5-20250929`, `cc/claude-haiku-4-5-20251001`
 
 **Codex (`cx/`)** — Plus/Pro: `cx/gpt-5.2-codex`, `cx/gpt-5.1-codex-max`
-
 
 **GitHub Copilot (`gh/`)**: `gh/gpt-5`, `gh/claude-4.5-sonnet`
 
@@ -942,8 +938,8 @@ Output → `electron/dist-electron/`
 
 ### Environment Variables
 
-| Variable              | Default | Description                      |
-| --------------------- | ------- | -------------------------------- |
+| Variable                 | Default | Description                      |
+| ------------------------ | ------- | -------------------------------- |
 | `DRAGONROUTER_PORT`      | `20128` | Server port                      |
 | `DRAGONROUTER_MEMORY_MB` | `512`   | Node.js heap limit (64–16384 MB) |
 

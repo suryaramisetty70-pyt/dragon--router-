@@ -200,7 +200,8 @@ test("enableTailscaleTunnel stores the funnel URL and disableTailscaleTunnel cle
       "443": true,
     },
   });
-  process.env.TAILSCALE_TEST_FUNNEL_OUTPUT = "Available at https://dragonrouter-demo.tail123.ts.net";
+  process.env.TAILSCALE_TEST_FUNNEL_OUTPUT =
+    "Available at https://dragonrouter-demo.tail123.ts.net";
 
   const enabled = await tailscaleTunnel.enableTailscaleTunnel();
   const settingsAfterEnable = await settingsDb.getSettings();

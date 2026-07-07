@@ -838,7 +838,10 @@ test("web_search fallback converts built-in tools for unsupported providers and 
   assert.equal(response.status, 200);
   assert.equal(upstreamBodies.length, 1);
   assert.equal(upstreamBodies[0].tools[0].type, "function");
-  assert.equal(upstreamBodies[0].tools[0].function.name, DRAGONROUTER_WEB_SEARCH_FALLBACK_TOOL_NAME);
+  assert.equal(
+    upstreamBodies[0].tools[0].function.name,
+    DRAGONROUTER_WEB_SEARCH_FALLBACK_TOOL_NAME
+  );
   assert.equal(searchCalls.length, 1);
   assert.equal(json.choices[0].finish_reason, "tool_calls");
   assert.equal(json.tool_results[0].tool_call_id, "call_web_search");

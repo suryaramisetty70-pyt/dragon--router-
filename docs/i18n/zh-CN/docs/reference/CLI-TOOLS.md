@@ -10,11 +10,11 @@ lastUpdated: 2026-06-28
 
 Dragon Router 与三类 CLI 工具集成，分布在三个专用的 dashboard 页面中：
 
-| 页面             | 路由                     | 概念                                                                        | 数量         |
-| ---------------- | ------------------------ | --------------------------------------------------------------------------- | ------------ |
-| **CLI Code's**   | `/dashboard/cli-code`    | 指向 Dragon Router 的编程工具（客户端 → CLI → Dragon Router → 服务商）               | 19           |
-| **CLI Agents**   | `/dashboard/cli-agents`  | 指向 Dragon Router 的自主代理（相同流程，更广泛的范围）                           | 6            |
-| **ACP Agents**   | `/dashboard/acp-agents`  | Dragon Router 通过 stdio/ACP 作为后端启动的 CLI（反向流程）                       | 见注册表      |
+| 页面           | 路由                    | 概念                                                                   | 数量     |
+| -------------- | ----------------------- | ---------------------------------------------------------------------- | -------- |
+| **CLI Code's** | `/dashboard/cli-code`   | 指向 Dragon Router 的编程工具（客户端 → CLI → Dragon Router → 服务商） | 19       |
+| **CLI Agents** | `/dashboard/cli-agents` | 指向 Dragon Router 的自主代理（相同流程，更广泛的范围）                | 6        |
+| **ACP Agents** | `/dashboard/acp-agents` | Dragon Router 通过 stdio/ACP 作为后端启动的 CLI（反向流程）            | 见注册表 |
 
 旧路由通过 308 重定向：`/dashboard/cli-tools` → `/dashboard/cli-code`，`/dashboard/agents` → `/dashboard/acp-agents`。
 
@@ -68,14 +68,14 @@ dragonrouter setup-goose        dragonrouter setup-qwen         dragonrouter set
 
 每个条目包含以下字段（定义在 `src/shared/schemas/cliCatalog.ts`）：
 
-| 字段                                             | 类型                                                         | 说明                                                     |
-| ------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------------- |
-| `category`                                       | `"code" \| "agent"`                                          | 工具显示的页面                                           |
-| `vendor`                                         | `string`                                                     | 工具来源（"Anthropic"、"OSS (P. Gauthier)"）             |
-| `acpSpawnable`                                   | `boolean`                                                    | 也可作为 ACP Agent 使用（显示徽章）                       |
-| `baseUrlSupport`                                 | `"full" \| "partial" \| "none"`                              | 自定义端点支持级别。`"none"` = MITM 待办列表              |
-| `configType`                                     | `"env" \| "custom" \| "guide" \| "custom-builder" \| "mitm"` | 配置机制                                                 |
-| `id`、`name`、`color`、`description`、`docsUrl`  | 标准字段                                                     | 核心显示字段                                             |
+| 字段                                            | 类型                                                         | 说明                                         |
+| ----------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| `category`                                      | `"code" \| "agent"`                                          | 工具显示的页面                               |
+| `vendor`                                        | `string`                                                     | 工具来源（"Anthropic"、"OSS (P. Gauthier)"） |
+| `acpSpawnable`                                  | `boolean`                                                    | 也可作为 ACP Agent 使用（显示徽章）          |
+| `baseUrlSupport`                                | `"full" \| "partial" \| "none"`                              | 自定义端点支持级别。`"none"` = MITM 待办列表 |
+| `configType`                                    | `"env" \| "custom" \| "guide" \| "custom-builder" \| "mitm"` | 配置机制                                     |
+| `id`、`name`、`color`、`description`、`docsUrl` | 标准字段                                                     | 核心显示字段                                 |
 
 `baseUrlSupport: "none"` 的条目**不会显示**在 dashboard 页面中 — 它们注册在 MITM 待办列表中，供 plan 11 使用（参见 `_tasks/features-v3.8.6/refactorpages/_orchestration/_plan11-mitm-backlog.md`）。
 
@@ -85,26 +85,26 @@ dragonrouter setup-goose        dragonrouter setup-qwen         dragonrouter set
 
 支持自定义 base URL 并出现在 `/dashboard/cli-code` 中的工具：
 
-| id | name | vendor | baseUrlSupport | configType | acpSpawnable |
-|----|------|--------|---------------|-----------|-------------|
-| claude | Claude Code | Anthropic | full | env | true |
-| codex | OpenAI Codex CLI | OpenAI | full | custom | true |
-| cline | Cline | OSS (ex-Claude Dev) | full | custom | true |
-| kilo | Kilo Code | Kilo-Org | full | custom | false |
-| roo | Roo Code | Roo (OSS) | full | guide | false |
-| continue | Continue | continue.dev | full | guide | false |
-| qwen | Qwen Code | Alibaba | full | guide | true |
-| aider | Aider | OSS (P. Gauthier) | full | guide | true |
-| forge | ForgeCode | Antinomy HQ | full | custom | true |
-| jcode | jcode | 1jehuang (OSS) | full | custom | false |
-| deepseek-tui | DeepSeek TUI | Hunter Bown (OSS) | full | custom | false |
-| opencode | OpenCode | Anomaly (ex-SST) | full | guide | true |
-| droid | Factory Droid | Factory AI | partial | guide | false |
-| copilot | GitHub Copilot CLI | GitHub/MS | full | custom | false |
-| cursor-cli | Cursor CLI | Anysphere | partial | guide | true |
-| smelt | Smelt | leonardcser (OSS) | full | custom | false |
-| pi | Pi (pi-coding-agent) | M. Zechner (OSS) | full | custom | false |
-| custom | Custom CLI | — | full | custom-builder | false |
+| id           | name                 | vendor              | baseUrlSupport | configType     | acpSpawnable |
+| ------------ | -------------------- | ------------------- | -------------- | -------------- | ------------ |
+| claude       | Claude Code          | Anthropic           | full           | env            | true         |
+| codex        | OpenAI Codex CLI     | OpenAI              | full           | custom         | true         |
+| cline        | Cline                | OSS (ex-Claude Dev) | full           | custom         | true         |
+| kilo         | Kilo Code            | Kilo-Org            | full           | custom         | false        |
+| roo          | Roo Code             | Roo (OSS)           | full           | guide          | false        |
+| continue     | Continue             | continue.dev        | full           | guide          | false        |
+| qwen         | Qwen Code            | Alibaba             | full           | guide          | true         |
+| aider        | Aider                | OSS (P. Gauthier)   | full           | guide          | true         |
+| forge        | ForgeCode            | Antinomy HQ         | full           | custom         | true         |
+| jcode        | jcode                | 1jehuang (OSS)      | full           | custom         | false        |
+| deepseek-tui | DeepSeek TUI         | Hunter Bown (OSS)   | full           | custom         | false        |
+| opencode     | OpenCode             | Anomaly (ex-SST)    | full           | guide          | true         |
+| droid        | Factory Droid        | Factory AI          | partial        | guide          | false        |
+| copilot      | GitHub Copilot CLI   | GitHub/MS           | full           | custom         | false        |
+| cursor-cli   | Cursor CLI           | Anysphere           | partial        | guide          | true         |
+| smelt        | Smelt                | leonardcser (OSS)   | full           | custom         | false        |
+| pi           | Pi (pi-coding-agent) | M. Zechner (OSS)    | full           | custom         | false        |
+| custom       | Custom CLI           | —                   | full           | custom-builder | false        |
 
 `baseUrlSupport: "partial"` 的工具在 dashboard 卡片中显示徽章 "⚠ Base URL parcial"。
 
@@ -135,12 +135,12 @@ dragonrouter setup-goose        dragonrouter setup-qwen         dragonrouter set
 
 以下 CLI 原生不支持自定义 base URL，因此**不会**在 CLI Code's 或 CLI Agents 页面中列出。它们是 plan 11 中 MITM 拦截的候选项：
 
-| CLI                 | 原因                                                          |
-| ------------------- | ------------------------------------------------------------- |
-| windsurf            | BYOK 限于部分 Claude 模型 + 企业 URL/Token                     |
-| amp                 | 封闭生态系统（Sourcegraph）                                     |
-| amazon-q / kiro-cli | AWS SSO 认证，无自定义 URL                                     |
-| cowork              | Anthropic Desktop，无可配置端点                                |
+| CLI                 | 原因                                       |
+| ------------------- | ------------------------------------------ |
+| windsurf            | BYOK 限于部分 Claude 模型 + 企业 URL/Token |
+| amp                 | 封闭生态系统（Sourcegraph）                |
+| amazon-q / kiro-cli | AWS SSO 认证，无自定义 URL                 |
+| cowork              | Anthropic Desktop，无可配置端点            |
 
 完整对照参见 `_tasks/features-v3.8.6/refactorpages/_orchestration/_plan11-mitm-backlog.md`。
 
@@ -184,13 +184,13 @@ interface ToolBatchStatus {
 
 `configType: "custom"` 的新工具具有专用的 settings API 路由：
 
-| 路由                                         | 工具                             |
-| -------------------------------------------- | -------------------------------- |
-| `POST /api/cli-tools/forge-settings`         | ForgeCode (.forge.toml)          |
-| `POST /api/cli-tools/jcode-settings`         | jcode (--base-url 标志)          |
-| `POST /api/cli-tools/deepseek-tui-settings`  | DeepSeek TUI (OPENAI_BASE_URL)   |
-| `POST /api/cli-tools/smelt-settings`         | Smelt                            |
-| `POST /api/cli-tools/pi-settings`            | Pi coding agent                  |
+| 路由                                        | 工具                           |
+| ------------------------------------------- | ------------------------------ |
+| `POST /api/cli-tools/forge-settings`        | ForgeCode (.forge.toml)        |
+| `POST /api/cli-tools/jcode-settings`        | jcode (--base-url 标志)        |
+| `POST /api/cli-tools/deepseek-tui-settings` | DeepSeek TUI (OPENAI_BASE_URL) |
+| `POST /api/cli-tools/smelt-settings`        | Smelt                          |
+| `POST /api/cli-tools/pi-settings`           | Pi coding agent                |
 
 所有路由均使用 `sanitizeErrorMessage()` 处理错误响应（Hard Rule #12）。
 
@@ -217,20 +217,20 @@ interface ToolBatchStatus {
 
 ### 共享 UI 组件（`src/shared/components/cli/`）
 
-| 文件                      | 用途                                                |
-| ------------------------- | --------------------------------------------------- |
-| `CliToolCard.tsx`         | 智能状态卡片（检测 + 配置 + 端点）                    |
-| `CliConceptCard.tsx`      | 每页概念说明卡片                                    |
-| `CliComparisonCard.tsx`   | 三类 CLI 对比卡                                     |
-| `BaseUrlSelect.tsx`       | 端点下拉选择（本地/云端/自定义）                      |
-| `ApiKeySelect.tsx`        | API Key 选择器                                      |
-| `ManualConfigModal.tsx`   | 可复制的配置片段弹窗                                |
+| 文件                    | 用途                               |
+| ----------------------- | ---------------------------------- |
+| `CliToolCard.tsx`       | 智能状态卡片（检测 + 配置 + 端点） |
+| `CliConceptCard.tsx`    | 每页概念说明卡片                   |
+| `CliComparisonCard.tsx` | 三类 CLI 对比卡                    |
+| `BaseUrlSelect.tsx`     | 端点下拉选择（本地/云端/自定义）   |
+| `ApiKeySelect.tsx`      | API Key 选择器                     |
+| `ManualConfigModal.tsx` | 可复制的配置片段弹窗               |
 
 ### 共享 Hook（`src/shared/hooks/cli/`）
 
-| 文件                        | 用途                                                                  |
-| --------------------------- | --------------------------------------------------------------------- |
-| `useToolBatchStatuses.ts`   | 获取 `/api/cli-tools/all-statuses`，管理 loading/refresh 状态          |
+| 文件                      | 用途                                                          |
+| ------------------------- | ------------------------------------------------------------- |
+| `useToolBatchStatuses.ts` | 获取 `/api/cli-tools/all-statuses`，管理 loading/refresh 状态 |
 
 ---
 
@@ -238,12 +238,12 @@ interface ToolBatchStatus {
 
 在 plan 14 F9 中添加的新命名空间：
 
-| 命名空间    | 用途                                                                         |
-| ----------- | ---------------------------------------------------------------------------- |
-| `cliCommon` | 共享字符串（卡片标签、概念/对比文本、详情页标签）                               |
-| `cliCode`   | CLI Code's 页面字符串                                                         |
-| `cliAgents` | CLI Agents 页面字符串                                                         |
-| `acpAgents` | ACP Agents 页面字符串                                                         |
+| 命名空间    | 用途                                              |
+| ----------- | ------------------------------------------------- |
+| `cliCommon` | 共享字符串（卡片标签、概念/对比文本、详情页标签） |
+| `cliCode`   | CLI Code's 页面字符串                             |
+| `cliAgents` | CLI Agents 页面字符串                             |
+| `acpAgents` | ACP Agents 页面字符串                             |
 
 提供完整的 PT-BR 和 EN 翻译。其余 39 个语言环境通过 `src/i18n/request.ts` 中的命名空间级合并自动回退到 EN。
 
@@ -590,10 +590,10 @@ dragonrouter setup --add-provider \
 
 非交互式设置识别的环境变量：
 
-| 变量                | 用途                                                        |
-| ------------------- | ----------------------------------------------------------- |
+| 变量                   | 用途                                                         |
+| ---------------------- | ------------------------------------------------------------ |
 | `DRAGONROUTER_API_KEY` | 服务商 API Key（通过 Commander `.env()` 绑定到 `--api-key`） |
-| `DATA_DIR`          | 覆盖 Dragon Router 数据目录                                      |
+| `DATA_DIR`             | 覆盖 Dragon Router 数据目录                                  |
 
 其他所有非交互式输入通过标志传入，而非环境变量：
 `--password`、`--provider`、`--provider-name`、`--provider-base-url`、`--default-model`
@@ -674,29 +674,29 @@ dragonrouter completion                   # 生成 shell 补全
 
 ### 通用标志
 
-| 标志                | 说明                                                   |
-| ------------------- | ------------------------------------------------------ |
-| `--no-open`         | 启动时不自动打开浏览器                                  |
-| `--port <n>`        | 覆盖 API 端口（默认 20128）                             |
-| `--mcp`             | 以 MCP 服务器通过 stdio 运行（供 IDE 使用）             |
-| `--non-interactive` | CI 模式（无交互提示；从 env/flags 读取）                |
-| `--json`            | 机器可读的 JSON 输出（doctor、providers 等）            |
-| `--help`、`-h`      | 显示命令特定的帮助                                      |
-| `--version`、`-v`   | 输出版本号                                              |
+| 标志                | 说明                                         |
+| ------------------- | -------------------------------------------- |
+| `--no-open`         | 启动时不自动打开浏览器                       |
+| `--port <n>`        | 覆盖 API 端口（默认 20128）                  |
+| `--mcp`             | 以 MCP 服务器通过 stdio 运行（供 IDE 使用）  |
+| `--non-interactive` | CI 模式（无交互提示；从 env/flags 读取）     |
+| `--json`            | 机器可读的 JSON 输出（doctor、providers 等） |
+| `--help`、`-h`      | 显示命令特定的帮助                           |
+| `--version`、`-v`   | 输出版本号                                   |
 
 ---
 
 ## 可用 API 端点
 
-| 端点                         | 说明                           | 用途                       |
-| ---------------------------- | ------------------------------ | -------------------------- |
-| `/v1/chat/completions`       | 标准聊天（所有服务商）          | 所有现代工具               |
-| `/v1/responses`              | Responses API（OpenAI 格式）   | Codex、代理工作流           |
-| `/v1/completions`            | 旧版文本补全                    | 使用 `prompt:` 的旧工具     |
-| `/v1/embeddings`             | 文本嵌入                        | RAG、搜索                  |
-| `/v1/images/generations`     | 图像生成                        | GPT-Image、Flux 等         |
-| `/v1/audio/speech`           | 文本转语音                      | ElevenLabs、OpenAI TTS    |
-| `/v1/audio/transcriptions`   | 语音转文本                      | Deepgram、AssemblyAI      |
+| 端点                       | 说明                         | 用途                    |
+| -------------------------- | ---------------------------- | ----------------------- |
+| `/v1/chat/completions`     | 标准聊天（所有服务商）       | 所有现代工具            |
+| `/v1/responses`            | Responses API（OpenAI 格式） | Codex、代理工作流       |
+| `/v1/completions`          | 旧版文本补全                 | 使用 `prompt:` 的旧工具 |
+| `/v1/embeddings`           | 文本嵌入                     | RAG、搜索               |
+| `/v1/images/generations`   | 图像生成                     | GPT-Image、Flux 等      |
+| `/v1/audio/speech`         | 文本转语音                   | ElevenLabs、OpenAI TTS  |
+| `/v1/audio/transcriptions` | 语音转文本                   | Deepgram、AssemblyAI    |
 
 可直接粘贴的示例（使用 Token 化 Dragon Router URL）：
 
@@ -715,12 +715,12 @@ Ollama 聊天：http://localhost:20128/api/v1/vscode/sk-a3ab3c080beaee3a-69f4a4-
 
 ## 故障排除
 
-| 错误                                          | 原因                     | 修复方法                                          |
-| --------------------------------------------- | ------------------------ | ------------------------------------------------- |
-| `Connection refused`                          | Dragon Router 未运行          | `dragonrouter serve`                                 |
-| `401 Unauthorized`                            | API Key 错误             | 在 `/dashboard/api-manager` 中检查                 |
-| `No combo configured`                         | 无活跃的路由 Combo        | 在 `/dashboard/combos` 中设置                      |
-| CLI 显示 "not installed"                      | 二进制文件不在 PATH 中    | 检查 `which <command>`                            |
-| Dashboard 安装后显示 "not detected"            | 缓存过期                 | 点击 dashboard 中的 "⟳ 刷新检测"                  |
-| 旧链接 `/dashboard/cli-tools`                 | v3.8.6 之前的书签         | 自动重定向到 `/dashboard/cli-code`（308）          |
-| 旧链接 `/dashboard/agents`                    | v3.8.6 之前的书签         | 自动重定向到 `/dashboard/acp-agents`（308）        |
+| 错误                                | 原因                   | 修复方法                                    |
+| ----------------------------------- | ---------------------- | ------------------------------------------- |
+| `Connection refused`                | Dragon Router 未运行   | `dragonrouter serve`                        |
+| `401 Unauthorized`                  | API Key 错误           | 在 `/dashboard/api-manager` 中检查          |
+| `No combo configured`               | 无活跃的路由 Combo     | 在 `/dashboard/combos` 中设置               |
+| CLI 显示 "not installed"            | 二进制文件不在 PATH 中 | 检查 `which <command>`                      |
+| Dashboard 安装后显示 "not detected" | 缓存过期               | 点击 dashboard 中的 "⟳ 刷新检测"            |
+| 旧链接 `/dashboard/cli-tools`       | v3.8.6 之前的书签      | 自动重定向到 `/dashboard/cli-code`（308）   |
+| 旧链接 `/dashboard/agents`          | v3.8.6 之前的书签      | 自动重定向到 `/dashboard/acp-agents`（308） |

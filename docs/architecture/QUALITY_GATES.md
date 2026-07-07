@@ -134,11 +134,11 @@ Runs after `build`. Blocks merge on failure.
 
 These run on a cron schedule (and `workflow_dispatch`), never on PRs. All are advisory.
 
-| Workflow               | Validates                                                                                                                                           | Blocking     |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| `nightly-property`     | fast-check property tests with a random seed + high run count                                                                                       | **Advisory** |
-| `nightly-resilience`   | heap-growth gate, chaos fault-injection, k6 load/soak                                                                                               | **Advisory** |
-| `nightly-llm-security` | promptfoo injection guard (block mode) + garak probes (skipped without a provider secret)                                                           | **Advisory** |
+| Workflow               | Validates                                                                                                                                               | Blocking     |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| `nightly-property`     | fast-check property tests with a random seed + high run count                                                                                           | **Advisory** |
+| `nightly-resilience`   | heap-growth gate, chaos fault-injection, k6 load/soak                                                                                                   | **Advisory** |
+| `nightly-llm-security` | promptfoo injection guard (block mode) + garak probes (skipped without a provider secret)                                                               | **Advisory** |
 | `nightly-schemathesis` | OpenAPI contract fuzzing (schemathesis) against a live Dragon Router using `docs/openapi.yaml` — surfaces spec violations / unhandled 500s (Fase 8 B.4) | **Advisory** |
 
 ---

@@ -49,7 +49,9 @@ describe("#4580 direct dispatcher options", () => {
 
   it("connection limit clamps invalid values to the default", () => {
     assert.equal(
-      getDefaultDispatcherConnectionLimit({ DRAGONROUTER_DIRECT_DISPATCHER_CONNECTIONS: "nonsense" }),
+      getDefaultDispatcherConnectionLimit({
+        DRAGONROUTER_DIRECT_DISPATCHER_CONNECTIONS: "nonsense",
+      }),
       32
     );
     assert.equal(getDefaultDispatcherConnectionLimit({}), 32);

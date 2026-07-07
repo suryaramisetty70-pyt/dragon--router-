@@ -73,12 +73,12 @@ docker compose --profile cli --profile cliproxyapi up -d
 
 Dragon Router ships four Compose profiles. Pick the one that matches your environment.
 
-| Profile          | Service          | When to use                                                                                                                       | Command                                      |
-| ---------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Profile          | Service             | When to use                                                                                                                       | Command                                      |
+| ---------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | `base` (default) | `dragonrouter-base` | Headless server / minimal runtime, no provider CLIs bundled                                                                       | `docker compose --profile base up -d`        |
-| `cli`            | `dragonrouter-cli`  | Agentic workflows that call `dragonrouter providers/setup/doctor` and bundled CLIs (Codex, Claude Code, Droid, OpenClaw)             | `docker compose --profile cli up -d`         |
+| `cli`            | `dragonrouter-cli`  | Agentic workflows that call `dragonrouter providers/setup/doctor` and bundled CLIs (Codex, Claude Code, Droid, OpenClaw)          | `docker compose --profile cli up -d`         |
 | `host`           | `dragonrouter-host` | Linux hosts that want `network_mode`-like access to host CLIs by mounting `~/.local/bin`, `~/.codex`, `~/.claude`, etc. read-only | `docker compose --profile host up -d`        |
-| `cliproxyapi`    | `cliproxyapi`    | Run the [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) sidecar on port `8317` for upstream CLI proxying              | `docker compose --profile cliproxyapi up -d` |
+| `cliproxyapi`    | `cliproxyapi`       | Run the [CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI) sidecar on port `8317` for upstream CLI proxying              | `docker compose --profile cliproxyapi up -d` |
 
 > Multiple profiles can be combined: `docker compose --profile cli --profile cliproxyapi up -d`.
 
@@ -86,14 +86,14 @@ Dragon Router ships four Compose profiles. Pick the one that matches your enviro
 
 Dragon Router relies on Redis to back the distributed rate limiter and shared cache. The `redis` service is **always defined** in `docker-compose.yml` (it has no profile gate) and starts alongside any other profile.
 
-| Detail               | Value                             |
-| -------------------- | --------------------------------- |
-| Image                | `redis:7-alpine`                  |
-| Container name       | `dragonrouter-redis`                 |
-| Internal port        | `6379`                            |
-| Host port (override) | `REDIS_PORT` (defaults to `6379`) |
-| Volume               | `dragonrouter-redis-data` → `/data`  |
-| Healthcheck          | `redis-cli ping` (10s interval)   |
+| Detail               | Value                               |
+| -------------------- | ----------------------------------- |
+| Image                | `redis:7-alpine`                    |
+| Container name       | `dragonrouter-redis`                |
+| Internal port        | `6379`                              |
+| Host port (override) | `REDIS_PORT` (defaults to `6379`)   |
+| Volume               | `dragonrouter-redis-data` → `/data` |
+| Healthcheck          | `redis-cli ping` (10s interval)     |
 
 Related environment variables:
 
@@ -115,9 +115,9 @@ For an isolated production snapshot running alongside dev, use `docker-compose.p
 | File                   | `docker-compose.prod.yml`                                                          |
 | Default dashboard port | `PROD_DASHBOARD_PORT=20130` (mapped to internal `${DASHBOARD_PORT:-20128}`)        |
 | Default API port       | `PROD_API_PORT=20131`                                                              |
-| Image                  | `dragonrouter:prod` (built from `runner-cli` target)                                  |
-| Redis container        | `dragonrouter-redis-prod` (`redis:8.6.2`, dedicated `redis-prod-data` volume)         |
-| Data volume            | `dragonrouter-prod-data` (named, persisted across rebuilds)                           |
+| Image                  | `dragonrouter:prod` (built from `runner-cli` target)                               |
+| Redis container        | `dragonrouter-redis-prod` (`redis:8.6.2`, dedicated `redis-prod-data` volume)      |
+| Data volume            | `dragonrouter-prod-data` (named, persisted across rebuilds)                        |
 | Healthchecks           | `node healthcheck.mjs` + `redis-cli ping`, with `depends_on` gated on Redis health |
 
 How to use:
@@ -165,16 +165,16 @@ Memory behavior in Docker:
 
 Beyond the defaults documented in [ENVIRONMENT.md](../reference/ENVIRONMENT.md), the following variables matter most when running under Docker:
 
-| Variable                      | Purpose                                                                                             | Default                  |
-| ----------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------ |
-| `DRAGONROUTER_WS_BRIDGE_SECRET`  | Shared secret for the WebSocket bridge. **Required in production** — set to a strong random string. | unset (must be provided) |
-| `REDIS_URL`                   | Connection string for the rate limiter / cache backend                                              | `redis://redis:6379`     |
-| `REDIS_PORT`                  | Host-side port for the bundled Redis container                                                      | `6379`                   |
-| `AUTO_UPDATE_HOST_REPO_DIR`   | Host path mounted into `cli` profile at `/workspace/dragonrouter` for self-update workflows            | `.` (current directory)  |
-| `DRAGONROUTER_MEMORY_MB`         | Runtime Node heap ceiling for the Docker standalone server; overrides the image fallback above      | `512`                    |
-| `DASHBOARD_PORT` / `API_PORT` | Override exposed ports for dashboard (20128) and API (20129)                                        | `20128` / `20129`        |
-| `PROD_DASHBOARD_PORT`         | Host-side dashboard port for `docker-compose.prod.yml`                                              | `20130`                  |
-| `CLIPROXYAPI_PORT`            | Host-side port for the `cliproxyapi` sidecar                                                        | `8317`                   |
+| Variable                        | Purpose                                                                                             | Default                  |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- | ------------------------ |
+| `DRAGONROUTER_WS_BRIDGE_SECRET` | Shared secret for the WebSocket bridge. **Required in production** — set to a strong random string. | unset (must be provided) |
+| `REDIS_URL`                     | Connection string for the rate limiter / cache backend                                              | `redis://redis:6379`     |
+| `REDIS_PORT`                    | Host-side port for the bundled Redis container                                                      | `6379`                   |
+| `AUTO_UPDATE_HOST_REPO_DIR`     | Host path mounted into `cli` profile at `/workspace/dragonrouter` for self-update workflows         | `.` (current directory)  |
+| `DRAGONROUTER_MEMORY_MB`        | Runtime Node heap ceiling for the Docker standalone server; overrides the image fallback above      | `512`                    |
+| `DASHBOARD_PORT` / `API_PORT`   | Override exposed ports for dashboard (20128) and API (20129)                                        | `20128` / `20129`        |
+| `PROD_DASHBOARD_PORT`           | Host-side dashboard port for `docker-compose.prod.yml`                                              | `20130`                  |
+| `CLIPROXYAPI_PORT`              | Host-side port for the `cliproxyapi` sidecar                                                        | `8317`                   |
 
 ## Docker Compose with Caddy (HTTPS Auto-TLS)
 
@@ -233,8 +233,8 @@ Endpoint tunnel panels (Cloudflare, Tailscale, ngrok) can be shown or hidden fro
 
 ## Image Tags
 
-| Image                    | Tag      | Size   | Description           |
-| ------------------------ | -------- | ------ | --------------------- |
+| Image                       | Tag      | Size   | Description           |
+| --------------------------- | -------- | ------ | --------------------- |
 | `diegosouzapw/dragonrouter` | `latest` | ~250MB | Latest stable release |
 | `diegosouzapw/dragonrouter` | `3.8.0`  | ~250MB | Current version       |
 

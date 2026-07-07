@@ -360,7 +360,9 @@ if (existsSync(opencodePluginSrc) && existsSync(join(opencodePluginSrc, "package
         stdio: "inherit",
         env: { ...process.env, NODE_ENV: "production" },
       });
-      console.log("  ✅ @dragonrouter/opencode-plugin bundled to @dragonrouter/opencode-plugin/dist/");
+      console.log(
+        "  ✅ @dragonrouter/opencode-plugin bundled to @dragonrouter/opencode-plugin/dist/"
+      );
     } catch (err: any) {
       console.error("  ❌ Failed to build @dragonrouter/opencode-plugin:", err.message);
       console.error("     The published package would be missing the plugin dist.");

@@ -3,9 +3,7 @@ import fs from "fs";
 import path from "path";
 
 const REPO = "diegosouzapw/Dragon Router";
-const artifactsDir =
-  process.env.ARTIFACTS_DIR ||
-  path.join(process.cwd(), "artifacts");
+const artifactsDir = process.env.ARTIFACTS_DIR || path.join(process.cwd(), "artifacts");
 
 async function main() {
   try {

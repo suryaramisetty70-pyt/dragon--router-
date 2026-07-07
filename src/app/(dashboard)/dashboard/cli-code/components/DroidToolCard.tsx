@@ -46,7 +46,8 @@ export default function DroidToolCard({
   const cliReady = !!(droidStatus?.installed && droidStatus?.runnable);
 
   // (#618) Match any custom:Dragon Router-<i> entry (multi-model).
-  const isDragonRouterEntry = (m) => typeof m?.id === "string" && m.id.startsWith("custom:Dragon Router");
+  const isDragonRouterEntry = (m) =>
+    typeof m?.id === "string" && m.id.startsWith("custom:Dragon Router");
 
   const getConfigStatus = () => {
     if (!cliReady) return null;

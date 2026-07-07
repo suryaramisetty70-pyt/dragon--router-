@@ -770,8 +770,8 @@ yay -S dragonrouter-bin
 systemctl --user enable --now dragonrouter.service
 ```
 
-| Command                 | Description                                                     |
-| ----------------------- | --------------------------------------------------------------- |
+| Command                    | Description                                                     |
+| -------------------------- | --------------------------------------------------------------- |
 | `dragonrouter`             | Mulai server (`PORT=20128`, API dan dasbor pada port yang sama) |
 | `dragonrouter --port 3000` | Set canonical/API port to 3000                                  |
 | `dragonrouter --mcp`       | Mulai server MCP (stdio transport)                              |
@@ -792,7 +792,7 @@ Saat Anda tidak lagi memerlukan Dragon Router, kami menyediakan dua skrip cepat 
 
 | Command                  | Action                                                                                       |
 | ------------------------ | -------------------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Menghapus aplikasi sistem tetapi **menyimpan DB dan konfigurasi Anda** di `~/.dragonrouter`.    |
+| `npm run uninstall`      | Menghapus aplikasi sistem tetapi **menyimpan DB dan konfigurasi Anda** di `~/.dragonrouter`. |
 | `npm run uninstall:full` | Menghapus aplikasi DAN secara permanen **menghapus semua konfigurasi, kunci, dan database**. |
 
 > Catatan: Untuk menjalankan perintah ini, navigasikan ke folder proyek Dragon Router (jika Anda mengkloningnya) dan jalankan. Alternatifnya, jika diinstal secara global, Anda cukup menjalankan `npm uninstall -g dragonrouter`.
@@ -804,7 +804,7 @@ Untuk sebagian besar penerapan, Anda hanya memerlukan:
 | Variable                 | Default                       | Purpose                                                                                                                                                                      |
 | ------------------------ | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `REQUEST_TIMEOUT_MS`     | `600000`                      | Garis dasar bersama untuk batas waktu mulai respons upstream, batas waktu Undici yang tersembunyi, permintaan sidik jari TLS, dan batas waktu permintaan/proksi jembatan API |
-| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Kesenjangan maksimum antara potongan streaming sebelum Dragon Router membatalkan aliran SSE                                                                                      |
+| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Kesenjangan maksimum antara potongan streaming sebelum Dragon Router membatalkan aliran SSE                                                                                  |
 
 Kompatibilitas mundur dipertahankan: `FETCH_TIMEOUT_MS`, `API_BRIDGE_PROXY_TIMEOUT_MS`, dan var batas waktu per lapisan lainnya yang ada masih berfungsi dan menggantikan garis dasar bersama.
 
@@ -1084,8 +1084,8 @@ volumes:
   dragonrouter-data:
 ```
 
-| Image                    | Tag      | Size   | Description           |
-| ------------------------ | -------- | ------ | --------------------- |
+| Image                       | Tag      | Size   | Description           |
+| --------------------------- | -------- | ------ | --------------------- |
 | `diegosouzapw/dragonrouter` | `latest` | ~250MB | Latest stable release |
 | `diegosouzapw/dragonrouter` | `3.6.2`  | ~250MB | Current version       |
 

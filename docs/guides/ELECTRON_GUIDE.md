@@ -39,15 +39,15 @@ system tray, auto-updater, IPC bridge, and zero-config secret bootstrap.
 
 Confirmed from `electron/package.json`:
 
-| Package            | Version                    |
-| ------------------ | -------------------------- |
-| `electron`         | `^41.5.1`                  |
-| `electron-builder` | `^26.10.0`                 |
-| `electron-updater` | `^6.8.5`                   |
-| `better-sqlite3`   | `^12.9.0`                  |
-| App version        | `3.8.0`                    |
+| Package            | Version                       |
+| ------------------ | ----------------------------- |
+| `electron`         | `^41.5.1`                     |
+| `electron-builder` | `^26.10.0`                    |
+| `electron-updater` | `^6.8.5`                      |
+| `better-sqlite3`   | `^12.9.0`                     |
+| App version        | `3.8.0`                       |
 | App id             | `online.dragonrouter.desktop` |
-| Product name       | `Dragon Router`                |
+| Product name       | `Dragon Router`               |
 
 ## Scripts (root `package.json`)
 

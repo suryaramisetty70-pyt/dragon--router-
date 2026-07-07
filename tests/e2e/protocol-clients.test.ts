@@ -139,7 +139,9 @@ describe("Protocol clients E2E", () => {
         expect(auditRes.ok).toBe(true);
         const auditJson = (await auditRes.json()) as any;
         const entries = Array.isArray(auditJson?.entries) ? auditJson.entries : [];
-        expect(entries.some((entry: any) => entry.toolName === "dragonrouter_get_health")).toBe(true);
+        expect(entries.some((entry: any) => entry.toolName === "dragonrouter_get_health")).toBe(
+          true
+        );
       }
     },
     TEST_TIMEOUT_MS * 2

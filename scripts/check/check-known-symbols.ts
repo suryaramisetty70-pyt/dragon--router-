@@ -561,7 +561,8 @@ async function main(): Promise<void> {
     await import("@dragonrouter/open-sse/mcp-server/tools/gamificationTools.ts");
   const { pluginTools } = await import("@dragonrouter/open-sse/mcp-server/tools/pluginTools.ts");
   const { notionTools } = await import("@dragonrouter/open-sse/mcp-server/tools/notionTools.ts");
-  const { obsidianTools } = await import("@dragonrouter/open-sse/mcp-server/tools/obsidianTools.ts");
+  const { obsidianTools } =
+    await import("@dragonrouter/open-sse/mcp-server/tools/obsidianTools.ts");
 
   // Build the full live set of registered tools (deduped by RESERVED_MCP_NAMES logic:
   // agentSkillTools + compressionTools are already in MCP_TOOLS).

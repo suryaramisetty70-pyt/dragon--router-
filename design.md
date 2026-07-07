@@ -218,4 +218,4 @@ Each phase: `npm run lint` + `npm run typecheck:core` + a visual pass.
 | Status-color sources              | `flow/edgeStyles.ts`, `TokenHealthBadge.tsx`, `DegradationBadge.tsx`, `logTableStyles.ts`                            |
 | `cn` util                         | `src/shared/utils/cn.ts`                                                                                             |
 | Phase 1 guard test                | `tests/unit/design-grid-background.test.ts`                                                                          |
-| Site reference                    | `_mono_repo/dragonrouterSite/css/tokens.css`, `css/base.css`                                                            |
+| Site reference                    | `_mono_repo/dragonrouterSite/css/tokens.css`, `css/base.css`                                                         |

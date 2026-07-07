@@ -132,7 +132,7 @@ carries a model name, vendor, ELO `score`, confidence interval, and vote count.
 
 Leaderboard categories map to Dragon Router task categories:
 
-| Arena leaderboard | Dragon Router task categories                         |
+| Arena leaderboard | Dragon Router task categories                     |
 | ----------------- | ------------------------------------------------- |
 | `text`            | `default`, `review`, `documentation`, `debugging` |
 | `code`            | `coding`                                          |

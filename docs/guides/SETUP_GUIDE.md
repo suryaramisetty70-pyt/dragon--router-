@@ -90,8 +90,8 @@ Combined with env vars (`INITIAL_PASSWORD`, `DRAGONROUTER_WS_BRIDGE_SECRET`, etc
 
 ### CLI Options
 
-| Command                 | Description                                                    |
-| ----------------------- | -------------------------------------------------------------- |
+| Command                    | Description                                                    |
+| -------------------------- | -------------------------------------------------------------- |
 | `dragonrouter`             | Start server (`PORT=20128`, API and dashboard on same port)    |
 | `dragonrouter setup`       | Guided CLI onboarding for password and first provider          |
 | `dragonrouter doctor`      | Run local health checks without starting the server            |
@@ -99,7 +99,7 @@ Combined with env vars (`INITIAL_PASSWORD`, `DRAGONROUTER_WS_BRIDGE_SECRET`, etc
 | `dragonrouter config`      | CLI tool configuration — list, get, set, validate configs      |
 | `dragonrouter status`      | Offline status dashboard — version, DB, tools, config          |
 | `dragonrouter logs`        | Stream usage logs from the API (supports `--follow`)           |
-| `dragonrouter update`      | Check for or apply Dragon Router updates                           |
+| `dragonrouter update`      | Check for or apply Dragon Router updates                       |
 | `dragonrouter provider`    | Manage provider connections — add, list, remove, test, default |
 | `dragonrouter --port 3000` | Set canonical/API port to 3000                                 |
 | `dragonrouter --mcp`       | Start MCP server (stdio transport)                             |
@@ -274,7 +274,7 @@ For most deployments, you only need these two variables:
 | Variable                 | Default                       | Purpose                                                                                                                                      |
 | ------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `REQUEST_TIMEOUT_MS`     | `600000`                      | Shared baseline for upstream response-start timeout, hidden Undici timeouts, TLS fingerprint requests, and API bridge request/proxy timeouts |
-| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                                  |
+| `STREAM_IDLE_TIMEOUT_MS` | inherits `REQUEST_TIMEOUT_MS` | Maximum gap between streaming chunks before Dragon Router aborts the SSE stream                                                              |
 
 Backward compatibility is preserved: existing `FETCH_TIMEOUT_MS`, `API_BRIDGE_PROXY_TIMEOUT_MS`, and other per-layer timeout vars still work and override the shared baseline.
 
@@ -410,9 +410,9 @@ post_install() {
 
 ## Uninstalling
 
-| Command                  | Action                                                                              |
-| ------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`.  |
-| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**. |
+| Command                  | Action                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `npm run uninstall`      | Removes the system app but **keeps your DB and configurations** in `~/.dragonrouter`. |
+| `npm run uninstall:full` | Removes the app AND permanently **erases all configurations, keys, and databases**.   |
 
 > For detailed uninstall instructions across all methods, see [UNINSTALL.md](./UNINSTALL.md).

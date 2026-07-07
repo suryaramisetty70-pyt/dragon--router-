@@ -118,24 +118,24 @@ rm -rf ~/.dragonrouter
 
 Dragon Router 默认将数据存储在以下位置：
 
-| 平台          | 默认路径                      | 覆盖方式                   |
-| ------------- | ----------------------------- | ------------------------- |
-| Linux         | `~/.dragonrouter/`               | `DATA_DIR` 环境变量        |
-| macOS         | `~/.dragonrouter/`               | `DATA_DIR` 环境变量        |
-| Windows       | `%APPDATA%/dragonrouter/`        | `DATA_DIR` 环境变量        |
-| Docker        | `/app/data/`（挂载卷）         | `DATA_DIR` 环境变量        |
-| XDG 兼容      | `$XDG_CONFIG_HOME/dragonrouter/` | `XDG_CONFIG_HOME` 环境变量 |
+| 平台     | 默认路径                         | 覆盖方式                   |
+| -------- | -------------------------------- | -------------------------- |
+| Linux    | `~/.dragonrouter/`               | `DATA_DIR` 环境变量        |
+| macOS    | `~/.dragonrouter/`               | `DATA_DIR` 环境变量        |
+| Windows  | `%APPDATA%/dragonrouter/`        | `DATA_DIR` 环境变量        |
+| Docker   | `/app/data/`（挂载卷）           | `DATA_DIR` 环境变量        |
+| XDG 兼容 | `$XDG_CONFIG_HOME/dragonrouter/` | `XDG_CONFIG_HOME` 环境变量 |
 
 ### 数据目录中的文件
 
-| 文件/目录             | 说明                                               |
-| --------------------- | -------------------------------------------------- |
-| `storage.sqlite`      | 主数据库（服务商、Combo、设置、Key）               |
-| `storage.sqlite-wal`  | SQLite 预写日志（临时文件）                            |
-| `storage.sqlite-shm`  | SQLite 共享内存（临时文件）                         |
-| `call_logs/`          | 请求载荷归档                                       |
-| `backups/`            | 自动数据库备份                                      |
-| `log.txt`             | 旧版请求日志（可选）                               |
+| 文件/目录            | 说明                                 |
+| -------------------- | ------------------------------------ |
+| `storage.sqlite`     | 主数据库（服务商、Combo、设置、Key） |
+| `storage.sqlite-wal` | SQLite 预写日志（临时文件）          |
+| `storage.sqlite-shm` | SQLite 共享内存（临时文件）          |
+| `call_logs/`         | 请求载荷归档                         |
+| `backups/`           | 自动数据库备份                       |
+| `log.txt`            | 旧版请求日志（可选）                 |
 
 ---
 

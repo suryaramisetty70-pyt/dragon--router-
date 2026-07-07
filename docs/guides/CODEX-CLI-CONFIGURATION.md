@@ -83,7 +83,7 @@ You never need a separate translation proxy when using Dragon Router. **All mode
 
 ### Context windows by model
 
-| Model                                | Dragon Router ID                         | Context window         | `auto_compact` | `tool_output_limit` |
+| Model                                | Dragon Router ID                     | Context window         | `auto_compact` | `tool_output_limit` |
 | ------------------------------------ | ------------------------------------ | ---------------------- | -------------- | ------------------- |
 | GPT-5.5                              | `cx/gpt-5.5`                         | 400k reliable (1M max) | 350,000        | 32,768              |
 | Kimi K2.7 (thinking)                 | `kmc/kimi-k2.7`                      | 131,072                | 112,000        | 32,768              |
@@ -113,12 +113,12 @@ You never need a separate translation proxy when using Dragon Router. **All mode
 
 All Codex models in Dragon Router use the `cx/` prefix:
 
-| Codex CLI name          | Dragon Router model    |
-| ----------------------- | ------------------ |
-| `cx/gpt-5.5`            | GPT-5.5 standard   |
-| `cx/gpt-5.4`            | GPT-5.4 standard   |
-| `cx/gpt-5.4-mini`       | GPT-5.4 mini       |
-| `cx/gpt-5.1-codex-mini` | GPT-5.1 Codex mini |
+| Codex CLI name          | Dragon Router model |
+| ----------------------- | ------------------- |
+| `cx/gpt-5.5`            | GPT-5.5 standard    |
+| `cx/gpt-5.4`            | GPT-5.4 standard    |
+| `cx/gpt-5.4-mini`       | GPT-5.4 mini        |
+| `cx/gpt-5.1-codex-mini` | GPT-5.1 Codex mini  |
 
 Other providers use their own prefix (`kmc/`, `glm/`, `ds/`, `ollamacloud/`, `opencode-go/`, `mistral/`) — the prefix matches the Dragon Router provider alias.
 

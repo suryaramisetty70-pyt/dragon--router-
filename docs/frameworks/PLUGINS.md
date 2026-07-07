@@ -83,7 +83,7 @@ The `ctx` object passed to `register(program, ctx)`:
 
 | Property                     | Type             | Description                                        |
 | ---------------------------- | ---------------- | -------------------------------------------------- |
-| `ctx.apiFetch(path, opts)`   | `async function` | Authenticated fetch to the Dragon Router server        |
+| `ctx.apiFetch(path, opts)`   | `async function` | Authenticated fetch to the Dragon Router server    |
 | `ctx.emit(data, opts)`       | `function`       | Output in table/json/jsonl/csv per `--output` flag |
 | `ctx.t(key)`                 | `async function` | i18n translation lookup                            |
 | `ctx.withSpinner(label, fn)` | `async function` | Wraps async fn with ora spinner                    |

@@ -19,9 +19,7 @@ const core = await import("../../src/lib/db/core.ts");
 const localDb = await import("../../src/lib/localDb.ts");
 
 // Import route handlers
-const { GET, POST, DELETE } = await import(
-  "../../src/app/api/cli-tools/forge-settings/route.ts"
-);
+const { GET, POST, DELETE } = await import("../../src/app/api/cli-tools/forge-settings/route.ts");
 
 async function resetStorage() {
   delete process.env.INITIAL_PASSWORD;
@@ -107,10 +105,7 @@ test("forge-settings POST: writes config.toml with valid body", async () => {
     );
 
     // 200 = success; 403 = write guard active (test env); 500 = backup dir issue
-    assert.ok(
-      [200, 403, 500].includes(res.status),
-      `Unexpected status ${res.status}`
-    );
+    assert.ok([200, 403, 500].includes(res.status), `Unexpected status ${res.status}`);
 
     if (res.status === 200) {
       const body = await res.json();
@@ -119,7 +114,10 @@ test("forge-settings POST: writes config.toml with valid body", async () => {
       const configPath = path.join(tmpHome, ".forge", "config.toml");
       if (fs.existsSync(configPath)) {
         const content = fs.readFileSync(configPath, "utf-8");
-        assert.ok(content.includes("managed by Dragon Router"), "Config should have Dragon Router marker");
+        assert.ok(
+          content.includes("managed by Dragon Router"),
+          "Config should have Dragon Router marker"
+        );
         assert.ok(content.includes("http://localhost:20128"), "Config should contain base URL");
         assert.ok(content.includes("[openai]"), "Config should have [openai] section");
       }
@@ -143,16 +141,13 @@ test("forge-settings DELETE: removes config file when it exists", async () => {
     fs.mkdirSync(forgeDir, { recursive: true });
     fs.writeFileSync(
       path.join(forgeDir, "config.toml"),
-      "# managed by Dragon Router (plan 14)\n[openai]\nbase_url = \"http://localhost:20128\"\n"
+      '# managed by Dragon Router (plan 14)\n[openai]\nbase_url = "http://localhost:20128"\n'
     );
 
     const res = await DELETE(
       new Request("http://localhost/api/cli-tools/forge-settings", { method: "DELETE" })
     );
-    assert.ok(
-      [200, 403, 500].includes(res.status),
-      `Expected 200/403/500, got ${res.status}`
-    );
+    assert.ok([200, 403, 500].includes(res.status), `Expected 200/403/500, got ${res.status}`);
 
     if (res.status === 200) {
       const body = await res.json();

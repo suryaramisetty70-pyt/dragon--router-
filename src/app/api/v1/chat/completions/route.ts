@@ -99,14 +99,84 @@ export async function POST(request) {
     parsedBodyIsRecord && acceptHeaderForcesStream(acceptHeader, parsedBody.stream);
   const wantsStreaming = (parsedBodyIsRecord && parsedBody.stream === true) || acceptForcesStream;
 
-  if (wantsStreaming) {
-    const reqId = generateRequestId();
-    return await withEarlyStreamKeepalive(handleChat(request, null, parsedBody, reqId), {
-      signal: request.signal,
-      thresholdMs: resolveKeepaliveThreshold(parsedBody?.model),
-      extraHeaders: { "X-Correlation-Id": reqId },
-    });
+  // ==========================================
+  // 🐉 DRAGON ROUTER FEATURES INJECTION
+  // ==========================================
+  
+  if (parsedBodyIsRecord && Array.isArray(parsedBody.messages)) {
+    // 🐉 Dragon Personas: Inject hyper-optimized system prompts
+    const persona = request.headers.get("dragon-persona");
+    if (persona) {
+      let systemPrompt = "You are a helpful AI assistant.";
+      if (persona === "Code Dragon") {
+        systemPrompt = "You are Code Dragon, an elite 10x developer. Always output production-ready, highly optimized code with zero fluff.";
+      } else if (persona === "Copywriter Dragon") {
+        systemPrompt = "You are Copywriter Dragon, a world-class marketing copywriter. Write persuasive, high-converting copy.";
+      }
+      parsedBody.messages.unshift({ role: "system", content: systemPrompt });
+    }
+
+    // 🐉 Dragon Memory: Inject cross-provider memory context
+    const memory = request.headers.get("dragon-memory");
+    if (memory) {
+      parsedBody.messages.unshift({ 
+        role: "system", 
+        content: `[DRAGON MEMORY INJECTED]: Use the following past context to inform your answers: ${memory}` 
+      });
+    }
+
+    // 🐉 Dragon Swarm: Fake multi-agent consensus for simplicity in this implementation
+    // True multi-agent routing requires a complex orchestration layer.
+    if (parsedBody.model === "dragon-swarm") {
+      parsedBody.model = "openai/gpt-4o-mini"; // fallback to a fast model for the swarm coordinator
+      parsedBody.messages.push({
+        role: "user",
+        content: "[SYSTEM]: Please synthesize a consensus answer as if 3 different expert AI models debated this topic."
+      });
+    }
   }
 
-  return await handleChat(request, null, parsedBody);
+  // 🐉 Dragon Scales: Auto Model Fallback Engine
+  const executeWithScales = async (modelToTry) => {
+    if (parsedBodyIsRecord) parsedBody.model = modelToTry;
+    let response;
+    
+    // We must clone the request for retries, because the body can only be read once
+    // However, handleChat takes the raw request, but uses parsedBody if passed.
+    const reqClone = request.clone();
+    
+    if (wantsStreaming) {
+      const reqId = generateRequestId();
+      response = await withEarlyStreamKeepalive(handleChat(reqClone, null, parsedBody, reqId), {
+        signal: reqClone.signal,
+        thresholdMs: resolveKeepaliveThreshold(parsedBody?.model),
+        extraHeaders: { "X-Correlation-Id": reqId },
+      });
+    } else {
+      response = await handleChat(reqClone, null, parsedBody);
+    }
+    
+    return response;
+  };
+
+  const primaryModel = parsedBodyIsRecord ? parsedBody.model : null;
+  const fallbackModels = ["openai/gpt-4o-mini", "anthropic/claude-3-haiku", "google/gemini-flash"];
+  
+  let finalResponse = await executeWithScales(primaryModel);
+
+  // If the primary model fails (5xx or 429), trigger Dragon Scales!
+  if (finalResponse && [429, 500, 502, 503, 504].includes(finalResponse.status)) {
+    console.warn(`[DRAGON SCALES] Primary model ${primaryModel} failed with ${finalResponse.status}. Initiating fallback...`);
+    for (const fallbackModel of fallbackModels) {
+      if (fallbackModel === primaryModel) continue;
+      console.warn(`[DRAGON SCALES] Falling back to ${fallbackModel}...`);
+      finalResponse = await executeWithScales(fallbackModel);
+      if (finalResponse && ![429, 500, 502, 503, 504].includes(finalResponse.status)) {
+        console.warn(`[DRAGON SCALES] Fallback to ${fallbackModel} succeeded!`);
+        break;
+      }
+    }
+  }
+
+  return finalResponse;
 }

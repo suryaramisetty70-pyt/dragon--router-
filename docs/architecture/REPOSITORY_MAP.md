@@ -182,7 +182,7 @@ src/
 | `compliance/`                            | Audit log + provider audit — see `docs/security/COMPLIANCE.md`                                                                                                                                                                                                                                                          |
 | `compression/`                           | Compression engine glue (engines live in `open-sse/services/compression/`)                                                                                                                                                                                                                                              |
 | `config/`                                | Runtime config helpers                                                                                                                                                                                                                                                                                                  |
-| `db/`                                    | 95+ domain DB modules + 110+ migrations (always go through here for SQLite)                                                                                                                                                                                                                                               |
+| `db/`                                    | 95+ domain DB modules + 110+ migrations (always go through here for SQLite)                                                                                                                                                                                                                                             |
 | `quota/`                                 | Quota Sharing Engine: `dimensions.ts` (types/Zod), `types.ts` (QuotaStore interface), `sqliteQuotaStore.ts`, `redisQuotaStore.ts`, `storeFactory.ts`, `fairShare.ts`, `burnRate.ts`, `planResolver.ts`, `planRegistry.ts`, `saturationSignals.ts`, `enforce.ts`, `spendRecorder.ts` — see `docs/routing/QUOTA_SHARE.md` |
 | `display/`                               | UI formatting helpers (cost, latency, etc.)                                                                                                                                                                                                                                                                             |
 | `embeddings/`                            | Embeddings service helpers                                                                                                                                                                                                                                                                                              |
@@ -302,7 +302,7 @@ open-sse/
 | File             | Purpose                                                                           |
 | ---------------- | --------------------------------------------------------------------------------- |
 | `main.js`        | Electron main process (BrowserWindow, embedded Next.js server, tray, auto-update) |
-| `preload.js`     | IPC bridge (contextBridge → `window.dragonrouter`)                                   |
+| `preload.js`     | IPC bridge (contextBridge → `window.dragonrouter`)                                |
 | `package.json`   | electron-builder config + Electron 41 + electron-builder 26.10 deps               |
 | `assets/`        | App icons (Windows .ico, macOS .icns, Linux .png)                                 |
 | `dist-electron/` | Build output (gitignored)                                                         |
@@ -313,28 +313,28 @@ open-sse/
 
 ## `bin/` — CLI
 
-| File                                                                                                        | Purpose                                                                                                                    |
-| ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `dragonrouter.mjs`                                                                                             | Main CLI entry — `dragonrouter serve`, `dragonrouter setup`, `dragonrouter doctor`, `dragonrouter providers`, `dragonrouter combos`, etc. |
-| `reset-password.mjs`                                                                                        | Standalone password reset CLI                                                                                              |
-| `cli/commands/setup.mjs`                                                                                    | Interactive + non-interactive setup wizard                                                                                 |
-| `cli/commands/doctor.mjs`                                                                                   | System health diagnostics (8+ checks)                                                                                      |
-| `cli/commands/providers.mjs`                                                                                | Provider list/test/validate                                                                                                |
-| `cli/{args,data-dir,encryption,io,provider-catalog,provider-store,provider-test,settings-store,sqlite}.mjs` | CLI helper modules                                                                                                         |
-| `cli/tray/tray.ts`                                                                                          | System tray integration (cross-platform: NotifyIcon on Windows, systray2 on macOS/Linux)                                   |
-| `cli/tray/tray.ps1`                                                                                         | PowerShell NotifyIcon backend (Windows, zero new binaries)                                                                 |
-| `cli/tray/autostart.ts`                                                                                     | Cross-platform autostart (LaunchAgent / .desktop / registry)                                                               |
-| `cli/runtime/sqliteRuntime.mjs`                                                                             | 5-step SQLite driver resolution chain (bundled → runtime → lazy-install → node:sqlite → sql.js)                            |
-| `cli/runtime/magicBytes.mjs`                                                                                | Binary magic-byte validation (ELF / Mach-O / Mach-O fat / PE)                                                              |
-| `cli/runtime/index.mjs`                                                                                     | `warmUpRuntimes()` — pre-resolves drivers at postinstall / first startup                                                   |
-| `nodeRuntimeSupport.mjs`                                                                                    | Validate supported Node.js version on install                                                                              |
+| File                                                                                                        | Purpose                                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `dragonrouter.mjs`                                                                                          | Main CLI entry — `dragonrouter serve`, `dragonrouter setup`, `dragonrouter doctor`, `dragonrouter providers`, `dragonrouter combos`, etc. |
+| `reset-password.mjs`                                                                                        | Standalone password reset CLI                                                                                                             |
+| `cli/commands/setup.mjs`                                                                                    | Interactive + non-interactive setup wizard                                                                                                |
+| `cli/commands/doctor.mjs`                                                                                   | System health diagnostics (8+ checks)                                                                                                     |
+| `cli/commands/providers.mjs`                                                                                | Provider list/test/validate                                                                                                               |
+| `cli/{args,data-dir,encryption,io,provider-catalog,provider-store,provider-test,settings-store,sqlite}.mjs` | CLI helper modules                                                                                                                        |
+| `cli/tray/tray.ts`                                                                                          | System tray integration (cross-platform: NotifyIcon on Windows, systray2 on macOS/Linux)                                                  |
+| `cli/tray/tray.ps1`                                                                                         | PowerShell NotifyIcon backend (Windows, zero new binaries)                                                                                |
+| `cli/tray/autostart.ts`                                                                                     | Cross-platform autostart (LaunchAgent / .desktop / registry)                                                                              |
+| `cli/runtime/sqliteRuntime.mjs`                                                                             | 5-step SQLite driver resolution chain (bundled → runtime → lazy-install → node:sqlite → sql.js)                                           |
+| `cli/runtime/magicBytes.mjs`                                                                                | Binary magic-byte validation (ELF / Mach-O / Mach-O fat / PE)                                                                             |
+| `cli/runtime/index.mjs`                                                                                     | `warmUpRuntimes()` — pre-resolves drivers at postinstall / first startup                                                                  |
+| `nodeRuntimeSupport.mjs`                                                                                    | Validate supported Node.js version on install                                                                                             |
 
 ---
 
 ## `skills/` — Public Agent Skills
 
-| File                         | Purpose                                                                            |
-| ---------------------------- | ---------------------------------------------------------------------------------- |
+| File                            | Purpose                                                                            |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
 | `skills/dragonrouter*/SKILL.md` | 10 skill manifests for external AI agents (Claude Desktop, ChatGPT, Cursor, Cline) |
 
 ---
@@ -396,7 +396,7 @@ open-sse/
 | `RELEASE_CHECKLIST.md`      | Full release flow (skills, husky, conventional commits, deploy)                       |
 | `COVERAGE_PLAN.md`          | Coverage goals and current state                                                      |
 | `FREE_TIERS.md`             | Curated free-tier providers (48+ free + 11 OAuth)                                     |
-| `CLI-TOOLS.md`              | External CLI integrations + Internal Dragon Router CLI                                    |
+| `CLI-TOOLS.md`              | External CLI integrations + Internal Dragon Router CLI                                |
 | `I18N.md`                   | i18n architecture, adding a language, 30 locales                                      |
 | `UNINSTALL.md`              | Clean uninstall steps                                                                 |
 | `PROVIDER_REFERENCE.md`     | **Auto-generated** catalog of 236 providers (regen: `npm run gen:provider-reference`) |

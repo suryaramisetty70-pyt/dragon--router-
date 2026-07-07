@@ -116,8 +116,8 @@ curl -H "Accept: text/markdown" "http://localhost:20128/api/agent-skills/omni-pr
 
 Three MCP tools are registered under scope `read:catalog`:
 
-| Tool                              | Description                                        |
-| :-------------------------------- | :------------------------------------------------- |
+| Tool                                 | Description                                        |
+| :----------------------------------- | :------------------------------------------------- |
 | `dragonrouter_agent_skills_list`     | List skills (optional `category` / `area` filters) |
 | `dragonrouter_agent_skills_get`      | Get metadata + SKILL.md for one skill by `id`      |
 | `dragonrouter_agent_skills_coverage` | Coverage stats (API/CLI have/total)                |
@@ -177,8 +177,8 @@ See [A2A-SERVER.md](./A2A-SERVER.md) for protocol details.
 
 ### CLI Skills (20)
 
-| ID                   | Area               | CLI Command Root        |
-| :------------------- | :----------------- | :---------------------- |
+| ID                   | Area               | CLI Command Root           |
+| :------------------- | :----------------- | :------------------------- |
 | `cli-serve`          | cli-serve          | `dragonrouter serve`       |
 | `cli-health`         | cli-health         | `dragonrouter health`      |
 | `cli-providers`      | cli-providers      | `dragonrouter providers`   |
