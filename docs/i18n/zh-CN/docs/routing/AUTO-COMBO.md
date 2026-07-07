@@ -1,10 +1,10 @@
 ---
-title: "OmniRoute Auto-Combo Engine"
+title: "Dragon Router Auto-Combo Engine"
 version: 3.8.40
 lastUpdated: 2026-06-28
 ---
 
-# OmniRoute Auto-Combo 引擎
+# Dragon Router Auto-Combo 引擎
 
 > **面向用户**：想要快速上手？参见 [Auto-Combo 用户指南](../getting-started/AUTO-COMBO-GUIDE.md)，其中有简明的说明和示例。
 
@@ -61,7 +61,7 @@ model: "auto/cheap"           # 每 Token 最便宜
 
 **执行流程：**
 
-1. OmniRoute 在 `src/sse/handlers/chat.ts` 中检测 `auto/` 前缀
+1. Dragon Router 在 `src/sse/handlers/chat.ts` 中检测 `auto/` 前缀
 2. 从数据库查询所有**活跃的服务商连接**
 3. 过滤出具备有效凭据的（API Key 或 OAuth Token）
 4. 确定每个连接的模型（`connection.defaultModel` 或服务商的第一个模型）
@@ -150,7 +150,7 @@ Auto-Combo 引擎使用**12 因子评分函数**（定义在 `open-sse/services/
 
 ## 全部路由策略
 
-OmniRoute 的 Combo 引擎支持 **17 种路由策略**（声明在 `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`）。Auto Combo 引擎本身以 `auto` 策略对外暴露；其余策略供持久化 Combo 使用。
+Dragon Router 的 Combo 引擎支持 **17 种路由策略**（声明在 `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`）。Auto Combo 引擎本身以 `auto` 策略对外暴露；其余策略供持久化 Combo 使用。
 
 | 策略                  | 描述                                                                                       |
 | :-------------------- | :----------------------------------------------------------------------------------------- |
@@ -450,7 +450,7 @@ class LKGPStrategyImpl implements RouterStrategy {
 import {
   registerStrategy,
   type RouterStrategy,
-} from "@omniroute/open-sse/services/autoCombo/routerStrategy";
+} from "@dragonrouter/open-sse/services/autoCombo/routerStrategy";
 
 class MyCustomStrategy implements RouterStrategy {
   readonly name = "my-custom";
@@ -555,8 +555,8 @@ SLA-aware 字段：
 
 | 命令                                    | 功能                                                                             |
 | :-------------------------------------- | :------------------------------------------------------------------------------- |
-| `npm run test:combo:live`               | 进程内真实路由，`RUN_COMBO_LIVE=1`；对活跃的 OmniRoute 数据库做快照               |
-| `npm run test:combo:live:vps`           | 针对活跃的 OmniRoute 服务器进行 HTTP 调用（设置 `COMBO_LIVE_BASE_URL`）            |
+| `npm run test:combo:live`               | 进程内真实路由，`RUN_COMBO_LIVE=1`；对活跃的 Dragon Router 数据库做快照               |
+| `npm run test:combo:live:vps`           | 针对活跃的 Dragon Router 服务器进行 HTTP 调用（设置 `COMBO_LIVE_BASE_URL`）            |
 | `npm run test:combo:live:vps:failover`  | 同上，包含预定的容灾方案场景                                                      |
 
 这些冒烟测试演练了真实的网络路径（Combo → 服务商 → 补全）。它们被特地从 CI 中排除，因为需要真实凭据和 VPS 访问。

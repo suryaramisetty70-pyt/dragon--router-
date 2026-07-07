@@ -20,7 +20,7 @@ List routing combos
 
 ```bash
 curl https://localhost:20128/api/combos \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### POST /api/combos
@@ -29,7 +29,7 @@ Create routing combo
 
 ```bash
 curl -X POST https://localhost:20128/api/combos \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -40,7 +40,7 @@ Update combo
 
 ```bash
 curl -X PATCH https://localhost:20128/api/combos/{id} \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -51,7 +51,7 @@ Delete combo
 
 ```bash
 curl -X DELETE https://localhost:20128/api/combos/{id} \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### GET /api/combos/metrics
@@ -60,7 +60,7 @@ Get combo metrics
 
 ```bash
 curl https://localhost:20128/api/combos/metrics \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### POST /api/combos/test
@@ -69,7 +69,7 @@ Test a combo configuration
 
 ```bash
 curl -X POST https://localhost:20128/api/combos/test \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -82,7 +82,7 @@ Returns all registered fallback chains for model routing.
 
 ```bash
 curl https://localhost:20128/api/fallback/chains \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### POST /api/fallback/chains
@@ -93,7 +93,7 @@ Registers a fallback routing chain for a model.
 
 ```bash
 curl -X POST https://localhost:20128/api/fallback/chains \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -104,7 +104,7 @@ Delete fallback chain
 
 ```bash
 curl -X DELETE https://localhost:20128/api/fallback/chains \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ## Payloads
@@ -112,11 +112,11 @@ curl -X DELETE https://localhost:20128/api/fallback/chains \
 See the full OpenAPI specification at `GET /api/openapi/spec` or `docs/openapi.yaml` for detailed request/response schemas.
 
 <!-- skill:custom-start -->
-<!-- Migrated from skills/omniroute-routing/SKILL.md (preserved curated content) -->
+<!-- Migrated from skills/dragonrouter-routing/SKILL.md (preserved curated content) -->
 
-# OmniRoute — Routing & Combos
+# Dragon Router — Routing & Combos
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ## What is a combo?
 
@@ -125,8 +125,8 @@ A combo is a named group of providers/models with a routing strategy. All reques
 ## List existing combos
 
 ```bash
-curl $OMNIROUTE_URL/api/combos \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/combos \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Response includes `id`, `name`, `strategy`, `enabled`, and per-target stats.
@@ -134,8 +134,8 @@ Response includes `id`, `name`, `strategy`, `enabled`, and per-target stats.
 ## Create a combo
 
 ```bash
-curl -X POST $OMNIROUTE_URL/api/combos \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/api/combos \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-combo",
@@ -171,8 +171,8 @@ curl -X POST $OMNIROUTE_URL/api/combos \
 Auto-combo scores each candidate on 9 factors every request:
 
 ```bash
-curl -X POST $OMNIROUTE_URL/api/combos \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/api/combos \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "prod-auto",
@@ -188,8 +188,8 @@ curl -X POST $OMNIROUTE_URL/api/combos \
 Then call it with:
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/chat/completions \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "model": "prod-auto", "messages": [{ "role": "user", "content": "Hello" }] }'
 ```
@@ -198,16 +198,16 @@ curl -X POST $OMNIROUTE_URL/v1/chat/completions \
 
 ```bash
 # Activate
-curl -X PUT $OMNIROUTE_URL/api/combos/{id}/toggle \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X PUT $DRAGONROUTER_URL/api/combos/{id}/toggle \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -d '{ "enabled": true }'
 ```
 
 ## Get combo metrics
 
 ```bash
-curl $OMNIROUTE_URL/api/combos/{id}/metrics \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/combos/{id}/metrics \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Returns p50/p95/p99 latency, success rate, cost, and per-target breakdown.
@@ -215,22 +215,22 @@ Returns p50/p95/p99 latency, success rate, cost, and per-target breakdown.
 ## Simulate routing (dry run)
 
 ```bash
-curl -X POST $OMNIROUTE_URL/api/routing/simulate \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/api/routing/simulate \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{ "comboId": "{id}", "messages": [{ "role": "user", "content": "test" }] }'
 ```
 
 Returns which provider would be selected and why — no actual API call is made.
 
-## Via MCP (if OmniRoute is your MCP server)
+## Via MCP (if Dragon Router is your MCP server)
 
 ```
-omniroute_list_combos     → list all combos
-omniroute_switch_combo    → enable/disable a combo
-omniroute_set_routing_strategy → change strategy at runtime
-omniroute_simulate_route  → dry-run routing decision
-omniroute_best_combo_for_task → get recommendation by task type
+dragonrouter_list_combos     → list all combos
+dragonrouter_switch_combo    → enable/disable a combo
+dragonrouter_set_routing_strategy → change strategy at runtime
+dragonrouter_simulate_route  → dry-run routing decision
+dragonrouter_best_combo_for_task → get recommendation by task type
 ```
 
 ## Errors

@@ -400,13 +400,13 @@ test("encodeMcpToolDefinitionBody encodes name, description, schema bytes", () =
     name: "get_weather",
     description: "Look up current weather",
     inputSchemaBytes: Buffer.from("schema-bytes"),
-    providerIdentifier: "omniroute",
+    providerIdentifier: "dragonrouter",
     toolName: "get_weather",
   });
   assert.ok(body.includes(Buffer.from("get_weather", "utf8")));
   assert.ok(body.includes(Buffer.from("Look up current weather", "utf8")));
   assert.ok(body.includes(Buffer.from("schema-bytes")));
-  assert.ok(body.includes(Buffer.from("omniroute", "utf8")));
+  assert.ok(body.includes(Buffer.from("dragonrouter", "utf8")));
 });
 
 test("encodeMcpToolDefinitionBody omits optional providerIdentifier and toolName", () => {
@@ -415,7 +415,7 @@ test("encodeMcpToolDefinitionBody omits optional providerIdentifier and toolName
     description: "d",
     inputSchemaBytes: Buffer.alloc(0),
   });
-  assert.ok(!body.includes(Buffer.from("omniroute", "utf8")));
+  assert.ok(!body.includes(Buffer.from("dragonrouter", "utf8")));
 });
 
 // ─── Phase 1: encodeRequestContextResponse with tools ───────────────────────
@@ -434,7 +434,7 @@ test("encodeRequestContextResponse with tools embeds tool name and schema", () =
         type: "object",
         properties: { city: { type: "string" } },
       }),
-      providerIdentifier: "omniroute",
+      providerIdentifier: "dragonrouter",
       toolName: "get_weather",
     },
   ]);
@@ -530,7 +530,7 @@ test("openAIToolsToMcpDefs converts OpenAI tool array to McpToolDefinition[]", (
   assert.equal(defs[0].name, "get_weather");
   assert.equal(defs[0].description, "lookup");
   assert.equal(defs[0].toolName, "get_weather");
-  assert.equal(defs[0].providerIdentifier, "omniroute");
+  assert.equal(defs[0].providerIdentifier, "dragonrouter");
   assert.ok(defs[0].inputSchemaBytes.length > 0);
   // Schema bytes are a Struct (field 5)
   assert.equal(defs[0].inputSchemaBytes[0], 42);
@@ -566,7 +566,7 @@ test("encodeAgentRunRequest with tools embeds tool name and schema in mcp_tools"
   assert.ok(text.includes("get_weather"), "tool name present");
   assert.ok(text.includes("Look up current weather"), "tool description present");
   assert.ok(text.includes("city"), "tool schema field present");
-  assert.ok(text.includes("omniroute"), "provider_identifier set");
+  assert.ok(text.includes("dragonrouter"), "provider_identifier set");
 });
 
 test("encodeAgentRunRequest without tools preserves empty mcp_tools placeholder", () => {
@@ -582,8 +582,8 @@ test("encodeAgentRunRequest without tools preserves empty mcp_tools placeholder"
   // Both should produce essentially the same shape — neither embeds tools.
   // Lengths may differ by message-id randomness; just verify neither contains
   // tool-related markers.
-  assert.ok(!bufNoTools.toString("latin1").includes("omniroute"));
-  assert.ok(!bufEmptyTools.toString("latin1").includes("omniroute"));
+  assert.ok(!bufNoTools.toString("latin1").includes("dragonrouter"));
+  assert.ok(!bufEmptyTools.toString("latin1").includes("dragonrouter"));
 });
 
 test("encodeAgentRunRequest with multiple tools embeds all of them", () => {

@@ -1,20 +1,20 @@
 ---
-title: "CLI Tools — OmniRoute"
+title: "CLI Tools — Dragon Router"
 version: 3.8.40
 lastUpdated: 2026-06-28
 ---
 
-# CLI Tools — OmniRoute
+# CLI Tools — Dragon Router
 
 Last updated: 2026-06-28
 
-OmniRoute integrates with three categories of CLI tools spread across three dedicated dashboard pages:
+Dragon Router integrates with three categories of CLI tools spread across three dedicated dashboard pages:
 
 | Page           | Route                   | Concept                                                                   | Count        |
 | -------------- | ----------------------- | ------------------------------------------------------------------------- | ------------ |
-| **CLI Code's** | `/dashboard/cli-code`   | Coding tools you point at OmniRoute (Client → CLI → OmniRoute → Provider) | 20           |
-| **CLI Agents** | `/dashboard/cli-agents` | Autonomous agents you point at OmniRoute (same flow, broader scope)       | 6            |
-| **ACP Agents** | `/dashboard/acp-agents` | CLIs that OmniRoute spawns as backend via stdio/ACP (reverse flow)        | see registry |
+| **CLI Code's** | `/dashboard/cli-code`   | Coding tools you point at Dragon Router (Client → CLI → Dragon Router → Provider) | 20           |
+| **CLI Agents** | `/dashboard/cli-agents` | Autonomous agents you point at Dragon Router (same flow, broader scope)       | 6            |
+| **ACP Agents** | `/dashboard/acp-agents` | CLIs that Dragon Router spawns as backend via stdio/ACP (reverse flow)        | see registry |
 
 Legacy routes redirect via 308: `/dashboard/cli-tools` → `/dashboard/cli-code`, `/dashboard/agents` → `/dashboard/acp-agents`.
 
@@ -26,14 +26,14 @@ Legacy routes redirect via 308: `/dashboard/cli-tools` → `/dashboard/cli-code`
 CLI Code's / CLI Agents (consumption flow):
 Claude / Codex / OpenCode / Cline / KiloCode / Continue / Hermes Agent / Goose / ...
            │
-           ▼  (all point to OmniRoute)
+           ▼  (all point to Dragon Router)
     http://YOUR_SERVER:20128/v1
            │
-           ▼  (OmniRoute routes to the right provider)
+           ▼  (Dragon Router routes to the right provider)
     Anthropic / OpenAI / Gemini / DeepSeek / Groq / Mistral / ...
 
 ACP Agents (reverse spawn flow):
-    Client request → OmniRoute → spawns CLI via stdio/ACP → response
+    Client request → Dragon Router → spawns CLI via stdio/ACP → response
 ```
 
 **Benefits:**
@@ -47,22 +47,22 @@ ACP Agents (reverse spawn flow):
 
 ## Auto-configure with `setup-*`
 
-You do not have to write each tool's config by hand. OmniRoute ships a `setup-*`
+You do not have to write each tool's config by hand. Dragon Router ships a `setup-*`
 command per supported CLI that reads the **live** model catalog from a running
-OmniRoute (local or remote) and writes the tool's own config on your machine:
+Dragon Router (local or remote) and writes the tool's own config on your machine:
 
 ```bash
-omniroute setup-codex        omniroute setup-claude       omniroute setup-opencode
-omniroute setup-cline        omniroute setup-kilo         omniroute setup-continue
-omniroute setup-cursor       omniroute setup-roo          omniroute setup-crush
-omniroute setup-goose        omniroute setup-qwen         omniroute setup-aider
+dragonrouter setup-codex        dragonrouter setup-claude       dragonrouter setup-opencode
+dragonrouter setup-cline        dragonrouter setup-kilo         dragonrouter setup-continue
+dragonrouter setup-cursor       dragonrouter setup-roo          dragonrouter setup-crush
+dragonrouter setup-goose        dragonrouter setup-qwen         dragonrouter setup-aider
 ```
 
 Each accepts `--remote <url> --api-key <key>` (configure a local tool against a
-remote OmniRoute), `--dry-run` (preview without writing), and `--port`. Tools
+remote Dragon Router), `--dry-run` (preview without writing), and `--port`. Tools
 without model auto-discovery (Cline, Kilo, Roo, Goose, Qwen, Aider, Gemini) take
 `--model <id>` (and `--yes` for non-interactive runs). The launchers
-`omniroute launch` (Claude Code) and `omniroute launch-codex` (Codex) spawn the CLI
+`dragonrouter launch` (Claude Code) and `dragonrouter launch-codex` (Codex) spawn the CLI
 with the right env injected and write no config at all.
 
 > **Full reference:** the master table — what each command writes, every flag,
@@ -137,7 +137,7 @@ Autonomous agents that appear in `/dashboard/cli-agents`:
 
 ## 3. ACP Agents (/dashboard/acp-agents)
 
-This page (renamed from `/dashboard/agents`) shows CLIs that OmniRoute can **spawn** as backend execution engines via stdio/ACP protocol. The catalog is maintained separately in `src/lib/acp/registry.ts` and is **not** the same as `CLI_TOOLS`.
+This page (renamed from `/dashboard/agents`) shows CLIs that Dragon Router can **spawn** as backend execution engines via stdio/ACP protocol. The catalog is maintained separately in `src/lib/acp/registry.ts` and is **not** the same as `CLI_TOOLS`.
 
 
 ---
@@ -263,7 +263,7 @@ Full PT-BR and EN translations are provided. 39 other locales fall back to EN au
 
 ## 9. Quick Start
 
-### Step 1 — Get an OmniRoute API Key
+### Step 1 — Get an Dragon Router API Key
 
 1. Open `/dashboard/api-manager` → **Create API Key**
 2. Give it a name (e.g. `cli-tools`) and select all permissions
@@ -324,13 +324,13 @@ cargo install smelt  # Rust-based
 ### Step 4 — Set Global Environment Variables
 
 ```bash
-# OmniRoute Universal Endpoint
+# Dragon Router Universal Endpoint
 export OPENAI_BASE_URL="http://localhost:20128/v1"
-export OPENAI_API_KEY="sk-your-omniroute-key"
+export OPENAI_API_KEY="sk-your-dragonrouter-key"
 export ANTHROPIC_BASE_URL="http://localhost:20128"
-export ANTHROPIC_AUTH_TOKEN="sk-your-omniroute-key"
+export ANTHROPIC_AUTH_TOKEN="sk-your-dragonrouter-key"
 export GEMINI_BASE_URL="http://localhost:20128/v1"
-export GEMINI_API_KEY="sk-your-omniroute-key"
+export GEMINI_API_KEY="sk-your-dragonrouter-key"
 ```
 
 > For a **remote server** replace `localhost:20128` with the server IP or domain,
@@ -348,7 +348,7 @@ mkdir -p ~/.claude && cat > ~/.claude/settings.json << EOF
 {
   "env": {
     "ANTHROPIC_BASE_URL": "http://localhost:20128",
-    "ANTHROPIC_AUTH_TOKEN": "sk-your-omniroute-key"
+    "ANTHROPIC_AUTH_TOKEN": "sk-your-dragonrouter-key"
   }
 }
 EOF
@@ -365,7 +365,7 @@ Use the unified Anthropic gateway root for Claude Code. Do not append `/v1` here
 ```bash
 mkdir -p ~/.codex && cat > ~/.codex/config.yaml << EOF
 model: auto
-apiKey: sk-your-omniroute-key
+apiKey: sk-your-dragonrouter-key
 apiBaseUrl: http://localhost:20128/v1
 EOF
 ```
@@ -381,12 +381,12 @@ mkdir -p ~/.config/opencode && cat > ~/.config/opencode/opencode.json << EOF
 {
   "\$schema": "https://opencode.ai/config.json",
   "provider": {
-    "omniroute": {
+    "dragonrouter": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "OmniRoute",
+      "name": "Dragon Router",
       "options": {
         "baseURL": "http://localhost:20128/v1",
-        "apiKey": "sk-your-omniroute-key"
+        "apiKey": "sk-your-dragonrouter-key"
       },
       "models": {
         "claude-sonnet-4-5": { "name": "claude-sonnet-4-5" },
@@ -401,7 +401,7 @@ EOF
 
 **Test:** `opencode`
 
-> Use `opencode run "your prompt" --model omniroute/claude-sonnet-4-5-thinking --variant high`
+> Use `opencode run "your prompt" --model dragonrouter/claude-sonnet-4-5-thinking --variant high`
 > to send thinking variants.
 
 ---
@@ -415,7 +415,7 @@ mkdir -p ~/.cline/data && cat > ~/.cline/data/globalState.json << EOF
 {
   "apiProvider": "openai",
   "openAiBaseUrl": "http://localhost:20128/v1",
-  "openAiApiKey": "sk-your-omniroute-key"
+  "openAiApiKey": "sk-your-dragonrouter-key"
 }
 EOF
 ```
@@ -423,7 +423,7 @@ EOF
 **VS Code mode:**
 Cline extension settings → API Provider: `OpenAI Compatible` → Base URL: `http://localhost:20128/v1`
 
-Or use the OmniRoute dashboard → **CLI Tools → Cline → Apply Config**.
+Or use the Dragon Router dashboard → **CLI Tools → Cline → Apply Config**.
 
 ---
 
@@ -432,7 +432,7 @@ Or use the OmniRoute dashboard → **CLI Tools → Cline → Apply Config**.
 **CLI mode:**
 
 ```bash
-kilocode --api-base http://localhost:20128/v1 --api-key sk-your-omniroute-key
+kilocode --api-base http://localhost:20128/v1 --api-key sk-your-dragonrouter-key
 ```
 
 **VS Code settings:**
@@ -440,11 +440,11 @@ kilocode --api-base http://localhost:20128/v1 --api-key sk-your-omniroute-key
 ```json
 {
   "kilo-code.openAiBaseUrl": "http://localhost:20128/v1",
-  "kilo-code.apiKey": "sk-your-omniroute-key"
+  "kilo-code.apiKey": "sk-your-dragonrouter-key"
 }
 ```
 
-Or use the OmniRoute dashboard → **CLI Tools → KiloCode → Apply Config**.
+Or use the Dragon Router dashboard → **CLI Tools → KiloCode → Apply Config**.
 
 ---
 
@@ -454,11 +454,11 @@ Edit `~/.continue/config.yaml`:
 
 ```yaml
 models:
-  - name: OmniRoute
+  - name: Dragon Router
     provider: openai
     model: auto
     apiBase: http://localhost:20128/v1
-    apiKey: sk-your-omniroute-key
+    apiKey: sk-your-dragonrouter-key
     default: true
 ```
 
@@ -468,25 +468,25 @@ Restart VS Code after editing.
 
 #### VS Code Insiders (`chatLanguageModels.json`)
 
-Use this when VS Code Insiders is configured for custom endpoint models and you want OmniRoute to work without a custom header field.
+Use this when VS Code Insiders is configured for custom endpoint models and you want Dragon Router to work without a custom header field.
 
 **Recommended location:**
 
 - Linux: `~/.config/Code - Insiders/User/chatLanguageModels.json`
 - Windows: `%APPDATA%/Code - Insiders/User/chatLanguageModels.json`
 
-**Example using the tokenized OmniRoute alias:**
+**Example using the tokenized Dragon Router alias:**
 
 ```json
 [
   {
     "vendor": "customendpoint",
     "id": "auto",
-    "name": "OmniRoute Auto",
+    "name": "Dragon Router Auto",
     "family": "gpt-4",
     "version": "1.0.0",
-    "url": "http://localhost:20128/api/v1/vscode/sk-your-omniroute-key/chat/completions",
-    "modelsUrl": "http://localhost:20128/api/v1/vscode/sk-your-omniroute-key/models",
+    "url": "http://localhost:20128/api/v1/vscode/sk-your-dragonrouter-key/chat/completions",
+    "modelsUrl": "http://localhost:20128/api/v1/vscode/sk-your-dragonrouter-key/models",
     "requestFormat": "openai-chat-completions",
     "contextWindow": 256000,
     "maxOutputTokens": 32768,
@@ -499,7 +499,7 @@ Use this when VS Code Insiders is configured for custom endpoint models and you 
 
 **Notes:**
 
-- Replace `sk-your-omniroute-key` with an API key created in OmniRoute.
+- Replace `sk-your-dragonrouter-key` with an API key created in Dragon Router.
 - The `url` field should point to `/api/v1/vscode/{token}/chat/completions`.
 - The `modelsUrl` field should point to `/api/v1/vscode/{token}/models`.
 - Prefer the normal `/v1` + Bearer header flow when the client supports custom headers.
@@ -513,12 +513,12 @@ Use this when VS Code Insiders is configured for custom endpoint models and you 
 # Login to your AWS/Kiro account:
 kiro-cli login
 
-# The CLI uses its own auth — OmniRoute is not needed as backend for Kiro CLI itself.
-# Use kiro-cli alongside OmniRoute for other tools.
+# The CLI uses its own auth — Dragon Router is not needed as backend for Kiro CLI itself.
+# Use kiro-cli alongside Dragon Router for other tools.
 kiro-cli status
 ```
 
-For the **Kiro IDE** desktop app, use the MITM endpoint exposed by OmniRoute
+For the **Kiro IDE** desktop app, use the MITM endpoint exposed by Dragon Router
 under `/dashboard/cli-tools → Kiro`.
 
 ---
@@ -527,7 +527,7 @@ under `/dashboard/cli-tools → Kiro`.
 
 Qwen Code supports OpenAI-compatible API endpoints via environment variables or `settings.json`.
 
-> Qwen OAuth free tier was discontinued on 2026-04-15. Use OmniRoute with
+> Qwen OAuth free tier was discontinued on 2026-04-15. Use Dragon Router with
 > `bailian-coding-plan` / `alibaba` / `alibaba-cn` / `openrouter` / `anthropic` /
 > `gemini` providers instead.
 
@@ -535,7 +535,7 @@ Qwen Code supports OpenAI-compatible API endpoints via environment variables or 
 
 ```bash
 mkdir -p ~/.qwen && cat > ~/.qwen/.env << EOF
-OPENAI_API_KEY="sk-your-omniroute-key"
+OPENAI_API_KEY="sk-your-dragonrouter-key"
 OPENAI_BASE_URL="http://localhost:20128/v1"
 OPENAI_MODEL="auto"
 EOF
@@ -549,7 +549,7 @@ EOF
   "security": {
     "auth": {
       "selectedType": "openai",
-      "apiKey": "sk-your-omniroute-key",
+      "apiKey": "sk-your-dragonrouter-key",
       "baseUrl": "http://localhost:20128/v1"
     }
   },
@@ -563,7 +563,7 @@ EOF
 
 ```bash
 OPENAI_BASE_URL="http://localhost:20128/v1" \
-OPENAI_API_KEY="sk-your-omniroute-key" \
+OPENAI_API_KEY="sk-your-dragonrouter-key" \
 OPENAI_MODEL="auto" \
 qwen
 ```
@@ -572,30 +572,30 @@ qwen
 
 ---
 
-## 10. Internal OmniRoute CLI
+## 10. Internal Dragon Router CLI
 
-The `omniroute` binary provides commands for server lifecycle, setup, diagnostics, and provider management. Entry point: `bin/omniroute.mjs`.
+The `dragonrouter` binary provides commands for server lifecycle, setup, diagnostics, and provider management. Entry point: `bin/dragonrouter.mjs`.
 
 ```bash
-omniroute                              # Start server (default port 20128)
-omniroute setup                        # Interactive setup wizard
-omniroute doctor                       # Check config, DB, ports, runtime
-omniroute providers list               # Configured provider connections
-omniroute providers test-all           # Test every active connection
-omniroute reset-password               # Reset the admin password
-omniroute logs                         # Stream request logs
-omniroute health                       # Detailed health (breakers, cache, memory)
-omniroute --version                    # Print version
-omniroute --help                       # Show all commands
+dragonrouter                              # Start server (default port 20128)
+dragonrouter setup                        # Interactive setup wizard
+dragonrouter doctor                       # Check config, DB, ports, runtime
+dragonrouter providers list               # Configured provider connections
+dragonrouter providers test-all           # Test every active connection
+dragonrouter reset-password               # Reset the admin password
+dragonrouter logs                         # Stream request logs
+dragonrouter health                       # Detailed health (breakers, cache, memory)
+dragonrouter --version                    # Print version
+dragonrouter --help                       # Show all commands
 ```
 
 ### Setup & Initialization
 
 ```bash
-omniroute setup                        # Interactive setup wizard
-omniroute setup --non-interactive      # CI/automation mode (reads env vars + flags)
-omniroute setup --password '<value>'   # Set admin password directly
-omniroute setup --add-provider \
+dragonrouter setup                        # Interactive setup wizard
+dragonrouter setup --non-interactive      # CI/automation mode (reads env vars + flags)
+dragonrouter setup --password '<value>'   # Set admin password directly
+dragonrouter setup --add-provider \
   --provider openai \
   --api-key '<value>' \
   --test-provider                      # Add and test a provider in one shot
@@ -605,21 +605,21 @@ Recognized environment variables for non-interactive setup:
 
 | Var                 | Purpose                                                        |
 | ------------------- | -------------------------------------------------------------- |
-| `OMNIROUTE_API_KEY` | Provider API key (bound to `--api-key` via Commander `.env()`) |
-| `DATA_DIR`          | Override the OmniRoute data directory                          |
+| `DRAGONROUTER_API_KEY` | Provider API key (bound to `--api-key` via Commander `.env()`) |
+| `DATA_DIR`          | Override the Dragon Router data directory                          |
 
 All other non-interactive inputs are passed as flags, not environment variables:
 `--password`, `--provider`, `--provider-name`, `--provider-base-url`, `--default-model`
-(see the `omniroute setup` options above).
+(see the `dragonrouter setup` options above).
 
 ### Diagnostics
 
 ```bash
-omniroute doctor                       # Check config, DB, ports, runtime, memory, liveness
-omniroute doctor --json                # Machine-readable JSON
-omniroute doctor --no-liveness         # Skip the HTTP health probe
-omniroute doctor --host 0.0.0.0        # Override liveness host
-omniroute doctor --liveness-url <url>  # Full health endpoint URL override
+dragonrouter doctor                       # Check config, DB, ports, runtime, memory, liveness
+dragonrouter doctor --json                # Machine-readable JSON
+dragonrouter doctor --no-liveness         # Skip the HTTP health probe
+dragonrouter doctor --host 0.0.0.0        # Override liveness host
+dragonrouter doctor --liveness-url <url>  # Full health endpoint URL override
 ```
 
 The doctor runs these checks: `Config`, `Database`, `Storage/encryption`,
@@ -629,62 +629,62 @@ The doctor runs these checks: `Config`, `Database`, `Storage/encryption`,
 ### Provider Management
 
 ```bash
-omniroute providers available                       # OmniRoute provider catalog
-omniroute providers available --search openai       # Filter catalog by id/name/alias/category
-omniroute providers available --category api-key    # Filter by category (api-key, oauth, free, ...)
-omniroute providers available --json                # Machine-readable JSON
+dragonrouter providers available                       # Dragon Router provider catalog
+dragonrouter providers available --search openai       # Filter catalog by id/name/alias/category
+dragonrouter providers available --category api-key    # Filter by category (api-key, oauth, free, ...)
+dragonrouter providers available --json                # Machine-readable JSON
 
-omniroute providers list                            # Configured provider connections
-omniroute providers list --json
+dragonrouter providers list                            # Configured provider connections
+dragonrouter providers list --json
 
-omniroute providers test <id|name>                  # Test one configured connection
-omniroute providers test-all                        # Test every active connection
-omniroute providers validate                        # Local-only structural validation
+dragonrouter providers test <id|name>                  # Test one configured connection
+dragonrouter providers test-all                        # Test every active connection
+dragonrouter providers validate                        # Local-only structural validation
 ```
 
-> `providers available` reads the OmniRoute catalog; `providers list/test/test-all/validate`
+> `providers available` reads the Dragon Router catalog; `providers list/test/test-all/validate`
 > read the local SQLite database directly and do not require the server to be running.
 
 ### Recovery & Reset
 
 ```bash
-omniroute reset-password                # Reset the admin password (legacy alias still works)
-omniroute reset-encrypted-columns       # Show warning + dry-run for encrypted credential reset
-omniroute reset-encrypted-columns --force  # Actually null out encrypted credentials in SQLite
+dragonrouter reset-password                # Reset the admin password (legacy alias still works)
+dragonrouter reset-encrypted-columns       # Show warning + dry-run for encrypted credential reset
+dragonrouter reset-encrypted-columns --force  # Actually null out encrypted credentials in SQLite
 ```
 
 ### Other subcommands
 
-These assume a running OmniRoute server, unless noted otherwise:
+These assume a running Dragon Router server, unless noted otherwise:
 
 ```bash
-omniroute status                       # Comprehensive runtime status
-omniroute logs                         # Stream request logs (--json, --search, --follow)
-omniroute config show                  # Display current configuration
+dragonrouter status                       # Comprehensive runtime status
+dragonrouter logs                         # Stream request logs (--json, --search, --follow)
+dragonrouter config show                  # Display current configuration
 
-omniroute provider list                # List available providers (alias of providers list)
-omniroute provider add                 # Register OmniRoute as a provider on a tool
-omniroute keys add | list | remove     # Manage API keys
-omniroute models [provider]            # List models (--json, --search)
-omniroute combo list | switch | create | delete
+dragonrouter provider list                # List available providers (alias of providers list)
+dragonrouter provider add                 # Register Dragon Router as a provider on a tool
+dragonrouter keys add | list | remove     # Manage API keys
+dragonrouter models [provider]            # List models (--json, --search)
+dragonrouter combo list | switch | create | delete
 
-omniroute backup                       # Snapshot config + DB
-omniroute restore                      # Restore from a previous snapshot
+dragonrouter backup                       # Snapshot config + DB
+dragonrouter restore                      # Restore from a previous snapshot
 
-omniroute health                       # Detailed health (breakers, cache, memory)
-omniroute quota                        # Provider quota usage
-omniroute cache                        # Cache status
-omniroute cache clear                  # Clear semantic + signature caches
+dragonrouter health                       # Detailed health (breakers, cache, memory)
+dragonrouter quota                        # Provider quota usage
+dragonrouter cache                        # Cache status
+dragonrouter cache clear                  # Clear semantic + signature caches
 
-omniroute mcp status | restart         # MCP server status / restart
-omniroute a2a status | card            # A2A server status / agent card
+dragonrouter mcp status | restart         # MCP server status / restart
+dragonrouter a2a status | card            # A2A server status / agent card
 
-omniroute tunnel list | create | stop  # Manage tunnels (cloudflare/tailscale/ngrok)
-omniroute env show | get <k> | set <k> <v>  # Inspect / set env vars (temporary)
+dragonrouter tunnel list | create | stop  # Manage tunnels (cloudflare/tailscale/ngrok)
+dragonrouter env show | get <k> | set <k> <v>  # Inspect / set env vars (temporary)
 
-omniroute test                         # Provider connectivity smoke test
-omniroute update                       # Check for updates
-omniroute completion                   # Generate shell completion
+dragonrouter test                         # Provider connectivity smoke test
+dragonrouter update                       # Check for updates
+dragonrouter completion                   # Generate shell completion
 ```
 
 ### Common flags
@@ -713,7 +713,7 @@ omniroute completion                   # Generate shell completion
 | `/v1/audio/speech`         | Text-to-speech                | ElevenLabs, OpenAI TTS      |
 | `/v1/audio/transcriptions` | Speech-to-text                | Deepgram, AssemblyAI        |
 
-Ready-to-paste examples with a tokenized OmniRoute URL:
+Ready-to-paste examples with a tokenized Dragon Router URL:
 
 ```txt
 Token example: sk-a3ab3c080beaee3a-69f4a4-070d71af
@@ -732,7 +732,7 @@ Ollama chat: http://localhost:20128/api/v1/vscode/sk-a3ab3c080beaee3a-69f4a4-070
 
 | Error                                        | Cause                   | Fix                                              |
 | -------------------------------------------- | ----------------------- | ------------------------------------------------ |
-| `Connection refused`                         | OmniRoute not running   | `omniroute serve`                                |
+| `Connection refused`                         | Dragon Router not running   | `dragonrouter serve`                                |
 | `401 Unauthorized`                           | Wrong API key           | Check in `/dashboard/api-manager`                |
 | `No combo configured`                        | No active routing combo | Set up in `/dashboard/combos`                    |
 | CLI shows "not installed"                    | Binary not in PATH      | Check `which <command>`                          |

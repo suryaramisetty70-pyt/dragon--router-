@@ -22,7 +22,7 @@ Returns system health including uptime, memory, circuit breakers, rate limits
 
 ```bash
 curl https://localhost:20128/api/monitoring/health \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ## Payloads
@@ -30,17 +30,17 @@ curl https://localhost:20128/api/monitoring/health \
 See the full OpenAPI specification at `GET /api/openapi/spec` or `docs/openapi.yaml` for detailed request/response schemas.
 
 <!-- skill:custom-start -->
-<!-- Migrated from skills/omniroute-monitoring/SKILL.md (preserved curated content) -->
+<!-- Migrated from skills/dragonrouter-monitoring/SKILL.md (preserved curated content) -->
 
-# OmniRoute — Monitoring & Health
+# Dragon Router — Monitoring & Health
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ## System health
 
 ```bash
-curl $OMNIROUTE_URL/api/health \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/health \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Returns: uptime, memory, active connections, circuit breaker states, rate limit status, cache stats.
@@ -48,7 +48,7 @@ Returns: uptime, memory, active connections, circuit breaker states, rate limit 
 Unauthenticated quick check:
 
 ```bash
-curl $OMNIROUTE_URL/api/health
+curl $DRAGONROUTER_URL/api/health
 # → {"ok":true}
 ```
 
@@ -59,8 +59,8 @@ Circuit breakers prevent traffic from hitting failing providers.
 States: `CLOSED` (normal), `OPEN` (blocked), `HALF_OPEN` (probe mode — auto-recovers).
 
 ```bash
-curl $OMNIROUTE_URL/api/monitoring/health \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/monitoring/health \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Response includes `circuitBreakers` array with per-provider state and `resetAt` timestamp.
@@ -68,8 +68,8 @@ Response includes `circuitBreakers` array with per-provider state and `resetAt` 
 ## Per-provider metrics (p50/p95/p99)
 
 ```bash
-curl $OMNIROUTE_URL/api/providers/metrics \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/providers/metrics \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Response shape per provider:
@@ -85,21 +85,21 @@ Response shape per provider:
 }
 ```
 
-## Via MCP (if OmniRoute is your MCP server)
+## Via MCP (if Dragon Router is your MCP server)
 
 ```
-omniroute_get_health            → full system health snapshot
-omniroute_get_provider_metrics  → p50/p95/p99 + circuit state per provider
-omniroute_get_session_snapshot  → cost, tokens, errors for current session
-omniroute_check_quota           → quota balance + percent remaining + reset time
-omniroute_db_health_check       → diagnose + auto-repair database drift
+dragonrouter_get_health            → full system health snapshot
+dragonrouter_get_provider_metrics  → p50/p95/p99 + circuit state per provider
+dragonrouter_get_session_snapshot  → cost, tokens, errors for current session
+dragonrouter_check_quota           → quota balance + percent remaining + reset time
+dragonrouter_db_health_check       → diagnose + auto-repair database drift
 ```
 
 ## Quota check
 
 ```bash
-curl $OMNIROUTE_URL/api/quota \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl $DRAGONROUTER_URL/api/quota \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Returns used/total tokens and requests per provider/account, with `resetAt` timestamps.
@@ -109,8 +109,8 @@ Returns used/total tokens and requests per provider/account, with `resetAt` time
 Set a session spending limit that degrades or blocks requests when hit:
 
 ```bash
-curl -X POST $OMNIROUTE_URL/api/budget/guard \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/api/budget/guard \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "limitUsd": 5.00,
@@ -127,18 +127,18 @@ curl -X POST $OMNIROUTE_URL/api/budget/guard \
 
 ## MCP audit log
 
-OmniRoute logs every MCP tool call to `mcp_audit` table. Query via API:
+Dragon Router logs every MCP tool call to `mcp_audit` table. Query via API:
 
 ```bash
-curl "$OMNIROUTE_URL/api/mcp/status" \
-  -H "Authorization: Bearer $OMNIROUTE_KEY"
+curl "$DRAGONROUTER_URL/api/mcp/status" \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY"
 ```
 
 Returns: server status, heartbeat, recent audit activity summary.
 
 ## Errors
 
-- `503` on health endpoint → OmniRoute is starting up; retry in 5s
+- `503` on health endpoint → Dragon Router is starting up; retry in 5s
 - Circuit breaker `OPEN` → provider is temporarily blocked; check `resetAt` to know when it auto-recovers
 - `429 budget_exceeded` → budget guard limit reached; raise limit or wait for reset
 <!-- skill:custom-end -->

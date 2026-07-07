@@ -89,7 +89,7 @@ test("backfills the Qwen OAuth user when missing", async () => {
     targetFormat: "claude",
     credentials: { accessToken: "tok-123" },
   });
-  assert.equal(out.user, "omniroute-qwen-oauth");
+  assert.equal(out.user, "dragonrouter-qwen-oauth");
 });
 
 test("does not backfill the Qwen user when an apiKey is present (API-key mode)", async () => {

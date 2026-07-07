@@ -37,10 +37,10 @@ async function importHandler(): Promise<typeof import("../../scripts/dev/webdav-
   return import(`${url}?t=${Date.now()}-${Math.random().toString(36).slice(2)}`);
 }
 
-/** Encrypt a string with the OmniRoute enc:v1: format using the given secret.
+/** Encrypt a string with the Dragon Router enc:v1: format using the given secret.
  *  Mirrors src/lib/db/encryption.ts: scrypt with static salt, AES-256-GCM. */
 function encryptTs(secret: string, plaintext: string): string {
-  const STATIC_SALT = "omniroute-field-encryption-v1";
+  const STATIC_SALT = "dragonrouter-field-encryption-v1";
   const key = scryptSync(secret, STATIC_SALT, 32);
   const iv = randomBytes(16);
   const cipher = createCipheriv("aes-256-gcm", key, iv);

@@ -18,7 +18,7 @@ import path from "node:path";
 import { makeManagementSessionRequest } from "../helpers/managementSession.ts";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-quota-err-sanitization-")
+  path.join(os.tmpdir(), "dragonrouter-quota-err-sanitization-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-quota-sanitization-secret";

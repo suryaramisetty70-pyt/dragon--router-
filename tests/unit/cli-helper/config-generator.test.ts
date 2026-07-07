@@ -21,11 +21,11 @@ describe("config-generator", () => {
   });
 
   describe("assertSafeCatalogUrl (SSRF guard, CodeQL #326)", () => {
-    it("allows the loopback OmniRoute target (the legitimate default) and returns a URL", async () => {
+    it("allows the loopback Dragon Router target (the legitimate default) and returns a URL", async () => {
       const { assertSafeCatalogUrl } = await import(
         "../../../src/lib/cli-helper/config-generator/opencode.ts"
       );
-      // The catalog source IS the user's own OmniRoute — localhost must stay allowed.
+      // The catalog source IS the user's own Dragon Router — localhost must stay allowed.
       assert.doesNotThrow(() => assertSafeCatalogUrl("http://localhost:20128/v1/models"));
       assert.doesNotThrow(() => assertSafeCatalogUrl("http://127.0.0.1:20128/v1/models"));
       // Returns the validated, re-parsed URL (taint-severed value the caller fetches).
@@ -34,11 +34,11 @@ describe("config-generator", () => {
       assert.equal(safe.href, "http://localhost:20128/v1/models");
     });
 
-    it("allows a public OmniRoute Cloud target", async () => {
+    it("allows a public Dragon Router Cloud target", async () => {
       const { assertSafeCatalogUrl } = await import(
         "../../../src/lib/cli-helper/config-generator/opencode.ts"
       );
-      assert.doesNotThrow(() => assertSafeCatalogUrl("https://api.omniroute.online/v1/models"));
+      assert.doesNotThrow(() => assertSafeCatalogUrl("https://api.dragonrouter.online/v1/models"));
     });
 
     it("blocks the cloud-metadata SSRF→IAM pivot (169.254.169.254)", async () => {
@@ -99,7 +99,7 @@ describe("config-generator", () => {
       assert.strictEqual(result.success, true);
       assert.ok(result.configPath.endsWith(".hermes/config.yaml"));
       assert.ok(String(result.content || "").includes("providers:"));
-      assert.ok(String(result.content || "").includes("omniroute"));
+      assert.ok(String(result.content || "").includes("dragonrouter"));
     });
 
     it("returns error for unknown tool", async () => {
@@ -147,7 +147,7 @@ describe("config-generator", () => {
         await import("../../../src/lib/cli-helper/config-generator/hermes-agent.ts");
       const result = await hermesAgent.generateHermesAgentConfig({
         baseUrl: "http://localhost:20128",
-        apiKey: "sk-test-omniroute",
+        apiKey: "sk-test-dragonrouter",
         selections: [
           { role: "default", model: "gpt-4o" },
           { role: "delegation", model: "claude-3-5-sonnet" },
@@ -158,7 +158,7 @@ describe("config-generator", () => {
       assert.ok(!result.error);
       assert.ok(typeof result.yaml === "string");
       assert.ok(result.yaml.length > 50);
-      assert.ok(result.yaml.includes("provider: omniroute"));
+      assert.ok(result.yaml.includes("provider: dragonrouter"));
     });
 
     it("generateHermesAgentConfig includes auxiliary section for non-default roles", async () => {
@@ -275,7 +275,7 @@ describe("config-generator", () => {
           apiKey: "sk-test",
         });
         const cfg = JSON.parse(out);
-        const models = cfg.provider.omniroute.models;
+        const models = cfg.provider.dragonrouter.models;
         assert.strictEqual(models["ds/deepseek-v4-flash"].limit.context, 1_000_000);
         assert.strictEqual(models["MASTER"].limit.context, 131072);
         // Combo with min-of-targets 200K: must reflect the catalog's value,
@@ -301,7 +301,7 @@ describe("config-generator", () => {
         // must NOT default to 128K (or any other value). The entry is
         // emitted without limit.context so OpenCode's own heuristic
         // applies and the user can fix the upstream.
-        const noCtx = cfg.provider.omniroute.models["NO_CTX_COMBO"];
+        const noCtx = cfg.provider.dragonrouter.models["NO_CTX_COMBO"];
         assert.strictEqual(
           noCtx.limit?.context,
           undefined,
@@ -323,7 +323,7 @@ describe("config-generator", () => {
           apiKey: "sk-test",
         });
         const cfg = JSON.parse(out);
-        assert.strictEqual(cfg.provider.omniroute.models.llama3.limit.context, 8192);
+        assert.strictEqual(cfg.provider.dragonrouter.models.llama3.limit.context, 8192);
       } finally {
         stub.restore();
       }
@@ -374,7 +374,7 @@ describe("config-generator", () => {
           model: "MASTER",
         });
         const cfg = JSON.parse(out);
-        assert.strictEqual(cfg.model, "omniroute/MASTER");
+        assert.strictEqual(cfg.model, "dragonrouter/MASTER");
       } finally {
         stub.restore();
       }
@@ -395,7 +395,7 @@ describe("config-generator", () => {
         });
         const cfg = JSON.parse(out);
         assert.strictEqual(
-          cfg.provider.omniroute.models["Opencode FREE Omni"].limit.context,
+          cfg.provider.dragonrouter.models["Opencode FREE Omni"].limit.context,
           200000,
           "Opencode FREE Omni must have context=200000 from the catalog, not 128000"
         );

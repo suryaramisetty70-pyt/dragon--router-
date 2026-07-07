@@ -102,7 +102,7 @@ test("buildCloudflareWorkerScript uses ESM default-export fetch handler (Workers
 
 const CLOUDFLARE_CTX = {
   type: "cloudflare" as const,
-  host: "omniroute-relay.acme.workers.dev",
+  host: "dragonrouter-relay.acme.workers.dev",
   relayAuth: "live-cf-secret",
 };
 
@@ -119,7 +119,7 @@ test("proxyFetch routes a cloudflare-type context through the relay endpoint wit
   const call = relayCalls[0];
 
   // Rewritten to the workers.dev origin, NOT the upstream target.
-  assert.equal(call.input, "https://omniroute-relay.acme.workers.dev");
+  assert.equal(call.input, "https://dragonrouter-relay.acme.workers.dev");
 
   const sentHeaders = new Headers(call.init.headers);
   assert.equal(sentHeaders.get("x-relay-target"), "https://api.anthropic.com");
@@ -160,9 +160,9 @@ test("the missing-relayAuth error message does not leak internal [ProxyFetch] di
 test("proxyConfigToUrl returns the cloudflare worker URL (no HTTP-proxy dispatcher needed)", () => {
   const url = proxyConfigToUrl({
     type: "cloudflare",
-    host: "omniroute-relay.acme.workers.dev",
+    host: "dragonrouter-relay.acme.workers.dev",
   });
-  assert.equal(url, "https://omniroute-relay.acme.workers.dev");
+  assert.equal(url, "https://dragonrouter-relay.acme.workers.dev");
 });
 
 // --------------------------------------------------------------------------

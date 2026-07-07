@@ -16,7 +16,7 @@ import {
   makeManagementSessionRequest,
 } from "../helpers/managementSession.ts";
 
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-retrieve-preview-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-retrieve-preview-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-secret-retrieve-preview";
 

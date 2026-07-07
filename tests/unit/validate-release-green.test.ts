@@ -45,7 +45,7 @@ test("isDrift flags only growth past the committed baseline (down-direction ratc
 
 test("firstFailureLine surfaces the meaningful failure, not boilerplate", () => {
   const out = [
-    "> omniroute@3.8.34 typecheck:core",
+    "> dragonrouter@3.8.34 typecheck:core",
     "src/x.ts(10,5): error TS2322: Type 'string' is not assignable to 'number'.",
     "done",
   ].join("\n");
@@ -149,9 +149,9 @@ test("pre-flight --hermetic scrubs the live-test trigger vars (2026-07-05 false-
     new URL("../../scripts/quality/validate-release-green.mjs", import.meta.url),
     "utf8"
   );
-  // A dev machine with OMNIROUTE_API_KEY set runs 17+ live tests that CI skips —
+  // A dev machine with DRAGONROUTER_API_KEY set runs 17+ live tests that CI skips —
   // the pre-flight must be able to reproduce the CI env exactly.
-  assert.match(src, /HERMETIC_SCRUB\s*=\s*\["OMNIROUTE_API_KEY",\s*"OMNIROUTE_URL"\]/);
+  assert.match(src, /HERMETIC_SCRUB\s*=\s*\["DRAGONROUTER_API_KEY",\s*"DRAGONROUTER_URL"\]/);
   assert.match(src, /args\.has\("--hermetic"\)/, "--hermetic flag must be parsed");
   // Per-gate logs: a red must be diagnosable from _artifacts/release-green/<gate>.log
   // without re-running the gate.

@@ -11,7 +11,7 @@ import os from "node:os";
 import path from "node:path";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-agentbridge-config-")
+  path.join(os.tmpdir(), "dragonrouter-agentbridge-config-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 

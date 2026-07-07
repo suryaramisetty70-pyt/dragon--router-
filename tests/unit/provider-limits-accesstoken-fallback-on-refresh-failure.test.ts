@@ -19,7 +19,7 @@ import os from "node:os";
 import path from "node:path";
 
 process.env.DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-accesstoken-fallback-")
+  path.join(os.tmpdir(), "dragonrouter-accesstoken-fallback-")
 );
 
 const { getExecutor } = await import("../../open-sse/executors/index.ts");

@@ -8,7 +8,7 @@ let tempDir: string;
 let originalDataDir: string | undefined;
 
 function setup() {
-  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-db-test-"));
+  tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-db-test-"));
   originalDataDir = process.env.DATA_DIR;
   process.env.DATA_DIR = tempDir;
 }
@@ -70,7 +70,7 @@ test("getDbInstance creates tables from SCHEMA_SQL (proves initialization succee
       "call_logs",
       "domain_circuit_breakers",
       "semantic_cache",
-      "_omniroute_migrations",
+      "_dragonrouter_migrations",
     ];
 
     for (const name of expectedTables) {
@@ -81,7 +81,7 @@ test("getDbInstance creates tables from SCHEMA_SQL (proves initialization succee
     // (no existing file = no corruption path = initialized with default sentinel).
     // Verify this indirectly: the DB is fully functional and migrations ran.
     const migrationCount = db
-      .prepare("SELECT COUNT(*) as c FROM _omniroute_migrations")
+      .prepare("SELECT COUNT(*) as c FROM _dragonrouter_migrations")
       .get() as { c: number };
     assert.ok(migrationCount.c >= 1, "at least one migration should be recorded");
   } finally {

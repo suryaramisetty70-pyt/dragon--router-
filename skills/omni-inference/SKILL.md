@@ -22,7 +22,7 @@ OpenAI-compatible chat completions endpoint. Routes to configured providers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -35,7 +35,7 @@ OpenAI-compatible chat over a WebSocket connection. `GET` with `?handshake=1` re
 
 ```bash
 curl https://localhost:20128/api/v1/ws \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### POST /api/v1/providers/{provider}/chat/completions
@@ -46,7 +46,7 @@ Routes to a specific provider by name.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/providers/{provider}/chat/completions \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -59,7 +59,7 @@ Provides compatibility with Ollama's /api/chat format.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/api/chat \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -72,7 +72,7 @@ Anthropic Messages API endpoint. Routes to Claude providers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/messages \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -83,7 +83,7 @@ Count tokens for a message
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/messages/count_tokens \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -96,7 +96,7 @@ OpenAI Responses API endpoint.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/responses \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -107,7 +107,7 @@ Create embeddings
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/embeddings \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -118,7 +118,7 @@ Create embeddings (provider-specific)
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/providers/{provider}/embeddings \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -129,7 +129,7 @@ Generate images
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/images/generations \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -140,7 +140,7 @@ Generate images (provider-specific)
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/providers/{provider}/images/generations \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -153,7 +153,7 @@ Text-to-speech endpoint. Routes to configured TTS providers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/audio/speech \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -166,7 +166,7 @@ Audio-to-text transcription endpoint.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/audio/transcriptions \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -179,7 +179,7 @@ Content moderation endpoint. Routes to configured moderation providers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/moderations \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -192,7 +192,7 @@ Document reranking endpoint.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/rerank \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -205,7 +205,7 @@ Returns basic API info and status.
 
 ```bash
 curl https://localhost:20128/api/v1 \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### GET /api/v1/providers/{provider}/models
@@ -216,18 +216,18 @@ Returns only models for the selected provider with provider prefix removed from 
 
 ```bash
 curl https://localhost:20128/api/v1/providers/{provider}/models \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### POST /api/v1/ocr
 
 Document OCR
 
-Mistral OCR–compatible document OCR endpoint. Accepts a JSON body referencing a document/image and returns extracted text. Success responses carry the `X-OmniRoute-*` cost-telemetry headers.
+Mistral OCR–compatible document OCR endpoint. Accepts a JSON body referencing a document/image and returns extracted text. Success responses carry the `X-Dragon Router-*` cost-telemetry headers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/ocr \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -236,11 +236,11 @@ curl -X POST https://localhost:20128/api/v1/ocr \
 
 Translate audio to English
 
-OpenAI Whisper–compatible audio translation (multipart/form-data). Unlike `/api/v1/audio/transcriptions`, output is always English regardless of the source language. Success responses carry the `X-OmniRoute-*` cost-telemetry headers.
+OpenAI Whisper–compatible audio translation (multipart/form-data). Unlike `/api/v1/audio/transcriptions`, output is always English regardless of the source language. Success responses carry the `X-Dragon Router-*` cost-telemetry headers.
 
 ```bash
 curl -X POST https://localhost:20128/api/v1/audio/translations \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
   -H "Content-Type: application/json" \
   -d '{}'
 ```
@@ -253,7 +253,7 @@ Read-only server-side proxy to the public HuggingFace Hub models search API, use
 
 ```bash
 curl https://localhost:20128/api/v1/providers/suggested-models \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ### GET /api/v1/provider-plugin-manifest
@@ -264,7 +264,7 @@ Returns the manifest describing installed provider plugins.
 
 ```bash
 curl https://localhost:20128/api/v1/provider-plugin-manifest \
-  -H "Authorization: Bearer $OMNIROUTE_TOKEN"
+  -H "Authorization: Bearer $DRAGONROUTER_TOKEN"
 ```
 
 ## Payloads
@@ -272,22 +272,22 @@ curl https://localhost:20128/api/v1/provider-plugin-manifest \
 See the full OpenAPI specification at `GET /api/openapi/spec` or `docs/openapi.yaml` for detailed request/response schemas.
 
 <!-- skill:custom-start -->
-<!-- Aggregated from: omniroute-chat, omniroute-image, omniroute-tts, omniroute-stt, omniroute-embeddings, omniroute-web-search, omniroute-web-fetch -->
+<!-- Aggregated from: dragonrouter-chat, dragonrouter-image, dragonrouter-tts, dragonrouter-stt, dragonrouter-embeddings, dragonrouter-web-search, dragonrouter-web-fetch -->
 
 ## Chat completions
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoints
 
-- `POST $OMNIROUTE_URL/v1/chat/completions` — OpenAI format
-- `POST $OMNIROUTE_URL/v1/messages` — Anthropic Messages format
-- `POST $OMNIROUTE_URL/v1/responses` — OpenAI Responses API
+- `POST $DRAGONROUTER_URL/v1/chat/completions` — OpenAI format
+- `POST $DRAGONROUTER_URL/v1/messages` — Anthropic Messages format
+- `POST $DRAGONROUTER_URL/v1/responses` — OpenAI Responses API
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models | jq '.data[].id'
+curl $DRAGONROUTER_URL/v1/models | jq '.data[].id'
 ```
 
 Combos (e.g. `auto`, `cost-optimized`, `subscription`) auto-fallback through multiple providers.
@@ -295,8 +295,8 @@ Combos (e.g. `auto`, `cost-optimized`, `subscription`) auto-fallback through mul
 ### OpenAI format example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/chat/completions \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/chat/completions \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "claude-opus-4-7",
@@ -308,8 +308,8 @@ curl -X POST $OMNIROUTE_URL/v1/chat/completions \
 ### Anthropic format example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/messages \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/messages \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "anthropic-version: 2023-06-01" \
   -H "Content-Type: application/json" \
   -d '{
@@ -324,7 +324,7 @@ curl -X POST $OMNIROUTE_URL/v1/messages \
 Supports OpenAI `tools` array and Anthropic `tools` block. Tool results
 auto-compressed via RTK (47 filters: git-diff, grep, test-jest, terraform-plan,
 docker-logs, etc.) — 20-40% token savings. Disable per-request with
-`X-Omniroute-Rtk: off` header.
+`X-Dragonrouter-Rtk: off` header.
 
 ### Reasoning / thinking
 
@@ -340,18 +340,18 @@ verbatim. Cached automatically via reasoning cache.
 
 ## Image generation
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoints
 
-- `POST $OMNIROUTE_URL/v1/images/generations` — Text-to-image
-- `POST $OMNIROUTE_URL/v1/images/edits` — Image edit (mask)
-- `POST $OMNIROUTE_URL/v1/images/variations` — Variations
+- `POST $DRAGONROUTER_URL/v1/images/generations` — Text-to-image
+- `POST $DRAGONROUTER_URL/v1/images/edits` — Image edit (mask)
+- `POST $DRAGONROUTER_URL/v1/images/variations` — Variations
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/image | jq '.data[]'
+curl $DRAGONROUTER_URL/v1/models/image | jq '.data[]'
 ```
 
 Returns `{ id, owned_by, sizes:[...], capabilities:[...] }` per model.
@@ -359,8 +359,8 @@ Returns `{ id, owned_by, sizes:[...], capabilities:[...] }` per model.
 ### Generate example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/images/generations \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/images/generations \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "dall-e-3",
@@ -381,16 +381,16 @@ Response: `{ created, data: [{ url? or b64_json, revised_prompt }] }`
 
 ## Text-to-speech
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoint
 
-- `POST $OMNIROUTE_URL/v1/audio/speech` — returns binary audio (mp3/opus/wav/flac)
+- `POST $DRAGONROUTER_URL/v1/audio/speech` — returns binary audio (mp3/opus/wav/flac)
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/tts | jq '.data[]'
+curl $DRAGONROUTER_URL/v1/models/tts | jq '.data[]'
 ```
 
 Each entry includes `voices:[...]` for the available voice names per provider.
@@ -398,12 +398,12 @@ Each entry includes `voices:[...]` for the available voice names per provider.
 ### Example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/audio/speech \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/audio/speech \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "tts-1",
-    "input": "Hello from OmniRoute.",
+    "input": "Hello from Dragon Router.",
     "voice": "alloy",
     "response_format": "mp3"
   }' --output speech.mp3
@@ -422,24 +422,24 @@ Common OpenAI voices: `alloy`, `echo`, `fable`, `onyx`, `nova`, `shimmer`.
 
 ## Speech-to-text
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoints
 
-- `POST $OMNIROUTE_URL/v1/audio/transcriptions` — multipart upload, returns text
-- `POST $OMNIROUTE_URL/v1/audio/translations` — transcribe + translate to English
+- `POST $DRAGONROUTER_URL/v1/audio/transcriptions` — multipart upload, returns text
+- `POST $DRAGONROUTER_URL/v1/audio/translations` — transcribe + translate to English
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/stt | jq '.data[]'
+curl $DRAGONROUTER_URL/v1/models/stt | jq '.data[]'
 ```
 
 ### Example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/audio/transcriptions \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/audio/transcriptions \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -F "file=@audio.mp3" \
   -F "model=whisper-1" \
   -F "response_format=verbose_json"
@@ -460,16 +460,16 @@ Response formats: `json`, `text`, `srt`, `verbose_json`, `vtt`.
 
 ## Embeddings
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoint
 
-- `POST $OMNIROUTE_URL/v1/embeddings`
+- `POST $DRAGONROUTER_URL/v1/embeddings`
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/embedding | jq '.data[]'
+curl $DRAGONROUTER_URL/v1/models/embedding | jq '.data[]'
 ```
 
 Each entry: `{ id, owned_by, dimensions, max_input_tokens }`.
@@ -477,8 +477,8 @@ Each entry: `{ id, owned_by, dimensions, max_input_tokens }`.
 ### Example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/embeddings \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/embeddings \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "text-embedding-3-large",
@@ -501,27 +501,27 @@ Response: `{ data:[{ embedding:[...], index }], usage:{ prompt_tokens, total_tok
 
 ## Web search
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoint
 
-- `POST $OMNIROUTE_URL/v1/web/search` — unified search format
+- `POST $DRAGONROUTER_URL/v1/web/search` — unified search format
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/web | jq '.data[] | select(.kind == "webSearch")'
+curl $DRAGONROUTER_URL/v1/models/web | jq '.data[] | select(.kind == "webSearch")'
 ```
 
 ### Example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/web/search \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/web/search \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "tavily/search",
-    "query": "OmniRoute github latest release",
+    "query": "Dragon Router github latest release",
     "max_results": 5,
     "include_answer": true
   }'
@@ -546,23 +546,23 @@ Response: `{ answer?, results:[{ url, title, content, score }] }`
 
 ## Web fetch
 
-Requires `OMNIROUTE_URL` and `OMNIROUTE_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/OmniRoute/main/skills/omniroute/SKILL.md) for setup.
+Requires `DRAGONROUTER_URL` and `DRAGONROUTER_KEY`. See [entry-point SKILL](https://raw.githubusercontent.com/diegosouzapw/Dragon Router/main/skills/dragonrouter/SKILL.md) for setup.
 
 ### Endpoint
 
-- `POST $OMNIROUTE_URL/v1/web/fetch`
+- `POST $DRAGONROUTER_URL/v1/web/fetch`
 
 ### Discover
 
 ```bash
-curl $OMNIROUTE_URL/v1/models/web | jq '.data[] | select(.kind == "webFetch")'
+curl $DRAGONROUTER_URL/v1/models/web | jq '.data[] | select(.kind == "webFetch")'
 ```
 
 ### Example
 
 ```bash
-curl -X POST $OMNIROUTE_URL/v1/web/fetch \
-  -H "Authorization: Bearer $OMNIROUTE_KEY" \
+curl -X POST $DRAGONROUTER_URL/v1/web/fetch \
+  -H "Authorization: Bearer $DRAGONROUTER_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "model": "jina/reader",

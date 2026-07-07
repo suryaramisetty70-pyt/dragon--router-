@@ -75,7 +75,7 @@ test("resolveWritableDataDir falls back to the default dir when DATA_DIR is not 
 
     // It must NOT return the unwritable configured dir...
     assert.notEqual(resolved, path.resolve(configured));
-    // ...and instead fall back to the default user dir (~/.omniroute under HOME).
+    // ...and instead fall back to the default user dir (~/.dragonrouter under HOME).
     assert.equal(resolved, expectedFallback);
     assert.ok(resolved.startsWith(path.resolve(home)));
   });

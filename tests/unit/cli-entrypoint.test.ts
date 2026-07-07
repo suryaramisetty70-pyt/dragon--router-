@@ -5,8 +5,8 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 
-test("omniroute CLI entrypoint can print version", async () => {
-  const { stdout } = await execFileAsync(process.execPath, ["bin/omniroute.mjs", "--version"], {
+test("dragonrouter CLI entrypoint can print version", async () => {
+  const { stdout } = await execFileAsync(process.execPath, ["bin/dragonrouter.mjs", "--version"], {
     cwd: process.cwd(),
     env: { ...process.env, DATA_DIR: "" },
   });

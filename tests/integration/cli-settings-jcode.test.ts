@@ -8,7 +8,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-jcode-settings-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-jcode-settings-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-api-key-secret-jcode";
 process.env.JWT_SECRET = "test-jwt-secret-jcode";
@@ -111,7 +111,7 @@ test("jcode-settings POST: writes config.json with valid body", async () => {
       const configPath = path.join(tmpHome, ".jcode", "config.json");
       if (fs.existsSync(configPath)) {
         const written = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-        assert.equal(written._managedBy, "omniroute");
+        assert.equal(written._managedBy, "dragonrouter");
         assert.ok(written.baseUrl.includes("localhost:20128"));
         assert.equal(written.model, "gpt-5.4-mini");
       }
@@ -122,9 +122,9 @@ test("jcode-settings POST: writes config.json with valid body", async () => {
   }
 });
 
-// ── Test 5: DELETE → removes OmniRoute fields ────────────────────────────────
+// ── Test 5: DELETE → removes Dragon Router fields ────────────────────────────────
 
-test("jcode-settings DELETE: removes OmniRoute fields from existing config", async () => {
+test("jcode-settings DELETE: removes Dragon Router fields from existing config", async () => {
   const tmpHome = fs.mkdtempSync(path.join(os.tmpdir(), "jcode-home-del-"));
   const origHome = process.env.HOME;
   process.env.HOME = tmpHome;
@@ -135,7 +135,7 @@ test("jcode-settings DELETE: removes OmniRoute fields from existing config", asy
     fs.writeFileSync(
       path.join(jcodeDir, "config.json"),
       JSON.stringify({
-        _managedBy: "omniroute",
+        _managedBy: "dragonrouter",
         baseUrl: "http://localhost:20128",
         apiKey: "sk-test",
         model: "gpt-5",

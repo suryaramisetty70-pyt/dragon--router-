@@ -1,10 +1,10 @@
 ---
-title: "OmniRoute Auto-Combo Engine"
+title: "Dragon Router Auto-Combo Engine"
 version: 3.8.40
 lastUpdated: 2026-06-28
 ---
 
-# OmniRoute Auto-Combo Engine
+# Dragon Router Auto-Combo Engine
 
 > **For Users**: Looking for a quick start? See the [Auto-Combo User Guide](../getting-started/AUTO-COMBO-GUIDE.md) for simple explanations and examples.
 
@@ -61,7 +61,7 @@ model: "auto/cheap"           # cheapest per token
 
 **What happens:**
 
-1. OmniRoute detects `auto/` prefix in `src/sse/handlers/chat.ts`
+1. Dragon Router detects `auto/` prefix in `src/sse/handlers/chat.ts`
 2. Queries all **active provider connections** from the database
 3. Filters to those with valid credentials (API key or OAuth token)
 4. Determines the model per connection (`connection.defaultModel` or provider's first model)
@@ -157,15 +157,15 @@ absent.
 
 | Header               | Accepts                                                                                              | Effect                                                                                                            |
 | :------------------- | :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
-| `X-OmniRoute-Mode`   | a preset alias (`fast`, `balanced`, `quality`, `cheap`, `reliable`, `offline`) or a raw pack name (`ship-fast`, `cost-saver`, `quality-first`, `offline-friendly`, `reliability-first`) | Overrides the scoring weights for this request. `balanced`/`default` force the default weights (no pack). Unknown values are ignored (config preserved). |
-| `X-OmniRoute-Budget` | a positive number (max USD per request)                                                             | Hard cost ceiling: candidates whose estimated cost exceeds it are filtered before selection, falling back to the cheapest healthy candidate if all exceed. Non-positive/garbage values are ignored. |
+| `X-Dragon Router-Mode`   | a preset alias (`fast`, `balanced`, `quality`, `cheap`, `reliable`, `offline`) or a raw pack name (`ship-fast`, `cost-saver`, `quality-first`, `offline-friendly`, `reliability-first`) | Overrides the scoring weights for this request. `balanced`/`default` force the default weights (no pack). Unknown values are ignored (config preserved). |
+| `X-Dragon Router-Budget` | a positive number (max USD per request)                                                             | Hard cost ceiling: candidates whose estimated cost exceeds it are filtered before selection, falling back to the cheapest healthy candidate if all exceed. Non-positive/garbage values are ignored. |
 
 ```bash
 # Force the fastest profile and cap this request at $0.05
 curl -sS http://localhost:20128/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -H "X-OmniRoute-Mode: fast" \
-  -H "X-OmniRoute-Budget: 0.05" \
+  -H "X-Dragon Router-Mode: fast" \
+  -H "X-Dragon Router-Budget: 0.05" \
   -d '{"model":"auto","messages":[{"role":"user","content":"hi"}]}'
 ```
 
@@ -174,7 +174,7 @@ resolved values feed the engine's existing `config.modePack` / `config.budgetCap
 
 ## All Routing Strategies
 
-OmniRoute's combo engine supports **17 routing strategies** (declared in `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`). The Auto Combo engine itself is exposed under the `auto` strategy; the others are available for persisted combos.
+Dragon Router's combo engine supports **17 routing strategies** (declared in `src/shared/constants/routingStrategies.ts` → `ROUTING_STRATEGY_VALUES`). The Auto Combo engine itself is exposed under the `auto` strategy; the others are available for persisted combos.
 
 | Strategy            | Description                                                                                  |
 | :------------------ | :------------------------------------------------------------------------------------------- |
@@ -502,7 +502,7 @@ You can register your own `RouterStrategy` implementation via the public API:
 import {
   registerStrategy,
   type RouterStrategy,
-} from "@omniroute/open-sse/services/autoCombo/routerStrategy";
+} from "@dragonrouter/open-sse/services/autoCombo/routerStrategy";
 
 class MyCustomStrategy implements RouterStrategy {
   readonly name = "my-custom";
@@ -618,8 +618,8 @@ This suite runs in CI (`test:integration` job) with `--test-concurrency=1` and
 
 | Command                                | What it does                                                                   |
 | :------------------------------------- | :----------------------------------------------------------------------------- |
-| `npm run test:combo:live`              | In-process real routing with `RUN_COMBO_LIVE=1`; snapshots a live OmniRoute DB |
-| `npm run test:combo:live:vps`          | HTTP calls against a live OmniRoute server (set `COMBO_LIVE_BASE_URL`)         |
+| `npm run test:combo:live`              | In-process real routing with `RUN_COMBO_LIVE=1`; snapshots a live Dragon Router DB |
+| `npm run test:combo:live:vps`          | HTTP calls against a live Dragon Router server (set `COMBO_LIVE_BASE_URL`)         |
 | `npm run test:combo:live:vps:failover` | Same, with deliberate failover scenarios                                       |
 
 These smoke tests exercise the real wire path (combo → provider → completion). They are

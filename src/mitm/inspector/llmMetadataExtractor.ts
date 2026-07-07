@@ -166,7 +166,7 @@ export function extractLlmMetadata(req: InterceptedRequest): LlmMetadata | null 
   const mappedTo =
     req.mappedModel ??
     req.requestHeaders["x-dragon-router-mapped"] ??
-    req.requestHeaders["X-Omniroute-Mapped"] ??
+    req.requestHeaders["X-Dragonrouter-Mapped"] ??
     null;
 
   return {

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-skills-interception-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-skills-interception-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 
 const coreDb = await import("../../src/lib/db/core.ts");
@@ -12,7 +12,7 @@ const { skillRegistry } = await import("../../src/lib/skills/registry.ts");
 const { skillExecutor } = await import("../../src/lib/skills/executor.ts");
 const { interceptToolCalls, extractToolCalls, handleToolCallExecution } =
   await import("../../src/lib/skills/interception.ts");
-const { OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME } =
+const { DRAGONROUTER_WEB_SEARCH_FALLBACK_TOOL_NAME } =
   await import("../../open-sse/services/webSearchFallback.ts");
 
 function resetRuntime() {
@@ -125,8 +125,8 @@ test("extractToolCalls supports OpenAI, Anthropic and Gemini shapes", () => {
         {
           type: "function_call",
           call_id: "call-response",
-          name: OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME,
-          arguments: '{"query":"latest omniroute"}',
+          name: DRAGONROUTER_WEB_SEARCH_FALLBACK_TOOL_NAME,
+          arguments: '{"query":"latest dragonrouter"}',
         },
       ],
     },
@@ -160,8 +160,8 @@ test("extractToolCalls supports OpenAI, Anthropic and Gemini shapes", () => {
   assert.deepEqual(responses, [
     {
       id: "call-response",
-      name: OMNIROUTE_WEB_SEARCH_FALLBACK_TOOL_NAME,
-      arguments: { query: "latest omniroute" },
+      name: DRAGONROUTER_WEB_SEARCH_FALLBACK_TOOL_NAME,
+      arguments: { query: "latest dragonrouter" },
     },
   ]);
   assert.deepEqual(extractToolCalls({}, "custom-model"), []);

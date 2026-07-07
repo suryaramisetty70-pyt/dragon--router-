@@ -41,9 +41,9 @@ function decodeChunk(value) {
 }
 
 test("wantsProgress reads the opt-in header from Headers and plain objects", () => {
-  assert.equal(wantsProgress(new Headers({ "x-omniroute-progress": "true" })), true);
-  assert.equal(wantsProgress({ "x-omniroute-progress": "true" }), true);
-  assert.equal(wantsProgress({ "x-omniroute-progress": "false" }), false);
+  assert.equal(wantsProgress(new Headers({ "x-dragonrouter-progress": "true" })), true);
+  assert.equal(wantsProgress({ "x-dragonrouter-progress": "true" }), true);
+  assert.equal(wantsProgress({ "x-dragonrouter-progress": "false" }), false);
   assert.equal(wantsProgress(null), false);
 });
 

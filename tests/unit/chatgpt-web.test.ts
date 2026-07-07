@@ -35,8 +35,8 @@ function makeHeaders(map = {}) {
 
 async function withEnv(overrides, fn) {
   const keys = [
-    "OMNIROUTE_PUBLIC_BASE_URL",
-    "OMNIROUTE_BASE_URL",
+    "DRAGONROUTER_PUBLIC_BASE_URL",
+    "DRAGONROUTER_BASE_URL",
     "NEXT_PUBLIC_BASE_URL",
     "BASE_URL",
     "PORT",
@@ -373,10 +373,10 @@ test("ChatGptWebExecutor sets correct provider name", () => {
 
 // ─── Public image URL derivation ────────────────────────────────────────────
 
-test("Image URL base: OMNIROUTE_PUBLIC_BASE_URL wins and strips accidental /v1", async () => {
+test("Image URL base: DRAGONROUTER_PUBLIC_BASE_URL wins and strips accidental /v1", async () => {
   await withEnv(
     {
-      OMNIROUTE_PUBLIC_BASE_URL: " http://192.168.107.55:20128/v1/ ",
+      DRAGONROUTER_PUBLIC_BASE_URL: " http://192.168.107.55:20128/v1/ ",
       NEXT_PUBLIC_BASE_URL: "http://localhost:20128",
     },
     async () => {
@@ -416,8 +416,8 @@ test("Image URL base: forwarded headers override raw Host", async () => {
   });
 });
 
-test("Image URL base: non-local OMNIROUTE_BASE_URL remains a compatibility fallback", async () => {
-  await withEnv({ OMNIROUTE_BASE_URL: "https://omni.example.com/v1" }, async () => {
+test("Image URL base: non-local DRAGONROUTER_BASE_URL remains a compatibility fallback", async () => {
+  await withEnv({ DRAGONROUTER_BASE_URL: "https://omni.example.com/v1" }, async () => {
     assert.equal(__derivePublicBaseUrlForTesting(null), "https://omni.example.com");
   });
 });
@@ -1271,7 +1271,7 @@ test("Provider registry: chatgpt-web exposes the current ChatGPT Web model catal
   assert.equal(entry.authHeader, "cookie");
 
   const ids = (entry.models || []).map((m) => m.id);
-  // Public OmniRoute ids stay in historical dot form even though ChatGPT's
+  // Public Dragon Router ids stay in historical dot form even though ChatGPT's
   // backend routes use dash-form slugs. Retired GPT-5/GPT-5.1 entries should
   // stay out of this list.
   assert.deepEqual(ids, [
@@ -1288,7 +1288,7 @@ test("Provider registry: chatgpt-web exposes the current ChatGPT Web model catal
   ]);
 });
 
-test("Executor MODEL_MAP: OmniRoute IDs translate to ChatGPT backend slugs", async () => {
+test("Executor MODEL_MAP: Dragon Router IDs translate to ChatGPT backend slugs", async () => {
   reset();
   const m = installMockFetch();
   try {
@@ -2252,7 +2252,7 @@ test("Image gen: file-service:// pointer resolves to download URL and is appende
     const content = json.choices[0].message.content;
     assert.match(content, /Here's your kitten:/);
     // The signed chatgpt.com URL is downloaded server-side and re-served
-    // from the OmniRoute cache; clients see a stable /v1/chatgpt-web/image
+    // from the Dragon Router cache; clients see a stable /v1/chatgpt-web/image
     // path, never the session-signed estuary URL (which 403s anonymously).
     assert.match(content, /!\[image\]\([^)]*\/v1\/chatgpt-web\/image\/[a-f0-9]+\)/);
     assert.doesNotMatch(content, /files\.oaiusercontent\.com/);
@@ -2323,7 +2323,7 @@ test("Image gen: sediment:// pointer prefers /files/<id>/download over /attachme
     // returns either way, and we care more about not hitting an extra
     // round-trip); the /attachment endpoint is a fallback for when the
     // primary 404s. The mock /files/ response also doubles as the image
-    // bytes that are cached behind the emitted OmniRoute image URL.
+    // bytes that are cached behind the emitted Dragon Router image URL.
     assert.match(
       content,
       /!\[image\]\([^)]*\/v1\/chatgpt-web\/image\/[a-f0-9]+\)/,
@@ -2530,7 +2530,7 @@ test("Image gen: signed URL bytes are cached and exposed via /v1/chatgpt-web/ima
   reset();
   // Real-world flow: /files/<id>/download returns a chatgpt.com estuary URL
   // signed for the user's session — that URL 403s for any anonymous client,
-  // so we fetch the bytes, cache them locally, and emit an OmniRoute image URL.
+  // so we fetch the bytes, cache them locally, and emit an Dragon Router image URL.
   const pngBytes = Buffer.from([
     0x89,
     0x50,
@@ -2599,7 +2599,7 @@ test("Image gen: signed URL bytes are cached and exposed via /v1/chatgpt-web/ima
       calls.signed++;
       // tls-client-node returns binary bodies as a "data:<mime>;base64,..."
       // string (see its response.js bytes() impl); the executor decodes it
-      // back into bytes before putting the image in OmniRoute's cache.
+      // back into bytes before putting the image in Dragon Router's cache.
       return {
         status: 200,
         headers: makeHeaders({ "Content-Type": "image/png" }),
@@ -2620,7 +2620,7 @@ test("Image gen: signed URL bytes are cached and exposed via /v1/chatgpt-web/ima
 
   await withEnv(
     {
-      OMNIROUTE_PUBLIC_BASE_URL: "http://192.168.107.55:20128/v1",
+      DRAGONROUTER_PUBLIC_BASE_URL: "http://192.168.107.55:20128/v1",
       NEXT_PUBLIC_BASE_URL: "http://localhost:20128",
     },
     async () => {
@@ -2703,7 +2703,7 @@ test("Image gen: prior data: image URIs are stripped from history before upstrea
   }
 });
 
-test("Image edit: cached OmniRoute image URL continues the saved ChatGPT conversation", async () => {
+test("Image edit: cached Dragon Router image URL continues the saved ChatGPT conversation", async () => {
   reset();
   const { storeChatGptImage } = await import("../../open-sse/services/chatgptImageCache.ts");
   const imageId = storeChatGptImage(Buffer.from([1, 2, 3]), "image/png", 30_000, {
@@ -2887,8 +2887,8 @@ test("Image cache: byte cap evicts oldest before count cap kicks in", async () =
   // 4 MB images × 3 stores against a 10 MB byte cap: third store should
   // evict the first to fit. Verifies the byte budget bites BEFORE the
   // 200-entry count cap, which is the whole point of the byte budget.
-  const original = process.env.OMNIROUTE_CGPT_WEB_IMAGE_CACHE_MAX_MB;
-  process.env.OMNIROUTE_CGPT_WEB_IMAGE_CACHE_MAX_MB = "10";
+  const original = process.env.DRAGONROUTER_CGPT_WEB_IMAGE_CACHE_MAX_MB;
+  process.env.DRAGONROUTER_CGPT_WEB_IMAGE_CACHE_MAX_MB = "10";
   try {
     cacheMod.__resetChatGptImageCacheForTesting();
     const big = Buffer.alloc(4 * 1024 * 1024, 1);
@@ -2907,8 +2907,8 @@ test("Image cache: byte cap evicts oldest before count cap kicks in", async () =
       `cache bytes (${bytes}) should be within the configured 10 MB cap`
     );
   } finally {
-    if (original == null) delete process.env.OMNIROUTE_CGPT_WEB_IMAGE_CACHE_MAX_MB;
-    else process.env.OMNIROUTE_CGPT_WEB_IMAGE_CACHE_MAX_MB = original;
+    if (original == null) delete process.env.DRAGONROUTER_CGPT_WEB_IMAGE_CACHE_MAX_MB;
+    else process.env.DRAGONROUTER_CGPT_WEB_IMAGE_CACHE_MAX_MB = original;
     cacheMod.__resetChatGptImageCacheForTesting();
   }
 });
@@ -3086,7 +3086,7 @@ test("Image edit handler: no cached match returns 400 (does not silently generat
     });
     assert.equal(result.success, false);
     assert.equal((result as any).status, 400);
-    assert.match(String((result as any).error), /generated through this OmniRoute instance/);
+    assert.match(String((result as any).error), /generated through this Dragon Router instance/);
     assert.equal(m.calls.session, 0, "no upstream calls were attempted");
     assert.equal(m.calls.conv, 0, "no chat-completion was attempted");
   } finally {

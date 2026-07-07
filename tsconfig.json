@@ -54,7 +54,7 @@
     ".tmp",
     ".claude",
     ".worktrees",
-    "@omniroute",
+    "@dragonrouter",
     "_tasks",
     "_ideia",
     "_mono_repo",

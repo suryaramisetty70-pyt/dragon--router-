@@ -4,7 +4,7 @@
 
 ---
 
-Gunakan daftar periksa ini sebelum memberi tag atau menerbitkan rilis OmniRoute baru.
+Gunakan daftar periksa ini sebelum memberi tag atau menerbitkan rilis Dragon Router baru.
 
 ## Versi dan Changelog
 

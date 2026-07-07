@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-// ─── T-12 (#3932 PR-3): `omniroute redis` CLI command ─────────────────────
+// ─── T-12 (#3932 PR-3): `dragonrouter redis` CLI command ─────────────────────
 
 test("registerRedis: exports a registerRedis function", async () => {
   const mod = await import(`../../bin/cli/commands/redis.mjs?case=${Date.now()}-${Math.random()}`);

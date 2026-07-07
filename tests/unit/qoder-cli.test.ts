@@ -74,7 +74,7 @@ test("qoder cli env helpers honor explicit command and workspace overrides", asy
     {
       CLI_QODER_BIN: " custom-qoder ",
       QODER_CLI_WORKSPACE: "/tmp/qoder-workspace",
-      OMNIROUTE_QODER_WORKSPACE: "/tmp/ignored",
+      DRAGONROUTER_QODER_WORKSPACE: "/tmp/ignored",
     },
     () => {
       assert.equal(qoderCli.getQoderCliCommand(), "custom-qoder");
@@ -86,7 +86,7 @@ test("qoder cli env helpers honor explicit command and workspace overrides", asy
     {
       CLI_QODER_BIN: undefined,
       QODER_CLI_WORKSPACE: undefined,
-      OMNIROUTE_QODER_WORKSPACE: "/tmp/fallback-workspace",
+      DRAGONROUTER_QODER_WORKSPACE: "/tmp/fallback-workspace",
     },
     () => {
       assert.equal(qoderCli.getQoderCliCommand(), "qodercli");

@@ -16,15 +16,15 @@ executor code, OAuth defaults, headers, or process environment state.
 The same manifest is available over HTTP at
 `GET /api/v1/provider-plugin-manifest` for sidecars that run out-of-process.
 
-OmniRoute advertises that URL to Bifrost and CLIProxyAPI via the
-`X-OmniRoute-Provider-Manifest-Url` request header. Set
-`OMNIROUTE_PROVIDER_MANIFEST_URL` when the sidecar needs a public or container
+Dragon Router advertises that URL to Bifrost and CLIProxyAPI via the
+`X-Dragon Router-Provider-Manifest-Url` request header. Set
+`DRAGONROUTER_PROVIDER_MANIFEST_URL` when the sidecar needs a public or container
 network URL instead of the local request origin.
 
 ## Goal
 
 Move provider metadata toward a plugin contract so the hot request path can
-eventually be owned by a lower-latency sidecar while OmniRoute keeps the
+eventually be owned by a lower-latency sidecar while Dragon Router keeps the
 TypeScript route as the policy gate and fallback. The manifest is additive: it
 does not change request routing by itself.
 
@@ -65,7 +65,7 @@ Suggested migration phases:
 1. Generate and validate the provider plugin manifest from the TS registry.
 2. Teach Bifrost or CLIProxyAPI to import the manifest for API-key/static
    providers.
-3. Route eligible providers through the sidecar behind `OMNIROUTE_RELAY_BACKEND`
+3. Route eligible providers through the sidecar behind `DRAGONROUTER_RELAY_BACKEND`
    while keeping TS fallback enabled.
 4. Promote providers only when success rate, p99 latency, streaming behavior,
    and unsupported-param handling match the TS path.

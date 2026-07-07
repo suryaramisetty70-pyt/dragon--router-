@@ -10,7 +10,7 @@
   "files": [
     "bin/",
     "dist/",
-    "@omniroute/",
+    "@dragonrouter/",
     "open-sse/",
     "src/domain/",
     "src/lib/",
@@ -360,7 +360,7 @@
       "@swc/core",
       "better-sqlite3",
       "esbuild",
-      "omniroute",
+      "dragonrouter",
       "sharp"
     ]
   },

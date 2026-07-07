@@ -6,7 +6,7 @@ import path from "node:path";
 
 // Isolated DATA_DIR set BEFORE importing anything that touches the DB
 // (checkSemanticCache -> getCachedResponse reads the semantic_cache SQLite table).
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-sem-cache-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-sem-cache-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 
 const { checkSemanticCache } = await import("../../open-sse/handlers/chatCore/semanticCache.ts");
@@ -17,9 +17,9 @@ const core = await import("../../src/lib/db/core.ts");
 const { generateSignature, setCachedResponse, clearCache } = await import(
   "../../src/lib/semanticCache.ts"
 );
-const { OMNIROUTE_RESPONSE_HEADERS } = await import("../../src/shared/constants/headers.ts");
+const { DRAGONROUTER_RESPONSE_HEADERS } = await import("../../src/shared/constants/headers.ts");
 const { calculateCost } = await import("../../src/lib/usage/costCalculator.ts");
-const { formatOmniRouteCost } = await import("../../src/domain/omnirouteResponseMeta.ts");
+const { formatDragon RouterCost } = await import("../../src/domain/dragonrouterResponseMeta.ts");
 
 test.after(() => {
   core.resetDbInstance();
@@ -84,12 +84,12 @@ test("checkSemanticCache returns null when enabled but the body is NOT cacheable
   assert.equal(persistCalls.length, 0);
 });
 
-test("checkSemanticCache returns null when the x-omniroute-no-cache header forces a bypass", async () => {
+test("checkSemanticCache returns null when the x-dragonrouter-no-cache header forces a bypass", async () => {
   // The no-cache header makes isCacheableForRead return false even with temperature:0.
   const { args } = makeBaseArgs({
     semanticCacheEnabled: true,
     body: { model: "gpt-4o", messages: [{ role: "user", content: "hi" }], temperature: 0 },
-    clientRawRequest: { headers: { "x-omniroute-no-cache": "true" } },
+    clientRawRequest: { headers: { "x-dragonrouter-no-cache": "true" } },
   });
 
   const result = await checkSemanticCache(args as Parameters<typeof checkSemanticCache>[0]);
@@ -208,9 +208,9 @@ test("checkSemanticCache returns a non-streaming JSON HIT with cache headers + l
   assert.ok(result, "HIT -> non-null result");
   assert.equal(result.success, true, "HIT result.success is true");
   const res = result.response as Response;
-  assert.equal(res.headers.get(OMNIROUTE_RESPONSE_HEADERS.cache), "HIT", "X-OmniRoute-Cache: HIT");
+  assert.equal(res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.cache), "HIT", "X-Dragon Router-Cache: HIT");
   assert.equal(
-    res.headers.get(OMNIROUTE_RESPONSE_HEADERS.cacheHit),
+    res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.cacheHit),
     "true",
     "cacheHit meta header is true"
   );
@@ -266,7 +266,7 @@ test("checkSemanticCache returns a streaming SSE HIT (text/event-stream) when st
     "text/event-stream",
     "streaming HIT -> text/event-stream"
   );
-  assert.equal(res.headers.get(OMNIROUTE_RESPONSE_HEADERS.cache), "HIT");
+  assert.equal(res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.cache), "HIT");
   const bodyText = await res.text();
   assert.ok(bodyText.includes("data: "), "SSE body contains data frames");
   assert.ok(bodyText.includes("streamed cached answer"), "SSE body carries the cached content");
@@ -297,10 +297,10 @@ test("checkSemanticCache HITs even when the cached body has no usage (cost falls
   assert.ok(result, "HIT with no usage -> non-null result");
   assert.equal(result.success, true);
   const res = result.response as Response;
-  assert.equal(res.headers.get(OMNIROUTE_RESPONSE_HEADERS.cache), "HIT");
+  assert.equal(res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.cache), "HIT");
   // cachedUsage resolves to undefined -> cachedCost = 0 -> the zero-cost sentinel header.
   assert.equal(
-    res.headers.get(OMNIROUTE_RESPONSE_HEADERS.responseCost),
+    res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.responseCost),
     "0.0000000000",
     "no usage -> zero responseCost header"
   );
@@ -310,10 +310,10 @@ test("checkSemanticCache HITs even when the cached body has no usage (cost falls
 
 // ─── Cache-HIT cost reporting (PRD-2026-06-19-cache-hit-cost-reporting) ───────
 // A HIT does NOT call upstream, so the INCREMENTAL cost of serving it is ≈0. The
-// X-OmniRoute-Response-Cost must therefore be 0 (so billing consumers don't charge
-// for cache hits), while the original cost is surfaced via X-OmniRoute-Cost-Saved.
+// X-Dragon Router-Response-Cost must therefore be 0 (so billing consumers don't charge
+// for cache hits), while the original cost is surfaced via X-Dragon Router-Cost-Saved.
 
-test("checkSemanticCache HIT bills 0 incremental cost and reports the original cost in X-OmniRoute-Cost-Saved", async () => {
+test("checkSemanticCache HIT bills 0 incremental cost and reports the original cost in X-Dragon Router-Cost-Saved", async () => {
   clearCache();
   const usage = { prompt_tokens: 1000, completion_tokens: 1000, total_tokens: 2000 };
   const cached = {
@@ -335,7 +335,7 @@ test("checkSemanticCache HIT bills 0 incremental cost and reports the original c
 
   // The original (would-have-been) cost — computed with the SAME calculator the handler
   // uses, against the same fresh DATA_DIR, so the values match deterministically.
-  const expectedSaved = formatOmniRouteCost(
+  const expectedSaved = formatDragon RouterCost(
     await calculateCost(args.provider, args.model, usage as Record<string, number>)
   );
   assert.notEqual(
@@ -348,18 +348,18 @@ test("checkSemanticCache HIT bills 0 incremental cost and reports the original c
   assert.ok(result, "HIT -> non-null result");
   const res = result.response as Response;
 
-  assert.equal(res.headers.get(OMNIROUTE_RESPONSE_HEADERS.cache), "HIT");
+  assert.equal(res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.cache), "HIT");
   // Incremental cost billed to the client on a HIT is 0 (no upstream call happened).
   assert.equal(
-    res.headers.get(OMNIROUTE_RESPONSE_HEADERS.responseCost),
+    res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.responseCost),
     "0.0000000000",
     "cache HIT must bill 0 incremental cost"
   );
   // The avoided cost is surfaced for cache analytics.
   assert.equal(
-    res.headers.get(OMNIROUTE_RESPONSE_HEADERS.costSaved),
+    res.headers.get(DRAGONROUTER_RESPONSE_HEADERS.costSaved),
     expectedSaved,
-    "X-OmniRoute-Cost-Saved reflects the original cost the cache avoided"
+    "X-Dragon Router-Cost-Saved reflects the original cost the cache avoided"
   );
 });
 

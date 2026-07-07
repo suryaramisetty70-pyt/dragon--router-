@@ -8,7 +8,7 @@ let tmpDir: string;
 let origHome: string | undefined;
 
 test.before(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), "omniroute-autostart-linux-"));
+  tmpDir = mkdtempSync(join(tmpdir(), "dragonrouter-autostart-linux-"));
   origHome = process.env.HOME;
   process.env.HOME = tmpDir;
 });
@@ -21,7 +21,7 @@ test.after(() => {
   } catch {}
 });
 
-test("resolveCliPath finds omniroute.mjs from argv", async () => {
+test("resolveCliPath finds dragonrouter.mjs from argv", async () => {
   const { enable, disable, getAutostartStatus } =
     await import("../../../bin/cli/tray/autostart.mjs");
   if (process.platform !== "linux") return;
@@ -29,8 +29,8 @@ test("resolveCliPath finds omniroute.mjs from argv", async () => {
   const ok = enable();
   assert.equal(typeof ok, "boolean");
 
-  const unitPath = join(tmpDir, ".config", "systemd", "user", "omniroute.service");
-  const desktopPath = join(tmpDir, ".config", "autostart", "omniroute.desktop");
+  const unitPath = join(tmpDir, ".config", "systemd", "user", "dragonrouter.service");
+  const desktopPath = join(tmpDir, ".config", "autostart", "dragonrouter.desktop");
 
   const status = getAutostartStatus();
   assert.equal(typeof status.enabled, "boolean");
@@ -38,7 +38,7 @@ test("resolveCliPath finds omniroute.mjs from argv", async () => {
   if (existsSync(unitPath)) {
     const unit = readFileSync(unitPath, "utf8");
     assert.match(unit, /^\[Unit\]/m);
-    assert.match(unit, /ExecStart=.*omniroute\.mjs.*serve --no-open/m);
+    assert.match(unit, /ExecStart=.*dragonrouter\.mjs.*serve --no-open/m);
     assert.doesNotMatch(unit, /--tray/);
   }
 

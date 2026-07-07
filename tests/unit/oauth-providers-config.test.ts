@@ -359,13 +359,13 @@ test("custom Google OAuth credentials switch Antigravity remote callbacks to NEX
     "antigravity",
     "http://localhost:20128/callback",
     {
-      NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com/",
+      NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com/",
       ANTIGRAVITY_OAUTH_CLIENT_ID: "custom-antigravity.apps.googleusercontent.com",
       ANTIGRAVITY_OAUTH_CLIENT_SECRET: "custom-antigravity-secret",
     }
   );
 
-  assert.equal(redirectUri, "https://omniroute.example.com/callback");
+  assert.equal(redirectUri, "https://dragonrouter.example.com/callback");
 });
 
 test("custom Google OAuth callbacks preserve the requested callback path and query", () => {
@@ -373,33 +373,33 @@ test("custom Google OAuth callbacks preserve the requested callback path and que
     "antigravity",
     "http://127.0.0.1:20128/auth/callback?source=popup",
     {
-      NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com/base",
+      NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com/base",
       ANTIGRAVITY_OAUTH_CLIENT_ID: "custom-antigravity.apps.googleusercontent.com",
       ANTIGRAVITY_OAUTH_CLIENT_SECRET: "custom-antigravity-secret",
     }
   );
 
-  assert.equal(redirectUri, "https://omniroute.example.com/base/auth/callback?source=popup");
+  assert.equal(redirectUri, "https://dragonrouter.example.com/base/auth/callback?source=popup");
 });
 
 test("custom Google OAuth credentials switch IPv6 loopback callbacks to public base URL", () => {
   const redirectUri = resolveBrowserOAuthRedirectUri("antigravity", "http://[::1]:20128/callback", {
-    NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com",
+    NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com",
     ANTIGRAVITY_OAUTH_CLIENT_ID: "custom-antigravity.apps.googleusercontent.com",
     ANTIGRAVITY_OAUTH_CLIENT_SECRET: "custom-antigravity-secret",
   });
 
-  assert.equal(redirectUri, "https://omniroute.example.com/callback");
+  assert.equal(redirectUri, "https://dragonrouter.example.com/callback");
 });
 
 test("custom Google OAuth callbacks default root loopback paths to callback path", () => {
   const redirectUri = resolveBrowserOAuthRedirectUri("antigravity", "http://127.0.0.1:20128", {
-    NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com",
+    NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com",
     ANTIGRAVITY_OAUTH_CLIENT_ID: "custom-antigravity.apps.googleusercontent.com",
     ANTIGRAVITY_OAUTH_CLIENT_SECRET: "custom-antigravity-secret",
   });
 
-  assert.equal(redirectUri, "https://omniroute.example.com/callback");
+  assert.equal(redirectUri, "https://dragonrouter.example.com/callback");
 });
 
 test("Google OAuth callbacks stay on loopback when custom credentials are incomplete", () => {
@@ -407,7 +407,7 @@ test("Google OAuth callbacks stay on loopback when custom credentials are incomp
     "antigravity",
     "http://127.0.0.1:20128/callback",
     {
-      NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com",
+      NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com",
       ANTIGRAVITY_OAUTH_CLIENT_ID: "custom-antigravity.apps.googleusercontent.com",
     }
   );
@@ -420,7 +420,7 @@ test("Google OAuth callbacks stay on localhost when no custom credentials are co
     "antigravity",
     "http://localhost:20128/callback",
     {
-      NEXT_PUBLIC_BASE_URL: "https://omniroute.example.com",
+      NEXT_PUBLIC_BASE_URL: "https://dragonrouter.example.com",
     }
   );
 

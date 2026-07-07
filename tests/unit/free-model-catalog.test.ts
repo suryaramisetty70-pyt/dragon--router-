@@ -84,7 +84,7 @@ test("2026-06-17 refresh: discontinued providers dropped, new free providers add
   for (const dead of ["chutes", "phind", "kluster", "glhf", "gitlawb", "aimlapi", "theoldllm"]) {
     assert.ok(!providers.has(dead), `${dead} should be removed (discontinued)`);
   }
-  // qwen-web is KEPT on purpose: only its OAuth API tier died — OmniRoute uses the cookie/web path.
+  // qwen-web is KEPT on purpose: only its OAuth API tier died — Dragon Router uses the cookie/web path.
   assert.ok(providers.has("qwen-web"), "qwen-web must stay (cookie path still free)");
   // discovered in the refresh — must be present
   for (const fresh of ["kilo-gateway", "opencode-zen", "glm-cn"]) {

@@ -40,7 +40,7 @@ test("T40: OpenCode config path resolves per-platform", () => {
   assert.equal(linuxDefault, path.join("/home/dev", ".config", "opencode", "opencode.json"));
 
   // #3330: OpenCode uses XDG `~/.config/opencode/` on ALL platforms including
-  // Windows (NOT %APPDATA%) — OmniRoute must write where OpenCode reads.
+  // Windows (NOT %APPDATA%) — Dragon Router must write where OpenCode reads.
   const windowsPath = resolveOpencodeConfigPath(
     "win32",
     { APPDATA: "C:\\Users\\dev\\AppData\\Roaming" },
@@ -79,8 +79,8 @@ test("T40: OpenCode config generator includes endpoint and selected API key", ()
     }
   );
   assert.ok(mergedConfig.provider.custom);
-  assert.equal(mergedConfig.provider.omniroute.options.baseURL, "http://localhost:20128/v1");
-  assert.equal(mergedConfig.provider.omniroute.options.apiKey, "sk_test_opencode");
+  assert.equal(mergedConfig.provider.dragonrouter.options.baseURL, "http://localhost:20128/v1");
+  assert.equal(mergedConfig.provider.dragonrouter.options.apiKey, "sk_test_opencode");
 });
 
 test("T40: OpenCode config document uses current provider schema", () => {
@@ -95,20 +95,20 @@ test("T40: OpenCode config document uses current provider schema", () => {
   });
 
   assert.equal(configDocument.$schema, "https://opencode.ai/config.json");
-  assert.ok(configDocument.provider.omniroute);
-  assert.equal(configDocument.provider.omniroute.npm, "@ai-sdk/openai-compatible");
-  assert.equal(configDocument.provider.omniroute.options.baseURL, "http://localhost:20128/v1");
-  assert.equal(configDocument.provider.omniroute.options.apiKey, "sk_test_opencode");
-  assert.deepEqual(Object.keys(configDocument.provider.omniroute.models), [
+  assert.ok(configDocument.provider.dragonrouter);
+  assert.equal(configDocument.provider.dragonrouter.npm, "@ai-sdk/openai-compatible");
+  assert.equal(configDocument.provider.dragonrouter.options.baseURL, "http://localhost:20128/v1");
+  assert.equal(configDocument.provider.dragonrouter.options.apiKey, "sk_test_opencode");
+  assert.deepEqual(Object.keys(configDocument.provider.dragonrouter.models), [
     "cc/claude-sonnet-4-20250514",
     "gg/gemini-2.5-pro",
   ]);
   assert.equal(
-    configDocument.provider.omniroute.models["cc/claude-sonnet-4-20250514"].name,
+    configDocument.provider.dragonrouter.models["cc/claude-sonnet-4-20250514"].name,
     "Claude Sonnet 4.5"
   );
   assert.equal(
-    configDocument.provider.omniroute.models["gg/gemini-2.5-pro"].name,
+    configDocument.provider.dragonrouter.models["gg/gemini-2.5-pro"].name,
     "Gemini 2.5 Pro"
   );
   assert.equal(configDocument.providers, undefined);
@@ -131,14 +131,14 @@ test("T40: OpenCode explicit multi-model selection overrides fallback defaults",
   assert.equal(providerConfig.models["custom/provider-b"].name, "Provider B");
 });
 
-test("T40: OpenCode merge preserves unrelated config and updates only provider.omniroute", () => {
+test("T40: OpenCode merge preserves unrelated config and updates only provider.dragonrouter", () => {
   const mergedConfig = mergeOpenCodeConfig(
     {
       $schema: "https://opencode.ai/config.json",
       provider: {
         custom: { name: "Custom Provider" },
-        omniroute: {
-          name: "Old OmniRoute",
+        dragonrouter: {
+          name: "Old Dragon Router",
           options: { baseURL: "http://old-host/v1", apiKey: "old-key" },
         },
       },
@@ -158,7 +158,7 @@ test("T40: OpenCode merge preserves unrelated config and updates only provider.o
   assert.deepEqual(mergedConfig.mcpServers, {
     github: { command: "npx", args: ["-y", "@modelcontextprotocol/server-github"] },
   });
-  assert.deepEqual(mergedConfig.provider.omniroute.models, {
+  assert.deepEqual(mergedConfig.provider.dragonrouter.models, {
     "cx/gpt-5.4": { name: "GPT-5.4" },
   });
 });

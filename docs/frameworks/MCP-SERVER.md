@@ -1,10 +1,10 @@
 ---
-title: "OmniRoute MCP Server Documentation"
+title: "Dragon Router MCP Server Documentation"
 version: 3.8.40
 lastUpdated: 2026-06-28
 ---
 
-# OmniRoute MCP Server Documentation
+# Dragon Router MCP Server Documentation
 
 > Model Context Protocol server with 94 tools across routing, cache, compression, memory, skills, proxy, pool, and context source operations.
 >
@@ -16,17 +16,17 @@ lastUpdated: 2026-06-28
 
 ## Installation
 
-OmniRoute MCP is built-in. Start it with:
+Dragon Router MCP is built-in. Start it with:
 
 ```bash
-omniroute --mcp
+dragonrouter --mcp
 ```
 
 Or via the open-sse transport:
 
 ```bash
 # HTTP streamable transport (port 20130)
-omniroute --dev  # MCP auto-starts on /mcp endpoint
+dragonrouter --dev  # MCP auto-starts on /mcp endpoint
 ```
 
 ## Transports
@@ -72,62 +72,62 @@ Cursor, Cline, and compatible MCP client setup.
 
 | Tool                            | Scopes                | Description                                                   |
 | :------------------------------ | :-------------------- | :------------------------------------------------------------ |
-| `omniroute_get_health`          | `read:health`         | Uptime, memory, circuit breakers, rate limits, cache stats    |
-| `omniroute_list_combos`         | `read:combos`         | All configured combos with strategies (optional metrics)      |
-| `omniroute_get_combo_metrics`   | `read:combos`         | Performance metrics for a specific combo                      |
-| `omniroute_switch_combo`        | `write:combos`        | Activate or deactivate a combo                                |
-| `omniroute_check_quota`         | `read:quota`          | Quota used/total, percent remaining, reset time, token health |
-| `omniroute_route_request`       | `execute:completions` | Send a chat completion through OmniRoute routing              |
-| `omniroute_cost_report`         | `read:usage`          | Cost report by period (session/day/week/month)                |
-| `omniroute_list_models_catalog` | `read:models`         | Full model catalog with capabilities, status, pricing         |
+| `dragonrouter_get_health`          | `read:health`         | Uptime, memory, circuit breakers, rate limits, cache stats    |
+| `dragonrouter_list_combos`         | `read:combos`         | All configured combos with strategies (optional metrics)      |
+| `dragonrouter_get_combo_metrics`   | `read:combos`         | Performance metrics for a specific combo                      |
+| `dragonrouter_switch_combo`        | `write:combos`        | Activate or deactivate a combo                                |
+| `dragonrouter_check_quota`         | `read:quota`          | Quota used/total, percent remaining, reset time, token health |
+| `dragonrouter_route_request`       | `execute:completions` | Send a chat completion through Dragon Router routing              |
+| `dragonrouter_cost_report`         | `read:usage`          | Cost report by period (session/day/week/month)                |
+| `dragonrouter_list_models_catalog` | `read:models`         | Full model catalog with capabilities, status, pricing         |
 
 ## Phase 1 — Search
 
 | Tool                   | Scopes           | Description                                                                                                                        |
 | :--------------------- | :--------------- | :--------------------------------------------------------------------------------------------------------------------------------- |
-| `omniroute_web_search` | `execute:search` | Web search through OmniRoute search gateway (Serper/Brave/Perplexity/Exa/Tavily/Google PSE/Linkup/SearchAPI/SearXNG) with failover |
+| `dragonrouter_web_search` | `execute:search` | Web search through Dragon Router search gateway (Serper/Brave/Perplexity/Exa/Tavily/Google PSE/Linkup/SearchAPI/SearXNG) with failover |
 
 ## Advanced Tools (11) — Phase 2
 
 | Tool                               | Scopes                               | Description                                                                               |
 | :--------------------------------- | :----------------------------------- | :---------------------------------------------------------------------------------------- |
-| `omniroute_simulate_route`         | `read:health`, `read:combos`         | Dry-run routing simulation with fallback tree                                             |
-| `omniroute_set_budget_guard`       | `write:budget`                       | Session budget with degrade/block/alert action                                            |
-| `omniroute_set_routing_strategy`   | `write:combos`                       | Update combo strategy at runtime (priority/weighted/auto/etc.)                            |
-| `omniroute_set_resilience_profile` | `write:resilience`                   | Apply `aggressive` / `balanced` / `conservative` resilience preset                        |
-| `omniroute_test_combo`             | `execute:completions`, `read:combos` | Live test of every provider in a combo using a real upstream call                         |
-| `omniroute_get_provider_metrics`   | `read:health`                        | Per-provider metrics with p50/p95/p99 latency and circuit breaker state                   |
-| `omniroute_best_combo_for_task`    | `read:combos`, `read:health`         | Recommend combo by task type with budget/latency constraints                              |
-| `omniroute_explain_route`          | `read:health`, `read:usage`          | Explain why a request was routed to a provider (scoring factors + fallbacks)              |
-| `omniroute_get_session_snapshot`   | `read:usage`                         | Full session snapshot: cost, tokens, top models/providers, errors, budget guard           |
-| `omniroute_db_health_check`        | `read:health`, `write:resilience`    | Diagnose (and optionally auto-repair) database drift like broken combo refs / orphan rows |
-| `omniroute_sync_pricing`           | `pricing:write`                      | Sync pricing data from external sources (LiteLLM); supports `dryRun`                      |
+| `dragonrouter_simulate_route`         | `read:health`, `read:combos`         | Dry-run routing simulation with fallback tree                                             |
+| `dragonrouter_set_budget_guard`       | `write:budget`                       | Session budget with degrade/block/alert action                                            |
+| `dragonrouter_set_routing_strategy`   | `write:combos`                       | Update combo strategy at runtime (priority/weighted/auto/etc.)                            |
+| `dragonrouter_set_resilience_profile` | `write:resilience`                   | Apply `aggressive` / `balanced` / `conservative` resilience preset                        |
+| `dragonrouter_test_combo`             | `execute:completions`, `read:combos` | Live test of every provider in a combo using a real upstream call                         |
+| `dragonrouter_get_provider_metrics`   | `read:health`                        | Per-provider metrics with p50/p95/p99 latency and circuit breaker state                   |
+| `dragonrouter_best_combo_for_task`    | `read:combos`, `read:health`         | Recommend combo by task type with budget/latency constraints                              |
+| `dragonrouter_explain_route`          | `read:health`, `read:usage`          | Explain why a request was routed to a provider (scoring factors + fallbacks)              |
+| `dragonrouter_get_session_snapshot`   | `read:usage`                         | Full session snapshot: cost, tokens, top models/providers, errors, budget guard           |
+| `dragonrouter_db_health_check`        | `read:health`, `write:resilience`    | Diagnose (and optionally auto-repair) database drift like broken combo refs / orphan rows |
+| `dragonrouter_sync_pricing`           | `pricing:write`                      | Sync pricing data from external sources (LiteLLM); supports `dryRun`                      |
 
 ## Cache Tools (2)
 
 | Tool                    | Scopes        | Description                                         |
 | :---------------------- | :------------ | :-------------------------------------------------- |
-| `omniroute_cache_stats` | `read:cache`  | Semantic cache, prompt-cache, and idempotency stats |
-| `omniroute_cache_flush` | `write:cache` | Flush cache globally or by signature/model          |
+| `dragonrouter_cache_stats` | `read:cache`  | Semantic cache, prompt-cache, and idempotency stats |
+| `dragonrouter_cache_flush` | `write:cache` | Flush cache globally or by signature/model          |
 
 ## Compression Tools (5)
 
 | Tool                                | Scopes              | Description                                                                                                              |
 | :---------------------------------- | :------------------ | :----------------------------------------------------------------------------------------------------------------------- |
-| `omniroute_compression_status`      | `read:compression`  | Compression settings, analytics summary, and cache-aware stats (includes `analytics.mcpDescriptionCompression` metadata) |
-| `omniroute_compression_configure`   | `write:compression` | Configure compression mode, threshold, target ratio, system-prompt preservation, MCP description compression toggle      |
-| `omniroute_set_compression_engine`  | `write:compression` | Pick the active engine (off/caveman/rtk/stacked) and Caveman/RTK intensity                                               |
-| `omniroute_list_compression_combos` | `read:compression`  | List named compression combos and their engine pipelines                                                                 |
-| `omniroute_compression_combo_stats` | `read:compression`  | Analytics grouped by compression combo and engine                                                                        |
+| `dragonrouter_compression_status`      | `read:compression`  | Compression settings, analytics summary, and cache-aware stats (includes `analytics.mcpDescriptionCompression` metadata) |
+| `dragonrouter_compression_configure`   | `write:compression` | Configure compression mode, threshold, target ratio, system-prompt preservation, MCP description compression toggle      |
+| `dragonrouter_set_compression_engine`  | `write:compression` | Pick the active engine (off/caveman/rtk/stacked) and Caveman/RTK intensity                                               |
+| `dragonrouter_list_compression_combos` | `read:compression`  | List named compression combos and their engine pipelines                                                                 |
+| `dragonrouter_compression_combo_stats` | `read:compression`  | Analytics grouped by compression combo and engine                                                                        |
 
-`omniroute_compression_status` reports MCP description compression separately under
+`dragonrouter_compression_status` reports MCP description compression separately under
 `analytics.mcpDescriptionCompression`. Those values are metadata-size estimates for MCP listable
 descriptions (`tools`, `prompts`, `resources`, and `resourceTemplates`); they are not provider usage
 receipts and are marked with `source: "mcp_metadata_estimate"`.
 
 ### MCP Accessibility Tree Filter (v3.8.0)
 
-Separate from the 5 compression tools above, OmniRoute includes a post-execution filter that
+Separate from the 5 compression tools above, Dragon Router includes a post-execution filter that
 compresses the **tool results** of MCP browser/accessibility tools before they are returned to the
 agent. This filter is not itself a tool — it runs transparently on any tool result that contains
 verbose accessibility-tree or browser-snapshot text (≥2000 chars).
@@ -150,9 +150,9 @@ the runtime compression model behind these tools.
 
 | Tool                        | Scopes         | Description                                                                             |
 | :-------------------------- | :------------- | :-------------------------------------------------------------------------------------- |
-| `omniroute_oneproxy_fetch`  | `read:proxies` | Fetch free proxies from the 1proxy marketplace (protocol/country/quality/limit filters) |
-| `omniroute_oneproxy_rotate` | `read:proxies` | Get the next available proxy by strategy (`random` / `quality` / `sequential`)          |
-| `omniroute_oneproxy_stats`  | `read:proxies` | Pool stats, sync status, distribution by protocol and country                           |
+| `dragonrouter_oneproxy_fetch`  | `read:proxies` | Fetch free proxies from the 1proxy marketplace (protocol/country/quality/limit filters) |
+| `dragonrouter_oneproxy_rotate` | `read:proxies` | Get the next available proxy by strategy (`random` / `quality` / `sequential`)          |
+| `dragonrouter_oneproxy_stats`  | `read:proxies` | Pool stats, sync status, distribution by protocol and country                           |
 
 ## Memory Tools (3)
 
@@ -160,9 +160,9 @@ Defined in `open-sse/mcp-server/tools/memoryTools.ts`. Auth/scope is enforced th
 
 | Tool                      | Scopes         | Description                                                                         |
 | :------------------------ | :------------- | :---------------------------------------------------------------------------------- |
-| `omniroute_memory_search` | `read:memory`  | Search memories by query / type / API key with token-budget enforcement             |
-| `omniroute_memory_add`    | `write:memory` | Add a new memory entry (`factual` / `episodic` / `procedural` / `semantic`)         |
-| `omniroute_memory_clear`  | `write:memory` | Clear memories for an API key, optionally filtered by type or `olderThan` timestamp |
+| `dragonrouter_memory_search` | `read:memory`  | Search memories by query / type / API key with token-budget enforcement             |
+| `dragonrouter_memory_add`    | `write:memory` | Add a new memory entry (`factual` / `episodic` / `procedural` / `semantic`)         |
+| `dragonrouter_memory_clear`  | `write:memory` | Clear memories for an API key, optionally filtered by type or `olderThan` timestamp |
 
 ## Skill Tools (4)
 
@@ -170,10 +170,10 @@ Defined in `open-sse/mcp-server/tools/skillTools.ts`. Backed by `src/lib/skills/
 
 | Tool                          | Scopes           | Description                                                                       |
 | :---------------------------- | :--------------- | :-------------------------------------------------------------------------------- |
-| `omniroute_skills_list`       | `read:skills`    | List registered skills with optional filtering by API key, name, or enabled state |
-| `omniroute_skills_enable`     | `write:skills`   | Enable or disable a specific skill by ID                                          |
-| `omniroute_skills_execute`    | `execute:skills` | Execute a skill with provided input and return the execution record               |
-| `omniroute_skills_executions` | `read:skills`    | List recent skill execution history                                               |
+| `dragonrouter_skills_list`       | `read:skills`    | List registered skills with optional filtering by API key, name, or enabled state |
+| `dragonrouter_skills_enable`     | `write:skills`   | Enable or disable a specific skill by ID                                          |
+| `dragonrouter_skills_execute`    | `execute:skills` | Execute a skill with provided input and return the execution record               |
+| `dragonrouter_skills_executions` | `read:skills`    | List recent skill execution history                                               |
 
 ## Notion Context Source (6)
 
@@ -209,9 +209,9 @@ Defined in `open-sse/mcp-server/tools/agentSkillTools.ts`. Backed by `src/lib/ag
 
 | Tool                              | Scopes         | Description                                                                                                      |
 | :-------------------------------- | :------------- | :--------------------------------------------------------------------------------------------------------------- |
-| `omniroute_agent_skills_list`     | `read:catalog` | List all 42 agent skills with optional `category` (api\|cli) and `area` filters; returns metadata + coverage     |
-| `omniroute_agent_skills_get`      | `read:catalog` | Get full metadata + SKILL.md content for a single skill by canonical `id`                                        |
-| `omniroute_agent_skills_coverage` | `read:catalog` | Coverage stats: how many of the 22 API and 20 CLI skills have SKILL.md files on the filesystem vs catalog totals |
+| `dragonrouter_agent_skills_list`     | `read:catalog` | List all 42 agent skills with optional `category` (api\|cli) and `area` filters; returns metadata + coverage     |
+| `dragonrouter_agent_skills_get`      | `read:catalog` | Get full metadata + SKILL.md content for a single skill by canonical `id`                                        |
+| `dragonrouter_agent_skills_coverage` | `read:catalog` | Coverage stats: how many of the 22 API and 20 CLI skills have SKILL.md files on the filesystem vs catalog totals |
 
 See [AGENT-SKILLS.md](./AGENT-SKILLS.md) for the full catalog and how external agents consume it.
 
@@ -224,7 +224,7 @@ frameworks ship alongside the MCP server in v3.8.0 and are documented separately
 ### Cloud Agents
 
 Cloud Agents are out-of-process AI coding agents (codex-cloud, devin, jules) wired into
-OmniRoute through the same connection model used for LLM providers. They are exposed via
+Dragon Router through the same connection model used for LLM providers. They are exposed via
 their own REST surface (`/api/v1/agents/*`) and are **not** part of the MCP tool catalog
 — calling a Cloud Agent does not consume an MCP scope.
 
@@ -304,15 +304,15 @@ Wildcard scopes are supported: `read:*` grants all read-scopes, `*` grants full 
 
 | Variable                                | Default                            | Purpose                                                                                                                  |
 | :-------------------------------------- | :--------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
-| `OMNIROUTE_BASE_URL`                    | `http://localhost:20128`           | Base URL the MCP server uses when calling OmniRoute internal APIs                                                        |
-| `OMNIROUTE_API_KEY`                     | (empty)                            | API key forwarded as `Authorization: Bearer` to internal API calls                                                       |
-| `OMNIROUTE_MCP_ENFORCE_SCOPES`          | `false` (only `"true"` enables it) | When enabled, missing scopes deny tool calls and log `scope_denied:<reason>` in audit log                                |
-| `OMNIROUTE_MCP_SCOPES`                  | (empty)                            | Comma-separated allowlist of scopes considered "available" by default (used when caller does not provide its own scopes) |
-| `OMNIROUTE_MCP_COMPRESS_DESCRIPTIONS`   | (unset = on)                       | When set to `0/false/off/no`, disables MCP description compression at registration time                                  |
-| `OMNIROUTE_MCP_DESCRIPTION_COMPRESSION` | (unset = on)                       | Alternate alias for the same toggle as above                                                                             |
+| `DRAGONROUTER_BASE_URL`                    | `http://localhost:20128`           | Base URL the MCP server uses when calling Dragon Router internal APIs                                                        |
+| `DRAGONROUTER_API_KEY`                     | (empty)                            | API key forwarded as `Authorization: Bearer` to internal API calls                                                       |
+| `DRAGONROUTER_MCP_ENFORCE_SCOPES`          | `false` (only `"true"` enables it) | When enabled, missing scopes deny tool calls and log `scope_denied:<reason>` in audit log                                |
+| `DRAGONROUTER_MCP_SCOPES`                  | (empty)                            | Comma-separated allowlist of scopes considered "available" by default (used when caller does not provide its own scopes) |
+| `DRAGONROUTER_MCP_COMPRESS_DESCRIPTIONS`   | (unset = on)                       | When set to `0/false/off/no`, disables MCP description compression at registration time                                  |
+| `DRAGONROUTER_MCP_DESCRIPTION_COMPRESSION` | (unset = on)                       | Alternate alias for the same toggle as above                                                                             |
 | `MCP_TOOL_DENY`                         | (unset = no filter)                | Comma-separated tool names to drop from `tools/list` (tool-cardinality reduction — see below)                            |
 | `MCP_TOOL_ALLOW`                        | (unset = no filter)                | Comma-separated tool names to keep exclusively (allow-list mode — see below)                                             |
-| `DATA_DIR`                              | `~/.omniroute`                     | Heartbeat file is written to `${DATA_DIR}/runtime/mcp-heartbeat.json`                                                    |
+| `DATA_DIR`                              | `~/.dragonrouter`                     | Heartbeat file is written to `${DATA_DIR}/runtime/mcp-heartbeat.json`                                                    |
 
 ---
 
@@ -322,8 +322,8 @@ MCP tool, prompt, and resource registries can compress descriptions at registrat
 
 - Compression runs over the description text using the Caveman ruleset (`getRulesForContext("all", "full")`) with preserved-block extraction (code spans, fenced blocks, etc.) so structural content is not altered.
 - Toggle per-deployment via the `compression.mcpDescriptionCompressionEnabled` value in the `key_value` settings table (default: enabled) — exposed in the UI as **Analytics → MCP description compression**.
-- Toggle process-wide via either `OMNIROUTE_MCP_COMPRESS_DESCRIPTIONS=false` or `OMNIROUTE_MCP_DESCRIPTION_COMPRESSION=false`.
-- Realtime stats are surfaced via `omniroute_compression_status` under `analytics.mcpDescriptionCompression` and tagged `source: "mcp_metadata_estimate"` to disambiguate from real provider usage receipts.
+- Toggle process-wide via either `DRAGONROUTER_MCP_COMPRESS_DESCRIPTIONS=false` or `DRAGONROUTER_MCP_DESCRIPTION_COMPRESSION=false`.
+- Realtime stats are surfaced via `dragonrouter_compression_status` under `analytics.mcpDescriptionCompression` and tagged `source: "mcp_metadata_estimate"` to disambiguate from real provider usage receipts.
 
 ---
 
@@ -342,10 +342,10 @@ Description compression shrinks each tool's metadata; **tool-cardinality reducti
 
 ```bash
 # Drop two tools from the catalog
-MCP_TOOL_DENY="omniroute_get_health,omniroute_list_combos" omniroute --mcp
+MCP_TOOL_DENY="dragonrouter_get_health,dragonrouter_list_combos" dragonrouter --mcp
 
 # Announce only the routing + quota tools (allow-list mode)
-MCP_TOOL_ALLOW="omniroute_route_request,omniroute_check_quota" omniroute --mcp
+MCP_TOOL_ALLOW="dragonrouter_route_request,dragonrouter_check_quota" dragonrouter --mcp
 ```
 
 **How filtered tools are removed:** registration always succeeds; a tool the profile rejects is then `.disable()`d on the MCP SDK handle, so it never appears in `tools/list` but the wiring stays intact (clean enable/disable, no re-registration). The profile parser is `readMcpToolProfileFromEnv(process.env)`, which returns `null` (no filtering) when both vars are empty.

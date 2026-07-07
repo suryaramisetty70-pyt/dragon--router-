@@ -28,7 +28,7 @@ import {
 // Isolated temp DB for this test suite
 // ---------------------------------------------------------------------------
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-search-providers-catalog-")
+  path.join(os.tmpdir(), "dragonrouter-search-providers-catalog-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-api-key-secret-search-catalog";

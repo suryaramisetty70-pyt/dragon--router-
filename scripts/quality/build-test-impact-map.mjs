@@ -12,8 +12,8 @@ const EXTS = [".ts", ".tsx", ".mts", ".js", ".mjs"];
 function resolveImport(spec, fromFile) {
   let base;
   if (spec.startsWith("@/")) base = path.join(ROOT, "src", spec.slice(2));
-  else if (spec.startsWith("@omniroute/open-sse"))
-    base = path.join(ROOT, "open-sse", spec.replace(/^@omniroute\/open-sse\/?/, ""));
+  else if (spec.startsWith("@dragonrouter/open-sse"))
+    base = path.join(ROOT, "open-sse", spec.replace(/^@dragonrouter\/open-sse\/?/, ""));
   else if (spec.startsWith(".")) base = path.resolve(path.dirname(fromFile), spec);
   else return null;
   for (const e of EXTS) {

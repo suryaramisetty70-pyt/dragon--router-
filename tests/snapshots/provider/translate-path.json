@@ -800,8 +800,8 @@
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://cline.bot",
-        "User-Agent": "OmniRoute/<APP>",
-        "X-CLIENT-TYPE": "omniroute",
+        "User-Agent": "Dragon Router/<APP>",
+        "X-CLIENT-TYPE": "dragonrouter",
         "X-CLIENT-VERSION": "<APP>",
         "X-CORE-VERSION": "<APP>",
         "X-IS-MULTIROOT": "false",
@@ -813,8 +813,8 @@
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://cline.bot",
-        "User-Agent": "OmniRoute/<APP>",
-        "X-CLIENT-TYPE": "omniroute",
+        "User-Agent": "Dragon Router/<APP>",
+        "X-CLIENT-TYPE": "dragonrouter",
         "X-CLIENT-VERSION": "<APP>",
         "X-CORE-VERSION": "<APP>",
         "X-IS-MULTIROOT": "false",
@@ -827,8 +827,8 @@
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://cline.bot",
-        "User-Agent": "OmniRoute/<APP>",
-        "X-CLIENT-TYPE": "omniroute",
+        "User-Agent": "Dragon Router/<APP>",
+        "X-CLIENT-TYPE": "dragonrouter",
         "X-CLIENT-VERSION": "<APP>",
         "X-CORE-VERSION": "<APP>",
         "X-IS-MULTIROOT": "false",
@@ -2301,18 +2301,18 @@
         "Accept": "text/event-stream",
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
-        "X-KILOCODE-EDITORNAME": "OmniRoute"
+        "X-KILOCODE-EDITORNAME": "Dragon Router"
       },
       "nonStream": {
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
-        "X-KILOCODE-EDITORNAME": "OmniRoute"
+        "X-KILOCODE-EDITORNAME": "Dragon Router"
       },
       "oauth": {
         "Accept": "text/event-stream",
         "Authorization": "Bearer <TOK>",
         "Content-Type": "application/json",
-        "X-KILOCODE-EDITORNAME": "OmniRoute"
+        "X-KILOCODE-EDITORNAME": "Dragon Router"
       }
     },
     "url": {

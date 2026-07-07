@@ -9,18 +9,18 @@ let origDataDir: string | undefined;
 let origOmniLang: string | undefined;
 
 test.before(() => {
-  tmpDir = mkdtempSync(join(tmpdir(), "omniroute-lang-test-"));
+  tmpDir = mkdtempSync(join(tmpdir(), "dragonrouter-lang-test-"));
   origDataDir = process.env.DATA_DIR;
-  origOmniLang = process.env.OMNIROUTE_LANG;
+  origOmniLang = process.env.DRAGONROUTER_LANG;
   process.env.DATA_DIR = tmpDir;
-  delete process.env.OMNIROUTE_LANG;
+  delete process.env.DRAGONROUTER_LANG;
 });
 
 test.after(() => {
   if (origDataDir === undefined) delete process.env.DATA_DIR;
   else process.env.DATA_DIR = origDataDir;
-  if (origOmniLang === undefined) delete process.env.OMNIROUTE_LANG;
-  else process.env.OMNIROUTE_LANG = origOmniLang;
+  if (origOmniLang === undefined) delete process.env.DRAGONROUTER_LANG;
+  else process.env.DRAGONROUTER_LANG = origOmniLang;
   try {
     rmSync(tmpDir, { recursive: true, force: true });
   } catch {}
@@ -157,7 +157,7 @@ test("runConfigLangSetCommand salva locale no .env e chama setLocale imediatamen
     const envPath = join(tmpDir, ".env");
     assert.ok(existsSync(envPath), ".env deve existir após set");
     const content = readFileSync(envPath, "utf8");
-    assert.ok(content.includes("OMNIROUTE_LANG=pt-BR"), "Deve persistir OMNIROUTE_LANG=pt-BR");
+    assert.ok(content.includes("DRAGONROUTER_LANG=pt-BR"), "Deve persistir DRAGONROUTER_LANG=pt-BR");
     assert.equal(getLocale(), "pt-BR", "setLocale deve ter sido chamado imediatamente em-processo");
   } finally {
     console.log = origLog;
@@ -238,7 +238,7 @@ test("runConfigLangSetCommand --force salva mesmo quando locale já ativo", asyn
     const envPath = join(tmpDir, ".env");
     if (existsSync(envPath)) {
       const content = readFileSync(envPath, "utf8");
-      assert.ok(content.includes("OMNIROUTE_LANG=en"), "Deve ter gravado OMNIROUTE_LANG=en");
+      assert.ok(content.includes("DRAGONROUTER_LANG=en"), "Deve ter gravado DRAGONROUTER_LANG=en");
     }
   } finally {
     console.log = origLog;
@@ -255,7 +255,7 @@ test("runConfigLangSetCommand atualiza chave sem duplicar quando já existe", as
   setLocale("en");
 
   const envPath = join(tmpDir, ".env");
-  writeFileSync(envPath, "OMNIROUTE_LANG=de\n", "utf8");
+  writeFileSync(envPath, "DRAGONROUTER_LANG=de\n", "utf8");
 
   const chunks: string[] = [];
   const origLog = console.log;
@@ -265,9 +265,9 @@ test("runConfigLangSetCommand atualiza chave sem duplicar quando já existe", as
     const exitCode = await runConfigLangSetCommand("pt-BR", { force: true });
     assert.equal(exitCode, 0);
     const content = readFileSync(envPath, "utf8");
-    assert.ok(content.includes("OMNIROUTE_LANG=pt-BR"), "Deve ter atualizado para pt-BR");
-    const matches = content.match(/OMNIROUTE_LANG=/g);
-    assert.equal(matches?.length, 1, "Deve ter exatamente uma ocorrência de OMNIROUTE_LANG");
+    assert.ok(content.includes("DRAGONROUTER_LANG=pt-BR"), "Deve ter atualizado para pt-BR");
+    const matches = content.match(/DRAGONROUTER_LANG=/g);
+    assert.equal(matches?.length, 1, "Deve ter exatamente uma ocorrência de DRAGONROUTER_LANG");
   } finally {
     console.log = origLog;
     resetForTests();

@@ -8,7 +8,7 @@ import path from "node:path";
 // login protection is ON — on a fresh DB (CI) isAuthRequired() is false and the
 // policy anonymous-allows before any token check. Locally this only passed
 // because the dev DATA_DIR had a real password. Isolate + enable protection.
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-mgmt-cli-token-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-mgmt-cli-token-"));
 const originalDataDir = process.env.DATA_DIR;
 process.env.DATA_DIR = TEST_DATA_DIR;
 

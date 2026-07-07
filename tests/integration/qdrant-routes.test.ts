@@ -21,7 +21,7 @@ import {
   createManagementSessionHeaders,
 } from "../helpers/managementSession.ts";
 
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-qdrant-routes-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-qdrant-routes-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-secret-qdrant-routes";
 
@@ -88,7 +88,7 @@ test.beforeEach(async () => {
     qdrantEnabled: false,
     qdrantHost: "",
     qdrantPort: 6333,
-    qdrantCollection: "omniroute_memory",
+    qdrantCollection: "dragonrouter_memory",
     qdrantEmbeddingModel: "openai/text-embedding-3-small",
   });
 });

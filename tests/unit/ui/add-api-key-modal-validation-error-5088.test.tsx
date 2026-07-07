@@ -20,7 +20,7 @@ const { default: AddApiKeyModal } =
 
 const TLS_EACCES_ERROR =
   "TLS impersonation client failed to start: EACCES: permission denied, mkdir " +
-  "'/usr/lib/node_modules/omniroute/dist/node_modules/tls-client-node/bin'. " +
+  "'/usr/lib/node_modules/dragonrouter/dist/node_modules/tls-client-node/bin'. " +
   "Verify tls-client-node is installed and its native binary downloaded. " +
   "(claude-web requires this — without it, Cloudflare blocks every request)";
 

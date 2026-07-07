@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 
 // Isolate DB state to avoid polluting production database
-const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-test-pii-"));
+const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-test-pii-"));
 process.env.DATA_DIR = tmpDir;
 
 test("sanitizePII checks resolveFeatureFlag, not process.env", async (t) => {

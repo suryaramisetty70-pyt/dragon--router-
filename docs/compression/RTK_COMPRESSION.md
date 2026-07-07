@@ -6,7 +6,7 @@ lastUpdated: 2026-06-28
 
 # RTK Compression
 
-RTK compression is OmniRoute's command-aware compression engine for terminal and tool output. It is
+RTK compression is Dragon Router's command-aware compression engine for terminal and tool output. It is
 designed for coding-agent sessions where most context growth comes from test logs, build output,
 package manager noise, shell transcripts, Docker output, git output, and stack traces.
 
@@ -19,7 +19,7 @@ rtk -> caveman
 That order compresses noisy machine output first, then lets Caveman condense remaining prose.
 
 Upstream RTK reports `60-90%` command-output savings. Its README sample session goes from
-`~118,000` standard tokens to `~23,900` RTK tokens, which is `79.7%` saved (`~80%`). OmniRoute uses
+`~118,000` standard tokens to `~23,900` RTK tokens, which is `79.7%` saved (`~80%`). Dragon Router uses
 that upstream average for the stacked savings calculation with Caveman input compression:
 
 ```txt
@@ -60,7 +60,7 @@ Project filters are intentionally trust-gated because regex filters can change h
 shown to agents. A project filter file is accepted when one of these is true:
 
 - `rtkConfig.trustProjectFilters` is `true`.
-- `OMNIROUTE_RTK_TRUST_PROJECT_FILTERS=1` is set.
+- `DRAGONROUTER_RTK_TRUST_PROJECT_FILTERS=1` is set.
 - `.rtk/trust.json` contains the SHA-256 hash of `.rtk/filters.json`.
 
 Trust file example:
@@ -393,12 +393,12 @@ Both the **head** and **tail** of each section are preserved; middle content is 
 
 **Programmatically**:
 
-`rtkEngine` (`@omniroute/open-sse/services/compression/engines/rtk`) is a
+`rtkEngine` (`@dragonrouter/open-sse/services/compression/engines/rtk`) is a
 `CompressionEngine` and has no `updateConfig` method. Update an engine's config
 through the registry helper instead:
 
 ```ts
-import { updateEngineConfig } from "@omniroute/open-sse/services/compression/engines/registry";
+import { updateEngineConfig } from "@dragonrouter/open-sse/services/compression/engines/registry";
 
 updateEngineConfig("rtk", { intensity: "aggressive" });
 ```
@@ -408,7 +408,7 @@ updateEngineConfig("rtk", { intensity: "aggressive" });
 Use the **Verify Gate** (see below) to confirm your filter is safe at your chosen intensity:
 
 ```ts
-import { runRtkFilterTests } from "omniroute/compression/engines/rtk/verify";
+import { runRtkFilterTests } from "dragonrouter/compression/engines/rtk/verify";
 
 const result = runRtkFilterTests({ intensity: "aggressive" });
 if (!result.passed) {
@@ -522,20 +522,20 @@ The `engines/rtk/filters/` directory contains **49+ built-in filter JSON files**
 Place the file in a recognized location:
 
 ```
-~/.omniroute/rtk/filters/my-filter.json     # User-level
+~/.dragonrouter/rtk/filters/my-filter.json     # User-level
 <project>/.rtk/filters/my-filter.json      # Project-level
 ```
 
 Filters are loaded automatically on startup via `loadRtkFilters()` in `open-sse/services/compression/engines/rtk/filterLoader.ts`. The loader discovers filters from:
 
 - Built-in catalog: `open-sse/services/compression/engines/rtk/filters/`
-- User directory: `~/.omniroute/rtk/filters/`
+- User directory: `~/.dragonrouter/rtk/filters/`
 - Project directory: `<project>/.rtk/filters/`
 
 To load filters programmatically:
 
 ```ts
-import { loadRtkFilters } from "@omniroute/open-sse/services/compression/engines/rtk/filterLoader";
+import { loadRtkFilters } from "@dragonrouter/open-sse/services/compression/engines/rtk/filterLoader";
 
 // Options: customFiltersEnabled (load user/project filters, default on),
 // trustProjectFilters, refresh.
@@ -614,7 +614,7 @@ RTK compress (with rawOutput.enabled=true)
 ### Recovering the Original
 
 ```ts
-import { readRtkRawOutput } from "omniroute/compression/engines/rtk/rawOutput";
+import { readRtkRawOutput } from "dragonrouter/compression/engines/rtk/rawOutput";
 
 const raw = readRtkRawOutput(pointerId); // pointerId from compression stats
 if (raw) {

@@ -20,7 +20,7 @@ import path from "node:path";
 
 // Set up a temp DATA_DIR so getDbInstance() initialises cleanly
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-improve-prompt-")
+  path.join(os.tmpdir(), "dragonrouter-improve-prompt-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 // Disable mandatory auth for most tests

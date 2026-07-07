@@ -49,8 +49,8 @@ function makeSkill(overrides: Partial<AgentSkill> = {}): AgentSkill {
     area: "providers",
     icon: "hub",
     endpoints: ["POST /api/providers", "GET /api/providers"],
-    rawUrl: "https://raw.githubusercontent.com/diegosouzapw/OmniRoute/refs/heads/main/skills/omni-providers/SKILL.md",
-    githubUrl: "https://github.com/diegosouzapw/OmniRoute/blob/main/skills/omni-providers/SKILL.md",
+    rawUrl: "https://raw.githubusercontent.com/diegosouzapw/Dragon Router/refs/heads/main/skills/omni-providers/SKILL.md",
+    githubUrl: "https://github.com/diegosouzapw/Dragon Router/blob/main/skills/omni-providers/SKILL.md",
     ...overrides,
   };
 }

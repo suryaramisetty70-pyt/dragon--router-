@@ -11,8 +11,8 @@ Inspect and manage circuit-breaker states, connection cooldowns, quota limits, a
 ## Quick install
 
 ```bash
-npm install -g omniroute   # or: npx omniroute
-omniroute --version
+npm install -g dragonrouter   # or: npx dragonrouter
+dragonrouter --version
 ```
 
 ## Subcommands
@@ -27,7 +27,7 @@ omniroute --version
 **Example:**
 
 ```bash
-omniroute quota
+dragonrouter quota
 ```
 
 ### `resilience`
@@ -35,7 +35,7 @@ omniroute quota
 **Example:**
 
 ```bash
-omniroute resilience
+dragonrouter resilience
 ```
 
 ### `resilience status`
@@ -47,7 +47,7 @@ omniroute resilience
 **Example:**
 
 ```bash
-omniroute resilience status
+dragonrouter resilience status
 ```
 
 ### `resilience breakers`
@@ -59,7 +59,7 @@ omniroute resilience status
 **Example:**
 
 ```bash
-omniroute resilience breakers
+dragonrouter resilience breakers
 ```
 
 ### `resilience cooldowns`
@@ -72,7 +72,7 @@ omniroute resilience breakers
 **Example:**
 
 ```bash
-omniroute resilience cooldowns
+dragonrouter resilience cooldowns
 ```
 
 ### `resilience lockouts`
@@ -85,7 +85,7 @@ omniroute resilience cooldowns
 **Example:**
 
 ```bash
-omniroute resilience lockouts
+dragonrouter resilience lockouts
 ```
 
 ### `resilience reset`
@@ -100,7 +100,7 @@ omniroute resilience lockouts
 **Example:**
 
 ```bash
-omniroute resilience reset
+dragonrouter resilience reset
 ```
 
 ### `resilience profile`
@@ -108,7 +108,7 @@ omniroute resilience reset
 **Example:**
 
 ```bash
-omniroute resilience profile
+dragonrouter resilience profile
 ```
 
 ### `resilience show`
@@ -116,7 +116,7 @@ omniroute resilience profile
 **Example:**
 
 ```bash
-omniroute resilience show
+dragonrouter resilience show
 ```
 
 ### `resilience set`
@@ -124,7 +124,7 @@ omniroute resilience show
 **Example:**
 
 ```bash
-omniroute resilience set
+dragonrouter resilience set
 ```
 
 ### `resilience config`
@@ -132,7 +132,7 @@ omniroute resilience set
 **Example:**
 
 ```bash
-omniroute resilience config
+dragonrouter resilience config
 ```
 
 ### `resilience show`
@@ -140,7 +140,7 @@ omniroute resilience config
 **Example:**
 
 ```bash
-omniroute resilience show
+dragonrouter resilience show
 ```
 
 ### `resilience set`
@@ -154,5 +154,5 @@ omniroute resilience show
 **Example:**
 
 ```bash
-omniroute resilience set
+dragonrouter resilience set
 ```

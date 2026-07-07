@@ -84,8 +84,8 @@ bun.lock
 llm.txt
 images
 clipr
-omnirouteCloud
-omnirouteSite
+dragonrouterCloud
+dragonrouterSite
 
 # Temporary/Scratch Folders
 _*

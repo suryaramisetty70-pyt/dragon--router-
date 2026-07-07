@@ -8,7 +8,7 @@ import path from "node:path";
 // IMPORTANT: DATA_DIR must be set BEFORE importing any module that imports core.ts,
 // because core.ts evaluates DATA_DIR at module load time. All imports of DB-touching
 // modules must be dynamic (after this line) to ensure the temp DB is used.
-const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-plugins-edge-"));
+const TEST_DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-plugins-edge-"));
 process.env.DATA_DIR = TEST_DATA_DIR;
 
 const core = await import("../../src/lib/db/core.ts");
@@ -41,7 +41,7 @@ function writeTestPlugin(opts: {
   configSchema?: Record<string, unknown>;
   indexJs?: string;
 }) {
-  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-edge-src-"));
+  const sourceDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-edge-src-"));
   const pluginDir = path.join(sourceDir, opts.name);
   fs.mkdirSync(pluginDir, { recursive: true });
 
@@ -110,7 +110,7 @@ test.after(() => {
 // ══════════════════════════════════════════
 
 test("scanner: empty directory returns empty results", async () => {
-  const emptyDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-scan-empty-"));
+  const emptyDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-scan-empty-"));
   activeSourceDirs.push(emptyDir);
   const result = await scanPluginDir(emptyDir);
   assert.deepEqual(result.plugins, []);
@@ -118,7 +118,7 @@ test("scanner: empty directory returns empty results", async () => {
 });
 
 test("scanner: directory with no manifest reports error", async () => {
-  const noManifestDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-scan-nomanifest-"));
+  const noManifestDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-scan-nomanifest-"));
   const pluginDir = path.join(noManifestDir, "some-plugin");
   fs.mkdirSync(pluginDir);
   fs.writeFileSync(path.join(pluginDir, "index.js"), "module.exports = {};");
@@ -131,7 +131,7 @@ test("scanner: directory with no manifest reports error", async () => {
 });
 
 test("scanner: invalid JSON manifest reports error", async () => {
-  const badDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-scan-badjson-"));
+  const badDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-scan-badjson-"));
   const pluginDir = path.join(badDir, "bad-json");
   fs.mkdirSync(pluginDir);
   fs.writeFileSync(path.join(pluginDir, "plugin.json"), "{invalid json!!!}}}");
@@ -145,7 +145,7 @@ test("scanner: invalid JSON manifest reports error", async () => {
 });
 
 test("scanner: missing required fields reports error", async () => {
-  const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-scan-missing-"));
+  const missingDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-scan-missing-"));
   const pluginDir = path.join(missingDir, "missing-fields");
   fs.mkdirSync(pluginDir);
   // Missing version
@@ -160,7 +160,7 @@ test("scanner: missing required fields reports error", async () => {
 });
 
 test("scanner: non-directory entries are skipped", async () => {
-  const mixedDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniroute-scan-mixed-"));
+  const mixedDir = fs.mkdtempSync(path.join(os.tmpdir(), "dragonrouter-scan-mixed-"));
   // Create a file (not a directory) that looks like a plugin
   fs.writeFileSync(path.join(mixedDir, "not-a-dir.json"), "{}");
   activeSourceDirs.push(mixedDir);

@@ -2,7 +2,7 @@
  * #5649 — CCR MCP retrieve principal resolution.
  *
  * CCR stores blocks keyed by `String(apiKeyInfo.id)` at compression time. The MCP
- * `omniroute_ccr_retrieve` tool used to resolve the caller via `extra.authInfo.clientId`
+ * `dragonrouter_ccr_retrieve` tool used to resolve the caller via `extra.authInfo.clientId`
  * (never populated for API-key auth) → "anonymous" → a store-key miss ("block not
  * found"). The fix resolves the caller's API-key id from the auth headers via the SAME
  * `getApiKeyMetadata` lookup, so retrieval matches storage — without weakening

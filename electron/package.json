@@ -1,14 +1,14 @@
 {
-  "name": "omniroute-desktop",
+  "name": "dragonrouter-desktop",
   "version": "3.8.45",
-  "description": "OmniRoute Desktop Application",
+  "description": "Dragon Router Desktop Application",
   "main": "main.js",
   "author": {
-    "name": "OmniRoute Team",
-    "email": "support@omniroute.online"
+    "name": "Dragon Router Team",
+    "email": "support@dragonrouter.online"
   },
   "license": "MIT",
-  "homepage": "https://omniroute.online",
+  "homepage": "https://dragonrouter.online",
   "engines": {
     "node": ">=22.22.2 <23 || >=24.0.0 <27"
   },
@@ -39,9 +39,9 @@
     "undici": "^7.28.0"
   },
   "build": {
-    "appId": "online.omniroute.desktop",
-    "productName": "OmniRoute",
-    "copyright": "Copyright © 2025 OmniRoute",
+    "appId": "online.dragonrouter.desktop",
+    "productName": "Dragon Router",
+    "copyright": "Copyright © 2025 Dragon Router",
     "directories": {
       "output": "dist-electron",
       "buildResources": "assets"
@@ -49,7 +49,7 @@
     "publish": {
       "provider": "github",
       "owner": "diegosouzapw",
-      "repo": "OmniRoute"
+      "repo": "Dragon Router"
     },
     "files": [
       "main.js",

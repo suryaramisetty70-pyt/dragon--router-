@@ -1,5 +1,5 @@
 /**
- * Gap 8 regression: every host OmniRoute can spoof in startMitm() must be
+ * Gap 8 regression: every host Dragon Router can spoof in startMitm() must be
  * enumerated by collectManagedHosts() so stopMitm() can remove it. Without
  * this, agent + custom-host /etc/hosts lines leak across start/stop cycles and
  * keep hijacking those hostnames machine-wide after the user thinks MITM is off.
@@ -14,7 +14,7 @@ import os from "node:os";
 import path from "node:path";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-mitm-cleanup-symmetry-")
+  path.join(os.tmpdir(), "dragonrouter-mitm-cleanup-symmetry-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 

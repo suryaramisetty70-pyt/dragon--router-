@@ -11,7 +11,7 @@ lastUpdated: 2026-06-28
 > `src/app/(dashboard)/dashboard/plugins/`
 > **Last updated:** 2026-06-28 — v3.8.40
 
-OmniRoute ships a WordPress-style plugin system. Plugins are self-contained
+Dragon Router ships a WordPress-style plugin system. Plugins are self-contained
 directories — each with a `plugin.json` manifest and an entry file — that hook
 into the request pipeline (`onRequest` / `onResponse` / `onError`) and into
 lifecycle events (`onInstall` / `onActivate` / `onDeactivate` / `onUninstall`).
@@ -153,16 +153,16 @@ are allowed through.
 
 ### Plugin directory
 
-Plugins live under the OmniRoute data directory:
+Plugins live under the Dragon Router data directory:
 
 ```
-~/.omniroute/plugins/<plugin-name>/
+~/.dragonrouter/plugins/<plugin-name>/
   ├─ plugin.json
   └─ index.js          # (or whatever manifest.main points to)
 ```
 
 `getDefaultPluginDir()` (`src/lib/plugins/scanner.ts`) resolves this to
-`<home>/.omniroute/plugins`, where `<home>` is taken from the `HOME` /
+`<home>/.dragonrouter/plugins`, where `<home>` is taken from the `HOME` /
 `USERPROFILE` environment variables. `POST /api/plugins/scan` discovers any
 subdirectory there that holds a valid `plugin.json` and registers it.
 
@@ -256,7 +256,7 @@ Validated by `PluginManifestSchema` (`src/lib/plugins/manifest.ts`):
 | `main`             | string?   | Entry file; defaults to `index.js`                          |
 | `source`           | enum?     | `local` \| `marketplace` (defaults to `local`)              |
 | `tags`             | string[]? | Search tags                                                 |
-| `requires`         | object?   | `{ omniroute?, permissions[] }`                             |
+| `requires`         | object?   | `{ dragonrouter?, permissions[] }`                             |
 | `hooks`            | object?   | Booleans declaring which hooks the plugin implements        |
 | `skills`           | object[]? | Optional skill definitions                                  |
 | `enabledByDefault` | boolean?  | Auto-activate on install                                    |
@@ -271,7 +271,7 @@ Permissions are drawn from the enum
 ```
 install (POST /api/plugins, path)
   → scan/validate manifest → copy to staging → assert main within dir
-  → atomic rename into ~/.omniroute/plugins/<name> → insert DB row
+  → atomic rename into ~/.dragonrouter/plugins/<name> → insert DB row
   → fire onInstall → if enabledByDefault: activate
 
 activate (POST /api/plugins/{name}/activate)

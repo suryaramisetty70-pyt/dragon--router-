@@ -17,7 +17,7 @@ import os from "node:os";
 import path from "node:path";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-cmd-code-user-array-5166-")
+  path.join(os.tmpdir(), "dragonrouter-cmd-code-user-array-5166-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 

@@ -26,7 +26,7 @@ import path from "node:path";
 
 // ── test isolation: dedicated DATA_DIR ────────────────────────────────────────
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-mitm-upstream-ca-wiring-")
+  path.join(os.tmpdir(), "dragonrouter-mitm-upstream-ca-wiring-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 

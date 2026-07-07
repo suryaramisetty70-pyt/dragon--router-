@@ -11,18 +11,18 @@ const originalCreateServer = http.createServer.bind(http);
 const proxiesByPort = new Map();
 const { wrapRequestListenerWithMethodGuard } = methodGuard;
 
-// Opt-in native HTTPS (#5242). Resolved once at boot: when both OMNIROUTE_TLS_CERT
-// and OMNIROUTE_TLS_KEY point at readable files we terminate TLS on the same
+// Opt-in native HTTPS (#5242). Resolved once at boot: when both DRAGONROUTER_TLS_CERT
+// and DRAGONROUTER_TLS_KEY point at readable files we terminate TLS on the same
 // listener Next binds to (so WS `upgrade` / request wrappers keep working over
 // TLS). Absent or misconfigured → null → identical plain-HTTP behavior as before.
 const tlsOptions = resolveTlsOptions(process.env);
 if (tlsOptions) {
   console.log(
-    `[omniroute][tls] HTTPS enabled — terminating TLS with cert=${tlsOptions.certPath}`
+    `[dragonrouter][tls] HTTPS enabled — terminating TLS with cert=${tlsOptions.certPath}`
   );
 }
 
-process.env.OMNIROUTE_WS_BRIDGE_SECRET ||= randomUUID();
+process.env.DRAGONROUTER_WS_BRIDGE_SECRET ||= randomUUID();
 // Per-process secret proving the trusted peer-IP stamp came from this server.
 ensurePeerStampToken();
 
@@ -43,7 +43,7 @@ function getProxy(server) {
 
   const proxy = createResponsesWsProxy({
     baseUrl: `http://127.0.0.1:${port}`,
-    bridgeSecret: process.env.OMNIROUTE_WS_BRIDGE_SECRET,
+    bridgeSecret: process.env.DRAGONROUTER_WS_BRIDGE_SECRET,
   });
   proxiesByPort.set(port, proxy);
   return proxy;

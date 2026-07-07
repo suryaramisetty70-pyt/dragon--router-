@@ -24,7 +24,7 @@ import {
 
 const projectRoot = process.cwd();
 const distDir = path.resolve(process.env.NEXT_DIST_DIR || ".build/next");
-const backupRoot = path.join(os.tmpdir(), `omniroute-build-isolated-${process.pid}-${Date.now()}`);
+const backupRoot = path.join(os.tmpdir(), `dragonrouter-build-isolated-${process.pid}-${Date.now()}`);
 
 export function getTransientBuildPaths(rootDir = projectRoot, env = process.env) {
   const paths = [
@@ -35,7 +35,7 @@ export function getTransientBuildPaths(rootDir = projectRoot, env = process.env)
     },
   ];
 
-  if (env.OMNIROUTE_BUILD_MOVE_TASKS === "1") {
+  if (env.DRAGONROUTER_BUILD_MOVE_TASKS === "1") {
     paths.push({
       label: "task planning workspace",
       sourcePath: path.join(rootDir, "_tasks"),
@@ -113,7 +113,7 @@ export function resolveNextBuildBundlerFlag(baseEnv = process.env) {
   // on a 32-core box; ~20min -> 7min on ubuntu-latest), artifact validated
   // end-to-end (standalone smoke + e2e/package/electron CI jobs). Webpack stays as
   // the explicit escape hatch (=0) for bundler-compat regressions.
-  return baseEnv.OMNIROUTE_USE_TURBOPACK === "0" ? "--webpack" : "--turbopack";
+  return baseEnv.DRAGONROUTER_USE_TURBOPACK === "0" ? "--webpack" : "--turbopack";
 }
 
 export function resolveNextBuildEnv(baseEnv = process.env) {
@@ -128,14 +128,14 @@ export function resolveNextBuildEnv(baseEnv = process.env) {
   // stalling/OOMing local `npm run build` (npm-global installs). #4076/#4104 fixed
   // this only in the Docker builder stage (ENV NODE_OPTIONS); the local/native path
   // was left unprotected. Respect an existing --max-old-space-size (Docker already
-  // sets one — don't clobber/duplicate) and let OMNIROUTE_BUILD_MEMORY_MB override.
+  // sets one — don't clobber/duplicate) and let DRAGONROUTER_BUILD_MEMORY_MB override.
   if (!/--max-old-space-size/.test(env.NODE_OPTIONS || "")) {
     // Default 8 GB (was 4 GB): the clean module graph peaks ~3.9 GB during the webpack
     // production pass, which brushed the old 4 GB ceiling on a borderline OOM. 8 GB gives
     // headroom without risk. NOTE: heap size does NOT fix a poisoned scope — if the build
     // OOMs/livelocks far above this, check for worktrees/cruft leaking into the tsconfig
     // scope (run `npm run check:build-scope`), not for "more heap". See incident 2026-06-25.
-    const heapMb = Number(baseEnv.OMNIROUTE_BUILD_MEMORY_MB) || 8192;
+    const heapMb = Number(baseEnv.DRAGONROUTER_BUILD_MEMORY_MB) || 8192;
     env.NODE_OPTIONS = `${env.NODE_OPTIONS || ""} --max-old-space-size=${heapMb}`.trim();
   }
 
@@ -219,7 +219,7 @@ export async function main() {
 
     if (isBackendOnlyBuild()) {
       console.log(
-        "[build-next-isolated] OMNIROUTE_BUILD_BACKEND_ONLY set — building API only (dashboard UI stubbed)"
+        "[build-next-isolated] DRAGONROUTER_BUILD_BACKEND_ONLY set — building API only (dashboard UI stubbed)"
       );
       stubbedPages = stubDashboardPages(projectRoot);
       process.once("SIGINT", onFatalSignal);

@@ -11,7 +11,7 @@ import { mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
-const FIXTURE_DIR = join(tmpdir(), `omniroute_plugin_test_${Date.now()}`);
+const FIXTURE_DIR = join(tmpdir(), `dragonrouter_plugin_test_${Date.now()}`);
 
 function createFixturePlugin(name: string, opts?: { onResponse?: boolean; onRequest?: boolean }) {
   const dir = join(FIXTURE_DIR, name);
@@ -301,7 +301,7 @@ test("welcome banner PoC plugin lifecycle", async (t) => {
       ],
     };
     const result = await mod.plugin.onResponse({}, response);
-    assert.ok(result.choices[0].message.content.includes("[Welcome to OmniRoute"));
+    assert.ok(result.choices[0].message.content.includes("[Welcome to Dragon Router"));
     assert.ok(result.choices[0].message.content.includes("Hello!"));
   });
 
@@ -313,7 +313,7 @@ test("welcome banner PoC plugin lifecycle", async (t) => {
       ],
     };
     const result = await mod.plugin.onResponse({}, response);
-    assert.ok(result.choices[0].delta.content.includes("[Welcome to OmniRoute"));
+    assert.ok(result.choices[0].delta.content.includes("[Welcome to Dragon Router"));
   });
 
   await t.test("onResponse handles null response gracefully", async () => {

@@ -1,6 +1,6 @@
 // Characterization of buildNonStreamingResponseHeaders — the cache-MISS response header builder
 // extracted from handleChatCore's non-streaming success path (chatCore god-file decomposition,
-// #3501). attachOmniRouteMetaHeaders + now are injected so the static headers, the meta payload,
+// #3501). attachDragon RouterMetaHeaders + now are injected so the static headers, the meta payload,
 // and the optional compression header are observable. Locks: Content-Type + cache MISS, latencyMs =
 // now - startTime, and the compression header only when meta is present.
 import { test } from "node:test";
@@ -13,9 +13,9 @@ const { buildNonStreamingResponseHeaders } = await import(
 function makeDeps(now = 1000) {
   const metaCalls: Array<{ headers: Record<string, string>; meta: Record<string, unknown> }> = [];
   const deps = {
-    attachOmniRouteMetaHeaders: (headers: Record<string, string>, meta: Record<string, unknown>) => {
+    attachDragon RouterMetaHeaders: (headers: Record<string, string>, meta: Record<string, unknown>) => {
       metaCalls.push({ headers, meta });
-      headers["x-omniroute-meta"] = "attached";
+      headers["x-dragonrouter-meta"] = "attached";
     },
     now: () => now,
   } as Parameters<typeof buildNonStreamingResponseHeaders>[1];

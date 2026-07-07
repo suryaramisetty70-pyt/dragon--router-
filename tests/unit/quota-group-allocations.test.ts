@@ -32,7 +32,7 @@ import path from "node:path";
 
 // ── DB / store harness ────────────────────────────────────────────────────────
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-quota-group-alloc-"),
+  path.join(os.tmpdir(), "dragonrouter-quota-group-alloc-"),
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 // Ensure a deterministic secret for apiKey tests (check 5).

@@ -1,12 +1,12 @@
 ---
-title: "Codex CLI — Configuration with OmniRoute"
+title: "Codex CLI — Configuration with Dragon Router"
 version: 3.8.40
 lastUpdated: 2026-06-28
 ---
 
-# Codex CLI — Configuration with OmniRoute
+# Codex CLI — Configuration with Dragon Router
 
-Complete guide for using the Codex CLI pointed at OmniRoute as an OpenAI-compatible backend.
+Complete guide for using the Codex CLI pointed at Dragon Router as an OpenAI-compatible backend.
 
 ---
 
@@ -17,23 +17,23 @@ Replace `<YOUR_HOST>` and `<YOUR_KEY>` with your values:
 ```toml
 # ~/.codex/config.toml
 model                          = "cx/gpt-5.5"
-model_provider                 = "omniroute"
+model_provider                 = "dragonrouter"
 model_reasoning_effort         = "xhigh"
 model_context_window           = 400000
 model_auto_compact_token_limit = 350000
 tool_output_token_limit        = 32768    # history storage cap per tool call
 
-[model_providers.omniroute]
-name                 = "OmniRoute"
+[model_providers.dragonrouter]
+name                 = "Dragon Router"
 base_url             = "http://<YOUR_HOST>:20128/v1"
-env_key              = "OMNIROUTE_API_KEY"
+env_key              = "DRAGONROUTER_API_KEY"
 requires_openai_auth = false
 wire_api             = "responses"
 ```
 
 ```bash
 # ~/.bashrc or ~/.zshrc — actual key value, never in config.toml
-export OMNIROUTE_API_KEY="<YOUR_KEY>"
+export DRAGONROUTER_API_KEY="<YOUR_KEY>"
 ```
 
 > **Common host options**
@@ -52,17 +52,17 @@ Codex CLI deprecated `wire_api = "chat"` (Chat Completions) in February 2026 and
 
 DeepSeek, GLM, Kimi and others only expose a Chat Completions endpoint — not the Responses API. If you pointed Codex directly at them, it would fail.
 
-**OmniRoute solves this transparently:**
+**Dragon Router solves this transparently:**
 
 ```
 Codex CLI
   → wire_api = "responses"
-  → POST /v1/responses (OmniRoute)
-    → OmniRoute Responses ↔ Chat Completions transformer
+  → POST /v1/responses (Dragon Router)
+    → Dragon Router Responses ↔ Chat Completions transformer
     → POST /chat/completions (DeepSeek / Mistral / GLM / Kimi / any provider)
 ```
 
-You never need a separate translation proxy when using OmniRoute. **All models use `wire_api = "responses"`** — OmniRoute handles the rest.
+You never need a separate translation proxy when using Dragon Router. **All models use `wire_api = "responses"`** — Dragon Router handles the rest.
 
 > **`wire_api` is the default** — the field defaults to `"responses"` and can be omitted entirely from `config.toml`. Only ever set it explicitly if you're documenting intent.
 
@@ -83,7 +83,7 @@ You never need a separate translation proxy when using OmniRoute. **All models u
 
 ### Context windows by model
 
-| Model                                | OmniRoute ID                         | Context window         | `auto_compact` | `tool_output_limit` |
+| Model                                | Dragon Router ID                         | Context window         | `auto_compact` | `tool_output_limit` |
 | ------------------------------------ | ------------------------------------ | ---------------------- | -------------- | ------------------- |
 | GPT-5.5                              | `cx/gpt-5.5`                         | 400k reliable (1M max) | 350,000        | 32,768              |
 | Kimi K2.7 (thinking)                 | `kmc/kimi-k2.7`                      | 131,072                | 112,000        | 32,768              |
@@ -111,16 +111,16 @@ You never need a separate translation proxy when using OmniRoute. **All models u
 
 ## Model prefix: `cx/`
 
-All Codex models in OmniRoute use the `cx/` prefix:
+All Codex models in Dragon Router use the `cx/` prefix:
 
-| Codex CLI name          | OmniRoute model    |
+| Codex CLI name          | Dragon Router model    |
 | ----------------------- | ------------------ |
 | `cx/gpt-5.5`            | GPT-5.5 standard   |
 | `cx/gpt-5.4`            | GPT-5.4 standard   |
 | `cx/gpt-5.4-mini`       | GPT-5.4 mini       |
 | `cx/gpt-5.1-codex-mini` | GPT-5.1 Codex mini |
 
-Other providers use their own prefix (`kmc/`, `glm/`, `ds/`, `ollamacloud/`, `opencode-go/`, `mistral/`) — the prefix matches the OmniRoute provider alias.
+Other providers use their own prefix (`kmc/`, `glm/`, `ds/`, `ollamacloud/`, `opencode-go/`, `mistral/`) — the prefix matches the Dragon Router provider alias.
 
 ---
 
@@ -220,49 +220,49 @@ codex -p chat     # cx/gpt-5.5, no effort set (server default)
 
 ---
 
-## Generating profiles automatically with `omniroute setup-codex`
+## Generating profiles automatically with `dragonrouter setup-codex`
 
-If you run OmniRoute on a VPS, you can auto-generate profile files from the live model catalog:
+If you run Dragon Router on a VPS, you can auto-generate profile files from the live model catalog:
 
 ```bash
-# From a VPS (uses local OmniRoute on port 20128)
-omniroute setup-codex
+# From a VPS (uses local Dragon Router on port 20128)
+dragonrouter setup-codex
 
 # From any machine — point at your VPS
-omniroute setup-codex --remote http://100.x.x.x:20128 --api-key sk-xxx
+dragonrouter setup-codex --remote http://100.x.x.x:20128 --api-key sk-xxx
 
 # Preview without writing files
-omniroute setup-codex --remote http://100.x.x.x:20128 --dry-run
+dragonrouter setup-codex --remote http://100.x.x.x:20128 --dry-run
 
 # Only generate GLM and Kimi profiles
-omniroute setup-codex --only glm,kimi
+dragonrouter setup-codex --only glm,kimi
 
 # Write to a custom directory
-omniroute setup-codex --codex-home /path/to/.codex
+dragonrouter setup-codex --codex-home /path/to/.codex
 ```
 
 The command fetches `/v1/models`, uses tuned profiles for known models, falls back to catalog metadata for other compatible text models, and writes `~/.codex/<name>.config.toml` for each. Idempotent — safe to re-run.
 
-OmniRoute can also **auto-sync** these same profile files after a successful provider model discovery/import changes the live catalog. This is **opt-in and off by default**: toggle it from the **CLI Code dashboard** ("CLI profile auto-sync" → Codex), or set `OMNIROUTE_AUTO_SYNC_CODEX_PROFILES=true` (it also honors `CLI_ALLOW_CONFIG_WRITES`, on by default). When enabled it only writes separate `~/.codex/*.config.toml` profile files; it never changes the active/default `~/.codex/config.toml`, Codex-lb settings, auth, or provider selection.
+Dragon Router can also **auto-sync** these same profile files after a successful provider model discovery/import changes the live catalog. This is **opt-in and off by default**: toggle it from the **CLI Code dashboard** ("CLI profile auto-sync" → Codex), or set `DRAGONROUTER_AUTO_SYNC_CODEX_PROFILES=true` (it also honors `CLI_ALLOW_CONFIG_WRITES`, on by default). When enabled it only writes separate `~/.codex/*.config.toml` profile files; it never changes the active/default `~/.codex/config.toml`, Codex-lb settings, auth, or provider selection.
 
 ---
 
-## Launching Codex with `omniroute launch-codex`
+## Launching Codex with `dragonrouter launch-codex`
 
-Health-checks your OmniRoute instance before launching Codex:
+Health-checks your Dragon Router instance before launching Codex:
 
 ```bash
-# Launch against local OmniRoute (default port 20128)
-omniroute launch-codex
+# Launch against local Dragon Router (default port 20128)
+dragonrouter launch-codex
 
 # Launch with a specific profile
-omniroute launch-codex --profile kimi-k27
+dragonrouter launch-codex --profile kimi-k27
 
 # Launch against a remote VPS
-omniroute launch-codex --remote http://100.x.x.x:20128/v1 --api-key sk-xxx
+dragonrouter launch-codex --remote http://100.x.x.x:20128/v1 --api-key sk-xxx
 
 # Pass extra args to codex
-omniroute launch-codex --profile glm52 -- --yolo "fix this bug"
+dragonrouter launch-codex --profile glm52 -- --yolo "fix this bug"
 ```
 
 ---
@@ -298,21 +298,21 @@ service_tier = "fast"   # "fast" | "flex"
 ### New `[model_providers.<id>]` fields
 
 ```toml
-[model_providers.omniroute]
+[model_providers.dragonrouter]
 base_url             = "http://100.x.x.x:20128/v1"
-env_key              = "OMNIROUTE_API_KEY"
+env_key              = "DRAGONROUTER_API_KEY"
 requires_openai_auth = false
 
 # Static extra headers on every request
-[model_providers.omniroute.http_headers]
+[model_providers.dragonrouter.http_headers]
 "X-Custom-Header" = "value"
 
 # Headers read from env vars
-[model_providers.omniroute.env_http_headers]
+[model_providers.dragonrouter.env_http_headers]
 "X-Trace-Id" = "TRACE_ID"
 
 # Extra URL query params (useful for Azure api-version)
-[model_providers.omniroute.query_params]
+[model_providers.dragonrouter.query_params]
 "api-version" = "2024-12-01-preview"
 ```
 
@@ -332,13 +332,13 @@ region  = "us-east-1"
 ## Multiple servers
 
 ```toml
-[model_providers.omniroute-main]
+[model_providers.dragonrouter-main]
 base_url = "http://192.168.0.1:20128/v1"
-env_key  = "OMNIROUTE_API_KEY"
+env_key  = "DRAGONROUTER_API_KEY"
 
-[model_providers.omniroute-tailscale]
+[model_providers.dragonrouter-tailscale]
 base_url = "http://100.x.x.x:20128/v1"
-env_key  = "OMNIROUTE_API_KEY"
+env_key  = "DRAGONROUTER_API_KEY"
 ```
 
 ---
@@ -395,13 +395,13 @@ Inside an interactive session:
 Remove `wire_api = "chat"` from your config. Set `wire_api = "responses"` or omit the field (defaults to `"responses"` since v0.138).
 
 **`Error: model not found`**
-Verify the model exists in OmniRoute with the correct prefix. Use `omniroute models list` or open `/dashboard/providers/<provider>`.
+Verify the model exists in Dragon Router with the correct prefix. Use `dragonrouter models list` or open `/dashboard/providers/<provider>`.
 
 **`Authentication error`**
-Confirm `OMNIROUTE_API_KEY` is exported: `echo $OMNIROUTE_API_KEY`.
+Confirm `DRAGONROUTER_API_KEY` is exported: `echo $DRAGONROUTER_API_KEY`.
 
 **`Connection refused`**
-Verify OmniRoute is running and the `base_url` host/port is correct for your network (local vs Tailscale vs VPS).
+Verify Dragon Router is running and the `base_url` host/port is correct for your network (local vs Tailscale vs VPS).
 
 **Session crashes near context limit**
 Set `model_context_window` and `model_auto_compact_token_limit` explicitly. See the context window table above.

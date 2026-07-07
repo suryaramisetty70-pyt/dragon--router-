@@ -4,7 +4,7 @@ import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-process.env.DATA_DIR = mkdtempSync(join(tmpdir(), "omniroute-freetier-route-"));
+process.env.DATA_DIR = mkdtempSync(join(tmpdir(), "dragonrouter-freetier-route-"));
 
 const { GET } = await import("../../src/app/api/free-tier/summary/route.ts");
 

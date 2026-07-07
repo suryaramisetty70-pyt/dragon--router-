@@ -1,6 +1,6 @@
 /**
  * Regression test for #4012 — Nvidia NIM (and any vision-capable model whose
- * capability OmniRoute can't prove) via OmniRoute fails to process image inputs.
+ * capability Dragon Router can't prove) via Dragon Router fails to process image inputs.
  *
  * The Vision Bridge is enabled by default. For a model with unknown
  * (`null`) vision capability it engages, tries to describe each image with the

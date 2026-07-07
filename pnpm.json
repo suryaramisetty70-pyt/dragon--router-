@@ -8,7 +8,7 @@
     "keytar",
     "koffi",
     "libxmljs2",
-    "omniroute",
+    "dragonrouter",
     "onnxruntime-node",
     "protobufjs",
     "sharp",

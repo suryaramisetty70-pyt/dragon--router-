@@ -118,7 +118,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
   // -------------------------------------------------------------------------
   // 1. Create a temp dir to hold the snapshot (treat as sensitive).
   // -------------------------------------------------------------------------
-  const snapshotDir = fs.mkdtempSync(path.join(os.tmpdir(), `omniroute-live-${prefix}-`));
+  const snapshotDir = fs.mkdtempSync(path.join(os.tmpdir(), `dragonrouter-live-${prefix}-`));
 
   // -------------------------------------------------------------------------
   // 2. Fetch VPS secrets (read-only: one grep over .env).
@@ -132,7 +132,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
       "ssh",
       [
         "root@192.168.0.15",
-        'grep -E "^(STORAGE_ENCRYPTION_KEY|API_KEY_SECRET)=" ~/.omniroute/.env',
+        'grep -E "^(STORAGE_ENCRYPTION_KEY|API_KEY_SECRET)=" ~/.dragonrouter/.env',
       ],
       { encoding: "utf8", timeout: 15_000 }
     );
@@ -178,7 +178,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
   try {
     execFileSync(
       "scp",
-      ["root@192.168.0.15:/root/.omniroute/storage.sqlite", snapshotDbPath],
+      ["root@192.168.0.15:/root/.dragonrouter/storage.sqlite", snapshotDbPath],
       { timeout: 60_000 }
     );
   } catch (err: any) {
@@ -302,7 +302,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
    *
    * ## Signal source
    * `withSelectedConnectionHeader` in `src/sse/handlers/chatHelpers.ts` sets
-   * `X-OmniRoute-Selected-Connection-Id` on the response, but only on the
+   * `X-Dragon Router-Selected-Connection-Id` on the response, but only on the
    * **non-success return paths** in `src/sse/handlers/chat.ts` (error recovery,
    * fallback, timeout paths). On a clean first-attempt 200 success the handler
    * returns `result.response` directly at line 1239 without calling
@@ -321,7 +321,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
    * OpenAI-shape response body as an additional signal.
    */
   function servedProvider(response: Response): string | undefined {
-    const connectionId = response.headers.get("X-OmniRoute-Selected-Connection-Id");
+    const connectionId = response.headers.get("X-Dragon Router-Selected-Connection-Id");
     if (!connectionId) return undefined;
     // Sync read from the already-built map (populated eagerly at harness init).
     if (!_connMap) return undefined;
@@ -333,7 +333,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
    * Use this when you want a resolved value after the first listLiveConnections call.
    */
   async function servedProviderAsync(response: Response): Promise<string | undefined> {
-    const connectionId = response.headers.get("X-OmniRoute-Selected-Connection-Id");
+    const connectionId = response.headers.get("X-Dragon Router-Selected-Connection-Id");
     if (!connectionId) return undefined;
     const map = await _getConnMap();
     return map.get(connectionId);
@@ -399,7 +399,7 @@ export async function createLiveHarness(prefix: string): Promise<LiveHarness> {
     clearIdempotency();
     resetAllCircuitBreakers();
     core.resetDbInstance();
-    // Destroy the snapshot — targets only the temp dir, NEVER /root/.omniroute.
+    // Destroy the snapshot — targets only the temp dir, NEVER /root/.dragonrouter.
     fs.rmSync(snapshotDir, { recursive: true, force: true });
   }
 

@@ -19,7 +19,7 @@ import os from "node:os";
 import path from "node:path";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-quota-combo-groups-")
+  path.join(os.tmpdir(), "dragonrouter-quota-combo-groups-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 

@@ -18,7 +18,7 @@ const { getCallLogById } = await import("../../src/lib/usage/callLogs.ts");
 const { persistAttemptLogs } = await import("../../open-sse/handlers/chatCore/attemptLogging.ts");
 
 type CodexRotationEnvelope = {
-  _omniroute?: {
+  _dragonrouter?: {
     codexAccountRotation?: {
       initialConnectionId: unknown;
       finalConnectionId: unknown;
@@ -63,7 +63,7 @@ async function pollForCallLog(id: string, tries = 120) {
 
 function getCodexAccountRotation(value: unknown) {
   if (!value || typeof value !== "object") return undefined;
-  return (value as CodexRotationEnvelope)._omniroute?.codexAccountRotation;
+  return (value as CodexRotationEnvelope)._dragonrouter?.codexAccountRotation;
 }
 
 before(async () => {

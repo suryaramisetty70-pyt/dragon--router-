@@ -11,8 +11,8 @@ Start and stop tunnel connections (ngrok, Cloudflare, custom) from the CLI. Insp
 ## Quick install
 
 ```bash
-npm install -g omniroute   # or: npx omniroute
-omniroute --version
+npm install -g dragonrouter   # or: npx dragonrouter
+dragonrouter --version
 ```
 
 ## Subcommands
@@ -22,7 +22,7 @@ omniroute --version
 **Example:**
 
 ```bash
-omniroute tunnel
+dragonrouter tunnel
 ```
 
 ### `tunnel list`
@@ -34,7 +34,7 @@ omniroute tunnel
 **Example:**
 
 ```bash
-omniroute tunnel list
+dragonrouter tunnel list
 ```
 
 ### `tunnel create [type]`
@@ -42,7 +42,7 @@ omniroute tunnel list
 **Example:**
 
 ```bash
-omniroute tunnel create [type]
+dragonrouter tunnel create [type]
 ```
 
 ### `tunnel stop <type>`
@@ -54,7 +54,7 @@ omniroute tunnel create [type]
 **Example:**
 
 ```bash
-omniroute tunnel stop <type>
+dragonrouter tunnel stop <type>
 ```
 
 ### `tunnel status <type>`
@@ -66,7 +66,7 @@ omniroute tunnel stop <type>
 **Example:**
 
 ```bash
-omniroute tunnel status <type>
+dragonrouter tunnel status <type>
 ```
 
 ### `tunnel logs <type>`
@@ -78,7 +78,7 @@ omniroute tunnel status <type>
 **Example:**
 
 ```bash
-omniroute tunnel logs <type>
+dragonrouter tunnel logs <type>
 ```
 
 ### `tunnel info <type>`
@@ -90,7 +90,7 @@ omniroute tunnel logs <type>
 **Example:**
 
 ```bash
-omniroute tunnel info <type>
+dragonrouter tunnel info <type>
 ```
 
 ### `tunnel rotate <type>`
@@ -102,5 +102,5 @@ omniroute tunnel info <type>
 **Example:**
 
 ```bash
-omniroute tunnel rotate <type>
+dragonrouter tunnel rotate <type>
 ```

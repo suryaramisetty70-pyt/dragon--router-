@@ -1,4 +1,4 @@
-const CACHE_NAME = "omniroute-pwa-v2";
+const CACHE_NAME = "dragonrouter-pwa-v2";
 const APP_SHELL = [
   "/",
   "/offline",
@@ -126,15 +126,15 @@ self.addEventListener("push", (event) => {
   try {
     data = event.data ? event.data.json() : {};
   } catch {
-    data = { title: "OmniRoute", body: event.data?.text() || "New notification" };
+    data = { title: "Dragon Router", body: event.data?.text() || "New notification" };
   }
 
-  const title = data.title || "OmniRoute";
+  const title = data.title || "Dragon Router";
   const options = {
     body: data.body || "",
     icon: data.icon || "/icon-512.png",
     badge: data.badge || "/icon-192.png",
-    tag: data.tag || "omniroute-default",
+    tag: data.tag || "dragonrouter-default",
     data: {
       url: data.url || "/dashboard",
       timestamp: Date.now(),

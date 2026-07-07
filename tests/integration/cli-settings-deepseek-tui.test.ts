@@ -9,7 +9,7 @@ import os from "node:os";
 import path from "node:path";
 
 const TEST_DATA_DIR = fs.mkdtempSync(
-  path.join(os.tmpdir(), "omniroute-deepseek-tui-settings-")
+  path.join(os.tmpdir(), "dragonrouter-deepseek-tui-settings-")
 );
 process.env.DATA_DIR = TEST_DATA_DIR;
 process.env.API_KEY_SECRET = "test-api-key-secret-deepseek-tui";
@@ -113,7 +113,7 @@ test("deepseek-tui-settings POST: writes config.toml with valid body", async () 
       const configPath = path.join(tmpHome, ".config", "deepseek-tui", "config.toml");
       if (fs.existsSync(configPath)) {
         const content = fs.readFileSync(configPath, "utf-8");
-        assert.ok(content.includes("managed by OmniRoute"), "Config should have OmniRoute marker");
+        assert.ok(content.includes("managed by Dragon Router"), "Config should have Dragon Router marker");
         assert.ok(content.includes("http://localhost:20128"), "Config should contain base URL");
         assert.ok(content.includes("[openai]"), "Config should have [openai] section");
       }
@@ -136,7 +136,7 @@ test("deepseek-tui-settings DELETE: removes config file", async () => {
     fs.mkdirSync(configDir, { recursive: true });
     fs.writeFileSync(
       path.join(configDir, "config.toml"),
-      "# managed by OmniRoute (plan 14)\n[openai]\nbase_url = \"http://localhost:20128\"\n"
+      "# managed by Dragon Router (plan 14)\n[openai]\nbase_url = \"http://localhost:20128\"\n"
     );
 
     const res = await DELETE(

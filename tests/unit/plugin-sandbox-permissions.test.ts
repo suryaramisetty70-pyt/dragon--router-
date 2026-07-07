@@ -8,7 +8,7 @@
  * used in tests/unit/electron-preload.test.ts for the same reason.
  *
  * Assertions cover:
- * - exec permission gates child_process behind OMNIROUTE_PLUGINS_ALLOW_EXEC==="1"
+ * - exec permission gates child_process behind DRAGONROUTER_PLUGINS_ALLOW_EXEC==="1"
  * - the throw path exists when env is absent
  * - vm.runInContext is called with a finite timeout (no infinite-loop DoS)
  * - the trust-model comment is present
@@ -25,25 +25,25 @@ const source = readFileSync(
 );
 
 describe("pluginWorker sandbox — exec permission gating", () => {
-  it("gates child_process behind OMNIROUTE_PLUGINS_ALLOW_EXEC === '1'", () => {
+  it("gates child_process behind DRAGONROUTER_PLUGINS_ALLOW_EXEC === '1'", () => {
     assert.ok(
-      source.includes('OMNIROUTE_PLUGINS_ALLOW_EXEC !== "1"') ||
-        source.includes("OMNIROUTE_PLUGINS_ALLOW_EXEC !== '1'"),
-      "exec block must check process.env.OMNIROUTE_PLUGINS_ALLOW_EXEC !== \"1\""
+      source.includes('DRAGONROUTER_PLUGINS_ALLOW_EXEC !== "1"') ||
+        source.includes("DRAGONROUTER_PLUGINS_ALLOW_EXEC !== '1'"),
+      "exec block must check process.env.DRAGONROUTER_PLUGINS_ALLOW_EXEC !== \"1\""
     );
   });
 
   it("checks the env flag inside the exec permission block", () => {
     // The env guard must appear inside the exec permission block.
-    // Use the SECOND occurrence of OMNIROUTE_PLUGINS_ALLOW_EXEC (the first is in
+    // Use the SECOND occurrence of DRAGONROUTER_PLUGINS_ALLOW_EXEC (the first is in
     // the trust-model comment above createSandbox; the second is the actual guard).
     const execIdx = source.indexOf('permissions.includes("exec")');
     assert.ok(execIdx !== -1, 'source must contain permissions.includes("exec")');
     // Find the env check that occurs *after* the exec block opens
-    const envIdxInBlock = source.indexOf("OMNIROUTE_PLUGINS_ALLOW_EXEC", execIdx);
+    const envIdxInBlock = source.indexOf("DRAGONROUTER_PLUGINS_ALLOW_EXEC", execIdx);
     assert.ok(
       envIdxInBlock !== -1,
-      "OMNIROUTE_PLUGINS_ALLOW_EXEC check must appear inside the exec permission block"
+      "DRAGONROUTER_PLUGINS_ALLOW_EXEC check must appear inside the exec permission block"
     );
   });
 
@@ -66,15 +66,15 @@ describe("pluginWorker sandbox — exec permission gating", () => {
       "throw message must mention the exec permission being disabled"
     );
     assert.ok(
-      source.includes("OMNIROUTE_PLUGINS_ALLOW_EXEC=1"),
+      source.includes("DRAGONROUTER_PLUGINS_ALLOW_EXEC=1"),
       "throw message must reference the opt-in env var"
     );
   });
 
   it("does NOT wire child_process without the env guard in place", () => {
     // Ensure child_process assignment is nested under the env check, not at the exec-block top level.
-    // The OMNIROUTE_PLUGINS_ALLOW_EXEC check must come before sandbox.child_process.
-    const envIdx = source.indexOf("OMNIROUTE_PLUGINS_ALLOW_EXEC");
+    // The DRAGONROUTER_PLUGINS_ALLOW_EXEC check must come before sandbox.child_process.
+    const envIdx = source.indexOf("DRAGONROUTER_PLUGINS_ALLOW_EXEC");
     const childProcessIdx = source.indexOf("sandbox.child_process =");
     assert.ok(envIdx < childProcessIdx, "env guard must precede sandbox.child_process assignment");
   });
@@ -118,10 +118,10 @@ describe("pluginWorker sandbox — trust-model comment", () => {
     );
   });
 
-  it("references the OMNIROUTE_PLUGINS_ALLOW_EXEC opt-in in the comment", () => {
+  it("references the DRAGONROUTER_PLUGINS_ALLOW_EXEC opt-in in the comment", () => {
     assert.ok(
-      source.includes("OMNIROUTE_PLUGINS_ALLOW_EXEC"),
-      "trust-model comment must reference OMNIROUTE_PLUGINS_ALLOW_EXEC"
+      source.includes("DRAGONROUTER_PLUGINS_ALLOW_EXEC"),
+      "trust-model comment must reference DRAGONROUTER_PLUGINS_ALLOW_EXEC"
     );
   });
 });

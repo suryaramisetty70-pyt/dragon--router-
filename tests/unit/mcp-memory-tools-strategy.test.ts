@@ -1,7 +1,7 @@
 /**
  * tests/unit/mcp-memory-tools-strategy.test.ts
  *
- * Plan 21 F8 — D16: omniroute_memory_search reads retrievalStrategy from settings.
+ * Plan 21 F8 — D16: dragonrouter_memory_search reads retrievalStrategy from settings.
  *
  * Since Node 20 does not support mock.module() for ESM, we test:
  *   A) toMemoryRetrievalConfig mapping: strategy="hybrid"  → retrievalStrategy="hybrid"
@@ -88,7 +88,7 @@ test("toMemoryRetrievalConfig: strategy=recent → retrievalStrategy=exact (mapp
 
 // ── D: handler end-to-end with strategy="hybrid" in DB ────────────────────────
 
-test("omniroute_memory_search: strategy=hybrid in DB → handler returns success", async () => {
+test("dragonrouter_memory_search: strategy=hybrid in DB → handler returns success", async () => {
   const db = core.getDbInstance();
 
   // Seed a memory to ensure retrieval has something to work with
@@ -108,7 +108,7 @@ test("omniroute_memory_search: strategy=hybrid in DB → handler returns success
   const { memoryTools } = await import(
     "../../open-sse/mcp-server/tools/memoryTools.ts"
   );
-  const handler = memoryTools.omniroute_memory_search.handler;
+  const handler = memoryTools.dragonrouter_memory_search.handler;
 
   const result = await handler({ apiKeyId: "api-mcp-h", query: "Paris" });
 
@@ -119,7 +119,7 @@ test("omniroute_memory_search: strategy=hybrid in DB → handler returns success
 
 // ── E: handler end-to-end with strategy="recent" in DB ────────────────────────
 
-test("omniroute_memory_search: strategy=recent in DB → handler maps to exact, returns success", async () => {
+test("dragonrouter_memory_search: strategy=recent in DB → handler maps to exact, returns success", async () => {
   const db = core.getDbInstance();
 
   db.prepare(
@@ -138,7 +138,7 @@ test("omniroute_memory_search: strategy=recent in DB → handler maps to exact, 
   const { memoryTools } = await import(
     "../../open-sse/mcp-server/tools/memoryTools.ts"
   );
-  const handler = memoryTools.omniroute_memory_search.handler;
+  const handler = memoryTools.dragonrouter_memory_search.handler;
 
   const result = await handler({ apiKeyId: "api-mcp-r" });
 
@@ -169,7 +169,7 @@ test("toMemoryRetrievalConfig: DEFAULT_MEMORY_SETTINGS maps to retrievalStrategy
 
 // ── G: handler fallback when getMemorySettings throws — uses hardcoded "exact" ─
 
-test("omniroute_memory_search: hardcoded fallback config has retrievalStrategy=exact", async () => {
+test("dragonrouter_memory_search: hardcoded fallback config has retrievalStrategy=exact", async () => {
   // This tests the fallback branch in the handler (catch(() => null) path).
   // We verify this by examining the fallback object directly from the source logic:
   // When memorySettings is null, the handler uses retrievalStrategy: "exact" as const.

@@ -1,16 +1,16 @@
-# OmniRoute — Uninstall Guide (Türkçe)
+# Dragon Router — Uninstall Guide (Türkçe)
 
 🌐 **Languages:** 🇺🇸 [English](../../../../docs/UNINSTALL.md) · 🇸🇦 [ar](../../ar/docs/UNINSTALL.md) · 🇧🇬 [bg](../../bg/docs/UNINSTALL.md) · 🇧🇩 [bn](../../bn/docs/UNINSTALL.md) · 🇨🇿 [cs](../../cs/docs/UNINSTALL.md) · 🇩🇰 [da](../../da/docs/UNINSTALL.md) · 🇩🇪 [de](../../de/docs/UNINSTALL.md) · 🇪🇸 [es](../../es/docs/UNINSTALL.md) · 🇮🇷 [fa](../../fa/docs/UNINSTALL.md) · 🇫🇮 [fi](../../fi/docs/UNINSTALL.md) · 🇫🇷 [fr](../../fr/docs/UNINSTALL.md) · 🇮🇳 [gu](../../gu/docs/UNINSTALL.md) · 🇮🇱 [he](../../he/docs/UNINSTALL.md) · 🇮🇳 [hi](../../hi/docs/UNINSTALL.md) · 🇭🇺 [hu](../../hu/docs/UNINSTALL.md) · 🇮🇩 [id](../../id/docs/UNINSTALL.md) · 🇮🇹 [it](../../it/docs/UNINSTALL.md) · 🇯🇵 [ja](../../ja/docs/UNINSTALL.md) · 🇰🇷 [ko](../../ko/docs/UNINSTALL.md) · 🇮🇳 [mr](../../mr/docs/UNINSTALL.md) · 🇲🇾 [ms](../../ms/docs/UNINSTALL.md) · 🇳🇱 [nl](../../nl/docs/UNINSTALL.md) · 🇳🇴 [no](../../no/docs/UNINSTALL.md) · 🇵🇭 [phi](../../phi/docs/UNINSTALL.md) · 🇵🇱 [pl](../../pl/docs/UNINSTALL.md) · 🇵🇹 [pt](../../pt/docs/UNINSTALL.md) · 🇧🇷 [pt-BR](../../pt-BR/docs/UNINSTALL.md) · 🇷🇴 [ro](../../ro/docs/UNINSTALL.md) · 🇷🇺 [ru](../../ru/docs/UNINSTALL.md) · 🇸🇰 [sk](../../sk/docs/UNINSTALL.md) · 🇸🇪 [sv](../../sv/docs/UNINSTALL.md) · 🇰🇪 [sw](../../sw/docs/UNINSTALL.md) · 🇮🇳 [ta](../../ta/docs/UNINSTALL.md) · 🇮🇳 [te](../../te/docs/UNINSTALL.md) · 🇹🇭 [th](../../th/docs/UNINSTALL.md) · 🇹🇷 [tr](../../tr/docs/UNINSTALL.md) · 🇺🇦 [uk-UA](../../uk-UA/docs/UNINSTALL.md) · 🇵🇰 [ur](../../ur/docs/UNINSTALL.md) · 🇻🇳 [vi](../../vi/docs/UNINSTALL.md) · 🇨🇳 [zh-CN](../../zh-CN/docs/UNINSTALL.md)
 
 ---
 
-This guide covers how to cleanly remove OmniRoute from your system.
+This guide covers how to cleanly remove Dragon Router from your system.
 
 ---
 
 ## Quick Uninstall (v3.6.2+)
 
-OmniRoute provides two built-in scripts for clean removal:
+Dragon Router provides two built-in scripts for clean removal:
 
 ### Keep Your Data
 
@@ -18,7 +18,7 @@ OmniRoute provides two built-in scripts for clean removal:
 npm run uninstall
 ```
 
-This removes the OmniRoute application but **preserves** your database, configurations, API keys, and provider settings in `~/.omniroute/`. Use this if you plan to reinstall later and want to keep your setup.
+This removes the Dragon Router application but **preserves** your database, configurations, API keys, and provider settings in `~/.dragonrouter/`. Use this if you plan to reinstall later and want to keep your setup.
 
 ### Full Removal
 
@@ -32,7 +32,7 @@ This removes the application **and permanently erases** all data:
 - Provider configurations and API keys
 - Backup files
 - Log files
-- All files in the `~/.omniroute/` directory
+- All files in the `~/.dragonrouter/` directory
 
 > ⚠️ **Warning:** `npm run uninstall:full` is irreversible. All your provider connections, combos, API keys, and usage history will be permanently deleted.
 
@@ -44,31 +44,31 @@ This removes the application **and permanently erases** all data:
 
 ```bash
 # Remove the global package
-npm uninstall -g omniroute
+npm uninstall -g dragonrouter
 
 # (Optional) Remove data directory
-rm -rf ~/.omniroute
+rm -rf ~/.dragonrouter
 ```
 
 ### pnpm Global Install
 
 ```bash
-pnpm uninstall -g omniroute
-rm -rf ~/.omniroute
+pnpm uninstall -g dragonrouter
+rm -rf ~/.dragonrouter
 ```
 
 ### Docker
 
 ```bash
 # Stop and remove the container
-docker stop omniroute
-docker rm omniroute
+docker stop dragonrouter
+docker rm dragonrouter
 
 # Remove the volume (deletes all data)
-docker volume rm omniroute-data
+docker volume rm dragonrouter-data
 
 # (Optional) Remove the image
-docker rmi diegosouzapw/omniroute:latest
+docker rmi diegosouzapw/dragonrouter:latest
 ```
 
 ### Docker Compose
@@ -85,42 +85,42 @@ docker compose down -v
 
 **Windows:**
 
-- Open `Settings → Apps → OmniRoute → Uninstall`
+- Open `Settings → Apps → Dragon Router → Uninstall`
 - Or run the NSIS uninstaller from the install directory
 
 **macOS:**
 
-- Drag `OmniRoute.app` from `/Applications` to Trash
-- Remove data: `rm -rf ~/Library/Application Support/omniroute`
+- Drag `Dragon Router.app` from `/Applications` to Trash
+- Remove data: `rm -rf ~/Library/Application Support/dragonrouter`
 
 **Linux:**
 
 - Remove the AppImage file
-- Remove data: `rm -rf ~/.omniroute`
+- Remove data: `rm -rf ~/.dragonrouter`
 
 ### Source Install (git clone)
 
 ```bash
 # Remove the cloned directory
-rm -rf /path/to/omniroute
+rm -rf /path/to/dragonrouter
 
 # (Optional) Remove data directory
-rm -rf ~/.omniroute
+rm -rf ~/.dragonrouter
 ```
 
 ---
 
 ## Data Directories
 
-OmniRoute stores data in the following locations by default:
+Dragon Router stores data in the following locations by default:
 
 | Platform      | Default Path                  | Override                  |
 | ------------- | ----------------------------- | ------------------------- |
-| Linux         | `~/.omniroute/`               | `DATA_DIR` env var        |
-| macOS         | `~/.omniroute/`               | `DATA_DIR` env var        |
-| Windows       | `%APPDATA%/omniroute/`        | `DATA_DIR` env var        |
+| Linux         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
+| macOS         | `~/.dragonrouter/`               | `DATA_DIR` env var        |
+| Windows       | `%APPDATA%/dragonrouter/`        | `DATA_DIR` env var        |
 | Docker        | `/app/data/` (mounted volume) | `DATA_DIR` env var        |
-| XDG-compliant | `$XDG_CONFIG_HOME/omniroute/` | `XDG_CONFIG_HOME` env var |
+| XDG-compliant | `$XDG_CONFIG_HOME/dragonrouter/` | `XDG_CONFIG_HOME` env var |
 
 ### Files in the data directory
 
@@ -141,17 +141,17 @@ After uninstalling, verify there are no remaining files:
 
 ```bash
 # Check for global npm package
-npm list -g omniroute 2>/dev/null
+npm list -g dragonrouter 2>/dev/null
 
 # Check for data directory
-ls -la ~/.omniroute/ 2>/dev/null
+ls -la ~/.dragonrouter/ 2>/dev/null
 
 # Check for running processes
-pgrep -f omniroute
+pgrep -f dragonrouter
 ```
 
 If any process is still running, stop it:
 
 ```bash
-pkill -f omniroute
+pkill -f dragonrouter
 ```
