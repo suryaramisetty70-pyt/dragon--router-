@@ -1,6 +1,6 @@
 import { getIdempotencyKey, checkIdempotency } from "@/lib/idempotencyLayer";
 import { calculateCost } from "@/lib/usage/costCalculator";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
+import { attachDragonRouterMetaHeaders } from "@/domain/dragon_routerResponseMeta";
 
 /**
  * Resolve the request's idempotency key once and check the idempotency store. Returns the
@@ -40,9 +40,9 @@ export async function checkIdempotencyCache({
       : 0;
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      "X-OmniRoute-Idempotent": "true",
+      "X-Dragon Router-Idempotent": "true",
     };
-    attachOmniRouteMetaHeaders(headers, {
+    attachDragonRouterMetaHeaders(headers, {
       provider,
       model,
       cacheHit: false,

@@ -146,12 +146,12 @@ export default function CodexToolCard({
     setApplying(true);
     setMessage(null);
     try {
-      // Use sk_omniroute for localhost if no key, otherwise use selected key
+      // Use sk_dragon_router for localhost if no key, otherwise use selected key
       const keyToUse =
         selectedApiKey && selectedApiKey.trim()
           ? selectedApiKey
           : !cloudEnabled
-            ? "sk_omniroute"
+            ? "sk_dragon_router"
             : selectedApiKey;
 
       // Send both apiKey (as fallback) and keyId to look up the unmasked string natively
@@ -348,9 +348,9 @@ export default function CodexToolCard({
   };
 
   const getManualConfigs = () => {
-    const keyToUse = !cloudEnabled ? "sk_omniroute" : "<YOUR_OMNIROUTE_API_KEY>";
+    const keyToUse = !cloudEnabled ? "sk_dragon_router" : "<YOUR_DRAGON_ROUTER_API_KEY>";
 
-    let configContent = `# OmniRoute Configuration for Codex CLI
+    let configContent = `# Dragon Router Configuration for Codex CLI
 model = "${selectedModel || CODEX_DEFAULT_MODELS[0]}"`;
 
     if (reasoningEffort && reasoningEffort !== "none") {
@@ -359,10 +359,10 @@ model = "${selectedModel || CODEX_DEFAULT_MODELS[0]}"`;
 
     if (wireApi === "responses") {
       configContent += `
-model_provider = "omniroute"
+model_provider = "dragon-router"
 
-[model_providers.omniroute]
-name = "OmniRoute"
+[model_providers.dragon-router]
+name = "Dragon Router"
 base_url = "${getEffectiveBaseUrl()}"
 wire_api = "responses"
 env_key = "OPENAI_API_KEY"
@@ -370,7 +370,7 @@ env_key = "OPENAI_API_KEY"
     } else {
       configContent += `
 
-# Utilize the built-in OpenAI provider pointed to OmniRoute
+# Utilize the built-in OpenAI provider pointed to Dragon Router
 openai_base_url = "${getEffectiveBaseUrl()}"
 `;
     }

@@ -3,13 +3,13 @@
  * decomposition, #3501).
  *
  * Extracted from handleChatCore's non-streaming success path: build the response header map for a
- * cache-MISS JSON response — the static Content-Type + cache marker, the OmniRoute meta headers
+ * cache-MISS JSON response — the static Content-Type + cache marker, the Dragon Router meta headers
  * (provider/model/latency/usage/cost/request-id), and the optional compression header. Pure builder
  * (returns a fresh map; only mutates the map it owns). Behaviour is byte-identical to the previous
  * inline block, including `latencyMs: now - startTime`.
  */
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
-import { attachOmniRouteMetaHeaders as defaultAttachMeta } from "@/domain/omnirouteResponseMeta";
+import { DRAGON_ROUTER_RESPONSE_HEADERS } from "@/shared/constants/headers";
+import { attachDragonRouterMetaHeaders as defaultAttachMeta } from "@/domain/dragon_routerResponseMeta";
 
 export function buildNonStreamingResponseHeaders(
   args: {
@@ -21,16 +21,16 @@ export function buildNonStreamingResponseHeaders(
     requestId: unknown;
     compressionResponseMeta?: string | null | undefined;
   },
-  deps: { attachOmniRouteMetaHeaders: typeof defaultAttachMeta; now: () => number } = {
-    attachOmniRouteMetaHeaders: defaultAttachMeta,
+  deps: { attachDragonRouterMetaHeaders: typeof defaultAttachMeta; now: () => number } = {
+    attachDragonRouterMetaHeaders: defaultAttachMeta,
     now: Date.now,
   }
 ): Record<string, string> {
   const responseHeaders: Record<string, string> = {
     "Content-Type": "application/json",
-    [OMNIROUTE_RESPONSE_HEADERS.cache]: "MISS",
+    [DRAGON_ROUTER_RESPONSE_HEADERS.cache]: "MISS",
   };
-  deps.attachOmniRouteMetaHeaders(responseHeaders, {
+  deps.attachDragonRouterMetaHeaders(responseHeaders, {
     provider: args.provider,
     model: args.model,
     cacheHit: false,
@@ -40,7 +40,7 @@ export function buildNonStreamingResponseHeaders(
     requestId: args.requestId,
   });
   if (args.compressionResponseMeta) {
-    responseHeaders[OMNIROUTE_RESPONSE_HEADERS.compression] = args.compressionResponseMeta;
+    responseHeaders[DRAGON_ROUTER_RESPONSE_HEADERS.compression] = args.compressionResponseMeta;
   }
   return responseHeaders;
 }

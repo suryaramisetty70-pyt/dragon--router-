@@ -7,8 +7,8 @@ import { AGY_CONFIG } from "@/lib/oauth/constants/oauth";
 import {
   getAntigravityHeaders,
   getAntigravityLoadCodeAssistMetadata,
-} from "@omniroute/open-sse/services/antigravityHeaders.ts";
-import { extractCodeAssistOnboardTierId } from "@omniroute/open-sse/services/codeAssistSubscription.ts";
+} from "@dragon-router/open-sse/services/antigravityHeaders.ts";
+import { extractCodeAssistOnboardTierId } from "@dragon-router/open-sse/services/codeAssistSubscription.ts";
 
 type JsonRecord = Record<string, unknown>;
 

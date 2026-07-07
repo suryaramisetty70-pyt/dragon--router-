@@ -1,7 +1,7 @@
-import { getAntigravityModelsDiscoveryUrls } from "@omniroute/open-sse/config/antigravityUpstream.ts";
-import { getAntigravityHeaders } from "@omniroute/open-sse/services/antigravityHeaders.ts";
+import { getAntigravityModelsDiscoveryUrls } from "@dragon-router/open-sse/config/antigravityUpstream.ts";
+import { getAntigravityHeaders } from "@dragon-router/open-sse/services/antigravityHeaders.ts";
 import { parseGeminiModelsList } from "@/lib/providerModels/geminiModelsParser";
-import { filterClinepassModels } from "@omniroute/open-sse/services/clinepassModels.ts";
+import { filterClinepassModels } from "@dragon-router/open-sse/services/clinepassModels.ts";
 import { normalizeOpenAiLikeModelsResponse } from "./normalizers";
 
 export type ProviderModelsConfigEntry = {

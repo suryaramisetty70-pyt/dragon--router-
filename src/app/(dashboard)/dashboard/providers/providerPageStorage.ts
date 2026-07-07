@@ -1,5 +1,5 @@
-export const SHOW_CONFIGURED_ONLY_STORAGE_KEY = "omniroute-providers-show-configured-only";
-export const PROVIDER_DISPLAY_MODE_STORAGE_KEY = "omniroute-providers-display-mode";
+export const SHOW_CONFIGURED_ONLY_STORAGE_KEY = "dragon-router-providers-show-configured-only";
+export const PROVIDER_DISPLAY_MODE_STORAGE_KEY = "dragon-router-providers-display-mode";
 
 export type ProviderDisplayMode = "all" | "configured" | "compact";
 

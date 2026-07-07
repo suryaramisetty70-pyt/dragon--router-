@@ -104,7 +104,7 @@ function getOllamaModelFamily(model: OpenAiCatalogModel, canonicalFamily?: strin
 
 	return typeof model.owned_by === "string" && model.owned_by.trim().length > 0
 		? model.owned_by.trim()
-		: "omniroute";
+		: "dragon-router";
 }
 
 function toOllamaTagModel(model: OpenAiCatalogModel) {
@@ -137,7 +137,7 @@ function toOllamaTagModel(model: OpenAiCatalogModel) {
 		model: modelId,
 		modified_at: "2026-01-01T00:00:00Z",
 		size: 0,
-		digest: `omniroute:${modelId}`,
+		digest: `"dragon-router":${modelId}`,
 		...(reasoningEffortValues
 			? {
 				supports_reasoning_effort: reasoningEffortValues,

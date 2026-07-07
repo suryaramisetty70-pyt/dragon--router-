@@ -1,5 +1,5 @@
 /**
- * omniroute setup-cursor — guide Cursor to use OmniRoute.
+ * dragon-router setup-cursor — guide Cursor to use Dragon Router.
  *
  * Cursor stores its OpenAI key + "Override OpenAI Base URL" in an opaque SQLite
  * DB (state.vscdb) with no documented stable schema — NOT safe to file-write.
@@ -22,7 +22,7 @@ export function resolveCursorTarget(opts = {}) {
   if (opts.remote) root = String(opts.remote).replace(/\/+$/, "");
   else {
     try {
-      root = resolveActiveContext(opts.context ?? process.env.OMNIROUTE_CONTEXT)?.baseUrl;
+      root = resolveActiveContext(opts.context ?? process.env.DRAGON_ROUTER_CONTEXT)?.baseUrl;
     } catch {
       /* none */
     }
@@ -31,13 +31,13 @@ export function resolveCursorTarget(opts = {}) {
   let apiKey = opts.apiKey ?? opts["api-key"];
   if (!apiKey) {
     try {
-      const c = resolveActiveContext(opts.context ?? process.env.OMNIROUTE_CONTEXT);
+      const c = resolveActiveContext(opts.context ?? process.env.DRAGON_ROUTER_CONTEXT);
       apiKey = c?.accessToken || c?.apiKey;
     } catch {
       /* none */
     }
   }
-  if (!apiKey) apiKey = process.env.OMNIROUTE_API_KEY || "";
+  if (!apiKey) apiKey = process.env.DRAGON_ROUTER_API_KEY || "";
   return { apiBase: ensureV1(root), apiKey };
 }
 
@@ -49,7 +49,7 @@ export function buildCursorInstructions({ apiBase, models }) {
     "  1. Cursor → Settings (Cmd/Ctrl + ,) → Models",
     "  2. Enable “Override OpenAI Base URL” and set it to:",
     `       ${apiBase}        (the /v1 suffix is required)`,
-    "  3. Set the OpenAI API Key to your OmniRoute key (OMNIROUTE_API_KEY)",
+    "  3. Set the OpenAI API Key to your Dragon Router key (DRAGON_ROUTER_API_KEY)",
     "  4. Add the model name(s) you want under “Models” (Cursor has no auto-discovery):",
   ];
   const sample = (models && models.length ? models : ["glm/glm-5.2", "kmc/kimi-k2.7"]).slice(0, 8);
@@ -80,7 +80,7 @@ async function fetchModelIds(apiBase, apiKey) {
 
 export async function runSetupCursorCommand(opts = {}) {
   const { apiBase, apiKey } = resolveCursorTarget(opts);
-  printHeading("OmniRoute → Cursor");
+  printHeading("Dragon Router → Cursor");
   printInfo(`Server: ${apiBase}`);
 
   let models = [];
@@ -96,10 +96,10 @@ export async function runSetupCursorCommand(opts = {}) {
 export function registerSetupCursor(program) {
   program
     .command("setup-cursor")
-    .description("Print the steps to point Cursor at OmniRoute (chat panel; Cursor config is not file-writable)")
-    .option("--port <port>", "Local OmniRoute port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote OmniRoute URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "OmniRoute API key (defaults to OMNIROUTE_API_KEY env var)")
+    .description("Print the steps to point Cursor at Dragon Router (chat panel; Cursor config is not file-writable)")
+    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--only <patterns>", "Comma-separated substrings — suggest only matching model IDs")
     .action(async (opts) => {
       const code = await runSetupCursorCommand(opts);

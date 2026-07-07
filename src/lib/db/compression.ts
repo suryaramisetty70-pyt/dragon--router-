@@ -27,12 +27,12 @@ import {
   type McpAccessibilityConfig,
   type RtkConfig,
   type UltraConfig,
-} from "@omniroute/open-sse/services/compression/types.ts";
+} from "@dragon-router/open-sse/services/compression/types.ts";
 import {
   isPreserveSystemPromptMode,
   normalizePreserveSystemPromptMode,
-} from "@omniroute/open-sse/services/compression/preserveSystemPromptMode.ts";
-import { maybePrewarmUltraSlmOnConfig } from "@omniroute/open-sse/services/compression/ultra.ts";
+} from "@dragon-router/open-sse/services/compression/preserveSystemPromptMode.ts";
+import { maybePrewarmUltraSlmOnConfig } from "@dragon-router/open-sse/services/compression/ultra.ts";
 
 const NAMESPACE = "compression";
 const COMPRESSION_MODES = new Set<CompressionMode>([

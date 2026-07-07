@@ -1,8 +1,8 @@
 import {
   isUserCallableAntigravityModelId,
   toClientAntigravityModelId,
-} from "@omniroute/open-sse/config/antigravityModelAliases.ts";
-import { isUserCallableAgyModelId } from "@omniroute/open-sse/config/agyModels.ts";
+} from "@dragon-router/open-sse/config/antigravityModelAliases.ts";
+import { isUserCallableAgyModelId } from "@dragon-router/open-sse/config/agyModels.ts";
 
 type JsonRecord = Record<string, unknown>;
 

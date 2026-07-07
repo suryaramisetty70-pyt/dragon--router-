@@ -9,13 +9,13 @@ import {
   SEARCH_CREDENTIAL_FALLBACKS,
   SEARCH_PROVIDERS,
   type SearchProviderConfig,
-} from "@omniroute/open-sse/config/searchRegistry.ts";
-import { handleSearch, type SearchResponse } from "@omniroute/open-sse/handlers/search.ts";
+} from "@dragon-router/open-sse/config/searchRegistry.ts";
+import { handleSearch, type SearchResponse } from "@dragon-router/open-sse/handlers/search.ts";
 import {
   computeCacheKey,
   getOrCoalesce,
   SEARCH_CACHE_DEFAULT_TTL_MS,
-} from "@omniroute/open-sse/services/searchCache.ts";
+} from "@dragon-router/open-sse/services/searchCache.ts";
 
 type SearchLogger = typeof defaultLog;
 

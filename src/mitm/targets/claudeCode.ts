@@ -25,9 +25,9 @@ export const CLAUDE_CODE_TARGET: MitmTarget = {
   setupTutorial: {
     steps: [
       "Install Claude Code (Anthropic CLI)",
-      "Install OmniRoute's root certificate",
+      "Install Dragon Router's root certificate",
       "Enable DNS routing for Claude Code",
-      "Run `claude` — requests are now proxied via OmniRoute",
+      "Run `claude` — requests are now proxied via Dragon Router",
     ],
     detection: { command: "which claude", platform: "all" },
   },

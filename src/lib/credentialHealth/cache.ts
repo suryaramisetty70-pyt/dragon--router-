@@ -39,7 +39,7 @@ const MAX_ENTRIES = 500;
 // ── State (globalThis singleton) ──────────────────────────────────────────
 
 declare global {
-  var __omnirouteCredentialCache:
+  var __dragon_routerCredentialCache:
     | {
         initialized: boolean;
         cache: Map<string, CredentialCacheEntry>;
@@ -48,13 +48,13 @@ declare global {
 }
 
 function getCacheState() {
-  if (!globalThis.__omnirouteCredentialCache) {
-    globalThis.__omnirouteCredentialCache = {
+  if (!globalThis.__dragon_routerCredentialCache) {
+    globalThis.__dragon_routerCredentialCache = {
       initialized: false,
       cache: new Map(),
     };
   }
-  return globalThis.__omnirouteCredentialCache;
+  return globalThis.__dragon_routerCredentialCache;
 }
 
 // ── Public API ────────────────────────────────────────────────────────────

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getAllRateLimitStatus } from "@omniroute/open-sse/services/rateLimitManager.ts";
+import { getAllRateLimitStatus } from "@dragon-router/open-sse/services/rateLimitManager.ts";
 import {
   getStats as getSemaphoreStats,
   resetAll as resetAllSemaphores,
-} from "@omniroute/open-sse/services/accountSemaphore.ts";
+} from "@dragon-router/open-sse/services/accountSemaphore.ts";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
 
 export async function GET(request: Request) {

@@ -1,8 +1,8 @@
 import {
   PROVIDER_ID_TO_ALIAS,
   PROVIDER_MODELS,
-} from "@omniroute/open-sse/config/providerModels.ts";
-import { parseModel, resolveCanonicalProviderModel } from "@omniroute/open-sse/services/model.ts";
+} from "@dragon-router/open-sse/config/providerModels.ts";
+import { parseModel, resolveCanonicalProviderModel } from "@dragon-router/open-sse/services/model.ts";
 import {
   MODEL_SPECS,
   getAuthoritativeContextWindow,

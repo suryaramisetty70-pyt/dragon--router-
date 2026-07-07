@@ -2,7 +2,7 @@
  * Plugin SDK — typed API for plugin developers.
  *
  * Provides `definePlugin()` factory and re-exports all types needed
- * to build OmniRoute plugins.
+ * to build Dragon Router plugins.
  *
  * @module plugins/sdk
  */
@@ -34,11 +34,11 @@ export interface PluginDefinition {
 }
 
 /**
- * Define an OmniRoute plugin with type safety.
+ * Define an Dragon Router plugin with type safety.
  *
  * @example
  * ```ts
- * import { definePlugin } from "omniroute/plugins/sdk";
+ * import { definePlugin } from "dragon-router/plugins/sdk";
  *
  * export default definePlugin({
  *   name: "my-plugin",

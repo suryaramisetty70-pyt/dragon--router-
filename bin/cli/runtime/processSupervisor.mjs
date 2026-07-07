@@ -30,7 +30,7 @@ export class ServerSupervisor {
     this.startedAt = Date.now();
     this.crashLog = [];
 
-    const showLog = process.env.OMNIROUTE_SHOW_LOG === "1";
+    const showLog = process.env.DRAGON_ROUTER_SHOW_LOG === "1";
     // #5238: skip the explicit CLI --max-old-space-size when the user pinned the
     // heap via NODE_OPTIONS (a CLI arg would shadow/override their value). The
     // calibrated heap is already carried by env.NODE_OPTIONS either way.

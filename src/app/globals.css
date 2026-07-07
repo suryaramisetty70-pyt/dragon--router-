@@ -30,39 +30,39 @@
 :root {
   --desktop-safe-top: 0px;
   --desktop-safe-bottom: 0px;
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Primary - Coral Red (OpenClaw) */
-  --color-primary: #e54d5e;
-  --color-primary-hover: #c93d4e;
+  /* Primary - Magma Red */
+  --color-primary: #ff3d00;
+  --color-primary-hover: #d50000;
 
-  /* Accent - Indigo/Violet (buttons, links, gradients) */
-  --color-accent: #6366f1;
-  --color-accent-hover: #8b5cf6;
-  --color-accent-light: #a855f7;
+  /* Accent - Gold/Orange (buttons, links, gradients) */
+  --color-accent: #ff9100;
+  --color-accent-hover: #ffea00;
+  --color-accent-light: #ff6d00;
 
   /* Semantic */
-  --color-error: #ef4444;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
+  --color-error: #ff1744;
+  --color-success: #00e676;
+  --color-warning: #ffea00;
 
   /* Traffic lights */
-  --color-traffic-red: #ff5f56;
-  --color-traffic-yellow: #ffbd2e;
-  --color-traffic-green: #27c93f;
+  --color-traffic-red: #ff3d00;
+  --color-traffic-yellow: #ff9100;
+  --color-traffic-green: #00e676;
 
-  /* Light theme */
-  --color-bg: #f9f9fb;
-  --color-bg-alt: #f0f0f5;
-  --color-bg-primary: #f9f9fb;
-  --color-bg-subtle: #f0f0f5;
-  --color-surface: #ffffff;
-  --color-card: #ffffff;
-  --color-sidebar: #f5f5fa;
-  --color-border: rgba(0, 0, 0, 0.08);
-  --color-text-main: #1a1a2e;
-  --color-text-primary: #1a1a2e;
-  --color-text-muted: #71717a;
+  /* Magma-dark theme by default */
+  --color-bg: #080505;
+  --color-bg-alt: #120a0a;
+  --color-bg-primary: #080505;
+  --color-bg-subtle: #120a0a;
+  --color-surface: #160e0e;
+  --color-card: #160e0e;
+  --color-sidebar: #0c0707;
+  --color-border: rgba(255, 61, 0, 0.15);
+  --color-text-main: #f5f5f5;
+  --color-text-primary: #f5f5f5;
+  --color-text-muted: #a39797;
 
   /* Fumadocs light theme */
   --color-fd-background: #f9f9fb;
@@ -74,13 +74,13 @@
   --color-fd-card: #ffffff;
   --color-fd-card-foreground: #1a1a2e;
   --color-fd-border: rgba(0, 0, 0, 0.08);
-  --color-fd-primary: #e54d5e;
+  --color-fd-primary: #ff3d00;
   --color-fd-primary-foreground: #ffffff;
-  --color-fd-secondary: #f0f0f5;
-  --color-fd-secondary-foreground: #1a1a2e;
-  --color-fd-accent: rgba(229, 77, 94, 0.08);
-  --color-fd-accent-foreground: #1a1a2e;
-  --color-fd-ring: #e54d5e;
+  --color-fd-secondary: #120a0a;
+  --color-fd-secondary-foreground: #f5f5f5;
+  --color-fd-accent: rgba(255, 61, 0, 0.12);
+  --color-fd-accent-foreground: #f5f5f5;
+  --color-fd-ring: #ff3d00;
 
   /* Shadows */
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.015);
@@ -88,7 +88,7 @@
   --shadow-elevated: 0 12px 28px -4px rgba(20, 20, 40, 0.06);
 
   /* Graph-paper wallpaper grid — shared visual identity with the marketing site
-     (_mono_repo/omnirouteSite/css). Light theme values. Rendered by body::before.
+     (_mono_repo/dragon_routerSite/css). Light theme values. Rendered by body::before.
      Opacity tuned up from the site's 0.045 so the wallpaper is actually visible on
      the dense dashboard (cards/chrome cover most of the viewport). */
   --grid-line: rgba(0, 0, 0, 0.07);
@@ -114,19 +114,19 @@
 }
 
 .dark {
-  /* Dark theme (ClawHub deep) */
+  /* Dark theme (Fire Dragon deep) */
   color-scheme: dark;
-  --color-bg: #0b0e14;
-  --color-bg-alt: #111520;
-  --color-bg-primary: #0b0e14;
-  --color-bg-subtle: #111520;
-  --color-surface: #161b22;
-  --color-card: #161b22;
-  --color-sidebar: #10141e;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-text-main: #e6e6ef;
-  --color-text-primary: #e6e6ef;
-  --color-text-muted: #a1a1aa;
+  --color-bg: #080505;
+  --color-bg-alt: #120a0a;
+  --color-bg-primary: #080505;
+  --color-bg-subtle: #120a0a;
+  --color-surface: #160e0e;
+  --color-card: #160e0e;
+  --color-sidebar: #0c0707;
+  --color-border: rgba(255, 61, 0, 0.15);
+  --color-text-main: #f5f5f5;
+  --color-text-primary: #f5f5f5;
+  --color-text-muted: #a39797;
 
   /* Fumadocs theme mapping */
   --color-fd-background: #0b0e14;
@@ -137,14 +137,13 @@
   --color-fd-popover-foreground: #e6e6ef;
   --color-fd-card: #161b22;
   --color-fd-card-foreground: #e6e6ef;
-  --color-fd-border: rgba(255, 255, 255, 0.08);
-  --color-fd-primary: #e54d5e;
+  --color-fd-primary: #ff3d00;
   --color-fd-primary-foreground: #ffffff;
-  --color-fd-secondary: #111520;
-  --color-fd-secondary-foreground: #e6e6ef;
-  --color-fd-accent: rgba(229, 77, 94, 0.12);
-  --color-fd-accent-foreground: #e6e6ef;
-  --color-fd-ring: #e54d5e;
+  --color-fd-secondary: #120a0a;
+  --color-fd-secondary-foreground: #f5f5f5;
+  --color-fd-accent: rgba(255, 61, 0, 0.12);
+  --color-fd-accent-foreground: #f5f5f5;
+  --color-fd-ring: #ff3d00;
 
   /* Dark shadows */
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);

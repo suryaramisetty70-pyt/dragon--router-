@@ -11,7 +11,7 @@
  *
  * Authentication:
  *   None. Auggie delegates auth entirely to the user's local `auggie login`
- *   session — OmniRoute never sees or stores credentials for this provider.
+ *   session — Dragon Router never sees or stores credentials for this provider.
  *   The connection is registered `noAuth: true` and `refreshCredentials()` is
  *   a no-op (nothing to refresh).
  *
@@ -220,7 +220,7 @@ export class AuggieExecutor extends BaseExecutor {
     return null;
   }
 
-  /** No-op — auggie has no OmniRoute-managed credentials to refresh. */
+  /** No-op — auggie has no Dragon Router-managed credentials to refresh. */
   async refreshCredentials(
     _credentials: ProviderCredentials
   ): Promise<Partial<ProviderCredentials> | null> {

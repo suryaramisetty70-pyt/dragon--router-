@@ -15,39 +15,39 @@ import {
   lockModel,
   recordModelLockoutFailure,
   isDailyQuotaExhausted,
-} from "@omniroute/open-sse/services/accountFallback.ts";
+} from "@dragon-router/open-sse/services/accountFallback.ts";
 import { getModelInfo, getComboForModel } from "../services/model";
-import { resolveBareModelToConnectionDefault } from "@omniroute/open-sse/services/model.ts";
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import { acceptHeaderForcesStream } from "@omniroute/open-sse/utils/aiSdkCompat.ts";
-import { isSelfInflictedUpstreamTimeout } from "@omniroute/open-sse/handlers/chatCore/cooldownClassification.ts";
-import { applyNoThinkingAlias } from "@omniroute/open-sse/utils/noThinkingAlias.ts";
-import { handleComboChat } from "@omniroute/open-sse/services/combo.ts";
+import { resolveBareModelToConnectionDefault } from "@dragon-router/open-sse/services/model.ts";
+import { errorResponse } from "@dragon-router/open-sse/utils/error.ts";
+import { acceptHeaderForcesStream } from "@dragon-router/open-sse/utils/aiSdkCompat.ts";
+import { isSelfInflictedUpstreamTimeout } from "@dragon-router/open-sse/handlers/chatCore/cooldownClassification.ts";
+import { applyNoThinkingAlias } from "@dragon-router/open-sse/utils/noThinkingAlias.ts";
+import { handleComboChat } from "@dragon-router/open-sse/services/combo.ts";
 import {
   resolveRequestModePack,
   parseRequestBudgetCap,
-} from "@omniroute/open-sse/services/autoCombo/requestControls.ts";
-import { resolveComboConfig } from "@omniroute/open-sse/services/comboConfig.ts";
-import { injectHandoffIntoBody } from "@omniroute/open-sse/services/contextHandoff.ts";
+} from "@dragon-router/open-sse/services/autoCombo/requestControls.ts";
+import { resolveComboConfig } from "@dragon-router/open-sse/services/comboConfig.ts";
+import { injectHandoffIntoBody } from "@dragon-router/open-sse/services/contextHandoff.ts";
 import {
   HTTP_STATUS,
   ANTIGRAVITY_PRE_RESPONSE_TIMEOUT_CODE,
-} from "@omniroute/open-sse/config/constants.ts";
-import { getTargetFormat } from "@omniroute/open-sse/services/provider.ts";
+} from "@dragon-router/open-sse/config/constants.ts";
+import { getTargetFormat } from "@dragon-router/open-sse/services/provider.ts";
 import {
   getModelTargetFormat,
   PROVIDER_ID_TO_ALIAS,
-} from "@omniroute/open-sse/config/providerModels.ts";
-import type { AutoVariant } from "@omniroute/open-sse/services/autoCombo/autoPrefix.ts";
+} from "@dragon-router/open-sse/config/providerModels.ts";
+import type { AutoVariant } from "@dragon-router/open-sse/services/autoCombo/autoPrefix.ts";
 import {
   AUTO_TEMPLATE_VARIANTS,
   VALID_AUTO_VARIANTS,
-} from "@omniroute/open-sse/services/autoCombo/builtinCatalog.ts";
+} from "@dragon-router/open-sse/services/autoCombo/builtinCatalog.ts";
 import {
   parseAutoSuffix,
   type AutoCategory,
   type AutoTier,
-} from "@omniroute/open-sse/services/autoCombo/suffixComposition.ts";
+} from "@dragon-router/open-sse/services/autoCombo/suffixComposition.ts";
 import * as log from "../utils/logger";
 import { checkAndRefreshToken } from "../services/tokenRefresh";
 import { createHookContext, runHooks, initPreRequestRegistry } from "@/lib/middleware/registry";
@@ -81,7 +81,7 @@ import {
   withSelectedConnectionHeader,
   withCorrelationId,
 } from "./chatHelpers";
-import { connectionHasExtraKeys } from "@omniroute/open-sse/services/apiKeyRotator.ts";
+import { connectionHasExtraKeys } from "@dragon-router/open-sse/services/apiKeyRotator.ts";
 
 // Pipeline integration — wired modules
 import { classify429FromError, type FailureKind } from "@/shared/utils/classify429";
@@ -98,11 +98,11 @@ import { handleInternalUsageCommand } from "@/lib/usage/internalUsageCommand";
 import {
   applyTaskAwareRouting,
   getTaskRoutingConfig,
-} from "@omniroute/open-sse/services/taskAwareRouter.ts";
+} from "@dragon-router/open-sse/services/taskAwareRouter.ts";
 import {
   hasNativeWebSearchTool,
   resolveWebSearchRouteOverride,
-} from "@omniroute/open-sse/services/webSearchRouting.ts";
+} from "@dragon-router/open-sse/services/webSearchRouting.ts";
 import {
   generateSessionId as generateStableSessionId,
   touchSession,
@@ -110,21 +110,21 @@ import {
   checkSessionLimit,
   registerKeySession,
   isSessionRegisteredForKey,
-} from "@omniroute/open-sse/services/sessionManager.ts";
-import { startQuotaMonitor } from "@omniroute/open-sse/services/quotaMonitor.ts";
+} from "@dragon-router/open-sse/services/sessionManager.ts";
+import { startQuotaMonitor } from "@dragon-router/open-sse/services/quotaMonitor.ts";
 import {
   isFallbackDecision,
   shouldUseFallback,
-} from "@omniroute/open-sse/services/emergencyFallback.ts";
+} from "@dragon-router/open-sse/services/emergencyFallback.ts";
 import {
   registerCodexConnection,
   registerCodexQuotaFetcher,
-} from "@omniroute/open-sse/services/codexQuotaFetcher.ts";
-import { registerBailianCodingPlanQuotaFetcher } from "@omniroute/open-sse/services/bailianQuotaFetcher.ts";
-import { registerCrofUsageFetcher } from "@omniroute/open-sse/services/crofUsageFetcher.ts";
-import { registerDeepseekQuotaFetcher } from "@omniroute/open-sse/services/deepseekQuotaFetcher.ts";
-import { registerOpencodeQuotaFetcher } from "@omniroute/open-sse/services/opencodeQuotaFetcher.ts";
-import { registerGenericQuotaFetchers } from "@omniroute/open-sse/services/genericQuotaFetcher.ts";
+} from "@dragon-router/open-sse/services/codexQuotaFetcher.ts";
+import { registerBailianCodingPlanQuotaFetcher } from "@dragon-router/open-sse/services/bailianQuotaFetcher.ts";
+import { registerCrofUsageFetcher } from "@dragon-router/open-sse/services/crofUsageFetcher.ts";
+import { registerDeepseekQuotaFetcher } from "@dragon-router/open-sse/services/deepseekQuotaFetcher.ts";
+import { registerOpencodeQuotaFetcher } from "@dragon-router/open-sse/services/opencodeQuotaFetcher.ts";
+import { registerGenericQuotaFetchers } from "@dragon-router/open-sse/services/genericQuotaFetcher.ts";
 import {
   getCooldownAwareRetryDecision,
   resolveCooldownAwareRetrySettings,
@@ -234,7 +234,7 @@ export async function handleChat(
   // Early guard: an explicitly empty `messages` array is invalid for every
   // upstream (Anthropic/OpenAI both reject "at least one message is required").
   // Forwarding it produced a confusing raw upstream 400/502; reject it here with
-  // a clear OmniRoute-level error before any routing or upstream call (#5110).
+  // a clear Dragon Router-level error before any routing or upstream call (#5110).
   // Responses-API requests use `input` (not `messages`) so they are unaffected,
   // and an absent `messages` field is left to downstream validation.
   if (
@@ -321,7 +321,7 @@ export async function handleChat(
   const externalSessionId = extractExternalSessionId(request.headers);
   const sessionId = externalSessionId || generateStableSessionId(body);
   const sessionAffinityKey = extractSessionAffinityKey(body, request.headers) || sessionId;
-  const requestedConnectionId = request.headers.get("x-omniroute-connection")?.trim() || null;
+  const requestedConnectionId = request.headers.get("x-dragon-router-connection")?.trim() || null;
   if (sessionId) {
     touchSession(sessionId);
   }
@@ -495,7 +495,7 @@ export async function handleChat(
 
     try {
       const { parseAutoPrefix } =
-        await import("@omniroute/open-sse/services/autoCombo/autoPrefix.ts");
+        await import("@dragon-router/open-sse/services/autoCombo/autoPrefix.ts");
       const parsed = parseAutoPrefix(resolvedModelStr);
       if (parsed.valid) {
         if (!Object.prototype.hasOwnProperty.call(AUTO_TEMPLATE_VARIANTS, resolvedModelStr)) {
@@ -550,7 +550,7 @@ export async function handleChat(
 
     try {
       const { createVirtualAutoCombo } =
-        await import("@omniroute/open-sse/services/autoCombo/virtualFactory.ts");
+        await import("@dragon-router/open-sse/services/autoCombo/virtualFactory.ts");
       const virtualCombo = await createVirtualAutoCombo(autoVariant, autoSpec);
       virtualCombo.name = resolvedModelStr;
       virtualCombo.id = resolvedModelStr;
@@ -653,8 +653,8 @@ export async function handleChat(
       combo.strategy === "context-relay" ? resolveComboConfig(combo, settings) : null;
     // Per-request Auto-Combo controls (#6023 / #6024 / #6025): steer an `auto`
     // combo on this single request without mutating its stored config.
-    const requestModeHeader = request.headers.get("x-omniroute-mode")?.trim() || null;
-    const requestBudgetHeader = request.headers.get("x-omniroute-budget")?.trim() || null;
+    const requestModeHeader = request.headers.get("x-dragon-router-mode")?.trim() || null;
+    const requestBudgetHeader = request.headers.get("x-dragon-router-budget")?.trim() || null;
     const perRequestMode = resolveRequestModePack(requestModeHeader);
     const perRequestBudgetCap = parseRequestBudgetCap(requestBudgetHeader);
     const relayOptions =
@@ -1210,7 +1210,7 @@ async function handleSingleModelChat(
         comboStrategy === "context-relay" &&
         comboName &&
         runtimeOptions.sessionId &&
-        body?._omnirouteSkipContextRelay !== true
+        body?._dragon_routerSkipContextRelay !== true
       ) {
         const handoff = getHandoff(runtimeOptions.sessionId, comboName);
         if (handoff && handoff.fromAccount !== credentials.connectionId) {
@@ -1248,7 +1248,7 @@ async function handleSingleModelChat(
           ...(workspaceId ? { workspaceId } : {}),
         });
       }
-      if (runtimeOptions.sessionId && body?._omnirouteInternalRequest !== "context-handoff") {
+      if (runtimeOptions.sessionId && body?._dragon_routerInternalRequest !== "context-handoff") {
         touchSession(runtimeOptions.sessionId, credentials.connectionId);
         startQuotaMonitor(
           runtimeOptions.sessionId,

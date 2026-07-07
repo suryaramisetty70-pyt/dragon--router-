@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
-import { retrieveBlock } from "@omniroute/open-sse/services/compression/engines/ccr/index";
-import { queryBlock } from "@omniroute/open-sse/services/compression/engines/ccr/ccrQuery";
-import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
+import { retrieveBlock } from "@dragon-router/open-sse/services/compression/engines/ccr/index";
+import { queryBlock } from "@dragon-router/open-sse/services/compression/engines/ccr/ccrQuery";
+import { sanitizeErrorMessage } from "@dragon-router/open-sse/utils/error";
 
 export const dynamic = "force-dynamic";
 

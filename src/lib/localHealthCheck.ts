@@ -49,7 +49,7 @@ function isAutomatedTestProcess(): boolean {
 // ── State (globalThis survives HMR re-evaluation) ───────────────────────
 
 declare global {
-  var __omnirouteLocalHC:
+  var __dragon_routerLocalHC:
     | {
         initialized: boolean;
         sweepTimer: ReturnType<typeof setTimeout> | null;
@@ -60,15 +60,15 @@ declare global {
 }
 
 function getLHCState() {
-  if (!globalThis.__omnirouteLocalHC) {
-    globalThis.__omnirouteLocalHC = {
+  if (!globalThis.__dragon_routerLocalHC) {
+    globalThis.__dragon_routerLocalHC = {
       initialized: false,
       sweepTimer: null,
       healthCache: new Map(),
       sweepInProgress: false,
     };
   }
-  return globalThis.__omnirouteLocalHC;
+  return globalThis.__dragon_routerLocalHC;
 }
 
 const healthCache = getLHCState().healthCache;
@@ -83,7 +83,7 @@ function isEnvFlagEnabled(name: string): boolean {
 
 function isLocalHealthCheckDisabled(): boolean {
   return (
-    isEnvFlagEnabled("OMNIROUTE_DISABLE_LOCAL_HEALTHCHECK") ||
+    isEnvFlagEnabled("DRAGON_ROUTER_DISABLE_LOCAL_HEALTHCHECK") ||
     isBuildProcess() ||
     isAutomatedTestProcess()
   );

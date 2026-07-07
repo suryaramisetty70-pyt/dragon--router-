@@ -242,7 +242,7 @@ export async function POST(req: NextRequest) {
 
           send({ step: "restart", status: "running", message: "Restarting service..." });
           try {
-            await execFileAsync("pm2", ["restart", "omniroute", "--update-env"], {
+            await execFileAsync("pm2", ["restart", "dragon-router", "--update-env"], {
               timeout: 30_000,
               cwd: PROJECT_ROOT,
             });
@@ -300,13 +300,13 @@ export async function POST(req: NextRequest) {
           controller.close();
           return;
         }
-        send({ step: "install", status: "running", message: `Installing omniroute@${latest}...` });
+        send({ step: "install", status: "running", message: `Installing dragon-router@${latest}...` });
           await execFileAsync(
             "npm",
-            ["install", "-g", `omniroute@${latest}`, "--ignore-scripts", "--legacy-peer-deps"],
+            ["install", "-g", `dragon-router@${latest}`, "--ignore-scripts", "--legacy-peer-deps"],
             buildNpmExecOptions(process.platform, { cwd: PROJECT_ROOT, timeoutMs: 300_000 })
           );
-        send({ step: "install", status: "done", message: `Installed omniroute@${latest}` });
+        send({ step: "install", status: "done", message: `Installed dragon-router@${latest}` });
 
         // Step 2: Rebuild native modules (critical for better-sqlite3)
         send({
@@ -325,7 +325,7 @@ export async function POST(req: NextRequest) {
         // Step 3: Restart PM2
         send({ step: "restart", status: "running", message: "Restarting service via PM2..." });
           try {
-            await execFileAsync("pm2", ["restart", "omniroute", "--update-env"], {
+            await execFileAsync("pm2", ["restart", "dragon-router", "--update-env"], {
               timeout: 30000,
               cwd: PROJECT_ROOT,
             });

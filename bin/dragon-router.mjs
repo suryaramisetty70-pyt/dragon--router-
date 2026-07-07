@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * OmniRoute CLI entry point.
+ * Dragon Router CLI entry point.
  *
  * Special bypasses (handled before Commander):
  *   --mcp                     Start MCP server over stdio
@@ -58,7 +58,7 @@ function loadEnvFile() {
   addEnvPath(join(process.cwd(), ".env"));
   // Skip the repo-checkout .env when explicitly requested (used by isolation tests
   // that need a deterministic environment without the development repo's defaults).
-  if (process.env.OMNIROUTE_CLI_SKIP_REPO_ENV !== "1") {
+  if (process.env.DRAGON_ROUTER_CLI_SKIP_REPO_ENV !== "1") {
     addEnvPath(join(ROOT, ".env"));
   }
 
@@ -92,13 +92,13 @@ function loadEnvFile() {
 
 loadEnvFile();
 
-// Generate STORAGE_ENCRYPTION_KEY if not set (persisted to ~/.omniroute/.env)
+// Generate STORAGE_ENCRYPTION_KEY if not set (persisted to ~/.dragon-router/.env)
 // This ensures the key survives across upgrades and is not regenerated on each install.
-// See: https://github.com/diegosouzapw/OmniRoute/issues/1622
+// See: https://github.com/diegosouzapw/Dragon Router/issues/1622
 //
 // Only provision for commands that actually touch encrypted storage. Purely
 // informational invocations (`--version`, `--help`, `help`) must not create a
-// key or write ~/.omniroute/.env — running a read-only command should never
+// key or write ~/.dragon-router/.env — running a read-only command should never
 // mutate the data dir.
 if (shouldProvisionStorageKey(process.argv)) {
   const { randomBytes } = await import("node:crypto");
@@ -109,9 +109,9 @@ if (shouldProvisionStorageKey(process.argv)) {
   if (!process.env.STORAGE_ENCRYPTION_KEY) {
     // Persist the key into DATA_DIR when set — that's the directory mounted as a volume in
     // Docker (where storage.sqlite lives), so the key survives `docker down` / `docker pull`.
-    // Writing only to ~/.omniroute (the container home, not a volume) silently lost the key on
+    // Writing only to ~/.dragon-router (the container home, not a volume) silently lost the key on
     // container recreation, leaving the persisted encrypted DB undecryptable (regression of #1622).
-    const dataDir = process.env.DATA_DIR || join(homedir(), ".omniroute");
+    const dataDir = process.env.DATA_DIR || join(homedir(), ".dragon-router");
     const envPath = join(dataDir, ".env");
     const dbPath = join(dataDir, "storage.sqlite");
 
@@ -159,7 +159,7 @@ if (shouldProvisionStorageKey(process.argv)) {
 {
   const langIdx = process.argv.findIndex((a) => a === "--lang");
   const langArg = langIdx >= 0 ? process.argv[langIdx + 1] : null;
-  const langEnv = process.env.OMNIROUTE_LANG;
+  const langEnv = process.env.DRAGON_ROUTER_LANG;
   const chosen = langArg || langEnv;
   if (chosen) {
     const { setLocale } = await import(
@@ -173,7 +173,7 @@ if (shouldProvisionStorageKey(process.argv)) {
 const _pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
 const _notifier = updateNotifier({ pkg: _pkg, updateCheckInterval: 1000 * 60 * 60 * 24 });
 process.on("exit", () => {
-  if (process.env.OMNIROUTE_NO_UPDATE_NOTIFIER) return;
+  if (process.env.DRAGON_ROUTER_NO_UPDATE_NOTIFIER) return;
   if (process.env.CI) return;
   if (process.argv.includes("--quiet") || process.argv.includes("-q")) return;
   const outputIdx = process.argv.indexOf("--output");
@@ -186,7 +186,7 @@ process.on("exit", () => {
       isGlobal: true,
       message:
         `Update available: ${_notifier.update.current} → ${_notifier.update.latest}\n` +
-        "Run `npm install -g omniroute` or `omniroute update --apply`",
+        "Run `npm install -g dragon-router` or `dragon-router update --apply`",
     });
   }
 });

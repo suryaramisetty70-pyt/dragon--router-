@@ -1,4 +1,4 @@
-import { FREE_MODEL_BUDGETS } from "@omniroute/open-sse/config/freeModelCatalog";
+import { FREE_MODEL_BUDGETS } from "@dragon-router/open-sse/config/freeModelCatalog";
 import { resolveProviderId } from "@/shared/constants/providers";
 
 /**

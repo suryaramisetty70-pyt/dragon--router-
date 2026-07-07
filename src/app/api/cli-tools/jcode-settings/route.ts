@@ -14,7 +14,7 @@ import { saveCliToolLastConfigured, deleteCliToolLastConfigured } from "@/lib/db
 import { cliModelConfigSchema } from "@/shared/validation/schemas";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";
 import { resolveApiKey } from "@/shared/services/apiKeyResolver";
-import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error.ts";
+import { sanitizeErrorMessage } from "@dragon-router/open-sse/utils/error.ts";
 
 const TOOL_ID = "jcode";
 
@@ -24,14 +24,14 @@ const getJcodeConfigPath = (): string =>
 const getJcodeDir = () => path.dirname(getJcodeConfigPath());
 
 /**
- * Check if the config file contains OmniRoute settings.
+ * Check if the config file contains Dragon Router settings.
  */
-const hasOmniRouteConfig = (settings: Record<string, unknown> | null): boolean => {
+const hasDragonRouterConfig = (settings: Record<string, unknown> | null): boolean => {
   if (!settings) return false;
   return (
     typeof settings.baseUrl === "string" &&
     settings.baseUrl.length > 0 &&
-    settings._managedBy === "omniroute"
+    settings._managedBy === "dragon-router"
   );
 };
 
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
       runtimeMode: runtime.runtimeMode,
       reason: runtime.reason,
       config,
-      hasOmniRoute: hasOmniRouteConfig(config),
+      hasDragonRouter: hasDragonRouterConfig(config),
       configPath: getJcodeConfigPath(),
     });
   } catch (err) {
@@ -91,7 +91,7 @@ export async function GET(request: Request) {
   }
 }
 
-// POST — write OmniRoute settings to jcode config.json
+// POST — write Dragon Router settings to jcode config.json
 export async function POST(request: Request) {
   const authError = await requireCliToolsAuth(request);
   if (authError) return authError;
@@ -140,14 +140,14 @@ export async function POST(request: Request) {
       /* No existing config */
     }
 
-    // Merge OmniRoute settings (jcode uses OpenAI-compatible config)
+    // Merge Dragon Router settings (jcode uses OpenAI-compatible config)
     const normalizedBaseUrl = baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
     const updated: Record<string, unknown> = {
       ...existing,
       baseUrl: normalizedBaseUrl,
       apiKey,
       model,
-      _managedBy: "omniroute",
+      _managedBy: "dragon-router",
     };
 
     await fs.writeFile(configPath, JSON.stringify(updated, null, 2), "utf-8");
@@ -172,7 +172,7 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETE — remove OmniRoute settings from jcode config
+// DELETE — remove Dragon Router settings from jcode config
 export async function DELETE(request: Request) {
   const authError = await requireCliToolsAuth(request);
   if (authError) return authError;
@@ -200,7 +200,7 @@ export async function DELETE(request: Request) {
       throw err;
     }
 
-    // Remove OmniRoute-managed fields
+    // Remove Dragon Router-managed fields
     delete existing.baseUrl;
     delete existing.apiKey;
     delete existing.model;
@@ -219,7 +219,7 @@ export async function DELETE(request: Request) {
       /* non-critical */
     }
 
-    return NextResponse.json({ success: true, message: "jcode OmniRoute settings removed" });
+    return NextResponse.json({ success: true, message: "jcode Dragon Router settings removed" });
   } catch (err) {
     return NextResponse.json(
       { error: { message: sanitizeErrorMessage(err) } },

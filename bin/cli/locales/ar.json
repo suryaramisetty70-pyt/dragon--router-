@@ -1,8 +1,8 @@
 {
   "common": {
     "error": "خطأ: {message}",
-    "serverOffline": "خادم OmniRoute غير متصل. ابدأ بالأمر: omniroute serve",
-    "authRequired": "المصادقة مطلوبة. عيّن OMNIROUTE_API_KEY أو شغّل: omniroute setup",
+    "serverOffline": "خادم Dragon Router غير متصل. ابدأ بالأمر: dragon-router serve",
+    "authRequired": "المصادقة مطلوبة. عيّن DRAGON_ROUTER_API_KEY أو شغّل: dragon-router setup",
     "rateLimited": "تم تجاوز حد الطلبات. أعد المحاولة بعد {seconds} ثانية.",
     "timeout": "انتهت مهلة الطلب بعد {ms}ms.",
     "success": "تم.",
@@ -15,18 +15,18 @@
     "yesOpt": "تخطي رسالة التأكيد"
   },
   "program": {
-    "description": "OmniRoute — جهاز توجيه الذكاء الاصطناعي مع التبديل التلقائي",
+    "description": "Dragon Router — جهاز توجيه الذكاء الاصطناعي مع التبديل التلقائي",
     "version": "عرض الإصدار والخروج",
     "output": "تنسيق الإخراج (table, json, jsonl, csv)",
     "quiet": "إخفاء المخرجات غير الأساسية",
     "no_color": "تعطيل الإخراج الملوّن",
     "timeout": "مهلة طلب HTTP بالميلي ثانية",
-    "api_key": "مفتاح API لخادم OmniRoute",
-    "base_url": "عنوان URL الأساسي لخادم OmniRoute",
+    "api_key": "مفتاح API لخادم Dragon Router",
+    "base_url": "عنوان URL الأساسي لخادم Dragon Router",
     "context": "سياق/ملف تعريف الخادم المستخدم في هذا الأمر",
-    "lang": "تعيين لغة عرض CLI (يتجاوز OMNIROUTE_LANG)"
+    "lang": "تعيين لغة عرض CLI (يتجاوز DRAGON_ROUTER_LANG)"
   },
   "redis": {
-    "description": "تشغيل حاوية Redis محلية بضغطة واحدة (Podman أو Docker) لتخزين التخزين المؤقت وتتبع الحصة في OmniRoute"
+    "description": "تشغيل حاوية Redis محلية بضغطة واحدة (Podman أو Docker) لتخزين التخزين المؤقت وتتبع الحصة في Dragon Router"
   }
 }

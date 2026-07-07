@@ -1,7 +1,7 @@
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
+import { errorResponse } from "@dragon-router/open-sse/utils/error.ts";
+import { HTTP_STATUS } from "@dragon-router/open-sse/config/constants.ts";
 
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
+import { attachDragonRouterMetaHeaders } from "@/domain/dragon_routerResponseMeta";
 import { calculateModalCost } from "@/lib/usage/costCalculator";
 import { generateRequestId } from "@/shared/utils/requestId";
 import { toJsonErrorPayload } from "@/shared/utils/upstreamError";
@@ -107,7 +107,7 @@ export async function successfulMediaGenerationResponse({
   const seconds = Number(duration) || 0;
   const costUsd = await calculateModalCost(billingMode, provider, model, { seconds });
   const headers = new Headers({ "Content-Type": "application/json" });
-  attachOmniRouteMetaHeaders(headers, {
+  attachDragonRouterMetaHeaders(headers, {
     provider,
     model,
     costUsd,

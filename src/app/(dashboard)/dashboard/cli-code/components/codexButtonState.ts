@@ -6,10 +6,10 @@
  * they share its only consumer.
  *
  * Background: before this helper, the Apply button was disabled whenever
- * `selectedApiKey` was empty — but the default `sk_omniroute` key is a valid
+ * `selectedApiKey` was empty — but the default `sk_dragon_router` key is a valid
  * local-mode default and should not block Apply. The Reset button was disabled
- * whenever `codexStatus.hasOmniRoute` was false — but a user should always be
- * able to reset, even when Codex was never configured against OmniRoute.
+ * whenever `codexStatus.hasDragonRouter` was false — but a user should always be
+ * able to reset, even when Codex was never configured against Dragon Router.
  */
 
 export interface ApplyButtonInput {
@@ -31,7 +31,7 @@ export interface ApplyButtonInput {
  * - cloud mode is enabled AND keys exist AND none is selected.
  *
  * In local mode (cloud disabled) OR when no keys are configured at all, the
- * `sk_omniroute` default kicks in, so an empty `selectedApiKey` must NOT
+ * `sk_dragon_router` default kicks in, so an empty `selectedApiKey` must NOT
  * disable Apply.
  */
 export function isApplyDisabled({

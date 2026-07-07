@@ -2,7 +2,7 @@ import {
   EMBEDDING_PROVIDERS,
   buildDynamicEmbeddingProvider,
   type EmbeddingProviderNodeRow,
-} from "@omniroute/open-sse/config/embeddingRegistry.ts";
+} from "@dragon-router/open-sse/config/embeddingRegistry.ts";
 import { getProviderCredentials } from "@/sse/services/auth";
 import { getProviderNodes } from "@/lib/localDb";
 import type { MemorySettingsExtended } from "@/shared/schemas/memory";

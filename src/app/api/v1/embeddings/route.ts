@@ -1,9 +1,9 @@
 import {
   parseEmbeddingModel,
   getAllEmbeddingModels,
-} from "@omniroute/open-sse/config/embeddingRegistry.ts";
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
+} from "@dragon-router/open-sse/config/embeddingRegistry.ts";
+import { errorResponse } from "@dragon-router/open-sse/utils/error.ts";
+import { HTTP_STATUS } from "@dragon-router/open-sse/config/constants.ts";
 import * as log from "@/sse/utils/logger";
 import { enforceApiKeyPolicy } from "@/shared/utils/apiKeyPolicy";
 import { isRequireApiKeyEnabled } from "@/shared/utils/featureFlags";

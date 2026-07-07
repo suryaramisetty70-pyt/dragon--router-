@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { requireManagementAuth } from "@/lib/api/requireManagementAuth";
-import { getWebSessionPoolHealth } from "@omniroute/open-sse/services/webSessionPoolHealth";
-import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
+import { getWebSessionPoolHealth } from "@dragon-router/open-sse/services/webSessionPoolHealth";
+import { sanitizeErrorMessage } from "@dragon-router/open-sse/utils/error";
 
 export const dynamic = "force-dynamic";
 

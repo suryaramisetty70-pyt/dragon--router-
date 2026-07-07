@@ -1,8 +1,8 @@
 {
   "common": {
     "error": "Ошибка: {message}",
-    "serverOffline": "Сервер OmniRoute отключён. Запустите: omniroute serve",
-    "authRequired": "Требуется аутентификация. Установите OMNIROUTE_API_KEY или выполните: omniroute setup",
+    "serverOffline": "Сервер Dragon Router отключён. Запустите: dragon-router serve",
+    "authRequired": "Требуется аутентификация. Установите DRAGON_ROUTER_API_KEY или выполните: dragon-router setup",
     "rateLimited": "Превышен лимит запросов. Повторите через {seconds}с.",
     "timeout": "Запрос истёк через {ms}мс.",
     "success": "Готово.",
@@ -15,18 +15,18 @@
     "yesOpt": "Пропустить подтверждение"
   },
   "program": {
-    "description": "OmniRoute — Умный AI-маршрутизатор с автоматическим переключением",
+    "description": "Dragon Router — Умный AI-маршрутизатор с автоматическим переключением",
     "version": "Вывести версию и выйти",
     "output": "Формат вывода (table, json, jsonl, csv)",
     "quiet": "Подавить несущественный вывод",
     "no_color": "Отключить цветной вывод",
     "timeout": "Таймаут HTTP-запросов в миллисекундах",
-    "api_key": "API-ключ для сервера OmniRoute",
-    "base_url": "Базовый URL сервера OmniRoute",
+    "api_key": "API-ключ для сервера Dragon Router",
+    "base_url": "Базовый URL сервера Dragon Router",
     "context": "Контекст/профиль сервера для этой команды",
-    "lang": "Установить язык отображения CLI (переопределяет OMNIROUTE_LANG)"
+    "lang": "Установить язык отображения CLI (переопределяет DRAGON_ROUTER_LANG)"
   },
   "redis": {
-    "description": "Запустить локальный контейнер Redis одним нажатием (Podman или Docker) для кэширования и отслеживания квот OmniRoute"
+    "description": "Запустить локальный контейнер Redis одним нажатием (Podman или Docker) для кэширования и отслеживания квот Dragon Router"
   }
 }

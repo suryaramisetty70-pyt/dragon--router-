@@ -21,7 +21,7 @@ import {
 } from "../../utils/progressTracker.ts";
 import { createPiiSseTransform as defaultPiiSse } from "@/lib/streamingPiiTransform";
 import { isFeatureFlagEnabled as defaultFeatureFlag } from "@/shared/utils/featureFlags";
-import { OMNIROUTE_RESPONSE_HEADERS } from "@/shared/constants/headers";
+import { DRAGON_ROUTER_RESPONSE_HEADERS } from "@/shared/constants/headers";
 import { SSE_HEARTBEAT_INTERVAL_MS } from "../../config/constants.ts";
 
 type HeadersLike = Headers | Record<string, unknown> | null | undefined;
@@ -80,7 +80,7 @@ export function assembleStreamingPipeline(
     const progressTransform = deps.createProgressTransform({ signal: args.streamController.signal });
     // Chain: provider → transform → progress → client
     finalStream = piiStream.pipeThrough(progressTransform);
-    args.responseHeaders[OMNIROUTE_RESPONSE_HEADERS.progress] = "enabled";
+    args.responseHeaders[DRAGON_ROUTER_RESPONSE_HEADERS.progress] = "enabled";
   } else {
     finalStream = piiStream;
   }

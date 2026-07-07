@@ -5,8 +5,8 @@ import {
   deleteReasoningCacheEntry,
   getReasoningCacheServiceEntries,
   getReasoningCacheServiceStats,
-} from "@omniroute/open-sse/services/reasoningCache.ts";
-import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
+} from "@dragon-router/open-sse/services/reasoningCache.ts";
+import { sanitizeErrorMessage } from "@dragon-router/open-sse/utils/error";
 
 function errorMessage(error: unknown): string {
   return sanitizeErrorMessage(error);

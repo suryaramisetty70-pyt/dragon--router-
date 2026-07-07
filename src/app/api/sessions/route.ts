@@ -3,8 +3,8 @@ import {
   getActiveSessions,
   getActiveSessionCount,
   getAllActiveSessionCountsByKey,
-} from "@omniroute/open-sse/services/sessionManager.ts";
-import { sanitizeErrorMessage } from "@omniroute/open-sse/utils/error";
+} from "@dragon-router/open-sse/services/sessionManager.ts";
+import { sanitizeErrorMessage } from "@dragon-router/open-sse/utils/error";
 
 export async function GET() {
   try {

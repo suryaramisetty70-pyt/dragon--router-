@@ -1,9 +1,9 @@
 /**
- * Build the OmniRoute `customModels` entries for Factory Droid's `settings.json`.
+ * Build the Dragon Router `customModels` entries for Factory Droid's `settings.json`.
  *
  * Ported from upstream PR decolua/9router#618 (author Anurag Saxena) — multi-model
- * support for the Factory Droid CLI tool. Adapted to OmniRoute branding
- * (`custom:OmniRoute-<i>`) and extracted as a pure helper so the route-handler
+ * support for the Factory Droid CLI tool. Adapted to Dragon Router branding
+ * (`custom:Dragon Router-<i>`) and extracted as a pure helper so the route-handler
  * logic is unit-testable without touching the filesystem.
  */
 
@@ -90,7 +90,7 @@ export function buildDroidCustomModels(
 
   const entries: DroidCustomModelEntry[] = models.map((m, i) => ({
     model: m,
-    id: `custom:OmniRoute-${i}`,
+    id: `custom:Dragon Router-${i}`,
     index: i,
     baseUrl: opts.baseUrl,
     apiKey: opts.apiKey,
@@ -105,14 +105,14 @@ export function buildDroidCustomModels(
     entries.unshift({ ...defaultEntry, index: 0 });
     entries.forEach((e, i) => {
       e.index = i;
-      e.id = `custom:OmniRoute-${i}`;
+      e.id = `custom:Dragon Router-${i}`;
     });
   }
 
   return entries;
 }
 
-/** True when a `customModels` entry was written by OmniRoute (any index). */
-export function isOmniRouteCustomModel(entry: { id?: unknown } | null | undefined): boolean {
-  return typeof entry?.id === "string" && entry.id.startsWith("custom:OmniRoute");
+/** True when a `customModels` entry was written by Dragon Router (any index). */
+export function isDragonRouterCustomModel(entry: { id?: unknown } | null | undefined): boolean {
+  return typeof entry?.id === "string" && entry.id.startsWith("custom:Dragon Router");
 }

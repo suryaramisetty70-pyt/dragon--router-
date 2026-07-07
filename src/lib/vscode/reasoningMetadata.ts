@@ -1,5 +1,5 @@
-import { supportsXHighEffort } from "@omniroute/open-sse/config/providerModels";
-import { parseModel } from "@omniroute/open-sse/services/model";
+import { supportsXHighEffort } from "@dragon-router/open-sse/config/providerModels";
+import { parseModel } from "@dragon-router/open-sse/services/model";
 import { stripVscodeServiceTierVariantModelId } from "@/lib/vscode/serviceTierVariants";
 
 export type VscodeCatalogModel = {

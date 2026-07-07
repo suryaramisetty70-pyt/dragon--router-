@@ -1,24 +1,24 @@
-import { handleEmbedding } from "@omniroute/open-sse/handlers/embeddings.ts";
+import { handleEmbedding } from "@dragon-router/open-sse/handlers/embeddings.ts";
 import {
   parseEmbeddingModel,
   getEmbeddingProvider,
   buildDynamicEmbeddingProvider,
   type EmbeddingProviderNodeRow,
   type EmbeddingProvider,
-} from "@omniroute/open-sse/config/embeddingRegistry.ts";
-import { errorResponse, unavailableResponse } from "@omniroute/open-sse/utils/error.ts";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
+} from "@dragon-router/open-sse/config/embeddingRegistry.ts";
+import { errorResponse, unavailableResponse } from "@dragon-router/open-sse/utils/error.ts";
+import { HTTP_STATUS } from "@dragon-router/open-sse/config/constants.ts";
 import * as log from "@/sse/utils/logger";
 import { toJsonErrorPayload } from "@/shared/utils/upstreamError";
 import { getProviderCredentials, clearRecoveredProviderState } from "@/sse/services/auth";
 import { getProviderNodes, getComboByName, getCombos, getDatabaseSettings } from "@/lib/localDb";
 import { resolveProxyForConnection } from "@/lib/db/settings";
-import { runWithProxyContext } from "@omniroute/open-sse/utils/proxyFetch.ts";
-import { handleComboChat } from "@omniroute/open-sse/services/combo.ts";
-import { resolveBareModelToConnectionDefault } from "@omniroute/open-sse/services/model.ts";
+import { runWithProxyContext } from "@dragon-router/open-sse/utils/proxyFetch.ts";
+import { handleComboChat } from "@dragon-router/open-sse/services/combo.ts";
+import { resolveBareModelToConnectionDefault } from "@dragon-router/open-sse/services/model.ts";
 import { findEmbeddingComboDimensionConflict } from "./familyGuard";
 import { calculateCost } from "@/lib/usage/costCalculator";
-import { attachOmniRouteMetaHeaders } from "@/domain/omnirouteResponseMeta";
+import { attachDragonRouterMetaHeaders } from "@/domain/dragon_routerResponseMeta";
 import { generateRequestId } from "@/shared/utils/requestId";
 
 type ValidatedEmbeddingBody = Record<string, unknown> & { model: string };
@@ -265,7 +265,7 @@ export async function createEmbeddingResponse(
     responseHeaders.set("Content-Type", "application/json");
     const usage = (result.data as { usage?: Record<string, number> })?.usage ?? null;
     const costUsd = usage ? await calculateCost(provider, effectiveModel ?? "", usage) : 0;
-    attachOmniRouteMetaHeaders(responseHeaders, {
+    attachDragonRouterMetaHeaders(responseHeaders, {
       provider,
       model: effectiveModel,
       usage,

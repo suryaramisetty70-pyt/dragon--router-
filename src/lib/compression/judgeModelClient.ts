@@ -1,10 +1,10 @@
-import { getExecutor } from "@omniroute/open-sse/executors/index";
-import type { ExecuteInput, ProviderCredentials } from "@omniroute/open-sse/executors/base";
+import { getExecutor } from "@dragon-router/open-sse/executors/index";
+import type { ExecuteInput, ProviderCredentials } from "@dragon-router/open-sse/executors/base";
 import type {
   ChatTurn,
   ModelCallResult,
   ModelClient,
-} from "@omniroute/open-sse/services/compression/eval/types";
+} from "@dragon-router/open-sse/services/compression/eval/types";
 import { calculateCost } from "@/lib/usage/costCalculator";
 
 /**

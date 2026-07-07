@@ -52,7 +52,7 @@ export function resolveExecutionCredentials(opts: {
   }
 
   if (targetFormat === FORMATS.OPENAI_RESPONSES && (provider === "azure-ai" || provider === "oci")) {
-    providerSpecificData._omnirouteForceResponsesUpstream = true;
+    providerSpecificData._dragon_routerForceResponsesUpstream = true;
   }
 
   const withApiType = {

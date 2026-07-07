@@ -16,16 +16,16 @@
 const SHUTDOWN_TIMEOUT_MS = parseInt(process.env.SHUTDOWN_TIMEOUT_MS || "30000", 10);
 
 declare global {
-  var __omnirouteShutdown:
+  var __dragon_routerShutdown:
     | { init: boolean; shuttingDown: boolean; activeRequests: number }
     | undefined;
 }
 
 function getShutdownState() {
-  if (!globalThis.__omnirouteShutdown) {
-    globalThis.__omnirouteShutdown = { init: false, shuttingDown: false, activeRequests: 0 };
+  if (!globalThis.__dragon_routerShutdown) {
+    globalThis.__dragon_routerShutdown = { init: false, shuttingDown: false, activeRequests: 0 };
   }
-  return globalThis.__omnirouteShutdown;
+  return globalThis.__dragon_routerShutdown;
 }
 
 /**
@@ -98,7 +98,7 @@ async function cleanup(): Promise<void> {
   try {
     const [{ closeAuditDb }, { closeDbInstance }, { flushSpendBatchWriter }, { closeLogRotation }] =
       await Promise.all([
-        import("@omniroute/open-sse/mcp-server/audit.ts"),
+        import("@dragon-router/open-sse/mcp-server/audit.ts"),
         import("@/lib/db/core"),
         import("@/lib/spend/batchWriter"),
         import("@/lib/logRotation"),

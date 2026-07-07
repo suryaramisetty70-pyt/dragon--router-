@@ -1,4 +1,4 @@
-import { computeFreeModelTotals } from "@omniroute/open-sse/config/freeModelCatalog.ts";
+import { computeFreeModelTotals } from "@dragon-router/open-sse/config/freeModelCatalog.ts";
 import { sumUsageTokensThisMonth } from "@/lib/db/usageSummary";
 
 const CORS = {

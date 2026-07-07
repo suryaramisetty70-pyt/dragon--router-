@@ -18,7 +18,7 @@ const ADAPTIVE_EFFORT_LEVELS = new Set(["low", "medium", "high", "xhigh", "max"]
 // Can be disabled per-request via body._disableToolPrefix = true
 export const CLAUDE_OAUTH_TOOL_PREFIX = "proxy_";
 const CLAUDE_TOOL_CHOICE_REQUIRED = "an" + "y";
-const COPILOT_REASONING_SUMMARY_MARKER = "_omnirouteCopilotReasoningSummary";
+const COPILOT_REASONING_SUMMARY_MARKER = "_dragon_routerCopilotReasoningSummary";
 
 function wantsCopilotSummarizedThinking(body: Record<string, unknown> | null | undefined): boolean {
   return body?.[COPILOT_REASONING_SUMMARY_MARKER] === "summarized";

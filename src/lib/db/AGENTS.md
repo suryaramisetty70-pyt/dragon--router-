@@ -8,8 +8,8 @@ Live count: `ls src/lib/db/*.ts | wc -l` (currently 95). Migrations: `ls src/lib
 
 ## Core Infrastructure
 
-- **`core.ts`** — `getDbInstance()` returns singleton `better-sqlite3` with WAL journaling. Exports `rowToCamel()` (snake_case → camelCase), `encryptConnectionFields()` for provider credentials at rest. `SCHEMA_SQL` defines **17 base tables** (verify: `grep -c "CREATE TABLE" src/lib/db/core.ts` minus 1 for `_omniroute_migrations`).
-- **`migrationRunner.ts`** — Applies versioned SQL files from `db/migrations/` inside transactions. Tracks applied migrations in `_omniroute_migrations`. Each migration is idempotent.
+- **`core.ts`** — `getDbInstance()` returns singleton `better-sqlite3` with WAL journaling. Exports `rowToCamel()` (snake_case → camelCase), `encryptConnectionFields()` for provider credentials at rest. `SCHEMA_SQL` defines **17 base tables** (verify: `grep -c "CREATE TABLE" src/lib/db/core.ts` minus 1 for `_dragon_router_migrations`).
+- **`migrationRunner.ts`** — Applies versioned SQL files from `db/migrations/` inside transactions. Tracks applied migrations in `_dragon_router_migrations`. Each migration is idempotent.
 - **`db/migrations/`** — 110 SQL files (`001_initial_schema.sql` → `110_*.sql`). Each runs in a transaction, never fails partially.
 - **`localDb.ts`** — Re-export layer only. Never add logic here.
 

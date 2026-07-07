@@ -1,4 +1,4 @@
-import { DEFAULT_API_LIMITS, PROVIDER_PROFILES } from "@omniroute/open-sse/config/constants";
+import { DEFAULT_API_LIMITS, PROVIDER_PROFILES } from "@dragon-router/open-sse/config/constants";
 
 import type { JsonRecord, ResilienceSettings, ResilienceSettingsPatch } from "./settings/types";
 import {

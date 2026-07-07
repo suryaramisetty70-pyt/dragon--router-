@@ -1,9 +1,9 @@
-import { handleOcr } from "@omniroute/open-sse/handlers/ocr.ts";
+import { handleOcr } from "@dragon-router/open-sse/handlers/ocr.ts";
 import { getProviderCredentials, clearRecoveredProviderState } from "@/sse/services/auth";
 import { withInjectionGuard } from "@/middleware/promptInjectionGuard";
-import { parseOcrModel } from "@omniroute/open-sse/config/ocrRegistry.ts";
-import { errorResponse } from "@omniroute/open-sse/utils/error.ts";
-import { HTTP_STATUS } from "@omniroute/open-sse/config/constants.ts";
+import { parseOcrModel } from "@dragon-router/open-sse/config/ocrRegistry.ts";
+import { errorResponse } from "@dragon-router/open-sse/utils/error.ts";
+import { HTTP_STATUS } from "@dragon-router/open-sse/config/constants.ts";
 import { enforceApiKeyPolicy } from "@/shared/utils/apiKeyPolicy";
 import { v1OcrSchema } from "@/shared/validation/schemas";
 import { isValidationFailure, validateBody } from "@/shared/validation/helpers";

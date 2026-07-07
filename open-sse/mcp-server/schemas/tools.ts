@@ -1,10 +1,10 @@
 /**
- * MCP Tool Schemas — Contracts for all 23 core and advanced OmniRoute MCP tools.
+ * MCP Tool Schemas — Contracts for all 23 core and advanced Dragon Router MCP tools.
  *
  * Defines input/output Zod schemas, descriptions, scopes, and audit levels
  * for both essential (Phase 1) and advanced (Phase 2) MCP tools.
  *
- * Each tool wraps existing OmniRoute API endpoints and exposes them through
+ * Each tool wraps existing Dragon Router API endpoints and exposes them through
  * the Model Context Protocol, enabling AI agents in IDEs (VS Code, Cursor,
  * Copilot, Claude Desktop) to intelligently query gateway state.
  */
@@ -27,7 +27,7 @@ export { pickFastestModelInput, pickFastestModelOutput } from "./pickFastestMode
 
 // ============ Phase 1: Essential Tools (8) ============
 
-// --- Tool 1: omniroute_get_health ---
+// --- Tool 1: dragon_router_get_health ---
 export const getHealthInput = z.object({}).describe("No parameters required");
 
 export const getHealthOutput = z.object({
@@ -69,9 +69,9 @@ export const getHealthOutput = z.object({
 });
 
 export const getHealthTool: McpToolDefinition<typeof getHealthInput, typeof getHealthOutput> = {
-  name: "omniroute_get_health",
+  name: "dragon_router_get_health",
   description:
-    "Returns the current health status of OmniRoute including uptime, memory usage, circuit breaker states for all providers, rate limit status, and cache statistics.",
+    "Returns the current health status of Dragon Router including uptime, memory usage, circuit breaker states for all providers, rate limit status, and cache statistics.",
   inputSchema: getHealthInput,
   outputSchema: getHealthOutput,
   scopes: ["read:health"],
@@ -80,7 +80,7 @@ export const getHealthTool: McpToolDefinition<typeof getHealthInput, typeof getH
   sourceEndpoints: ["/api/monitoring/health", "/api/resilience", "/api/rate-limits"],
 };
 
-// --- Tool 2: omniroute_list_combos ---
+// --- Tool 2: dragon_router_list_combos ---
 export const listCombosInput = z.object({
   includeMetrics: z
     .boolean()
@@ -115,7 +115,7 @@ export const listCombosOutput = z.object({
 });
 
 export const listCombosTool: McpToolDefinition<typeof listCombosInput, typeof listCombosOutput> = {
-  name: "omniroute_list_combos",
+  name: "dragon_router_list_combos",
   description:
     "Lists all configured combos (model chains) with their strategies and optionally includes performance metrics. Combos define how requests are routed across multiple providers.",
   inputSchema: listCombosInput,
@@ -126,7 +126,7 @@ export const listCombosTool: McpToolDefinition<typeof listCombosInput, typeof li
   sourceEndpoints: ["/api/combos", "/api/combos/metrics"],
 };
 
-// --- Tool 3: omniroute_get_combo_metrics ---
+// --- Tool 3: dragon_router_get_combo_metrics ---
 export const getComboMetricsInput = z.object({
   comboId: z.string().describe("ID of the combo to get metrics for"),
 });
@@ -151,7 +151,7 @@ export const getComboMetricsTool: McpToolDefinition<
   typeof getComboMetricsInput,
   typeof getComboMetricsOutput
 > = {
-  name: "omniroute_get_combo_metrics",
+  name: "dragon_router_get_combo_metrics",
   description:
     "Returns detailed performance metrics for a specific combo including request count, success rate, average latency, total cost, and per-provider breakdowns.",
   inputSchema: getComboMetricsInput,
@@ -162,7 +162,7 @@ export const getComboMetricsTool: McpToolDefinition<
   sourceEndpoints: ["/api/combos/metrics"],
 };
 
-// --- Tool 4: omniroute_switch_combo ---
+// --- Tool 4: dragon_router_switch_combo ---
 export const switchComboInput = z.object({
   comboId: z.string().describe("ID of the combo to activate/deactivate"),
   active: z.boolean().describe("Whether to enable or disable the combo"),
@@ -179,7 +179,7 @@ export const switchComboOutput = z.object({
 
 export const switchComboTool: McpToolDefinition<typeof switchComboInput, typeof switchComboOutput> =
   {
-    name: "omniroute_switch_combo",
+    name: "dragon_router_switch_combo",
     description:
       "Activates or deactivates a combo. When deactivated, requests will not be routed through this combo. Use to toggle between different routing strategies.",
     inputSchema: switchComboInput,
@@ -190,7 +190,7 @@ export const switchComboTool: McpToolDefinition<typeof switchComboInput, typeof 
     sourceEndpoints: ["/api/combos"],
   };
 
-// --- Tool 5: omniroute_check_quota ---
+// --- Tool 5: dragon_router_check_quota ---
 export const checkQuotaInput = z.object({
   provider: z
     .string()
@@ -227,7 +227,7 @@ export const checkQuotaOutput = z.object({
 });
 
 export const checkQuotaTool: McpToolDefinition<typeof checkQuotaInput, typeof checkQuotaOutput> = {
-  name: "omniroute_check_quota",
+  name: "dragon_router_check_quota",
   description:
     "Checks the remaining API quota for one or all providers. Returns quota used/total, percentage remaining, reset time, and token health status.",
   inputSchema: checkQuotaInput,
@@ -238,7 +238,7 @@ export const checkQuotaTool: McpToolDefinition<typeof checkQuotaInput, typeof ch
   sourceEndpoints: ["/api/usage/quota", "/api/token-health", "/api/rate-limits"],
 };
 
-// --- Tool 6: omniroute_route_request ---
+// --- Tool 6: dragon_router_route_request ---
 export const routeRequestInput = z.object({
   model: z.string().describe("Model identifier (e.g., 'claude-sonnet-4', 'gpt-4o')"),
   messages: z
@@ -281,9 +281,9 @@ export const routeRequestTool: McpToolDefinition<
   typeof routeRequestInput,
   typeof routeRequestOutput
 > = {
-  name: "omniroute_route_request",
+  name: "dragon_router_route_request",
   description:
-    "Sends a chat completion request through OmniRoute's intelligent routing pipeline. Supports combo selection, budget limits, and task role hints for optimal provider matching.",
+    "Sends a chat completion request through Dragon Router's intelligent routing pipeline. Supports combo selection, budget limits, and task role hints for optimal provider matching.",
   inputSchema: routeRequestInput,
   outputSchema: routeRequestOutput,
   scopes: ["execute:completions"],
@@ -292,7 +292,7 @@ export const routeRequestTool: McpToolDefinition<
   sourceEndpoints: ["/v1/chat/completions", "/v1/responses"],
 };
 
-// --- Tool 7: omniroute_cost_report ---
+// --- Tool 7: dragon_router_cost_report ---
 export const costReportInput = z.object({
   period: z
     .enum(["session", "day", "week", "month"])
@@ -330,7 +330,7 @@ export const costReportOutput = z.object({
 });
 
 export const costReportTool: McpToolDefinition<typeof costReportInput, typeof costReportOutput> = {
-  name: "omniroute_cost_report",
+  name: "dragon_router_cost_report",
   description:
     "Generates a cost report for the specified period showing total cost, request count, token usage, and breakdowns by provider and model. Also shows budget status if configured.",
   inputSchema: costReportInput,
@@ -341,7 +341,7 @@ export const costReportTool: McpToolDefinition<typeof costReportInput, typeof co
   sourceEndpoints: ["/api/usage/analytics", "/api/usage/budget"],
 };
 
-// --- Tool 8: omniroute_list_models_catalog ---
+// --- Tool 8: dragon_router_list_models_catalog ---
 export const listModelsCatalogInput = z.object({
   provider: z.string().optional().describe("Filter by provider name"),
   capability: z
@@ -372,7 +372,7 @@ export const listModelsCatalogTool: McpToolDefinition<
   typeof listModelsCatalogInput,
   typeof listModelsCatalogOutput
 > = {
-  name: "omniroute_list_models_catalog",
+  name: "dragon_router_list_models_catalog",
   description:
     "Lists all available AI models across all providers with their capabilities, current status, and pricing information.",
   inputSchema: listModelsCatalogInput,
@@ -383,7 +383,7 @@ export const listModelsCatalogTool: McpToolDefinition<
   sourceEndpoints: ["/api/models/catalog", "/v1/models"],
 };
 
-// --- Tool 9: omniroute_web_search ---
+// --- Tool 9: dragon_router_web_search ---
 export const webSearchInput = z.object({
   query: z
     .string()
@@ -435,9 +435,9 @@ export const webSearchOutput = z.object({
 });
 
 export const webSearchTool: McpToolDefinition<typeof webSearchInput, typeof webSearchOutput> = {
-  name: "omniroute_web_search",
+  name: "dragon_router_web_search",
   description:
-    "Performs a web search using OmniRoute's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily, Google PSE, Linkup, SearchAPI, SearXNG) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
+    "Performs a web search using Dragon Router's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily, Google PSE, Linkup, SearchAPI, SearXNG) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
   inputSchema: webSearchInput,
   outputSchema: webSearchOutput,
   scopes: ["execute:search"],
@@ -446,7 +446,7 @@ export const webSearchTool: McpToolDefinition<typeof webSearchInput, typeof webS
   sourceEndpoints: ["/v1/search"],
 };
 
-// --- Tool 10: omniroute_web_fetch ---
+// --- Tool 10: dragon_router_web_fetch ---
 export const webFetchInput = z.object({
   url: z
     .string({ error: "URL is required" })
@@ -494,9 +494,9 @@ export const webFetchOutput = z.object({
 });
 
 export const webFetchTool: McpToolDefinition<typeof webFetchInput, typeof webFetchOutput> = {
-  name: "omniroute_web_fetch",
+  name: "dragon_router_web_fetch",
   description:
-    "Fetches and extracts content from a URL using OmniRoute's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
+    "Fetches and extracts content from a URL using Dragon Router's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
   inputSchema: webFetchInput,
   outputSchema: webFetchOutput,
   scopes: ["execute:search"],
@@ -507,7 +507,7 @@ export const webFetchTool: McpToolDefinition<typeof webFetchInput, typeof webFet
 
 // ============ Phase 2: Advanced Tools (8) ============
 
-// --- Tool 9: omniroute_simulate_route ---
+// --- Tool 9: dragon_router_simulate_route ---
 export const simulateRouteInput = z.object({
   model: z.string().describe("Target model for simulation"),
   promptTokenEstimate: z.number().describe("Estimated prompt token count"),
@@ -537,7 +537,7 @@ export const simulateRouteTool: McpToolDefinition<
   typeof simulateRouteInput,
   typeof simulateRouteOutput
 > = {
-  name: "omniroute_simulate_route",
+  name: "dragon_router_simulate_route",
   description:
     "Simulates (dry-run) the routing path a request would take without actually executing it. Shows the fallback tree, provider probabilities, estimated costs, and health status.",
   inputSchema: simulateRouteInput,
@@ -548,7 +548,7 @@ export const simulateRouteTool: McpToolDefinition<
   sourceEndpoints: ["/api/combos", "/api/monitoring/health", "/api/resilience"],
 };
 
-// --- Tool 10: omniroute_set_budget_guard ---
+// --- Tool 10: dragon_router_set_budget_guard ---
 export const setBudgetGuardInput = z.object({
   maxCost: z.number().describe("Maximum cost in USD for this session"),
   action: z.enum(["degrade", "block", "alert"]).describe("Action when budget is exceeded"),
@@ -571,7 +571,7 @@ export const setBudgetGuardTool: McpToolDefinition<
   typeof setBudgetGuardInput,
   typeof setBudgetGuardOutput
 > = {
-  name: "omniroute_set_budget_guard",
+  name: "dragon_router_set_budget_guard",
   description:
     "Sets a budget guard that limits spending for the current session. When the budget is reached, it can degrade to cheaper models, block requests, or send alerts.",
   inputSchema: setBudgetGuardInput,
@@ -582,7 +582,7 @@ export const setBudgetGuardTool: McpToolDefinition<
   sourceEndpoints: ["/api/usage/budget"],
 };
 
-// --- Tool 11: omniroute_set_routing_strategy ---
+// --- Tool 11: dragon_router_set_routing_strategy ---
 export const setRoutingStrategyInput = z.object({
   comboId: z.string().describe("Combo ID or name to update"),
   strategy: z.enum(ROUTING_STRATEGY_VALUES).describe("Routing strategy to apply"),
@@ -606,7 +606,7 @@ export const setRoutingStrategyTool: McpToolDefinition<
   typeof setRoutingStrategyInput,
   typeof setRoutingStrategyOutput
 > = {
-  name: "omniroute_set_routing_strategy",
+  name: "dragon_router_set_routing_strategy",
   description:
     "Updates a combo routing strategy (priority/weighted/auto/etc.) at runtime. Supports selecting the sub-strategy used by auto mode (rules/cost/latency/sla-aware).",
   inputSchema: setRoutingStrategyInput,
@@ -617,7 +617,7 @@ export const setRoutingStrategyTool: McpToolDefinition<
   sourceEndpoints: ["/api/combos", "/api/combos/{id}"],
 };
 
-// --- Tool 12: omniroute_set_resilience_profile ---
+// --- Tool 12: dragon_router_set_resilience_profile ---
 export const setResilienceProfileInput = z.object({
   profile: z
     .enum(["aggressive", "balanced", "conservative"])
@@ -638,7 +638,7 @@ export const setResilienceProfileTool: McpToolDefinition<
   typeof setResilienceProfileInput,
   typeof setResilienceProfileOutput
 > = {
-  name: "omniroute_set_resilience_profile",
+  name: "dragon_router_set_resilience_profile",
   description:
     "Applies a resilience profile that adjusts circuit breaker thresholds, retry counts, timeouts, and fallback depth. 'aggressive' = fast fail, 'conservative' = max retries.",
   inputSchema: setResilienceProfileInput,
@@ -649,7 +649,7 @@ export const setResilienceProfileTool: McpToolDefinition<
   sourceEndpoints: ["/api/resilience"],
 };
 
-// --- Tool 13: omniroute_test_combo ---
+// --- Tool 13: dragon_router_test_combo ---
 export const testComboInput = z.object({
   comboId: z.string().describe("ID of the combo to test"),
   testPrompt: z.string().max(500).describe("Short test prompt (max 500 chars)"),
@@ -676,7 +676,7 @@ export const testComboOutput = z.object({
 });
 
 export const testComboTool: McpToolDefinition<typeof testComboInput, typeof testComboOutput> = {
-  name: "omniroute_test_combo",
+  name: "dragon_router_test_combo",
   description:
     "Tests a combo by sending a short test prompt to each provider in the combo and reporting individual results including latency, cost, and success status.",
   inputSchema: testComboInput,
@@ -687,7 +687,7 @@ export const testComboTool: McpToolDefinition<typeof testComboInput, typeof test
   sourceEndpoints: ["/api/combos/test", "/v1/chat/completions"],
 };
 
-// --- Tool 14: omniroute_get_provider_metrics ---
+// --- Tool 14: dragon_router_get_provider_metrics ---
 export const getProviderMetricsInput = z.object({
   provider: z.string().describe("Provider name (e.g., 'claude', 'antigravity', 'codex')"),
 });
@@ -719,7 +719,7 @@ export const getProviderMetricsTool: McpToolDefinition<
   typeof getProviderMetricsInput,
   typeof getProviderMetricsOutput
 > = {
-  name: "omniroute_get_provider_metrics",
+  name: "dragon_router_get_provider_metrics",
   description:
     "Returns detailed performance metrics for a specific provider including success/error rates, latency percentiles (p50/p95/p99), circuit breaker state, and quota information.",
   inputSchema: getProviderMetricsInput,
@@ -730,7 +730,7 @@ export const getProviderMetricsTool: McpToolDefinition<
   sourceEndpoints: ["/api/provider-metrics", "/api/resilience"],
 };
 
-// --- Tool 15: omniroute_best_combo_for_task ---
+// --- Tool 15: dragon_router_best_combo_for_task ---
 export const bestComboForTaskInput = z.object({
   taskType: z
     .enum(["coding", "review", "planning", "analysis", "debugging", "documentation"])
@@ -764,7 +764,7 @@ export const bestComboForTaskTool: McpToolDefinition<
   typeof bestComboForTaskInput,
   typeof bestComboForTaskOutput
 > = {
-  name: "omniroute_best_combo_for_task",
+  name: "dragon_router_best_combo_for_task",
   description:
     "Recommends the best combo for a given task type (coding, review, planning, etc.) considering budget and latency constraints. Also suggests alternatives and free options.",
   inputSchema: bestComboForTaskInput,
@@ -775,7 +775,7 @@ export const bestComboForTaskTool: McpToolDefinition<
   sourceEndpoints: ["/api/combos", "/api/combos/metrics", "/api/monitoring/health"],
 };
 
-// --- Tool 16: omniroute_explain_route ---
+// --- Tool 16: dragon_router_explain_route ---
 export const explainRouteInput = z.object({
   requestId: z.string().describe("Request ID from the X-Request-Id header"),
 });
@@ -810,7 +810,7 @@ export const explainRouteTool: McpToolDefinition<
   typeof explainRouteInput,
   typeof explainRouteOutput
 > = {
-  name: "omniroute_explain_route",
+  name: "dragon_router_explain_route",
   description:
     "Explains why a specific request was routed to a particular provider. Shows the scoring factors, weights, fallbacks triggered, actual cost, and latency.",
   inputSchema: explainRouteInput,
@@ -821,7 +821,7 @@ export const explainRouteTool: McpToolDefinition<
   sourceEndpoints: [],
 };
 
-// --- Tool 17: omniroute_get_session_snapshot ---
+// --- Tool 17: dragon_router_get_session_snapshot ---
 export const getSessionSnapshotInput = z.object({}).describe("No parameters required");
 
 export const getSessionSnapshotOutput = z.object({
@@ -859,7 +859,7 @@ export const getSessionSnapshotTool: McpToolDefinition<
   typeof getSessionSnapshotInput,
   typeof getSessionSnapshotOutput
 > = {
-  name: "omniroute_get_session_snapshot",
+  name: "dragon_router_get_session_snapshot",
   description:
     "Returns a snapshot of the current working session including duration, request count, total cost, top models/providers used, error count, and budget guard status.",
   inputSchema: getSessionSnapshotInput,
@@ -870,7 +870,7 @@ export const getSessionSnapshotTool: McpToolDefinition<
   sourceEndpoints: ["/api/usage/analytics", "/api/telemetry/summary"],
 };
 
-// --- Tool 18: omniroute_db_health_check ---
+// --- Tool 18: dragon_router_db_health_check ---
 export const dbHealthCheckInput = z.object({
   autoRepair: z
     .boolean()
@@ -903,9 +903,9 @@ export const dbHealthCheckTool: McpToolDefinition<
   typeof dbHealthCheckInput,
   typeof dbHealthCheckOutput
 > = {
-  name: "omniroute_db_health_check",
+  name: "dragon_router_db_health_check",
   description:
-    "Diagnoses OmniRoute database drift such as orphan quota/domain rows, invalid JSON state, and broken combo references. Set autoRepair=true to repair those rows before returning the report.",
+    "Diagnoses Dragon Router database drift such as orphan quota/domain rows, invalid JSON state, and broken combo references. Set autoRepair=true to repair those rows before returning the report.",
   inputSchema: dbHealthCheckInput,
   outputSchema: dbHealthCheckOutput,
   scopes: ["read:health", "write:resilience"],
@@ -914,7 +914,7 @@ export const dbHealthCheckTool: McpToolDefinition<
   sourceEndpoints: ["/api/db/health"],
 };
 
-// --- Tool 19: omniroute_sync_pricing ---
+// --- Tool 19: dragon_router_sync_pricing ---
 export const syncPricingInput = z.object({
   sources: z
     .array(z.string())
@@ -939,9 +939,9 @@ export const syncPricingOutput = z.object({
 
 export const syncPricingTool: McpToolDefinition<typeof syncPricingInput, typeof syncPricingOutput> =
   {
-    name: "omniroute_sync_pricing",
+    name: "dragon_router_sync_pricing",
     description:
-      "Syncs pricing data from external sources (LiteLLM) into OmniRoute. Synced pricing fills gaps not covered by hardcoded defaults without overwriting user-set prices. Use dryRun=true to preview.",
+      "Syncs pricing data from external sources (LiteLLM) into Dragon Router. Synced pricing fills gaps not covered by hardcoded defaults without overwriting user-set prices. Use dryRun=true to preview.",
     inputSchema: syncPricingInput,
     outputSchema: syncPricingOutput,
     scopes: ["pricing:write"],
@@ -986,7 +986,7 @@ export const cacheStatsOutput = z.object({
 });
 
 export const cacheStatsTool: McpToolDefinition<typeof cacheStatsInput, typeof cacheStatsOutput> = {
-  name: "omniroute_cache_stats",
+  name: "dragon_router_cache_stats",
   description:
     "Returns cache statistics including semantic cache hit rate, prompt cache metrics by provider, and idempotency layer stats.",
   inputSchema: cacheStatsInput,
@@ -1009,7 +1009,7 @@ export const cacheFlushOutput = z.object({
 });
 
 export const cacheFlushTool: McpToolDefinition<typeof cacheFlushInput, typeof cacheFlushOutput> = {
-  name: "omniroute_cache_flush",
+  name: "dragon_router_cache_flush",
   description:
     "Flush cache entries. Provide signature to invalidate a single entry, model to invalidate all entries for a model, or omit both to clear all.",
   inputSchema: cacheFlushInput,
@@ -1079,7 +1079,7 @@ export const compressionStatusTool: McpToolDefinition<
   typeof compressionStatusInput,
   typeof compressionStatusOutput
 > = {
-  name: "omniroute_compression_status",
+  name: "dragon_router_compression_status",
   description:
     "Returns current compression configuration, strategy, analytics summary (requests compressed, tokens saved, avg ratio), and provider-aware cache statistics.",
   inputSchema: compressionStatusInput,
@@ -1128,7 +1128,7 @@ export const compressionConfigureTool: McpToolDefinition<
   typeof compressionConfigureInput,
   typeof compressionConfigureOutput
 > = {
-  name: "omniroute_compression_configure",
+  name: "dragon_router_compression_configure",
   description:
     "Configure compression settings at runtime. Supports enabling/disabling compression, changing strategy (off/lite/standard/aggressive/ultra/rtk/stacked), adjusting maxTokens threshold, targetRatio, auto-trigger mode, system prompt preservation, and MCP description compression.",
   inputSchema: compressionConfigureInput,
@@ -1155,7 +1155,7 @@ export const setCompressionEngineTool: McpToolDefinition<
   typeof setCompressionEngineInput,
   typeof setCompressionEngineOutput
 > = {
-  name: "omniroute_set_compression_engine",
+  name: "dragon_router_set_compression_engine",
   description: "Set the active compression engine and Caveman/RTK runtime options.",
   inputSchema: setCompressionEngineInput,
   outputSchema: setCompressionEngineOutput,
@@ -1174,7 +1174,7 @@ export const listCompressionCombosTool: McpToolDefinition<
   typeof listCompressionCombosInput,
   typeof listCompressionCombosOutput
 > = {
-  name: "omniroute_list_compression_combos",
+  name: "dragon_router_list_compression_combos",
   description: "List compression combos and their engine pipelines.",
   inputSchema: listCompressionCombosInput,
   outputSchema: listCompressionCombosOutput,
@@ -1195,7 +1195,7 @@ export const compressionComboStatsTool: McpToolDefinition<
   typeof compressionComboStatsInput,
   typeof compressionComboStatsOutput
 > = {
-  name: "omniroute_compression_combo_stats",
+  name: "dragon_router_compression_combo_stats",
   description: "Get compression analytics grouped by engine and compression combo.",
   inputSchema: compressionComboStatsInput,
   outputSchema: compressionComboStatsOutput,
@@ -1236,7 +1236,7 @@ export const oneproxyFetchTool: McpToolDefinition<
   typeof oneproxyFetchInput,
   typeof oneproxyFetchOutput
 > = {
-  name: "omniroute_oneproxy_fetch",
+  name: "dragon_router_oneproxy_fetch",
   description:
     "Fetch free proxies from the 1proxy marketplace with optional filters for protocol, country, and quality. Returns validated proxies with quality scores.",
   inputSchema: oneproxyFetchInput,
@@ -1268,7 +1268,7 @@ export const oneproxyRotateTool: McpToolDefinition<
   typeof oneproxyRotateInput,
   typeof oneproxyRotateOutput
 > = {
-  name: "omniroute_oneproxy_rotate",
+  name: "dragon_router_oneproxy_rotate",
   description:
     "Get the next available free proxy from the 1proxy pool using the specified rotation strategy.",
   inputSchema: oneproxyRotateInput,
@@ -1303,7 +1303,7 @@ export const oneproxyStatsTool: McpToolDefinition<
   typeof oneproxyStatsInput,
   typeof oneproxyStatsOutput
 > = {
-  name: "omniroute_oneproxy_stats",
+  name: "dragon_router_oneproxy_stats",
   description:
     "Returns 1proxy sync status and statistics: total proxies, average quality, sync history, and distribution by protocol and country.",
   inputSchema: oneproxyStatsInput,
@@ -1316,7 +1316,7 @@ export const oneproxyStatsTool: McpToolDefinition<
 
 // ============ Agent Skills Tools ============
 
-// --- omniroute_agent_skills_list ---
+// --- dragon_router_agent_skills_list ---
 export const agentSkillsListInput = z.object({
   category: z.enum(["api", "cli"]).optional().describe("Filter by category: 'api' or 'cli'"),
   area: z.string().optional().describe("Filter by area (e.g. 'providers', 'models', 'cli-serve')"),
@@ -1352,9 +1352,9 @@ export const agentSkillsListTool: McpToolDefinition<
   typeof agentSkillsListInput,
   typeof agentSkillsListOutput
 > = {
-  name: "omniroute_agent_skills_list",
+  name: "dragon_router_agent_skills_list",
   description:
-    "List OmniRoute agent skills with optional filtering by category (api/cli) or area. Returns skill metadata including id, name, description, endpoints/commands, and URLs.",
+    "List Dragon Router agent skills with optional filtering by category (api/cli) or area. Returns skill metadata including id, name, description, endpoints/commands, and URLs.",
   inputSchema: agentSkillsListInput,
   outputSchema: agentSkillsListOutput,
   scopes: ["read:catalog"],
@@ -1363,7 +1363,7 @@ export const agentSkillsListTool: McpToolDefinition<
   sourceEndpoints: ["/api/agent-skills"],
 };
 
-// --- omniroute_agent_skills_get ---
+// --- dragon_router_agent_skills_get ---
 export const agentSkillsGetInput = z.object({
   id: z.string().describe("Canonical skill ID (e.g. 'omni-providers', 'cli-serve')"),
 });
@@ -1394,7 +1394,7 @@ export const agentSkillsGetTool: McpToolDefinition<
   typeof agentSkillsGetInput,
   typeof agentSkillsGetOutput
 > = {
-  name: "omniroute_agent_skills_get",
+  name: "dragon_router_agent_skills_get",
   description:
     "Get detailed metadata and SKILL.md markdown for a single agent skill by its canonical ID. Returns all skill fields plus the raw markdown content.",
   inputSchema: agentSkillsGetInput,
@@ -1405,7 +1405,7 @@ export const agentSkillsGetTool: McpToolDefinition<
   sourceEndpoints: ["/api/agent-skills/:id", "/api/agent-skills/:id/raw"],
 };
 
-// --- omniroute_agent_skills_coverage ---
+// --- dragon_router_agent_skills_coverage ---
 export const agentSkillsCoverageInput = z.object({}).describe("No parameters required");
 
 export const agentSkillsCoverageOutput = z.object({
@@ -1419,7 +1419,7 @@ export const agentSkillsCoverageTool: McpToolDefinition<
   typeof agentSkillsCoverageInput,
   typeof agentSkillsCoverageOutput
 > = {
-  name: "omniroute_agent_skills_coverage",
+  name: "dragon_router_agent_skills_coverage",
   description:
     "Returns the current SKILL.md coverage stats: how many of the 22 API skills and 20 CLI skills have generated SKILL.md files on the filesystem vs the catalog total.",
   inputSchema: agentSkillsCoverageInput,

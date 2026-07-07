@@ -1,13 +1,13 @@
 /**
- * OmniRoute logo SVG — network hub icon with connected nodes.
+ * Dragon Router logo SVG — network hub icon with connected nodes.
  * Matches the favicon and app icon design.
  */
-type OmniRouteLogoProps = {
+type DragonRouterLogoProps = {
   size?: number;
   className?: string;
 };
 
-export default function OmniRouteLogo({ size = 20, className = "" }: OmniRouteLogoProps) {
+export default function DragonRouterLogo({ size = 20, className = "" }: DragonRouterLogoProps) {
   return (
     <svg
       width={size}

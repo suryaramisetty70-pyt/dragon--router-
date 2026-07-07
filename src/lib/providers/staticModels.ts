@@ -1,13 +1,13 @@
-import { getEmbeddingProvider } from "@omniroute/open-sse/config/embeddingRegistry.ts";
-import { getRerankProvider } from "@omniroute/open-sse/config/rerankRegistry.ts";
-import { getImageProvider } from "@omniroute/open-sse/config/imageRegistry.ts";
-import { getVideoProvider } from "@omniroute/open-sse/config/videoRegistry.ts";
+import { getEmbeddingProvider } from "@dragon-router/open-sse/config/embeddingRegistry.ts";
+import { getRerankProvider } from "@dragon-router/open-sse/config/rerankRegistry.ts";
+import { getImageProvider } from "@dragon-router/open-sse/config/imageRegistry.ts";
+import { getVideoProvider } from "@dragon-router/open-sse/config/videoRegistry.ts";
 import {
   getSpeechProvider,
   getTranscriptionProvider,
-} from "@omniroute/open-sse/config/audioRegistry.ts";
-import { ANTIGRAVITY_PUBLIC_MODELS } from "@omniroute/open-sse/config/antigravityModelAliases.ts";
-import { getStaticQoderModels } from "@omniroute/open-sse/services/qoderCli.ts";
+} from "@dragon-router/open-sse/config/audioRegistry.ts";
+import { ANTIGRAVITY_PUBLIC_MODELS } from "@dragon-router/open-sse/config/antigravityModelAliases.ts";
+import { getStaticQoderModels } from "@dragon-router/open-sse/services/qoderCli.ts";
 
 import { getModelsByProviderId } from "@/shared/constants/models";
 

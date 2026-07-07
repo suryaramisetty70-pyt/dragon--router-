@@ -18,7 +18,7 @@ import { resolveTlsOptions } from "../../../scripts/dev/tls-options.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const _pkg = JSON.parse(readFileSync(join(__dirname, "..", "..", "..", "package.json"), "utf8"));
 
-// URL scheme for the "OmniRoute is running" banner — flipped to https when
+// URL scheme for the "Dragon Router is running" banner — flipped to https when
 // opt-in TLS (#5242) is active. Process-scoped: one `serve` run = one scheme.
 let urlScheme = "http";
 const ROOT = join(__dirname, "..", "..", "..");
@@ -50,12 +50,12 @@ export function registerServe(program) {
     .option(
       "--tls-cert <path>",
       t("serve.tls_cert") ||
-        "Path to a TLS certificate (PEM) to serve HTTPS (also OMNIROUTE_TLS_CERT)"
+        "Path to a TLS certificate (PEM) to serve HTTPS (also DRAGON_ROUTER_TLS_CERT)"
     )
     .option(
       "--tls-key <path>",
       t("serve.tls_key") ||
-        "Path to the TLS private key (PEM) to serve HTTPS (also OMNIROUTE_TLS_KEY)"
+        "Path to the TLS private key (PEM) to serve HTTPS (also DRAGON_ROUTER_TLS_KEY)"
     )
     .action(async (opts) => {
       await runServe(opts);
@@ -94,7 +94,7 @@ export async function runServe(opts = {}) {
      Supported secure runtimes: ${nodeSupport.supportedDisplay}
      Recommended: use Node.js ${nodeSupport.recommendedVersion} or newer on the 22.x LTS line.
      Workaround:  npm rebuild better-sqlite3
-     Or run:      omniroute runtime repair  (rebuilds into a user-writable runtime; works without a C++ toolchain)\x1b[0m
+     Or run:      dragon-router runtime repair  (rebuilds into a user-writable runtime; works without a C++ toolchain)\x1b[0m
 `);
   }
 
@@ -110,18 +110,18 @@ export async function runServe(opts = {}) {
     const isNvm = nodeExec.includes(".nvm") || nodeExec.includes("nvm");
     if (isMise) {
       console.error(
-        "  \x1b[33m⚠ mise detected:\x1b[0m If you installed via `npm install -g omniroute`,"
+        "  \x1b[33m⚠ mise detected:\x1b[0m If you installed via `npm install -g dragon-router`,"
       );
-      console.error("    try: \x1b[36mnpx omniroute@latest\x1b[0m  (downloads a fresh copy)");
-      console.error("    or:  \x1b[36mmise exec -- npx omniroute\x1b[0m");
+      console.error("    try: \x1b[36mnpx dragon-router@latest\x1b[0m  (downloads a fresh copy)");
+      console.error("    or:  \x1b[36mmise exec -- npx dragon-router\x1b[0m");
     } else if (isNvm) {
       console.error(
         "  \x1b[33m⚠ nvm detected:\x1b[0m Try reinstalling after loading the correct Node version:"
       );
-      console.error("    \x1b[36mnvm use --lts && npm install -g omniroute\x1b[0m");
+      console.error("    \x1b[36mnvm use --lts && npm install -g dragon-router\x1b[0m");
     } else {
-      console.error("  Try: \x1b[36mnpm install -g omniroute\x1b[0m  (reinstall)");
-      console.error("  Or:  \x1b[36mnpx omniroute@latest\x1b[0m");
+      console.error("  Try: \x1b[36mnpm install -g dragon-router\x1b[0m  (reinstall)");
+      console.error("  Or:  \x1b[36mnpx dragon-router@latest\x1b[0m");
     }
     process.exit(1);
   }
@@ -140,7 +140,7 @@ export async function runServe(opts = {}) {
     );
     console.error(`  Run: cd ${APP_DIR} && npm rebuild better-sqlite3`);
     console.error(
-      "  Or run: \x1b[36momniroute runtime repair\x1b[0m" +
+      "  Or run: \x1b[36mdragon_router runtime repair\x1b[0m" +
         "  (rebuilds into a user-writable runtime; works without a C++ toolchain)"
     );
     if (platform() === "darwin") {
@@ -153,31 +153,31 @@ export async function runServe(opts = {}) {
 
   // #5172/#5160/#5152: default the V8 heap to ~35% of physical RAM (clamped
   // [512, 4096]) instead of a fixed 512MB, which OOM-crashed boxes with plenty
-  // of RAM under load. An explicit OMNIROUTE_MEMORY_MB still wins.
+  // of RAM under load. An explicit DRAGON_ROUTER_MEMORY_MB still wins.
   const memoryLimit = resolveMaxOldSpaceMb(
-    process.env.OMNIROUTE_MEMORY_MB,
+    process.env.DRAGON_ROUTER_MEMORY_MB,
     calibrateHeapFallbackMb(totalmem())
   );
 
   // #5242: opt-in native HTTPS. CLI flags take precedence over env; the child
   // server (server-ws.mjs) reads these and terminates TLS on the same listener.
-  const tlsCert = opts.tlsCert ?? process.env.OMNIROUTE_TLS_CERT;
-  const tlsKey = opts.tlsKey ?? process.env.OMNIROUTE_TLS_KEY;
+  const tlsCert = opts.tlsCert ?? process.env.DRAGON_ROUTER_TLS_CERT;
+  const tlsKey = opts.tlsKey ?? process.env.DRAGON_ROUTER_TLS_KEY;
 
   const env = {
     ...process.env,
-    OMNIROUTE_PORT: String(port),
+    DRAGON_ROUTER_PORT: String(port),
     PORT: String(dashboardPort),
     DASHBOARD_PORT: String(dashboardPort),
     API_PORT: String(apiPort),
     // #6194: POSIX shells (bash/zsh) auto-set HOSTNAME to the machine name — the
     // .env loader (first-wins) can never override it. Ignore HOSTNAME when it
-    // matches the OS-reported hostname (the auto-set signature). OMNIROUTE_SERVER_HOST
+    // matches the OS-reported hostname (the auto-set signature). DRAGON_ROUTER_SERVER_HOST
     // takes precedence; legacy HOSTNAME values that don't match os.hostname() are
     // still honoured for backward compatibility (e.g. Windows CMD/PowerShell users
     // who set HOSTNAME in .env where it is NOT auto-set).
     HOSTNAME:
-      process.env.OMNIROUTE_SERVER_HOST ||
+      process.env.DRAGON_ROUTER_SERVER_HOST ||
       (process.env.HOSTNAME !== osHostname() ? process.env.HOSTNAME : undefined) ||
       "0.0.0.0",
     NODE_ENV: "production",
@@ -185,8 +185,8 @@ export async function runServe(opts = {}) {
     // `--max-old-space-size=…`) instead of clobbering it with the calibrated
     // default — mirror the Electron/standalone launchers.
     NODE_OPTIONS: buildServerNodeOptions(process.env, memoryLimit),
-    ...(tlsCert ? { OMNIROUTE_TLS_CERT: tlsCert } : {}),
-    ...(tlsKey ? { OMNIROUTE_TLS_KEY: tlsKey } : {}),
+    ...(tlsCert ? { DRAGON_ROUTER_TLS_CERT: tlsCert } : {}),
+    ...(tlsKey ? { DRAGON_ROUTER_TLS_KEY: tlsKey } : {}),
   };
 
   // Validate the TLS pair up front so the operator sees a clear warning in the
@@ -238,7 +238,7 @@ function runDaemon(serverJs, env, memoryLimit, dashboardPort, apiPort) {
   });
   writePidFile("server", server.pid);
   server.unref();
-  console.log(`\x1b[32m✔ OmniRoute started in background (PID: ${server.pid})\x1b[0m`);
+  console.log(`\x1b[32m✔ Dragon Router started in background (PID: ${server.pid})\x1b[0m`);
   console.log(`  \x1b[1mDashboard:\x1b[0m  ${urlScheme}://localhost:${dashboardPort}`);
   console.log(`  \x1b[1mAPI Base:\x1b[0m   ${urlScheme}://localhost:${apiPort}/v1`);
 }
@@ -283,7 +283,7 @@ function runWithoutRecovery(serverJs, env, memoryLimit, dashboardPort, apiPort, 
   });
 
   const shutdown = () => {
-    console.log("\n\x1b[33m⏹ Shutting down OmniRoute...\x1b[0m");
+    console.log("\n\x1b[33m⏹ Shutting down Dragon Router...\x1b[0m");
     cleanupPidFile("server");
     server.kill("SIGTERM");
     setTimeout(() => {
@@ -315,7 +315,7 @@ async function runWithSupervisor(
   startedAt,
   useTray = false
 ) {
-  if (showLog) process.env.OMNIROUTE_SHOW_LOG = "1";
+  if (showLog) process.env.DRAGON_ROUTER_SHOW_LOG = "1";
 
   const supervisor = new ServerSupervisor({
     serverPath: serverJs,
@@ -381,7 +381,7 @@ async function maybeStartTray(port, apiPort, supervisor) {
       onOpenDashboard: () => open?.(dashboardUrl),
       onShowLogs: () => {
         // In-place: open logs stream (best-effort)
-        process.stdout.write(`[omniroute][tray] Logs at: ${dashboardUrl}/logs\n`);
+        process.stdout.write(`[dragon-router][tray] Logs at: ${dashboardUrl}/logs\n`);
       },
     });
     if (tray) {
@@ -391,7 +391,7 @@ async function maybeStartTray(port, apiPort, supervisor) {
   } catch (err) {
     // tray is optional — do not fail the server, but surface why it failed so
     // "--tray shows nothing" is diagnosable instead of silent (#4605).
-    process.stderr.write(`[omniroute][tray] failed to start: ${err?.message ?? String(err)}\n`);
+    process.stderr.write(`[dragon-router][tray] failed to start: ${err?.message ?? String(err)}\n`);
   }
 }
 
@@ -404,7 +404,7 @@ async function onReady(dashboardPort, apiPort, noOpen, startedAt) {
       : "0.0";
 
   console.log(`
-  \x1b[32m✔ OmniRoute is running!\x1b[0m \x1b[2m(started in ${elapsed}s)\x1b[0m
+  \x1b[32m✔ Dragon Router is running!\x1b[0m \x1b[2m(started in ${elapsed}s)\x1b[0m
 
   \x1b[1m  Dashboard:\x1b[0m  ${dashboardUrl}
   \x1b[1m  API Base:\x1b[0m   ${apiUrl}/v1

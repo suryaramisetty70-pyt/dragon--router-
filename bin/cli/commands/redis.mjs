@@ -7,9 +7,9 @@ import { t } from "../i18n.mjs";
 const execFile = promisify(execFileCb);
 
 const DEFAULT_IMAGE = "docker.io/redis:7-alpine";
-const DEFAULT_NAME = "omniroute-redis";
+const DEFAULT_NAME = "dragon-router-redis";
 const DEFAULT_PORT = "6379";
-const DEFAULT_VOLUME = "omniroute-redis-data";
+const DEFAULT_VOLUME = "dragon-router-redis-data";
 
 const RUNTIME_PREFERENCE = ["podman", "docker"];
 
@@ -93,7 +93,7 @@ export function registerRedis(program) {
     .command("redis")
     .description(
       t("redis.description") ||
-        "Launch a 1-click local Redis container (Podman or Docker) for OmniRoute caching and quota tracking"
+        "Launch a 1-click local Redis container (Podman or Docker) for Dragon Router caching and quota tracking"
     );
 
   redis
@@ -220,7 +220,7 @@ export async function runRedisUpCommand(opts = {}) {
   try {
     await execFile(runtime, args);
     success(`Container '${name}' is now running on redis://127.0.0.1:${port}`);
-    info(`Set OMNIROUTE_REDIS_URL=redis://127.0.0.1:${port} in your .env to wire OmniRoute to it.`);
+    info(`Set DRAGON_ROUTER_REDIS_URL=redis://127.0.0.1:${port} in your .env to wire Dragon Router to it.`);
     return 0;
   } catch (err) {
     fail(`Failed to launch container: ${err.message}`);
@@ -288,7 +288,7 @@ export async function runRedisStatusCommand(opts = {}) {
     warn("Container is running but the port is not reachable. Is REDIS_PASSWORD set or another process bound?");
   }
   if (!running) {
-    info(`Run 'omniroute redis up' to launch it.`);
+    info(`Run 'dragon-router redis up' to launch it.`);
   }
   return 0;
 }

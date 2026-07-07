@@ -1,5 +1,5 @@
 /**
- * omniroute setup-goose — configure Goose (block/goose) for OmniRoute.
+ * dragon-router setup-goose — configure Goose (block/goose) for Dragon Router.
  *
  * Goose is a terminal AI agent with a file-based config at
  * ~/.config/goose/config.yaml and env-var overrides. For a custom OpenAI-
@@ -26,7 +26,7 @@ export function resolveGooseTarget(opts = {}) {
   if (opts.remote) root = stripToRoot(opts.remote);
   else {
     try {
-      root = stripToRoot(resolveActiveContext(opts.context ?? process.env.OMNIROUTE_CONTEXT)?.baseUrl);
+      root = stripToRoot(resolveActiveContext(opts.context ?? process.env.DRAGON_ROUTER_CONTEXT)?.baseUrl);
     } catch {
       /* none */
     }
@@ -35,13 +35,13 @@ export function resolveGooseTarget(opts = {}) {
   let apiKey = opts.apiKey ?? opts["api-key"];
   if (!apiKey) {
     try {
-      const c = resolveActiveContext(opts.context ?? process.env.OMNIROUTE_CONTEXT);
+      const c = resolveActiveContext(opts.context ?? process.env.DRAGON_ROUTER_CONTEXT);
       apiKey = c?.accessToken || c?.apiKey;
     } catch {
       /* none */
     }
   }
-  if (!apiKey) apiKey = process.env.OMNIROUTE_API_KEY || "";
+  if (!apiKey) apiKey = process.env.DRAGON_ROUTER_API_KEY || "";
   return { host: root, apiKey };
 }
 
@@ -59,7 +59,7 @@ export function buildGooseEnvRecipe({ host, model }) {
   return [
     "export GOOSE_PROVIDER=openai",
     `export OPENAI_HOST=${host}`,
-    "export OPENAI_API_KEY=$OMNIROUTE_API_KEY",
+    "export OPENAI_API_KEY=$DRAGON_ROUTER_API_KEY",
     `export GOOSE_MODEL=${model}`,
   ].join("\n");
 }
@@ -92,7 +92,7 @@ export async function runSetupGooseCommand(opts = {}) {
   const dryRun = Boolean(opts.dryRun ?? opts["dry-run"]);
   const configPath = opts.configPath ?? opts["config-path"] ?? join(os.homedir(), ".config", "goose", "config.yaml");
 
-  printHeading("OmniRoute → Goose (openai-compatible)");
+  printHeading("Dragon Router → Goose (openai-compatible)");
   printInfo(`OPENAI_HOST: ${host}   (no /v1 — Goose appends it)`);
 
   let model = opts.model;
@@ -135,10 +135,10 @@ export async function runSetupGooseCommand(opts = {}) {
 export function registerSetupGoose(program) {
   program
     .command("setup-goose")
-    .description("Configure Goose for OmniRoute: write ~/.config/goose/config.yaml + print the env recipe")
-    .option("--port <port>", "Local OmniRoute port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote OmniRoute URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "OmniRoute API key (defaults to OMNIROUTE_API_KEY env var)")
+    .description("Configure Goose for Dragon Router: write ~/.config/goose/config.yaml + print the env recipe")
+    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--model <id>", "Model id for Goose (required unless picked interactively)")
     .option("--config-path <path>", "config.yaml path (default: ~/.config/goose/config.yaml)")
     .option("--yes", "Non-interactive: do not prompt (requires --model)")
