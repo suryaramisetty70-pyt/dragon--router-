@@ -1,14 +1,14 @@
 /**
- * OpenCode plugin for the Dragon Router AI Gateway.
+ * OpenCode plugin for the DragonRouter AI Gateway.
  *
  * Implements the official `@opencode-ai/plugin` Plugin contract (auth +
- * provider + config hooks) to drive a running Dragon Router instance from
+ * provider + config hooks) to drive a running DragonRouter instance from
  * OpenCode without hand-curated `provider.<id>.models` blocks in
  * opencode.json[c]:
  *
  *   - `auth`     — registers `/connect <providerId>` flow (API key prompt)
  *   - `provider` — dynamic `/v1/models` fetch with TTL cache, capabilities
- *                  pass-through (Dragon Router is the source of truth — no
+ *                  pass-through (DragonRouter is the source of truth — no
  *                  client-side variant synthesis)
  *   - `config`   — backward-compat shim for OC versions that predate the
  *                  `provider.models` hook (≤ 1.14.48)
@@ -42,7 +42,7 @@
  * remains supported for users who can't run plugins (CI, scripted scaffolding).
  *
  * @see https://opencode.ai/docs/plugins for the OpenCode plugin contract.
- * @see https://github.com/diegosouzapw/Dragon Router for the AI Gateway.
+ * @see https://github.com/diegosouzapw/DragonRouter for the AI Gateway.
  */
 
 import { createHash } from "node:crypto";
@@ -88,7 +88,7 @@ import {
  *                     from providerId.
  *  - `modelCacheTtl`  `/v1/models` TTL cache duration in milliseconds.
  *                     Default: 300_000 (5 min).
- *  - `baseURL`        Override base URL for this Dragon Router instance. When
+ *  - `baseURL`        Override base URL for this DragonRouter instance. When
  *                     absent, the loader falls back to a credential-attached
  *                     baseURL set by `/connect`.
  */
@@ -139,7 +139,7 @@ import {
  *
  *                           Default `anthropicPrefixes`:
  *                             ["cc", "claude", "anthropic", "kiro", "kr"]
- *                           (covers Dragon Router's canonical Anthropic aliases).
+ *                           (covers DragonRouter's canonical Anthropic aliases).
  *
  *                           Set `anthropicPrefixes: []` to disable and force
  *                           everything through OpenAI-compat.
@@ -194,10 +194,10 @@ const optionsSchema = z
  * Plugin options shape — inferred directly from the Zod schema so the
  * validator and the static type can never drift. Replaces the standalone
  * interface previously declared here (T-02). Every consumer continues to
- * import `Dragon RouterPluginOptions` as before; only the source of truth
+ * import `DragonRouterPluginOptions` as before; only the source of truth
  * shifted from a hand-written interface to `z.infer<typeof optionsSchema>`.
  */
-export type Dragon RouterPluginOptions = z.infer<typeof optionsSchema>;
+export type DragonRouterPluginOptions = z.infer<typeof optionsSchema>;
 
 export const DRAGONROUTER_PROVIDER_KEY = "dragonrouter" as const;
 
@@ -236,10 +236,10 @@ function trimLeadingDashes(value: string): string {
  * applying defaults. Centralises the providerId fallback so every hook
  * sees a consistent identifier.
  */
-export function resolveDragon RouterPluginOptions(
-  opts?: Dragon RouterPluginOptions
-): Required<Pick<Dragon RouterPluginOptions, "providerId" | "displayName" | "modelCacheTtl">> &
-  Pick<Dragon RouterPluginOptions, "baseURL" | "features"> {
+export function resolveDragonRouterPluginOptions(
+  opts?: DragonRouterPluginOptions
+): Required<Pick<DragonRouterPluginOptions, "providerId" | "displayName" | "modelCacheTtl">> &
+  Pick<DragonRouterPluginOptions, "baseURL" | "features"> {
   const rawProviderId = opts?.providerId ?? DRAGONROUTER_PROVIDER_KEY;
   // OC 1.17.8+ native-adapter gate rejects providerID not in
   // {openai, anthropic, opencode*}. Silently prefix so existing
@@ -250,8 +250,8 @@ export function resolveDragon RouterPluginOptions(
   const displayName =
     opts?.displayName ??
     (providerId === `opencode-${DRAGONROUTER_PROVIDER_KEY}`
-      ? "Dragon Router"
-      : `Dragon Router (${providerId})`);
+      ? "DragonRouter"
+      : `DragonRouter (${providerId})`);
   const modelCacheTtl =
     typeof opts?.modelCacheTtl === "number" && opts.modelCacheTtl > 0
       ? opts.modelCacheTtl
@@ -267,14 +267,14 @@ export function resolveDragon RouterPluginOptions(
 
 /**
  * Strict parse of raw plugin options (as received from opencode.json or a
- * direct factory call) into the validated `Dragon RouterPluginOptions` shape.
+ * direct factory call) into the validated `DragonRouterPluginOptions` shape.
  *
  *   - `null` / `undefined` → `{}` (no opts is valid, defaults take over).
  *   - Unknown keys → throws (strict schema catches typos in opencode.json).
  *   - Empty / malformed values (e.g. empty providerId, non-URL baseURL,
  *     negative modelCacheTtl) → throws.
  *
- * Validation happens at plugin invocation time (inside `Dragon RouterPlugin`),
+ * Validation happens at plugin invocation time (inside `DragonRouterPlugin`),
  * NOT at module import — so a bad opencode.json fails the affected plugin
  * instance with an actionable message instead of crashing the whole TUI on
  * startup.
@@ -282,7 +282,7 @@ export function resolveDragon RouterPluginOptions(
  * Exported so callers and tests can validate options independent of the
  * full plugin factory invocation.
  */
-export function parseDragon RouterPluginOptions(opts: unknown): Dragon RouterPluginOptions {
+export function parseDragonRouterPluginOptions(opts: unknown): DragonRouterPluginOptions {
   if (opts === null || opts === undefined) return {};
   const result = optionsSchema.safeParse(opts);
   if (!result.success) {
@@ -298,14 +298,14 @@ export function parseDragon RouterPluginOptions(opts: unknown): Dragon RouterPlu
 }
 
 /**
- * Internal coercion shim. Delegates to `parseDragon RouterPluginOptions` to keep
+ * Internal coercion shim. Delegates to `parseDragonRouterPluginOptions` to keep
  * the public surface stable while routing all validation through the Zod
  * schema. Always returns an object (never undefined) so downstream hooks see
  * the same shape regardless of whether opencode.json passed `null`,
  * `undefined`, or an empty bag.
  */
-function coercePluginOptions(opts?: PluginOptions): Dragon RouterPluginOptions {
-  return parseDragon RouterPluginOptions(opts);
+function coercePluginOptions(opts?: PluginOptions): DragonRouterPluginOptions {
+  return parseDragonRouterPluginOptions(opts);
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -314,7 +314,7 @@ function coercePluginOptions(opts?: PluginOptions): Dragon RouterPluginOptions {
 
 /**
  * Default provider-prefix list that triggers the Anthropic SDK format.
- * Covers Dragon Router's canonical Anthropic aliases: `cc/`, `claude/`,
+ * Covers DragonRouter's canonical Anthropic aliases: `cc/`, `claude/`,
  * `anthropic/`, plus the user-configured `kiro/` and `kr/` upstream
  * connections that proxy Anthropic models.
  */
@@ -377,7 +377,7 @@ export function resolveApiBlock(
  *   - `provider` binds to `providerId` (NOT a hardcoded module constant — fixes
  *     the multi-instance bug in opencode-dragonrouter-auth@1.2.1 which pinned
  *     `DRAGONROUTER_PROVIDER_ID = "dragonrouter"` at module scope).
- *   - `methods[0]` is the `api` flavor (no OAuth flow; Dragon Router issues bearer
+ *   - `methods[0]` is the `api` flavor (no OAuth flow; DragonRouter issues bearer
  *     keys directly). Label includes the resolved displayName so multi-instance
  *     setups stay distinguishable in the OC TUI.
  *   - `methods[0].prompts` uses the official `{type:"text", key, message}`
@@ -392,8 +392,8 @@ export function resolveApiBlock(
  *     keys by returning `{}` — OC then surfaces the `/connect` flow to the
  *     user instead of dispatching a request with bogus credentials.
  */
-export function createDragon RouterAuthHook(opts?: Dragon RouterPluginOptions): AuthHook {
-  const { providerId, displayName, baseURL, features } = resolveDragon RouterPluginOptions(opts);
+export function createDragonRouterAuthHook(opts?: DragonRouterPluginOptions): AuthHook {
+  const { providerId, displayName, baseURL, features } = resolveDragonRouterPluginOptions(opts);
   // Both fetch-layer features default ON (parity with the rest of the plugin's
   // `features.X !== false` convention). Honoring them here lets users disable
   // the interceptor/sanitizer from opencode.json — previously these flags were
@@ -412,7 +412,7 @@ export function createDragon RouterAuthHook(opts?: Dragon RouterPluginOptions): 
           {
             type: "text",
             key: "apiKey",
-            message: `Dragon Router API key (${providerId})`,
+            message: `DragonRouter API key (${providerId})`,
           },
         ],
       },
@@ -453,7 +453,7 @@ export function createDragon RouterAuthHook(opts?: Dragon RouterPluginOptions): 
         // are disabled we fall back to the SDK's default fetch (apiKey only).
         let composedFetch: typeof fetch | undefined;
         if (wantFetchInterceptor) {
-          composedFetch = createDragon RouterFetchInterceptor({
+          composedFetch = createDragonRouterFetchInterceptor({
             apiKey,
             baseURL: resolvedBaseURL,
           });
@@ -486,7 +486,7 @@ export function createDragon RouterAuthHook(opts?: Dragon RouterPluginOptions): 
  * opencode.json), NOT as a closure binding. Multi-instance support follows
  * from each plugin tuple invoking the factory with its own opts.
  */
-export const Dragon RouterPlugin: Plugin = async (_input, options) => {
+export const DragonRouterPlugin: Plugin = async (_input, options) => {
   const resolved = coercePluginOptions(options);
   // T-07: a single per-plugin-instance cache shared between the provider
   // hook (T-03/T-05) and the config-shim hook (T-07). On OC ≥1.14.49 both
@@ -494,9 +494,9 @@ export const Dragon RouterPlugin: Plugin = async (_input, options) => {
   // /v1/models + /api/combos at exactly one round-trip per TTL refresh
   // instead of two. On OC ≤1.14.48 only the config hook runs; the cache
   // still works (single producer + single consumer through the same map).
-  // Each `Dragon RouterPlugin(...)` invocation gets its OWN cache via closure,
+  // Each `DragonRouterPlugin(...)` invocation gets its OWN cache via closure,
   // so prod + preprod side-by-side instances do NOT collide.
-  const sharedCache: Dragon RouterFetchCache = new Map();
+  const sharedCache: DragonRouterFetchCache = new Map();
   // Debug breadcrumb: confirm server() invocation + resolved options.
   // Useful when diagnosing "is the plugin even running" from OC logs.
   const _ver: string =
@@ -517,9 +517,9 @@ export const Dragon RouterPlugin: Plugin = async (_input, options) => {
   // Wire log level: startupDebug:true → "debug", explicit logLevel wins.
   setLogLevel(resolved.features?.startupDebug ? "debug" : (resolved.features?.logLevel ?? "warn"));
   return {
-    auth: createDragon RouterAuthHook(resolved),
-    provider: createDragon RouterProviderHook(resolved, { cache: sharedCache }),
-    config: createDragon RouterConfigHook(resolved, { cache: sharedCache }),
+    auth: createDragonRouterAuthHook(resolved),
+    provider: createDragonRouterProviderHook(resolved, { cache: sharedCache }),
+    config: createDragonRouterConfigHook(resolved, { cache: sharedCache }),
   };
 };
 
@@ -535,24 +535,24 @@ export const Dragon RouterPlugin: Plugin = async (_input, options) => {
  * plugin MODULE identifier (one per published package); per-instance
  * `providerId` still flows through `options.providerId` as before.
  */
-const Dragon RouterV1Plugin = {
+const DragonRouterV1Plugin = {
   id: "@dragonrouter/opencode-plugin",
-  server: Dragon RouterPlugin,
+  server: DragonRouterPlugin,
 };
 
-export default Dragon RouterV1Plugin;
+export default DragonRouterV1Plugin;
 
 // ────────────────────────────────────────────────────────────────────────────
 // Provider hook (T-03) — /v1/models pass-through with TTL cache
 // ────────────────────────────────────────────────────────────────────────────
 
 /**
- * Raw shape of a `/v1/models` entry from Dragon Router. Captured verbatim from
+ * Raw shape of a `/v1/models` entry from DragonRouter. Captured verbatim from
  * the prod gateway response (sample at /tmp/prod-v1-models.json: 455 entries).
  * STRICT source-of-truth (OQ-3): every field that lands in ModelV2 traces
  * back to this shape — no client-side variant synthesis.
  */
-export interface Dragon RouterRawModelEntry {
+export interface DragonRouterRawModelEntry {
   id: string;
   object?: string;
   owned_by?: string;
@@ -579,7 +579,7 @@ export interface Dragon RouterRawModelEntry {
 
 /**
  * Fetcher contract: returns the raw `/v1/models` entry list from a running
- * Dragon Router instance. Surfaced as a dependency so unit tests can inject a
+ * DragonRouter instance. Surfaced as a dependency so unit tests can inject a
  * stub without monkey-patching global `fetch`.
  *
  * Why we inline this instead of using `@dragonrouter/opencode-provider`'s
@@ -591,26 +591,28 @@ export interface Dragon RouterRawModelEntry {
  * in OQ-3. A 30-line raw fetcher is cheaper than mutating the sibling's
  * stable v0.1.0 contract.
  */
-export type Dragon RouterModelsFetcher = (
+export type DragonRouterModelsFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterRawModelEntry[]>;
+) => Promise<DragonRouterRawModelEntry[]>;
 
 /**
  * Default fetcher: `GET <baseURL>/v1/models` with bearer auth + AbortController
- * timeout. Accepts both the `{object:"list", data:[…]}` envelope Dragon Router
+ * timeout. Accepts both the `{object:"list", data:[…]}` envelope DragonRouter
  * emits today and a bare-array envelope (defensive — keeps the plugin
- * working if a future Dragon Router build trims the wrapper). Anything that
+ * working if a future DragonRouter build trims the wrapper). Anything that
  * isn't an object with a string `id` is filtered out silently.
  */
-export const defaultDragon RouterModelsFetcher: Dragon RouterModelsFetcher = async (
+export const defaultDragonRouterModelsFetcher: DragonRouterModelsFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 10_000
 ) => {
-  if (!apiKey) throw new Error("@dragonrouter/opencode-plugin: apiKey required to fetch /v1/models");
-  if (!baseURL) throw new Error("@dragonrouter/opencode-plugin: baseURL required to fetch /v1/models");
+  if (!apiKey)
+    throw new Error("@dragonrouter/opencode-plugin: apiKey required to fetch /v1/models");
+  if (!baseURL)
+    throw new Error("@dragonrouter/opencode-plugin: baseURL required to fetch /v1/models");
 
   const trimmed = trimTrailingSlashes(baseURL);
   // Tolerate both `https://host` and `https://host/v1` forms — the gateway
@@ -639,10 +641,10 @@ export const defaultDragon RouterModelsFetcher: Dragon RouterModelsFetcher = asy
       : body && typeof body === "object" && Array.isArray((body as { data?: unknown }).data)
         ? ((body as { data: unknown[] }).data as unknown[])
         : [];
-    const out: Dragon RouterRawModelEntry[] = [];
+    const out: DragonRouterRawModelEntry[] = [];
     for (const r of rawList) {
       if (r && typeof r === "object" && typeof (r as { id?: unknown }).id === "string") {
-        out.push(r as Dragon RouterRawModelEntry);
+        out.push(r as DragonRouterRawModelEntry);
       }
     }
     return out;
@@ -672,30 +674,30 @@ export const defaultDragon RouterModelsFetcher: Dragon RouterModelsFetcher = asy
  *   1. Spec's flat `tool_call` / `reasoning` / `attachment` / `modalities`
  *      top-level fields don't exist in ModelV2 — folded into
  *      `capabilities.{toolcall, reasoning, attachment, input.*, output.*}`.
- *   2. `cost: undefined` is illegal (cost is required). Dragon Router doesn't
+ *   2. `cost: undefined` is illegal (cost is required). DragonRouter doesn't
  *      surface pricing on /v1/models, so we emit a zeroed cost block.
  *      Downstream OC reads this for display only — the live pricing is
- *      Dragon Router's responsibility at routing time.
+ *      DragonRouter's responsibility at routing time.
  *   3. `tool_call` (spec) → `toolcall` (ModelV2 field name; one word).
- *   4. `attachment` (spec) maps from `capabilities.vision` per Dragon Router
+ *   4. `attachment` (spec) maps from `capabilities.vision` per DragonRouter
  *      convention: vision = ability to receive image attachments. If the
  *      raw entry happens to expose an explicit `capabilities.attachment`
  *      (some combo entries do), that wins.
- *   5. `thinking` from Dragon Router has no 1:1 ModelV2 slot. We OR it into
+ *   5. `thinking` from DragonRouter has no 1:1 ModelV2 slot. We OR it into
  *      `reasoning` so thinking-only models still surface a non-false
  *      reasoning flag.
- *   6. `last_updated` from Dragon Router has no ModelV2 slot — dropped (the
+ *   6. `last_updated` from DragonRouter has no ModelV2 slot — dropped (the
  *      spec also flagged this as "may not exist", and the prod sample
  *      confirms it's optional). `release_date` lands in ModelV2.release_date
  *      with `""` fallback (the field is required as `string`).
- *   7. `temperature: true` per Dragon Router convention (OpenAI-compat mode
+ *   7. `temperature: true` per DragonRouter convention (OpenAI-compat mode
  *      always supports the temperature knob). If a raw entry sets
  *      `capabilities.temperature` explicitly, that wins.
  *   8. Input/output modality arrays: each known modality flips its boolean.
- *      Unknown strings (future Dragon Router additions) are ignored — when the
+ *      Unknown strings (future DragonRouter additions) are ignored — when the
  *      server adds new modalities we can map them here without breaking
  *      existing entries.
- *   9. `status: "active"` — Dragon Router doesn't tier models alpha/beta on
+ *   9. `status: "active"` — DragonRouter doesn't tier models alpha/beta on
  *      /v1/models, and OC needs a non-deprecated status to expose the
  *      model in the picker. If a future entry surfaces an explicit
  *      lifecycle hint we can map it then.
@@ -703,12 +705,12 @@ export const defaultDragon RouterModelsFetcher: Dragon RouterModelsFetcher = asy
  *      for OC users to attach per-model overrides; the provider plugin
  *      must not preempt them.
  *  11. `limit.input` is OPTIONAL on ModelV2 (the `?` modifier). We only
- *      emit it when Dragon Router supplies `max_input_tokens` — keeps the
+ *      emit it when DragonRouter supplies `max_input_tokens` — keeps the
  *      shape clean for combo entries that only carry context_length.
  */
 
 export function mapRawModelToModelV2(
-  raw: Dragon RouterRawModelEntry,
+  raw: DragonRouterRawModelEntry,
   ctx: { providerId: string; baseURL: string; apiFormat?: { anthropicPrefixes?: string[] } }
 ): ModelV2 {
   const caps = raw.capabilities ?? {};
@@ -726,7 +728,7 @@ export function mapRawModelToModelV2(
     id: raw.id.includes("/") ? raw.id : `${ctx.providerId}/${raw.id}`,
     /**
      * Display name. Falls back to raw.id when no enrichment is available;
-     * the caller (`createDragon RouterProviderHook`) overlays
+     * the caller (`createDragonRouterProviderHook`) overlays
      * `/api/pricing/models` data via `applyEnrichment` when
      * `features.enrichment` is true.
      */
@@ -776,10 +778,10 @@ export function mapRawModelToModelV2(
 // ────────────────────────────────────────────────────────────────────────────
 
 /**
- * Raw shape of a single combo entry as returned by Dragon Router's `/api/combos`.
+ * Raw shape of a single combo entry as returned by DragonRouter's `/api/combos`.
  *
  * Schema established via a live probe against
- * an Dragon Router `/api/combos` endpoint with a management-scoped key
+ * an DragonRouter `/api/combos` endpoint with a management-scoped key
  * (response saved at /tmp/t05-combos.json) cross-referenced against the
  * source-of-truth in this repo:
  *
@@ -793,7 +795,7 @@ export function mapRawModelToModelV2(
  *
  * Note: the preprod gateway returned `{combos: []}` at probe time (no combos
  * provisioned). The defensive parser accepts both `{combos:[...]}` and a
- * bare array envelope so the plugin keeps working if a future Dragon Router
+ * bare array envelope so the plugin keeps working if a future DragonRouter
  * build trims the wrapper (mirrors the same pattern in the sibling
  * `@dragonrouter/opencode-provider#listCombos`).
  *
@@ -801,7 +803,7 @@ export function mapRawModelToModelV2(
  * surfaces traces back to either (a) this raw combo entry or (b) the LCD
  * roll-up across its raw member models. No client-side variant synthesis.
  */
-export interface Dragon RouterRawComboMemberRef {
+export interface DragonRouterRawComboMemberRef {
   /** Step kind: "model" references a raw model id; "combo-ref" nests another combo. */
   kind?: "model" | "combo-ref";
   /** Full model id referenced by this step (when kind === "model"). */
@@ -814,37 +816,37 @@ export interface Dragon RouterRawComboMemberRef {
   label?: string;
 }
 
-export interface Dragon RouterRawCombo {
+export interface DragonRouterRawCombo {
   id: string;
   name?: string;
   /** Routing strategy. Surfaced for forward-compat but not consumed by LCD. */
   strategy?: string;
   /** Member step list. Only `kind: "model"` steps participate in LCD. */
-  models?: Dragon RouterRawComboMemberRef[];
+  models?: DragonRouterRawComboMemberRef[];
   /** Hidden combos are excluded from the OC model picker. */
   isHidden?: boolean;
-  /** When Dragon Router attaches a lifecycle hint we forward it; today it doesn't. */
+  /** When DragonRouter attaches a lifecycle hint we forward it; today it doesn't. */
   release_date?: string;
 }
 
 /**
  * Fetcher contract for `/api/combos`. Same DI shape as
- * `Dragon RouterModelsFetcher` so unit tests can inject a stub instead of
+ * `DragonRouterModelsFetcher` so unit tests can inject a stub instead of
  * monkey-patching global `fetch`.
  */
-export type Dragon RouterCombosFetcher = (
+export type DragonRouterCombosFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterRawCombo[]>;
+) => Promise<DragonRouterRawCombo[]>;
 
 /**
  * Default fetcher: `GET <baseURL>/api/combos` with bearer auth +
  * AbortController timeout. Accepts both the `{combos: [...]}` envelope the
  * gateway emits today and a bare-array envelope (defensive — keeps the
- * plugin working if a future Dragon Router build trims the wrapper).
+ * plugin working if a future DragonRouter build trims the wrapper).
  *
- * Differences from `defaultDragon RouterModelsFetcher`:
+ * Differences from `defaultDragonRouterModelsFetcher`:
  *   - URL is `/api/combos`, NOT `/v1/combos`. The `/v1/...` namespace is the
  *     OpenAI-compatible surface (chat completions, models); combo discovery
  *     lives on the management plane under `/api/...`. We tolerate both
@@ -856,12 +858,13 @@ export type Dragon RouterCombosFetcher = (
  *
  * Anything that isn't an object with a string `id` is filtered out silently.
  */
-export const defaultDragon RouterCombosFetcher: Dragon RouterCombosFetcher = async (
+export const defaultDragonRouterCombosFetcher: DragonRouterCombosFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 10_000
 ) => {
-  if (!apiKey) throw new Error("@dragonrouter/opencode-plugin: apiKey required to fetch /api/combos");
+  if (!apiKey)
+    throw new Error("@dragonrouter/opencode-plugin: apiKey required to fetch /api/combos");
   if (!baseURL)
     throw new Error("@dragonrouter/opencode-plugin: baseURL required to fetch /api/combos");
 
@@ -894,10 +897,10 @@ export const defaultDragon RouterCombosFetcher: Dragon RouterCombosFetcher = asy
       : body && typeof body === "object" && Array.isArray((body as { combos?: unknown }).combos)
         ? ((body as { combos: unknown[] }).combos as unknown[])
         : [];
-    const out: Dragon RouterRawCombo[] = [];
+    const out: DragonRouterRawCombo[] = [];
     for (const r of rawList) {
       if (r && typeof r === "object" && typeof (r as { id?: unknown }).id === "string") {
-        out.push(r as Dragon RouterRawCombo);
+        out.push(r as DragonRouterRawCombo);
       }
     }
     return out;
@@ -945,8 +948,8 @@ export const defaultDragon RouterCombosFetcher: Dragon RouterCombosFetcher = asy
  * @param baseURL Resolved gateway base URL for ModelV2.api.url.
  */
 export function mapComboToModelV2(
-  combo: Dragon RouterRawCombo,
-  members: Dragon RouterRawModelEntry[],
+  combo: DragonRouterRawCombo,
+  members: DragonRouterRawModelEntry[],
   providerId: string,
   baseURL: string,
   apiFormat?: { anthropicPrefixes?: string[] }
@@ -1045,11 +1048,11 @@ export function mapComboToModelV2(
 // ─────────────────────────────────────────────────────────────────────────
 
 /**
- * Raw shape of an auto combo entry as returned by Dragon Router's
+ * Raw shape of an auto combo entry as returned by DragonRouter's
  * `/api/combos/auto` endpoint. Auto combos are virtual — they self-manage
  * provider selection via scoring/bandit exploration at runtime.
  */
-export interface Dragon RouterRawAutoCombo {
+export interface DragonRouterRawAutoCombo {
   /** Stable id (e.g. "auto", "auto/coding"). */
   id: string;
   /** Human-readable name (e.g. "Auto", "Auto Coding"). */
@@ -1060,7 +1063,7 @@ export interface Dragon RouterRawAutoCombo {
   candidatePool?: string[];
   /** Number of candidates resolved at fetch time. */
   candidateCount?: number;
-  /** MAX of candidates' context windows, served by newer Dragon Router builds.
+  /** MAX of candidates' context windows, served by newer DragonRouter builds.
    * Absent on older servers — mapper falls back to a safe positive default. */
   context_length?: number;
   /** MAX of candidates' max output tokens (same provenance as context_length). */
@@ -1081,11 +1084,11 @@ export interface Dragon RouterRawAutoCombo {
  * Fetcher contract for `/api/combos/auto`. Returns the list of virtual
  * auto combos the server can create. Same DI pattern as other fetchers.
  */
-export type Dragon RouterAutoCombosFetcher = (
+export type DragonRouterAutoCombosFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterRawAutoCombo[]>;
+) => Promise<DragonRouterRawAutoCombo[]>;
 
 /**
  * Default auto combos fetcher: `GET <baseURL>/api/combos/auto`.
@@ -1093,7 +1096,7 @@ export type Dragon RouterAutoCombosFetcher = (
  * Fault-tolerant: returns empty array on 404 (endpoint doesn't exist yet)
  * or any non-2xx / network error. Logs a warning in those cases.
  */
-export const defaultDragon RouterAutoCombosFetcher: Dragon RouterAutoCombosFetcher = async (
+export const defaultDragonRouterAutoCombosFetcher: DragonRouterAutoCombosFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 5_000
@@ -1134,10 +1137,10 @@ export const defaultDragon RouterAutoCombosFetcher: Dragon RouterAutoCombosFetch
       : body && typeof body === "object" && Array.isArray((body as { combos?: unknown }).combos)
         ? ((body as { combos: unknown[] }).combos as unknown[])
         : [];
-    const out: Dragon RouterRawAutoCombo[] = [];
+    const out: DragonRouterRawAutoCombo[] = [];
     for (const r of rawList) {
       if (r && typeof r === "object" && typeof (r as { id?: unknown }).id === "string") {
-        out.push(r as Dragon RouterRawAutoCombo);
+        out.push(r as DragonRouterRawAutoCombo);
       }
     }
     return out;
@@ -1153,7 +1156,7 @@ export const defaultDragon RouterAutoCombosFetcher: Dragon RouterAutoCombosFetch
 };
 
 /** Fallbacks when the server does not advertise auto-combo limits (older
- * Dragon Router builds). MUST be positive: OpenCode's overflow guard treats
+ * DragonRouter builds). MUST be positive: OpenCode's overflow guard treats
  * `limit.context === 0` as "never overflow" and silently DISABLES smart
  * auto-compaction, letting the session grow until the gateway's destructive
  * history purge kicks in (the "agent keeps forgetting things" bug). */
@@ -1169,8 +1172,8 @@ const AUTO_COMBO_FALLBACK_OUTPUT = 8_192;
  * applies when the server omits them. Never 0.
  */
 export function mapAutoComboToStaticEntry(
-  autoCombo: Dragon RouterRawAutoCombo
-): Dragon RouterStaticModelEntry {
+  autoCombo: DragonRouterRawAutoCombo
+): DragonRouterStaticModelEntry {
   const variant = autoCombo.variant;
   const name = formatAutoComboName(variant, autoCombo.candidateCount);
   const context =
@@ -1206,7 +1209,7 @@ export function mapAutoComboToStaticEntry(
 // ─────────────────────────────────────────────────────────────────────────
 
 /**
- * Per-model enrichment overlay derived from Dragon Router's
+ * Per-model enrichment overlay derived from DragonRouter's
  * `/api/pricing/models` endpoint. The endpoint returns a per-provider
  * catalog with curated `name` strings (e.g. `Claude 4.7 Opus`,
  * `GPT 5.5 Pro`, `Gemini 3.1 Pro`) and per-million-token pricing
@@ -1214,7 +1217,7 @@ export function mapAutoComboToStaticEntry(
  * `pricing.cacheWrite`). These overlay the ModelV2 entries produced by
  * `mapRawModelToModelV2`.
  */
-export interface Dragon RouterEnrichmentEntry {
+export interface DragonRouterEnrichmentEntry {
   /** Human-readable display name. Replaces ModelV2.name when present. */
   name?: string;
   /** Per-million-token cost overlay onto ModelV2.cost. */
@@ -1226,7 +1229,7 @@ export interface Dragon RouterEnrichmentEntry {
   };
   /**
    * Provider alias prefix seen in `/v1/models` ids (e.g. `cc`, `gemini`).
-   * Populated by `defaultDragon RouterEnrichmentFetcher` from
+   * Populated by `defaultDragonRouterEnrichmentFetcher` from
    * `/api/pricing/models` keys. Drives the `usableOnly` alias↔canonical
    * resolution.
    */
@@ -1255,13 +1258,13 @@ export interface Dragon RouterEnrichmentEntry {
 }
 
 /** Map keyed by full model id (possibly namespaced, e.g. `cc/claude-sonnet-4-6`). */
-export type Dragon RouterEnrichmentMap = Map<string, Dragon RouterEnrichmentEntry>;
+export type DragonRouterEnrichmentMap = Map<string, DragonRouterEnrichmentEntry>;
 
-export type Dragon RouterEnrichmentFetcher = (
+export type DragonRouterEnrichmentFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterEnrichmentMap>;
+) => Promise<DragonRouterEnrichmentMap>;
 
 /**
  * Default enrichment fetcher — pulls nice display names from
@@ -1284,12 +1287,12 @@ export type Dragon RouterEnrichmentFetcher = (
  * the two fetches are independent so one missing source still surfaces the
  * other.
  */
-export const defaultDragon RouterEnrichmentFetcher: Dragon RouterEnrichmentFetcher = async (
+export const defaultDragonRouterEnrichmentFetcher: DragonRouterEnrichmentFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 10_000
 ) => {
-  const out: Dragon RouterEnrichmentMap = new Map();
+  const out: DragonRouterEnrichmentMap = new Map();
   if (!baseURL || !apiKey) return out;
   const root = baseURL.replace(/\/v1\/?$/, "").replace(/\/$/, "");
   const headers = {
@@ -1326,7 +1329,7 @@ export const defaultDragon RouterEnrichmentFetcher: Dragon RouterEnrichmentFetch
               : providerAlias;
           // Upstream provider human label (e.g. `Claude`, `Kiro`,
           // `GitHub Models`). Optional — falls back to undefined when
-          // Dragon Router hasn't curated a label for this slot.
+          // DragonRouter hasn't curated a label for this slot.
           const slotNameRaw = (slot as { name?: unknown }).name;
           const providerDisplayName =
             typeof slotNameRaw === "string" && slotNameRaw.trim().length > 0
@@ -1337,7 +1340,7 @@ export const defaultDragon RouterEnrichmentFetcher: Dragon RouterEnrichmentFetch
             const id = (m as { id?: unknown }).id;
             if (typeof id !== "string" || id.length === 0) continue;
             const name = (m as { name?: unknown }).name;
-            const entry: Dragon RouterEnrichmentEntry = {
+            const entry: DragonRouterEnrichmentEntry = {
               providerAlias,
               providerCanonical,
             };
@@ -1373,8 +1376,8 @@ export const defaultDragon RouterEnrichmentFetcher: Dragon RouterEnrichmentFetch
           for (const [modelId, raw] of Object.entries(slot as Record<string, unknown>)) {
             if (!raw || typeof raw !== "object") continue;
             const p = raw as Record<string, unknown>;
-            const parsed: NonNullable<Dragon RouterEnrichmentEntry["pricing"]> = {};
-            // Dragon Router `/api/pricing` keys:
+            const parsed: NonNullable<DragonRouterEnrichmentEntry["pricing"]> = {};
+            // DragonRouter `/api/pricing` keys:
             //   input         → cost.input
             //   output        → cost.output
             //   cached        → cost.cache.read   (alias: cacheRead)
@@ -1496,8 +1499,8 @@ async function writeStartupDiagnostics(params: {
   comboCount: number;
   enrichmentSize: number;
   autoComboCount: number;
-  enrichment: Dragon RouterEnrichmentMap;
-  autoCombos: Dragon RouterRawAutoCombo[];
+  enrichment: DragonRouterEnrichmentMap;
+  autoCombos: DragonRouterRawAutoCombo[];
 }): Promise<void> {
   const {
     providerId,
@@ -1587,9 +1590,9 @@ async function writeStartupDiagnostics(params: {
  */
 export const PROVIDER_TAG_SEPARATOR = _PROVIDER_TAG_SEPARATOR;
 
-// Re-export from naming.ts — thin wrapper preserving Dragon RouterEnrichmentEntry signature
+// Re-export from naming.ts — thin wrapper preserving DragonRouterEnrichmentEntry signature
 export function shortProviderLabel(
-  enrichment: Dragon RouterEnrichmentEntry | undefined
+  enrichment: DragonRouterEnrichmentEntry | undefined
 ): string | undefined {
   return _shortProviderLabel(enrichment);
 }
@@ -1621,7 +1624,7 @@ export function shortProviderLabel(
  */
 export function applyProviderTag(
   model: ModelV2,
-  enrichment: Dragon RouterEnrichmentEntry | undefined
+  enrichment: DragonRouterEnrichmentEntry | undefined
 ): ModelV2 {
   const label = shortProviderLabel(enrichment);
   if (!label) return model;
@@ -1640,7 +1643,7 @@ export function applyProviderTag(
 /**
  * Reverse-index the enrichment map from `providerCanonical → providerAlias`.
  *
- * Dragon Router's `/api/pricing/models` is keyed by short ALIAS (`cc`, `cx`,
+ * DragonRouter's `/api/pricing/models` is keyed by short ALIAS (`cc`, `cx`,
  * `pol`). But `/v1/models` exposes some models a SECOND time under their
  * CANONICAL name (`claude/claude-opus-4-7`, `codex/gpt-5.5`,
  * `pollinations/midjourney`). Without a reverse map, those canonical
@@ -1652,7 +1655,7 @@ export function applyProviderTag(
  * like `kiro`).
  */
 export function buildCanonicalToAliasMap(
-  enrichment: Dragon RouterEnrichmentMap | undefined
+  enrichment: DragonRouterEnrichmentMap | undefined
 ): Map<string, string> {
   const out = new Map<string, string>();
   if (!enrichment) return out;
@@ -1685,9 +1688,9 @@ export function buildCanonicalToAliasMap(
  */
 export function lookupEnrichment(
   rawId: string,
-  enrichment: Dragon RouterEnrichmentMap | undefined,
+  enrichment: DragonRouterEnrichmentMap | undefined,
   canonicalToAlias: Map<string, string>
-): Dragon RouterEnrichmentEntry | undefined {
+): DragonRouterEnrichmentEntry | undefined {
   if (!enrichment) return undefined;
   const direct = enrichment.get(rawId);
   if (direct) return direct;
@@ -1720,7 +1723,7 @@ export function lookupEnrichment(
  * Built once per refresh. Cheap — O(M) where M = raw model count.
  */
 export function canonicalDedupSet(
-  rawModels: ReadonlyArray<Dragon RouterRawModelEntry>,
+  rawModels: ReadonlyArray<DragonRouterRawModelEntry>,
   canonicalToAlias: Map<string, string>
 ): Set<string> {
   const drop = new Set<string>();
@@ -1750,7 +1753,7 @@ export function canonicalDedupSet(
  * provider prefix even for raw models that don't have their own
  * curated `/api/pricing/models` entry.
  *
- * Real example: Dragon Router's `pricing['cohere']` slot lists 10 curated
+ * Real example: DragonRouter's `pricing['cohere']` slot lists 10 curated
  * models but `/v1/models` also returns `cohere/rerank-multilingual-v3.0`
  * and `cohere/rerank-v4.0-fast` (not in the curated 10). Without this
  * index, those rows surface in the picker as `cohere/...` with no
@@ -1758,16 +1761,16 @@ export function canonicalDedupSet(
  *
  * This index records the first non-empty `providerDisplayName` seen
  * for each alias, plus the alias itself. Callers use it to synthesize
- * a minimal `Dragon RouterEnrichmentEntry` whenever the direct lookup
+ * a minimal `DragonRouterEnrichmentEntry` whenever the direct lookup
  * misses but the raw id's prefix matches a known alias.
  *
  * Built once per refresh; first-wins on duplicate alias (matches
  * `buildCanonicalToAliasMap` semantics).
  */
 export function buildAliasIndex(
-  enrichment: Dragon RouterEnrichmentMap | undefined
-): Map<string, Dragon RouterEnrichmentEntry> {
-  const out = new Map<string, Dragon RouterEnrichmentEntry>();
+  enrichment: DragonRouterEnrichmentMap | undefined
+): Map<string, DragonRouterEnrichmentEntry> {
+  const out = new Map<string, DragonRouterEnrichmentEntry>();
   if (!enrichment) return out;
   for (const entry of enrichment.values()) {
     const alias = typeof entry.providerAlias === "string" ? entry.providerAlias.trim() : "";
@@ -1815,10 +1818,10 @@ export function buildAliasIndex(
  */
 export function resolveProviderTagEntry(
   rawId: string,
-  direct: Dragon RouterEnrichmentEntry | undefined,
-  aliasIndex: Map<string, Dragon RouterEnrichmentEntry>,
+  direct: DragonRouterEnrichmentEntry | undefined,
+  aliasIndex: Map<string, DragonRouterEnrichmentEntry>,
   canonicalToAlias?: Map<string, string>
-): Dragon RouterEnrichmentEntry | undefined {
+): DragonRouterEnrichmentEntry | undefined {
   if (direct) {
     const alias = typeof direct.providerAlias === "string" ? direct.providerAlias.trim() : "";
     const display =
@@ -1862,7 +1865,7 @@ export { _normaliseFreeLabel as normaliseFreeLabel };
 
 export function applyEnrichment(
   model: ModelV2,
-  enrichment: Dragon RouterEnrichmentEntry | undefined
+  enrichment: DragonRouterEnrichmentEntry | undefined
 ): ModelV2 {
   if (!enrichment) return model;
   if (enrichment.name && enrichment.name.trim().length > 0) {
@@ -1892,37 +1895,37 @@ export function applyEnrichment(
 // ─────────────────────────────────────────────────────────────────────────
 
 /** Single step in a compression combo's pipeline. */
-export interface Dragon RouterCompressionStep {
+export interface DragonRouterCompressionStep {
   engine: string; // "rtk" | "caveman" | "aggressive" | ...
   intensity?: string; // "minimal" | "lite" | "standard" | "full" | "ultra" | "aggressive"
 }
 
 /** Compression combo as returned by /api/context/combos. */
-export interface Dragon RouterCompressionCombo {
+export interface DragonRouterCompressionCombo {
   id: string;
   name?: string;
   description?: string;
-  pipeline: Dragon RouterCompressionStep[];
+  pipeline: DragonRouterCompressionStep[];
   isDefault?: boolean;
 }
 
-export type Dragon RouterCompressionMetaFetcher = (
+export type DragonRouterCompressionMetaFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterCompressionCombo[]>;
+) => Promise<DragonRouterCompressionCombo[]>;
 
 /**
  * Default compression-metadata fetcher — calls `GET /api/context/combos`.
  * Tolerates envelope shapes `{ combos: [...] }`, `[...]`, or
  * `{ data: [...] }`. Soft-fails (returns []) on non-2xx or parse errors.
  */
-export const defaultDragon RouterCompressionMetaFetcher: Dragon RouterCompressionMetaFetcher = async (
+export const defaultDragonRouterCompressionMetaFetcher: DragonRouterCompressionMetaFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 10_000
 ) => {
-  const empty: Dragon RouterCompressionCombo[] = [];
+  const empty: DragonRouterCompressionCombo[] = [];
   if (!baseURL || !apiKey) return empty;
   const root = baseURL.replace(/\/v1\/?$/, "").replace(/\/$/, "");
   const url = `${root}/api/context/combos`;
@@ -1946,26 +1949,26 @@ export const defaultDragon RouterCompressionMetaFetcher: Dragon RouterCompressio
         : Array.isArray((body as { data?: unknown[] })?.data)
           ? (body as { data: unknown[] }).data
           : [];
-    const out: Dragon RouterCompressionCombo[] = [];
+    const out: DragonRouterCompressionCombo[] = [];
     for (const raw of list) {
       if (!raw || typeof raw !== "object") continue;
       const id = (raw as { id?: unknown }).id;
       const pipeline = (raw as { pipeline?: unknown }).pipeline;
       if (typeof id !== "string" || id.length === 0) continue;
       if (!Array.isArray(pipeline)) continue;
-      const steps: Dragon RouterCompressionStep[] = [];
+      const steps: DragonRouterCompressionStep[] = [];
       for (const step of pipeline) {
         if (!step || typeof step !== "object") continue;
         const engine = (step as { engine?: unknown }).engine;
         if (typeof engine !== "string" || engine.length === 0) continue;
         const intensity = (step as { intensity?: unknown }).intensity;
-        const entry: Dragon RouterCompressionStep = { engine };
+        const entry: DragonRouterCompressionStep = { engine };
         if (typeof intensity === "string" && intensity.length > 0) {
           entry.intensity = intensity;
         }
         steps.push(entry);
       }
-      const combo: Dragon RouterCompressionCombo = { id, pipeline: steps };
+      const combo: DragonRouterCompressionCombo = { id, pipeline: steps };
       const name = (raw as { name?: unknown }).name;
       if (typeof name === "string" && name.length > 0) combo.name = name;
       const description = (raw as { description?: unknown }).description;
@@ -1993,7 +1996,7 @@ export const defaultDragon RouterCompressionMetaFetcher: Dragon RouterCompressio
  *
  * Lookup is case-insensitive. Unknown intensities fall through to the
  * raw text form (`engine:<intensity>`) so we never hide a value that
- * Dragon Router knows but the plugin doesn't.
+ * DragonRouter knows but the plugin doesn't.
  *
  * Exported for callers (and tests) that want to assemble their own
  * pipeline strings.
@@ -2018,7 +2021,7 @@ export const COMPRESSION_INTENSITY_EMOJI: Record<string, string> = {
  *   `[caveman]`               (engine without intensity, no emoji)
  *   `[rtk:custom-thing]`      (unknown intensity, raw-text fallback)
  */
-export function formatCompressionPipeline(pipeline: Dragon RouterCompressionStep[]): string {
+export function formatCompressionPipeline(pipeline: DragonRouterCompressionStep[]): string {
   if (!pipeline || pipeline.length === 0) return "";
   return (
     "[" +
@@ -2035,7 +2038,7 @@ export function formatCompressionPipeline(pipeline: Dragon RouterCompressionStep
 
 // ─────────────────────────────────────────────────────────────────────────
 // /api/providers (provider-connection status) — optional read used by the
-// `features.usableOnly` filter. Returns the operator's installed Dragon Router
+// `features.usableOnly` filter. Returns the operator's installed DragonRouter
 // provider connections, each with `provider` (canonical id), `isActive`,
 // `testStatus`. We treat a provider as USABLE when at least one of its
 // connections is `isActive: true && testStatus: 'active'`. Aliases (e.g.
@@ -2043,7 +2046,7 @@ export function formatCompressionPipeline(pipeline: Dragon RouterCompressionStep
 // ─────────────────────────────────────────────────────────────────────────
 
 /** Subset of `/api/providers/connections[]` we read. Other fields are kept as a permissive index signature. */
-export interface Dragon RouterProviderConnection {
+export interface DragonRouterProviderConnection {
   /** Connection UUID. */
   id: string;
   /** Canonical provider id, e.g. `claude`, `gemini`, `kiro`. Matches `entry.id` in `/api/pricing/models`. */
@@ -2060,11 +2063,11 @@ export interface Dragon RouterProviderConnection {
   [k: string]: unknown;
 }
 
-export type Dragon RouterProvidersFetcher = (
+export type DragonRouterProvidersFetcher = (
   baseURL: string,
   apiKey: string,
   timeoutMs?: number
-) => Promise<Dragon RouterProviderConnection[]>;
+) => Promise<DragonRouterProviderConnection[]>;
 
 /**
  * Default providers fetcher — calls `GET /api/providers`. Tolerates envelope
@@ -2072,12 +2075,12 @@ export type Dragon RouterProvidersFetcher = (
  * (returns []) on non-2xx or parse errors so the `usableOnly` filter
  * gracefully degrades to "no filter" instead of hiding the whole catalog.
  */
-export const defaultDragon RouterProvidersFetcher: Dragon RouterProvidersFetcher = async (
+export const defaultDragonRouterProvidersFetcher: DragonRouterProvidersFetcher = async (
   baseURL,
   apiKey,
   timeoutMs = 10_000
 ) => {
-  const empty: Dragon RouterProviderConnection[] = [];
+  const empty: DragonRouterProviderConnection[] = [];
   if (!baseURL || !apiKey) return empty;
   const root = baseURL.replace(/\/v1\/?$/, "").replace(/\/$/, "");
   const url = `${root}/api/providers`;
@@ -2101,7 +2104,7 @@ export const defaultDragon RouterProvidersFetcher: Dragon RouterProvidersFetcher
         : Array.isArray((body as { data?: unknown[] })?.data)
           ? (body as { data: unknown[] }).data
           : [];
-    const out: Dragon RouterProviderConnection[] = [];
+    const out: DragonRouterProviderConnection[] = [];
     for (const raw of list) {
       if (!raw || typeof raw !== "object") continue;
       const provider = (raw as { provider?: unknown }).provider;
@@ -2130,7 +2133,7 @@ export const defaultDragon RouterProvidersFetcher: Dragon RouterProvidersFetcher
  *
  * Callers should treat membership in EITHER set as "usable" — raw model
  * ids may be `<alias>/<model>` (`cc/claude-opus-4-7`) OR `<canonical>/<model>`
- * (`claude/sonnet-4`) depending on the Dragon Router deployment's `/v1/models`
+ * (`claude/sonnet-4`) depending on the DragonRouter deployment's `/v1/models`
  * surface shape.
  *
  * Subtract-filter semantics: callers MUST also keep models whose prefix is
@@ -2139,8 +2142,8 @@ export const defaultDragon RouterProvidersFetcher: Dragon RouterProvidersFetcher
  * prefix in EITHER catalog table AND it's not usable, drop; otherwise keep".
  */
 export function usableProviderAliasSet(
-  connections: Dragon RouterProviderConnection[],
-  enrichment: Dragon RouterEnrichmentMap | undefined
+  connections: DragonRouterProviderConnection[],
+  enrichment: DragonRouterEnrichmentMap | undefined
 ): {
   aliases: Set<string>;
   canonicals: Set<string>;
@@ -2158,7 +2161,7 @@ export function usableProviderAliasSet(
   const knownAliases = new Set<string>();
   if (enrichment) {
     // Walk enrichment entries to map alias → canonical via the metadata
-    // populated by `defaultDragon RouterEnrichmentFetcher`. Every entry carries
+    // populated by `defaultDragonRouterEnrichmentFetcher`. Every entry carries
     // its providerAlias + providerCanonical so the namespaced/bare key
     // duplication is harmless. Collect EVERY alias we encounter (regardless
     // of usability) into `knownAliases` so the downstream filter can decide
@@ -2199,7 +2202,7 @@ export function isUsableRawModelId(
     canonicals: Set<string>;
     knownAliases: Set<string>;
   },
-  enrichment: Dragon RouterEnrichmentMap | undefined
+  enrichment: DragonRouterEnrichmentMap | undefined
 ): boolean {
   const slash = id.indexOf("/");
   if (slash <= 0) return true;
@@ -2220,7 +2223,7 @@ export function isUsableRawModelId(
  * all-false LCD posture and surfaced as cosmetic-only entries).
  */
 export function isUsableCombo(
-  combo: Dragon RouterRawCombo,
+  combo: DragonRouterRawCombo,
   usable: {
     aliases: Set<string>;
     canonicals: Set<string>;
@@ -2229,7 +2232,7 @@ export function isUsableCombo(
 ): boolean {
   const steps = Array.isArray(combo.models) ? combo.models : [];
   if (steps.length === 0) return true;
-  // The provider id is folded INTO the full model string by Dragon Router's
+  // The provider id is folded INTO the full model string by DragonRouter's
   // `normalizeComboRecord` (e.g. "cc/claude-opus-4-7") — combo member refs do
   // NOT carry a separate `providerId` field. Derive the prefix from `step.model`
   // and apply the same subtract-filter verdict as `isUsableRawModelId`.
@@ -2285,7 +2288,7 @@ export function slugifyComboName(name: string): string {
  * string (e.g. a combo named just punctuation).
  */
 export function buildComboKey(
-  combo: Dragon RouterRawCombo,
+  combo: DragonRouterRawCombo,
   used: Set<string>,
   providerId: string
 ): string {
@@ -2308,7 +2311,7 @@ export function buildComboKey(
  * Internal cache key: `${baseURL}::sha256(apiKey)`. We hash the apiKey so
  * the key is safe to log / inspect via debugger without leaking the secret.
  * Different (baseURL, apiKey) tuples MUST keep independent cache entries:
- * a single OC user may register prod + preprod Dragon Router side-by-side with
+ * a single OC user may register prod + preprod DragonRouter side-by-side with
  * distinct keys, and serving one's catalog from the other's cache would be
  * a correctness bug, not just a privacy one.
  */
@@ -2338,24 +2341,24 @@ function modelsCacheKey(baseURL: string, credentialId: string): string {
  *     `cost`/`status`/`headers`). Caching the raw responses is the only
  *     lossless option.
  *   - On OC ≥1.14.49 cold start BOTH hooks fire within the same
- *     Dragon RouterPlugin instance — sharing the cache means /v1/models +
+ *     DragonRouterPlugin instance — sharing the cache means /v1/models +
  *     /api/combos each hit the gateway exactly ONCE per TTL refresh, not
  *     twice.
  */
-export interface Dragon RouterFetchCacheEntry {
-  rawModels: Dragon RouterRawModelEntry[];
-  rawCombos: Dragon RouterRawCombo[];
-  rawAutoCombos: Dragon RouterRawAutoCombo[];
+export interface DragonRouterFetchCacheEntry {
+  rawModels: DragonRouterRawModelEntry[];
+  rawCombos: DragonRouterRawCombo[];
+  rawAutoCombos: DragonRouterRawAutoCombo[];
   /** Display-name + pricing overlay from /api/pricing/models. Empty Map when feature is disabled or fetch failed. */
-  rawEnrichment: Dragon RouterEnrichmentMap;
+  rawEnrichment: DragonRouterEnrichmentMap;
   /** Compression combos from /api/context/combos. Empty array when feature is disabled or fetch failed. */
-  rawCompressionCombos: Dragon RouterCompressionCombo[];
+  rawCompressionCombos: DragonRouterCompressionCombo[];
   /** Provider connections from /api/providers. Empty array when feature is disabled or fetch failed. */
-  rawConnections: Dragon RouterProviderConnection[];
+  rawConnections: DragonRouterProviderConnection[];
   expiresAt: number;
 }
 
-export type Dragon RouterFetchCache = Map<string, Dragon RouterFetchCacheEntry>;
+export type DragonRouterFetchCache = Map<string, DragonRouterFetchCacheEntry>;
 
 /**
  * Build the ProviderHook portion of the plugin for a given options bag.
@@ -2373,7 +2376,7 @@ export type Dragon RouterFetchCache = Map<string, Dragon RouterFetchCacheEntry>;
  *     through `mapComboToModelV2` (LCD across its member models); merges
  *     combos into the same map under their combo id; caches the unified
  *     result by `(baseURL, sha256(apiKey))` for `modelCacheTtl`.
- *   - **Combo / model ID collisions: combos win.** Dragon Router treats combos
+ *   - **Combo / model ID collisions: combos win.** DragonRouter treats combos
  *     as the curated routing surface; if a combo and a raw model share an
  *     id the operator's intent is clearly the combo. We emit a
  *     `console.warn` exactly once per `(baseURL, apiKey, comboId)`
@@ -2381,7 +2384,7 @@ export type Dragon RouterFetchCache = Map<string, Dragon RouterFetchCacheEntry>;
  *     without log spam on every cache refresh.
  *   - **Combos fetch failure does NOT break the catalog**: soft-fail with
  *     a `console.warn` and fall back to a models-only catalog. Rationale:
- *     `/api/combos` requires a management-scoped key and Dragon Router may
+ *     `/api/combos` requires a management-scoped key and DragonRouter may
  *     not have any combos provisioned (preprod returned `{combos: []}`
  *     at probe time). Hard-failing the entire catalog when combos are
  *     optional would silently hide the whole provider from OC's model
@@ -2401,31 +2404,31 @@ export type Dragon RouterFetchCache = Map<string, Dragon RouterFetchCacheEntry>;
  *             lets the caller share state across reconstructions (unused
  *             outside tests today).
  */
-export function createDragon RouterProviderHook(
-  opts?: Dragon RouterPluginOptions,
+export function createDragonRouterProviderHook(
+  opts?: DragonRouterPluginOptions,
   deps: {
-    fetcher?: Dragon RouterModelsFetcher;
-    combosFetcher?: Dragon RouterCombosFetcher;
-    autoCombosFetcher?: Dragon RouterAutoCombosFetcher;
-    enrichmentFetcher?: Dragon RouterEnrichmentFetcher;
-    compressionMetaFetcher?: Dragon RouterCompressionMetaFetcher;
-    providersFetcher?: Dragon RouterProvidersFetcher;
+    fetcher?: DragonRouterModelsFetcher;
+    combosFetcher?: DragonRouterCombosFetcher;
+    autoCombosFetcher?: DragonRouterAutoCombosFetcher;
+    enrichmentFetcher?: DragonRouterEnrichmentFetcher;
+    compressionMetaFetcher?: DragonRouterCompressionMetaFetcher;
+    providersFetcher?: DragonRouterProvidersFetcher;
     now?: () => number;
-    cache?: Dragon RouterFetchCache;
+    cache?: DragonRouterFetchCache;
   } = {}
 ): ProviderHook {
-  const resolved = resolveDragon RouterPluginOptions(opts);
-  const fetcher = deps.fetcher ?? defaultDragon RouterModelsFetcher;
+  const resolved = resolveDragonRouterPluginOptions(opts);
+  const fetcher = deps.fetcher ?? defaultDragonRouterModelsFetcher;
   // T-05: combo discovery merges `/api/combos` entries into the same map as
   // `/v1/models`. Default fetcher is declared further down the file; the
   // reference resolves at hook-invocation time, not at hook-construction
   // time, so source-order beyond hoisting rules has no semantic effect.
-  const combosFetcher = deps.combosFetcher ?? defaultDragon RouterCombosFetcher;
-  const autoCombosFetcher = deps.autoCombosFetcher ?? defaultDragon RouterAutoCombosFetcher;
-  const enrichmentFetcher = deps.enrichmentFetcher ?? defaultDragon RouterEnrichmentFetcher;
+  const combosFetcher = deps.combosFetcher ?? defaultDragonRouterCombosFetcher;
+  const autoCombosFetcher = deps.autoCombosFetcher ?? defaultDragonRouterAutoCombosFetcher;
+  const enrichmentFetcher = deps.enrichmentFetcher ?? defaultDragonRouterEnrichmentFetcher;
   const compressionMetaFetcher =
-    deps.compressionMetaFetcher ?? defaultDragon RouterCompressionMetaFetcher;
-  const providersFetcher = deps.providersFetcher ?? defaultDragon RouterProvidersFetcher;
+    deps.compressionMetaFetcher ?? defaultDragonRouterCompressionMetaFetcher;
+  const providersFetcher = deps.providersFetcher ?? defaultDragonRouterProvidersFetcher;
   // Features defaults (mirror v0.1.0 behavior when unset).
   const features = resolved.features ?? {};
   const wantCombos = features.combos !== false;
@@ -2438,7 +2441,7 @@ export function createDragon RouterProviderHook(
   // T-07: cache holds RAW fetch results (not pre-derived ModelV2) so that
   // the config-shim hook can share the same cache and derive its stripped
   // sibling shape from the same source without a second round-trip.
-  const cache: Dragon RouterFetchCache = deps.cache ?? new Map();
+  const cache: DragonRouterFetchCache = deps.cache ?? new Map();
   // T-05: collision-warning deduper. Emit warn once per (cacheKey, comboId)
   // tuple per hook instance so the operator sees the unusual naming choice
   // once per session, not once per cache refresh.
@@ -2494,12 +2497,12 @@ export function createDragon RouterProviderHook(
       const t = now();
       const cached = cache.get(cacheKey);
 
-      let rawModels: Dragon RouterRawModelEntry[];
-      let rawCombos: Dragon RouterRawCombo[];
-      let rawAutoCombos: Dragon RouterRawAutoCombo[];
-      let rawEnrichment: Dragon RouterEnrichmentMap;
-      let rawCompressionCombos: Dragon RouterCompressionCombo[];
-      let rawConnections: Dragon RouterProviderConnection[];
+      let rawModels: DragonRouterRawModelEntry[];
+      let rawCombos: DragonRouterRawCombo[];
+      let rawAutoCombos: DragonRouterRawAutoCombo[];
+      let rawEnrichment: DragonRouterEnrichmentMap;
+      let rawCompressionCombos: DragonRouterCompressionCombo[];
+      let rawConnections: DragonRouterProviderConnection[];
       if (cached && cached.expiresAt > t) {
         rawModels = cached.rawModels;
         rawCombos = cached.rawCombos;
@@ -2516,7 +2519,7 @@ export function createDragon RouterProviderHook(
         // T-05: combos fetch is best-effort, gated by features.combos.
         // Soft-fail on any error: emit a console.warn and fall back to a
         // models-only catalog. Rationale: /api/combos requires a
-        // management-scoped key and Dragon Router may not have any combos
+        // management-scoped key and DragonRouter may not have any combos
         // provisioned. Hard-failing when combos are optional would
         // silently hide the whole provider from OC's picker.
         rawCombos = [];
@@ -2533,7 +2536,7 @@ export function createDragon RouterProviderHook(
 
         // Auto combos fetch — virtual server-side combos. Best-effort,
         // gated by features.autoCombos. Soft-fails silently (the endpoint
-        // may not exist yet on older Dragon Router versions).
+        // may not exist yet on older DragonRouter versions).
         rawAutoCombos = [];
         if (wantAutoCombos) {
           try {
@@ -2597,7 +2600,7 @@ export function createDragon RouterProviderHook(
         });
 
         // Debug breadcrumb: surface fetch result so operators can confirm
-        // the dynamic pipeline fired and how much catalog Dragon Router returned.
+        // the dynamic pipeline fired and how much catalog DragonRouter returned.
         // Emitted once per cache miss (TTL refresh) — quiet on cache hits.
         console.warn(
           `[dragonrouter-plugin] catalog refreshed for providerId=${resolved.providerId} baseURL=${baseURL}: ` +
@@ -2626,7 +2629,7 @@ export function createDragon RouterProviderHook(
       // Lookup index for LCD member resolution: O(1) per member lookup.
       // Indexed by raw model `id` — combo steps reference this exact
       // string per ComboModelStep in src/lib/combos/steps.ts.
-      const rawModelById = new Map<string, Dragon RouterRawModelEntry>();
+      const rawModelById = new Map<string, DragonRouterRawModelEntry>();
       for (const entry of rawModels) {
         if (entry.id) rawModelById.set(entry.id, entry);
       }
@@ -2691,7 +2694,7 @@ export function createDragon RouterProviderHook(
       }
 
       // Default compression combo (used to decorate ALL combo names when
-      // compression metadata is present). Dragon Router returns at most one
+      // compression metadata is present). DragonRouter returns at most one
       // entry with `isDefault: true` per /api/context/combos.
       const defaultCompression = wantCompressionMeta
         ? rawCompressionCombos.find((c) => c.isDefault === true)
@@ -2746,7 +2749,7 @@ export function createDragon RouterProviderHook(
         const stillPending: typeof pending = [];
         for (const combo of pending) {
           const memberSteps = Array.isArray(combo.models) ? combo.models : [];
-          const memberEntries: Dragon RouterRawModelEntry[] = [];
+          const memberEntries: DragonRouterRawModelEntry[] = [];
           let deferredThisPass = false;
 
           for (const step of memberSteps) {
@@ -2808,7 +2811,7 @@ export function createDragon RouterProviderHook(
                   attachment: nestedModel.capabilities.attachment,
                   tool_calling: nestedModel.capabilities.toolcall,
                 },
-              } as unknown as Dragon RouterRawModelEntry);
+              } as unknown as DragonRouterRawModelEntry);
               continue;
             }
 
@@ -2832,7 +2835,7 @@ export function createDragon RouterProviderHook(
           );
           const hasMembers = memberEntries.length > 0;
 
-          // Apply enrichment overlay to combos too (Dragon Router's
+          // Apply enrichment overlay to combos too (DragonRouter's
           // /api/pricing/models surfaces combos alongside provider-scoped
           // models with curated names).
           applyEnrichment(mapped, rawEnrichment.get(combo.id));
@@ -2962,14 +2965,14 @@ export function createDragon RouterProviderHook(
 
 // ────────────────────────────────────────────────────────────────────────────
 // Fetch interceptor (T-04) — Bearer + Content-Type injection on outbound
-// provider requests targeting the configured Dragon Router baseURL
+// provider requests targeting the configured DragonRouter baseURL
 // ────────────────────────────────────────────────────────────────────────────
 
 /**
  * Build a `fetch`-compatible interceptor that injects `Authorization: Bearer`
  * (and a default `Content-Type`) onto outbound requests targeting the given
  * `baseURL`. Requests to any other host pass through untouched — the apiKey
- * is treated as a secret bound to the configured Dragon Router instance and
+ * is treated as a secret bound to the configured DragonRouter instance and
  * MUST NOT leak to third-party endpoints (a vector AI-SDKs occasionally
  * exercise when a tool call rewrites the URL mid-flight).
  *
@@ -2989,12 +2992,12 @@ export function createDragon RouterProviderHook(
  *   - **Header merge strategy mirrors theirs**: Request-attached headers
  *     first, then `init.headers` overlay, then our injected
  *     Authorization/Content-Type — so the apiKey we own ALWAYS wins over
- *     any caller-supplied Bearer for the same Dragon Router provider.
+ *     any caller-supplied Bearer for the same DragonRouter provider.
  *
  * @see https://opencode.ai/docs/plugins for the AuthLoaderResult.fetch contract
  *      (the returned function is invoked by the AI-SDK in lieu of global fetch).
  */
-export function createDragon RouterFetchInterceptor(config: {
+export function createDragonRouterFetchInterceptor(config: {
   apiKey: string;
   baseURL: string;
 }): typeof fetch {
@@ -3007,8 +3010,8 @@ export function createDragon RouterFetchInterceptor(config: {
     const url =
       typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
 
-    const targetsDragon Router = url === trimmed || url.startsWith(prefix);
-    if (!targetsDragon Router) {
+    const targetsDragonRouter = url === trimmed || url.startsWith(prefix);
+    if (!targetsDragonRouter) {
       return fetch(input, init);
     }
 
@@ -3044,7 +3047,7 @@ export function createDragon RouterFetchInterceptor(config: {
  * JSON-Schema keywords that the Gemini API rejects when present anywhere in
  * a function-calling tool definition. Standard OpenAI / Anthropic clients
  * happily emit these (they're valid Draft-07 schema) but Gemini's tool
- * validator throws on them, breaking Dragon Router → Gemini chains transparently.
+ * validator throws on them, breaking DragonRouter → Gemini chains transparently.
  *
  * Source: behavioural reverse-engineering from Alph4d0g's
  * opencode-dragonrouter-auth@1.2.1 (dist/src/plugin.js:517).
@@ -3225,7 +3228,7 @@ let geminiStreamingWarningEmitted = false;
  *     OC streams plain text deltas; the operator should still know.
  *
  * @param inner The next fetch in the chain (typically the Bearer-injecting
- *              interceptor from `createDragon RouterFetchInterceptor`).
+ *              interceptor from `createDragonRouterFetchInterceptor`).
  */
 export function createGeminiSanitizingFetch(inner: typeof fetch): typeof fetch {
   return async (input, init) => {
@@ -3344,7 +3347,7 @@ export function __resetGeminiStreamingWarning(): void {
 // implements the static-publish half.
 //
 // Sibling shape source-of-truth: see
-// `@dragonrouter/opencode-provider/src/index.ts` (`createDragon RouterProvider`,
+// `@dragonrouter/opencode-provider/src/index.ts` (`createDragonRouterProvider`,
 // `OpenCodeProviderEntry`, `OpenCodeModelEntry`). We replicate that shape
 // here rather than depending on the sibling package — the plugin must stay
 // self-contained (npm-installable on its own, no peer dep on the provider
@@ -3356,14 +3359,14 @@ export function __resetGeminiStreamingWarning(): void {
  * `OpenCodeModelEntry` exported by `@dragonrouter/opencode-provider`. Stripped
  * down to the fields OC's static catalog reader actually consumes — NOT a
  * full ModelV2 (that's the dynamic-hook shape). Optional fields are omitted
- * when Dragon Router didn't surface a value, NOT emitted as `undefined` — the
- * resulting JSON must be diffable across Dragon Router deployments without
+ * when DragonRouter didn't surface a value, NOT emitted as `undefined` — the
+ * resulting JSON must be diffable across DragonRouter deployments without
  * `undefined` noise.
  */
 /** Modalities accepted by OC's static catalog reader (see `@opencode-ai/sdk`). */
-export type Dragon RouterModalityKind = "text" | "audio" | "image" | "video" | "pdf";
+export type DragonRouterModalityKind = "text" | "audio" | "image" | "video" | "pdf";
 
-const STATIC_MODALITY_VALUES: ReadonlySet<Dragon RouterModalityKind> = new Set([
+const STATIC_MODALITY_VALUES: ReadonlySet<DragonRouterModalityKind> = new Set([
   "text",
   "audio",
   "image",
@@ -3372,13 +3375,13 @@ const STATIC_MODALITY_VALUES: ReadonlySet<Dragon RouterModalityKind> = new Set([
 ]);
 
 /** Normalise + filter raw modality list to the values OC accepts. Deduped. */
-function normaliseModalities(raw: unknown): Dragon RouterModalityKind[] {
+function normaliseModalities(raw: unknown): DragonRouterModalityKind[] {
   if (!Array.isArray(raw)) return [];
-  const out: Dragon RouterModalityKind[] = [];
+  const out: DragonRouterModalityKind[] = [];
   const seen = new Set<string>();
   for (const v of raw) {
     if (typeof v !== "string") continue;
-    const lower = v.toLowerCase() as Dragon RouterModalityKind;
+    const lower = v.toLowerCase() as DragonRouterModalityKind;
     if (!STATIC_MODALITY_VALUES.has(lower)) continue;
     if (seen.has(lower)) continue;
     seen.add(lower);
@@ -3387,7 +3390,7 @@ function normaliseModalities(raw: unknown): Dragon RouterModalityKind[] {
   return out;
 }
 
-export interface Dragon RouterStaticModelEntry {
+export interface DragonRouterStaticModelEntry {
   /** Owning provider id. SHOULD match the parent `provider.<id>` key so OC's
    * static-catalog reader resolves credentials via `providerID` instead of
    * parsing the model key on `/`. Optional: OC's schema validator may
@@ -3411,7 +3414,7 @@ export interface Dragon RouterStaticModelEntry {
   /** Model supports function / tool calling. */
   tool_call?: boolean;
   /**
-   * Per-million-token cost. Maps from Dragon Router `/api/pricing` shape:
+   * Per-million-token cost. Maps from DragonRouter `/api/pricing` shape:
    * `input`/`output` pass through; `cached` → `cache_read`;
    * `cache_creation` → `cache_write`. Omitted when no pricing slot resolves.
    */
@@ -3432,15 +3435,15 @@ export interface Dragon RouterStaticModelEntry {
   };
   /**
    * Modality lists the model accepts (input) and emits (output). Maps from
-   * Dragon Router's `input_modalities` / `output_modalities` on `/v1/models`.
+   * DragonRouter's `input_modalities` / `output_modalities` on `/v1/models`.
    * Emitted only when at least one modality is known — without this field
    * OC's runtime catalog defaults `input.image: false` even when the model
    * card has `attachment: true`, which blocks clipboard image paste in the
    * TUI for vision-capable models.
    */
   modalities?: {
-    input: Dragon RouterModalityKind[];
-    output: Dragon RouterModalityKind[];
+    input: DragonRouterModalityKind[];
+    output: DragonRouterModalityKind[];
   };
 }
 
@@ -3448,7 +3451,7 @@ export interface Dragon RouterStaticModelEntry {
  * Static `provider.<id>` block written to `input.provider` by the config hook.
  * Mirrors `OpenCodeProviderEntry` from `@dragonrouter/opencode-provider`.
  *
- *   - `npm` is always `"@ai-sdk/openai-compatible"` — Dragon Router exposes an
+ *   - `npm` is always `"@ai-sdk/openai-compatible"` — DragonRouter exposes an
  *     OpenAI-compatible surface and that's the AI-SDK adapter that speaks it.
  *   - `options.baseURL` MUST be the fully-qualified `/v1` URL (the AI-SDK
  *     appends paths like `/chat/completions` directly under it).
@@ -3457,14 +3460,14 @@ export interface Dragon RouterStaticModelEntry {
  *     embedded too so OC ≤1.14.48 can construct the SDK client without
  *     going through the auth hook.
  */
-export interface Dragon RouterStaticProviderEntry {
+export interface DragonRouterStaticProviderEntry {
   npm: "@ai-sdk/openai-compatible";
   name: string;
   options: {
     baseURL: string;
     apiKey: string;
   };
-  models: Record<string, Dragon RouterStaticModelEntry>;
+  models: Record<string, DragonRouterStaticModelEntry>;
 }
 
 /**
@@ -3473,7 +3476,7 @@ export interface Dragon RouterStaticProviderEntry {
  * sibling provider package. Exported so callers and tests can construct the
  * block independently of the auth.json + fetch pipeline.
  *
- * Mapping rules (per the sibling `createDragon RouterProvider` output spec):
+ * Mapping rules (per the sibling `createDragonRouterProvider` output spec):
  *
  *   - One entry per raw model AND one entry per non-hidden combo.
  *   - `name` = model id (no separate display name on `/v1/models`).
@@ -3509,17 +3512,17 @@ export interface Dragon RouterStaticProviderEntry {
  * @param apiKey    Bearer token — written verbatim to `options.apiKey`.
  */
 export function buildStaticProviderEntry(
-  rawModels: Dragon RouterRawModelEntry[],
-  rawCombos: Dragon RouterRawCombo[],
-  opts: ReturnType<typeof resolveDragon RouterPluginOptions>,
+  rawModels: DragonRouterRawModelEntry[],
+  rawCombos: DragonRouterRawCombo[],
+  opts: ReturnType<typeof resolveDragonRouterPluginOptions>,
   baseURL: string,
   apiKey: string,
-  enrichment?: Dragon RouterEnrichmentMap,
-  compressionCombos?: Dragon RouterCompressionCombo[],
-  connections?: Dragon RouterProviderConnection[],
-  rawAutoCombos?: Dragon RouterRawAutoCombo[]
-): Dragon RouterStaticProviderEntry {
-  const models: Record<string, Dragon RouterStaticModelEntry> = {};
+  enrichment?: DragonRouterEnrichmentMap,
+  compressionCombos?: DragonRouterCompressionCombo[],
+  connections?: DragonRouterProviderConnection[],
+  rawAutoCombos?: DragonRouterRawAutoCombo[]
+): DragonRouterStaticProviderEntry {
+  const models: Record<string, DragonRouterStaticModelEntry> = {};
 
   // usableOnly filter — compute once when feature enabled AND we have
   // connection data to filter against. Soft-fail (empty connections list)
@@ -3535,7 +3538,7 @@ export function buildStaticProviderEntry(
   // (Kiro). Combos skip this by design.
   const wantProviderTag = opts.features?.providerTag !== false;
 
-  // Build a name-set of every non-hidden combo from `/api/combos`. Dragon Router
+  // Build a name-set of every non-hidden combo from `/api/combos`. DragonRouter
   // pre-mirrors combos into `/v1/models` with the friendly name as the raw
   // id (e.g. `claude-primary`, `gemini-pro`), so without dedup the static
   // catalog ends up with both `claude-primary` (raw, opaque) AND the same
@@ -3603,7 +3606,7 @@ export function buildStaticProviderEntry(
     // entire provider block, hiding ALL models. The provider prefix on the
     // model KEY (e.g. `dragonrouter/claude-opus-4`) is what OC uses to recover
     // (providerID, modelID) when the user selects a model.
-    const entry: Dragon RouterStaticModelEntry = { name: displayName };
+    const entry: DragonRouterStaticModelEntry = { name: displayName };
 
     const attachment = caps.attachment ?? caps.vision;
     if (typeof attachment === "boolean") entry.attachment = attachment;
@@ -3636,7 +3639,7 @@ export function buildStaticProviderEntry(
       };
     }
 
-    // Modalities — emit when Dragon Router surfaced any. Without this field
+    // Modalities — emit when DragonRouter surfaced any. Without this field
     // OC's runtime model defaults `input.image: false` even for vision-
     // capable models, blocking clipboard image paste in the TUI.
     const inModalities = normaliseModalities(raw.input_modalities);
@@ -3649,10 +3652,10 @@ export function buildStaticProviderEntry(
     }
 
     // Cost from enrichment pricing (sourced from `/api/pricing`). Map
-    // Dragon Router field names to OC's static-schema field names.
+    // DragonRouter field names to OC's static-schema field names.
     const pricing = enrichmentEntry?.pricing;
     if (pricing && (typeof pricing.input === "number" || typeof pricing.output === "number")) {
-      const cost: NonNullable<Dragon RouterStaticModelEntry["cost"]> = {
+      const cost: NonNullable<DragonRouterStaticModelEntry["cost"]> = {
         input: typeof pricing.input === "number" ? pricing.input : 0,
         output: typeof pricing.output === "number" ? pricing.output : 0,
       };
@@ -3678,7 +3681,7 @@ export function buildStaticProviderEntry(
   // `combo/<friendly-name>` so the OC TUI model picker shows them under a
   // distinct namespace (e.g. `combo/claude-primary`) instead of the opaque
   // upstream UUID id (e.g. `b4a0211e-e3e1-472d-b252-fb9bf6d1c935`).
-  const rawModelById = new Map<string, Dragon RouterRawModelEntry>();
+  const rawModelById = new Map<string, DragonRouterRawModelEntry>();
   for (const m of rawModels) {
     if (m.id) rawModelById.set(m.id, m);
   }
@@ -3713,7 +3716,7 @@ export function buildStaticProviderEntry(
   // We bound the retries so a circular combo graph can't deadlock the
   // picker, and we break early when a pass makes no progress.
   const MAX_STATIC_COMBO_PASSES = 8;
-  const resolvedStaticCombosByName = new Map<string, Dragon RouterStaticModelEntry>();
+  const resolvedStaticCombosByName = new Map<string, DragonRouterStaticModelEntry>();
   let pendingStatic = rawCombos.filter((combo) => {
     if (!combo.id) return false;
     if (combo.isHidden === true) return false;
@@ -3725,7 +3728,7 @@ export function buildStaticProviderEntry(
     const stillPendingStatic: typeof pendingStatic = [];
     for (const combo of pendingStatic) {
       const memberSteps = Array.isArray(combo.models) ? combo.models : [];
-      const memberEntries: Dragon RouterRawModelEntry[] = [];
+      const memberEntries: DragonRouterRawModelEntry[] = [];
       let deferredThisPass = false;
 
       for (const step of memberSteps) {
@@ -3762,7 +3765,7 @@ export function buildStaticProviderEntry(
               attachment: nestedEntry.attachment,
               tool_calling: nestedEntry.tool_call,
             },
-          } as unknown as Dragon RouterRawModelEntry);
+          } as unknown as DragonRouterRawModelEntry);
           continue;
         }
 
@@ -3785,7 +3788,7 @@ export function buildStaticProviderEntry(
       // See the raw-model entry comment above — `providerID` on entries is
       // not part of OC's static-catalog schema; the parent block ID is the
       // provider and the KEY prefix (`dragonrouter/<slug>`) is what OC parses.
-      const entry: Dragon RouterStaticModelEntry = { name: displayName };
+      const entry: DragonRouterStaticModelEntry = { name: displayName };
 
       if (hasMembers) {
         // LCD across capabilities — every member must support for the combo
@@ -3825,10 +3828,10 @@ export function buildStaticProviderEntry(
         // accepts M. Same intersection rule as runtime capabilities.
         const inSets = memberEntries.map((m) => new Set(normaliseModalities(m.input_modalities)));
         const outSets = memberEntries.map((m) => new Set(normaliseModalities(m.output_modalities)));
-        const intersect = (sets: Set<Dragon RouterModalityKind>[]): Dragon RouterModalityKind[] => {
+        const intersect = (sets: Set<DragonRouterModalityKind>[]): DragonRouterModalityKind[] => {
           if (sets.length === 0) return [];
           const [first, ...rest] = sets;
-          const out: Dragon RouterModalityKind[] = [];
+          const out: DragonRouterModalityKind[] = [];
           for (const v of first) {
             if (rest.every((s) => s.has(v))) out.push(v);
           }
@@ -3936,7 +3939,7 @@ type AuthJsonShape = Record<string, AuthJsonApiEntry | { type?: string; [k: stri
  * install — silent no-op). Returns `null` when the file exists but doesn't
  * parse as JSON (logs ONE warn so the operator sees the corruption).
  *
- * Exported as a dependency-injectable function on `createDragon RouterConfigHook`
+ * Exported as a dependency-injectable function on `createDragonRouterConfigHook`
  * so tests can stub it without monkey-patching `node:fs/promises`.
  */
 // ─────────────────────────────────────────────────────────────────────────
@@ -3949,15 +3952,15 @@ type AuthJsonShape = Record<string, AuthJsonApiEntry | { type?: string; [k: stri
 // ─────────────────────────────────────────────────────────────────────────
 
 /** Disk snapshot envelope. Versioned for forward-compat. */
-interface Dragon RouterDiskSnapshot {
+interface DragonRouterDiskSnapshot {
   v: 1;
-  rawModels: Dragon RouterRawModelEntry[];
-  rawCombos: Dragon RouterRawCombo[];
-  rawAutoCombos?: Dragon RouterRawAutoCombo[];
+  rawModels: DragonRouterRawModelEntry[];
+  rawCombos: DragonRouterRawCombo[];
+  rawAutoCombos?: DragonRouterRawAutoCombo[];
   /** Serialised as array-of-pairs (Map is not JSON-friendly). */
-  rawEnrichment: Array<[string, Dragon RouterEnrichmentEntry]>;
-  rawCompressionCombos: Dragon RouterCompressionCombo[];
-  rawConnections: Dragon RouterProviderConnection[];
+  rawEnrichment: Array<[string, DragonRouterEnrichmentEntry]>;
+  rawCompressionCombos: DragonRouterCompressionCombo[];
+  rawConnections: DragonRouterProviderConnection[];
   /** When the snapshot was written (epoch ms). */
   writtenAt: number;
 }
@@ -3968,23 +3971,26 @@ export function diskSnapshotPath(providerId: string): string {
   return path.join(dir, "plugins", `dragonrouter-${providerId}.json`);
 }
 
-export type Dragon RouterDiskSnapshotWriter = (
+export type DragonRouterDiskSnapshotWriter = (
   providerId: string,
-  entry: Omit<Dragon RouterFetchCacheEntry, "expiresAt">
+  entry: Omit<DragonRouterFetchCacheEntry, "expiresAt">
 ) => Promise<void>;
 
-export type Dragon RouterDiskSnapshotReader = (
+export type DragonRouterDiskSnapshotReader = (
   providerId: string
-) => Promise<Omit<Dragon RouterFetchCacheEntry, "expiresAt"> | undefined>;
+) => Promise<Omit<DragonRouterFetchCacheEntry, "expiresAt"> | undefined>;
 
 /** Best-effort disk write. Soft-fails on any I/O error (no exception thrown). */
-export const defaultDiskSnapshotWriter: Dragon RouterDiskSnapshotWriter = async (providerId, entry) => {
+export const defaultDiskSnapshotWriter: DragonRouterDiskSnapshotWriter = async (
+  providerId,
+  entry
+) => {
   try {
     const file = diskSnapshotPath(providerId);
     // Restrict perms to the owner: the snapshot lives alongside auth.json
     // (0o600) and embeds provider topology + masked connection records.
     await mkdir(path.dirname(file), { recursive: true, mode: 0o700 });
-    const snapshot: Dragon RouterDiskSnapshot = {
+    const snapshot: DragonRouterDiskSnapshot = {
       v: 1,
       rawModels: entry.rawModels,
       rawCombos: entry.rawCombos,
@@ -4004,11 +4010,11 @@ export const defaultDiskSnapshotWriter: Dragon RouterDiskSnapshotWriter = async 
 };
 
 /** Best-effort disk read. Returns `undefined` when missing/corrupt/unreadable. */
-export const defaultDiskSnapshotReader: Dragon RouterDiskSnapshotReader = async (providerId) => {
+export const defaultDiskSnapshotReader: DragonRouterDiskSnapshotReader = async (providerId) => {
   try {
     const file = diskSnapshotPath(providerId);
     const body = await readFile(file, "utf8");
-    const parsed = JSON.parse(body) as Partial<Dragon RouterDiskSnapshot>;
+    const parsed = JSON.parse(body) as Partial<DragonRouterDiskSnapshot>;
     if (!parsed || parsed.v !== 1) return undefined;
     return {
       rawModels: Array.isArray(parsed.rawModels) ? parsed.rawModels : [],
@@ -4026,7 +4032,7 @@ export const defaultDiskSnapshotReader: Dragon RouterDiskSnapshotReader = async 
 };
 
 /** No-op disk-cache pair — used by tests to avoid filesystem side effects. */
-export const noopDiskSnapshotWriter: Dragon RouterDiskSnapshotWriter = async () => {};
+export const noopDiskSnapshotWriter: DragonRouterDiskSnapshotWriter = async () => {};
 
 // ────────────────────────────────────────────────────────────────────────────
 // Debug logging (features.debugLog)
@@ -4262,11 +4268,11 @@ export function createDebugLoggingFetch(
     }
   };
 }
-export const noopDiskSnapshotReader: Dragon RouterDiskSnapshotReader = async () => undefined;
+export const noopDiskSnapshotReader: DragonRouterDiskSnapshotReader = async () => undefined;
 
-export type Dragon RouterReadAuthJson = () => Promise<AuthJsonShape | undefined | null>;
+export type DragonRouterReadAuthJson = () => Promise<AuthJsonShape | undefined | null>;
 
-export const defaultReadAuthJson: Dragon RouterReadAuthJson = async () => {
+export const defaultReadAuthJson: DragonRouterReadAuthJson = async () => {
   const dir = process.env.OPENCODE_DATA_DIR ?? path.join(os.homedir(), ".local/share/opencode");
   const file = path.join(dir, "auth.json");
   let body: string;
@@ -4330,45 +4336,45 @@ export const defaultReadAuthJson: Dragon RouterReadAuthJson = async () => {
  * @param opts Plugin options (validated, resolved with defaults).
  * @param deps Dependency injection.
  *   - `readAuthJson`     — replaces `defaultReadAuthJson` (test stub).
- *   - `fetcher`          — replaces `defaultDragon RouterModelsFetcher`.
- *   - `combosFetcher`    — replaces `defaultDragon RouterCombosFetcher`.
+ *   - `fetcher`          — replaces `defaultDragonRouterModelsFetcher`.
+ *   - `combosFetcher`    — replaces `defaultDragonRouterCombosFetcher`.
  *   - `now`              — clock for cache TTL (default `Date.now`).
  *   - `cache`            — shared fetch-result cache (see
- *                          `Dragon RouterFetchCache`). Pass the same Map the
+ *                          `DragonRouterFetchCache`). Pass the same Map the
  *                          provider hook owns to dedupe round-trips.
  *   - `logger`           — `{warn}` sink for breadcrumb capture in tests.
  *                          Defaults to `console`.
  */
-export function createDragon RouterConfigHook(
-  opts?: Dragon RouterPluginOptions,
+export function createDragonRouterConfigHook(
+  opts?: DragonRouterPluginOptions,
   deps: {
-    readAuthJson?: Dragon RouterReadAuthJson;
-    fetcher?: Dragon RouterModelsFetcher;
-    combosFetcher?: Dragon RouterCombosFetcher;
-    autoCombosFetcher?: Dragon RouterAutoCombosFetcher;
-    enrichmentFetcher?: Dragon RouterEnrichmentFetcher;
-    compressionMetaFetcher?: Dragon RouterCompressionMetaFetcher;
-    providersFetcher?: Dragon RouterProvidersFetcher;
-    diskSnapshotReader?: Dragon RouterDiskSnapshotReader;
-    diskSnapshotWriter?: Dragon RouterDiskSnapshotWriter;
+    readAuthJson?: DragonRouterReadAuthJson;
+    fetcher?: DragonRouterModelsFetcher;
+    combosFetcher?: DragonRouterCombosFetcher;
+    autoCombosFetcher?: DragonRouterAutoCombosFetcher;
+    enrichmentFetcher?: DragonRouterEnrichmentFetcher;
+    compressionMetaFetcher?: DragonRouterCompressionMetaFetcher;
+    providersFetcher?: DragonRouterProvidersFetcher;
+    diskSnapshotReader?: DragonRouterDiskSnapshotReader;
+    diskSnapshotWriter?: DragonRouterDiskSnapshotWriter;
     now?: () => number;
-    cache?: Dragon RouterFetchCache;
+    cache?: DragonRouterFetchCache;
     logger?: { warn: (...args: unknown[]) => void };
   } = {}
 ): (input: Config) => Promise<void> {
-  const resolved = resolveDragon RouterPluginOptions(opts);
+  const resolved = resolveDragonRouterPluginOptions(opts);
   const readAuthJson = deps.readAuthJson ?? defaultReadAuthJson;
-  const fetcher = deps.fetcher ?? defaultDragon RouterModelsFetcher;
-  const combosFetcher = deps.combosFetcher ?? defaultDragon RouterCombosFetcher;
-  const autoCombosFetcher = deps.autoCombosFetcher ?? defaultDragon RouterAutoCombosFetcher;
-  const enrichmentFetcher = deps.enrichmentFetcher ?? defaultDragon RouterEnrichmentFetcher;
+  const fetcher = deps.fetcher ?? defaultDragonRouterModelsFetcher;
+  const combosFetcher = deps.combosFetcher ?? defaultDragonRouterCombosFetcher;
+  const autoCombosFetcher = deps.autoCombosFetcher ?? defaultDragonRouterAutoCombosFetcher;
+  const enrichmentFetcher = deps.enrichmentFetcher ?? defaultDragonRouterEnrichmentFetcher;
   const compressionMetaFetcher =
-    deps.compressionMetaFetcher ?? defaultDragon RouterCompressionMetaFetcher;
-  const providersFetcher = deps.providersFetcher ?? defaultDragon RouterProvidersFetcher;
+    deps.compressionMetaFetcher ?? defaultDragonRouterCompressionMetaFetcher;
+  const providersFetcher = deps.providersFetcher ?? defaultDragonRouterProvidersFetcher;
   const diskSnapshotReader = deps.diskSnapshotReader ?? defaultDiskSnapshotReader;
   const diskSnapshotWriter = deps.diskSnapshotWriter ?? defaultDiskSnapshotWriter;
   const now = deps.now ?? Date.now;
-  const cache: Dragon RouterFetchCache = deps.cache ?? new Map();
+  const cache: DragonRouterFetchCache = deps.cache ?? new Map();
   const logger = deps.logger ?? console;
   const features = resolved.features ?? {};
   const wantAutoCombos = features.autoCombos !== false;
@@ -4401,7 +4407,9 @@ export function createDragon RouterConfigHook(
     }
 
     if (authJson === null) {
-      logger.warn("[dragonrouter-plugin] config shim: auth.json failed to parse; treating as missing");
+      logger.warn(
+        "[dragonrouter-plugin] config shim: auth.json failed to parse; treating as missing"
+      );
       authJson = undefined;
     }
 
@@ -4453,12 +4461,12 @@ export function createDragon RouterConfigHook(
     const t = now();
     const cached = cache.get(cacheKey);
 
-    let rawModels: Dragon RouterRawModelEntry[];
-    let rawCombos: Dragon RouterRawCombo[];
-    let rawAutoCombos: Dragon RouterRawAutoCombo[];
-    let rawEnrichment: Dragon RouterEnrichmentMap;
-    let rawCompressionCombos: Dragon RouterCompressionCombo[];
-    let rawConnections: Dragon RouterProviderConnection[];
+    let rawModels: DragonRouterRawModelEntry[];
+    let rawCombos: DragonRouterRawCombo[];
+    let rawAutoCombos: DragonRouterRawAutoCombo[];
+    let rawEnrichment: DragonRouterEnrichmentMap;
+    let rawCompressionCombos: DragonRouterCompressionCombo[];
+    let rawConnections: DragonRouterProviderConnection[];
 
     if (cached && cached.expiresAt > t) {
       rawModels = cached.rawModels;

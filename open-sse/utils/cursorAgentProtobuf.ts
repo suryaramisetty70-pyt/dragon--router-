@@ -333,7 +333,7 @@ export function resolveRequestedModel(modelId: string): {
 // ─── Request encoder ───────────────────────────────────────────────────────
 
 /**
- * OpenAI tool shape (subset Dragon Router receives from clients). Cursor's
+ * OpenAI tool shape (subset DragonRouter receives from clients). Cursor's
  * AgentRunRequest carries declared tools as McpToolDefinition entries; the
  * model uses these to know what's invocable, then emits ExecServerMessage
  * mcp_args when it wants to call one (Phase 5 surfaces those as OpenAI

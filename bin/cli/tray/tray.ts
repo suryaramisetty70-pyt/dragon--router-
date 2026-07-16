@@ -23,7 +23,7 @@ export interface TrayInstance {
   destroy(): void;
 }
 
-// Minimal 16x16 Dragon Router icon as base64 PNG (fallback when file missing)
+// Minimal 16x16 DragonRouter icon as base64 PNG (fallback when file missing)
 const FALLBACK_ICON_BASE64 =
   "iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAHpJREFUOE9jYBgFgwEwMjIy/Gdg+P8fyP4PxP8ZGBgEcBnGyMjIsICBgSEAhyH/gfgBUNN8XJoZsdkCVL8Ah+b/QPwbqvkBMvk/AwMDAzYX/GdgYAhAN+A/SICRWAMYGfFEJSMjzriEiwDR/xmIa2RkZCSqnZERb3QCAAo3KxzxbKe1AAAAAElFTkSuQmCC";
 
@@ -59,10 +59,10 @@ export function isTraySupported(): boolean {
 
 export function buildMenuItems(args: { port: number; autostartEnabled: boolean }): MenuItem[] {
   return [
-    { title: "Open Dragon Router Dashboard", enabled: true },
+    { title: "Open DragonRouter Dashboard", enabled: true },
     { title: `Port: ${args.port}`, enabled: false },
     { title: args.autostartEnabled ? "Disable Autostart" : "Enable Autostart", enabled: true },
-    { title: "Quit Dragon Router", enabled: true },
+    { title: "Quit DragonRouter", enabled: true },
   ];
 }
 
@@ -86,7 +86,7 @@ async function initWindowsTrayInstance(options: TrayOptions): Promise<TrayInstan
   let handle: WinTrayHandle | null = null;
   handle = initWindowsTray({
     iconPath,
-    tooltip: `Dragon Router :${options.port}`,
+    tooltip: `DragonRouter :${options.port}`,
     onEvent: async (evt) => {
       if (evt.type !== "click") return;
       switch (evt.index) {
@@ -128,8 +128,8 @@ async function initUnixTray(options: TrayOptions): Promise<TrayInstance | null> 
       // RGBA logo; template mode would render it as a solid white square
       // because macOS template icons only use the alpha channel. (PR #1080)
       isTemplateIcon: false,
-      title: "Dragon Router",
-      tooltip: `Dragon Router :${options.port}`,
+      title: "DragonRouter",
+      tooltip: `DragonRouter :${options.port}`,
       items: menuItems.map((it) => ({
         title: it.title,
         tooltip: "",

@@ -418,7 +418,7 @@ export function isCodexResponsesWebSocketRequired(_model: string, credentials: u
   // transport — even per-connection codexTransport=websocket falls back to the
   // HTTP Responses SSE endpoint.
   if (!isCodexWsGloballyEnabled()) return false;
-  // Dragon Router is an HTTP→SSE gateway — WebSocket transport is unnecessary and
+  // DragonRouter is an HTTP→SSE gateway — WebSocket transport is unnecessary and
   // breaks when upstream requests go through an HTTP proxy (403 on WS upgrade).
   // Default to the standard HTTP Responses SSE endpoint for all Codex models.
   // Users who need WebSocket can opt in via the provider codexTransport setting.
@@ -1219,7 +1219,7 @@ export class CodexExecutor extends BaseExecutor {
     }
 
     // Delete session_id and conversation_id from the body.
-    // These are often injected by Dragon Router's fallback logic for store=true,
+    // These are often injected by DragonRouter's fallback logic for store=true,
     // but the upstream Codex API strictly rejects them as unsupported parameters.
     delete body.session_id;
     delete body.conversation_id;
@@ -1255,7 +1255,7 @@ export class CodexExecutor extends BaseExecutor {
       "client_metadata",
       // GPT-5 output verbosity ({ verbosity } — normalized above by normalizeCodexVerbosity).
       "text",
-      // Internal markers used by Dragon Router pipeline
+      // Internal markers used by DragonRouter pipeline
       "_dragon_routerResponsesStore",
     ]);
 

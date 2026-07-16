@@ -2,12 +2,12 @@
 
 import { useTranslations } from "next-intl";
 import { Card } from "@/shared/components";
-import { OmniSkillCard } from "./OmniSkillCard";
+import { DragonSkillCard } from "./DragonSkillCard";
 import { SkillInspectorPane } from "./SkillInspectorPane";
-import type { OmniSkill } from "./OmniSkillCard";
+import type { DragonSkill } from "./DragonSkillCard";
 
-interface OmniSkillsListProps {
-  skills: OmniSkill[];
+interface DragonSkillsListProps {
+  skills: DragonSkill[];
   skillsTotal: number;
   skillsPage: number;
   skillsTotalPages: number;
@@ -25,7 +25,7 @@ interface OmniSkillsListProps {
   onUninstall: (skillId: string) => void;
 }
 
-export function OmniSkillsList({
+export function DragonSkillsList({
   skills,
   skillsTotal,
   skillsPage,
@@ -42,7 +42,7 @@ export function OmniSkillsList({
   onSelectSkill,
   onSetMode,
   onUninstall,
-}: OmniSkillsListProps): JSX.Element {
+}: DragonSkillsListProps): JSX.Element {
   const t = useTranslations("skills");
 
   const selectedSkill = selectedSkillId
@@ -104,7 +104,7 @@ export function OmniSkillsList({
         ) : (
           <div className="flex flex-col gap-2">
             {skills.map((skill) => (
-              <OmniSkillCard
+              <DragonSkillCard
                 key={skill.id}
                 skill={skill}
                 selected={selectedSkillId === skill.id}
@@ -156,4 +156,4 @@ export function OmniSkillsList({
   );
 }
 
-export default OmniSkillsList;
+export default DragonSkillsList;

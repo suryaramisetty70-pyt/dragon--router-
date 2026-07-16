@@ -2,12 +2,12 @@
  * T-05 combo-discovery contract tests.
  *
  * Covers:
- *   - `defaultDragon RouterCombosFetcher(baseURL, apiKey, timeoutMs?)`
+ *   - `defaultDragonRouterCombosFetcher(baseURL, apiKey, timeoutMs?)`
  *     — envelope tolerance (`{combos: [...]}` and bare array), non-2xx errors.
  *   - `mapComboToModelV2(combo, members, providerId, baseURL)`
  *     — LCD policy across capabilities, limits, modalities; defensive
  *       posture on empty members; nice-name preference.
- *   - `createDragon RouterProviderHook(opts, deps)` extension
+ *   - `createDragonRouterProviderHook(opts, deps)` extension
  *     — combos merged into the models map; collision resolution (combo
  *       wins, warn-once); soft-fail when the combos fetcher throws;
  *       combos cached + reused under the same TTL key as models.
@@ -19,20 +19,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  createDragon RouterProviderHook,
-  defaultDragon RouterCombosFetcher,
+  createDragonRouterProviderHook,
+  defaultDragonRouterCombosFetcher,
   mapComboToModelV2,
-  type Dragon RouterCombosFetcher,
-  type Dragon RouterModelsFetcher,
-  type Dragon RouterRawCombo,
-  type Dragon RouterRawModelEntry,
+  type DragonRouterCombosFetcher,
+  type DragonRouterModelsFetcher,
+  type DragonRouterRawCombo,
+  type DragonRouterRawModelEntry,
 } from "../src/index.js";
 
 // ────────────────────────────────────────────────────────────────────────────
 // Fixtures
 // ────────────────────────────────────────────────────────────────────────────
 
-const MODEL_PRIMARY: Dragon RouterRawModelEntry = {
+const MODEL_PRIMARY: DragonRouterRawModelEntry = {
   id: "claude-primary",
   capabilities: {
     tool_calling: true,
@@ -48,7 +48,7 @@ const MODEL_PRIMARY: Dragon RouterRawModelEntry = {
   output_modalities: ["text"],
 };
 
-const MODEL_SECONDARY: Dragon RouterRawModelEntry = {
+const MODEL_SECONDARY: DragonRouterRawModelEntry = {
   id: "claude-secondary",
   capabilities: {
     tool_calling: true,
@@ -64,7 +64,7 @@ const MODEL_SECONDARY: Dragon RouterRawModelEntry = {
   output_modalities: ["text"],
 };
 
-const MODEL_NO_TOOLS: Dragon RouterRawModelEntry = {
+const MODEL_NO_TOOLS: DragonRouterRawModelEntry = {
   id: "gemini-3-flash",
   capabilities: { tool_calling: false, reasoning: false, vision: false, thinking: false },
   context_length: 1_000_000,
@@ -73,7 +73,7 @@ const MODEL_NO_TOOLS: Dragon RouterRawModelEntry = {
   output_modalities: ["text"],
 };
 
-const COMBO_CLAUDE_TIER: Dragon RouterRawCombo = {
+const COMBO_CLAUDE_TIER: DragonRouterRawCombo = {
   id: "combo-claude-tier",
   name: "Claude Tier",
   strategy: "priority",
@@ -88,10 +88,10 @@ const COMBO_CLAUDE_TIER: Dragon RouterRawCombo = {
 // ────────────────────────────────────────────────────────────────────────────
 
 function stubModelsFetcher(
-  payload: Dragon RouterRawModelEntry[]
-): Dragon RouterModelsFetcher & { callCount: () => number } {
+  payload: DragonRouterRawModelEntry[]
+): DragonRouterModelsFetcher & { callCount: () => number } {
   let n = 0;
-  const f: Dragon RouterModelsFetcher = async () => {
+  const f: DragonRouterModelsFetcher = async () => {
     n++;
     return payload;
   };
@@ -99,11 +99,11 @@ function stubModelsFetcher(
 }
 
 function stubCombosFetcher(
-  payload: Dragon RouterRawCombo[]
-): Dragon RouterCombosFetcher & { callCount: () => number; callsBy: () => Array<[string, string]> } {
+  payload: DragonRouterRawCombo[]
+): DragonRouterCombosFetcher & { callCount: () => number; callsBy: () => Array<[string, string]> } {
   let n = 0;
   const calls: Array<[string, string]> = [];
-  const f: Dragon RouterCombosFetcher = async (baseURL, apiKey) => {
+  const f: DragonRouterCombosFetcher = async (baseURL, apiKey) => {
     n++;
     calls.push([baseURL, apiKey]);
     return payload;
@@ -116,9 +116,9 @@ function stubCombosFetcher(
 
 function failingCombosFetcher(
   err = new Error("boom")
-): Dragon RouterCombosFetcher & { callCount: () => number } {
+): DragonRouterCombosFetcher & { callCount: () => number } {
   let n = 0;
-  const f: Dragon RouterCombosFetcher = async () => {
+  const f: DragonRouterCombosFetcher = async () => {
     n++;
     throw err;
   };
@@ -147,10 +147,10 @@ async function withWarnCapture<T>(
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// defaultDragon RouterCombosFetcher — envelope tolerance + error surfacing
+// defaultDragonRouterCombosFetcher — envelope tolerance + error surfacing
 // ────────────────────────────────────────────────────────────────────────────
 
-test("defaultDragon RouterCombosFetcher: parses {combos:[…]} envelope", async () => {
+test("defaultDragonRouterCombosFetcher: parses {combos:[…]} envelope", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (async (input: unknown) => {
     const url = typeof input === "string" ? input : (input as { url: string }).url;
@@ -166,7 +166,7 @@ test("defaultDragon RouterCombosFetcher: parses {combos:[…]} envelope", async 
     );
   }) as typeof fetch;
   try {
-    const combos = await defaultDragon RouterCombosFetcher("https://or.example.com", "sk-test");
+    const combos = await defaultDragonRouterCombosFetcher("https://or.example.com", "sk-test");
     assert.equal(combos.length, 2);
     assert.equal(combos[0].id, "c1");
     assert.equal(combos[1].id, "c2");
@@ -175,7 +175,7 @@ test("defaultDragon RouterCombosFetcher: parses {combos:[…]} envelope", async 
   }
 });
 
-test("defaultDragon RouterCombosFetcher: parses bare array envelope", async () => {
+test("defaultDragonRouterCombosFetcher: parses bare array envelope", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (async () => {
     return new Response(JSON.stringify([{ id: "c1" }, { id: "c2" }, { not_an_id: 42 }]), {
@@ -183,7 +183,7 @@ test("defaultDragon RouterCombosFetcher: parses bare array envelope", async () =
     });
   }) as typeof fetch;
   try {
-    const combos = await defaultDragon RouterCombosFetcher("https://or.example.com/v1", "sk-test");
+    const combos = await defaultDragonRouterCombosFetcher("https://or.example.com/v1", "sk-test");
     // Strip /v1 before /api/combos, AND filter out entries with no string id.
     assert.equal(combos.length, 2);
     assert.equal(combos[0].id, "c1");
@@ -193,7 +193,7 @@ test("defaultDragon RouterCombosFetcher: parses bare array envelope", async () =
   }
 });
 
-test("defaultDragon RouterCombosFetcher: strips trailing /v1 before /api/combos", async () => {
+test("defaultDragonRouterCombosFetcher: strips trailing /v1 before /api/combos", async () => {
   const originalFetch = globalThis.fetch;
   let observedUrl = "";
   globalThis.fetch = (async (input: unknown) => {
@@ -201,14 +201,14 @@ test("defaultDragon RouterCombosFetcher: strips trailing /v1 before /api/combos"
     return new Response(JSON.stringify({ combos: [] }), { status: 200 });
   }) as typeof fetch;
   try {
-    await defaultDragon RouterCombosFetcher("https://or.example.com/v1/", "sk-test");
+    await defaultDragonRouterCombosFetcher("https://or.example.com/v1/", "sk-test");
     assert.equal(observedUrl, "https://or.example.com/api/combos");
   } finally {
     globalThis.fetch = originalFetch;
   }
 });
 
-test("defaultDragon RouterCombosFetcher: throws on non-2xx with status code in message", async () => {
+test("defaultDragonRouterCombosFetcher: throws on non-2xx with status code in message", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (async () => {
     return new Response(JSON.stringify({ error: "Invalid token" }), {
@@ -219,7 +219,7 @@ test("defaultDragon RouterCombosFetcher: throws on non-2xx with status code in m
   try {
     await assert.rejects(
       async () => {
-        await defaultDragon RouterCombosFetcher("https://or.example.com", "sk-bad");
+        await defaultDragonRouterCombosFetcher("https://or.example.com", "sk-bad");
       },
       (err: unknown) => {
         const msg = err instanceof Error ? err.message : String(err);
@@ -233,16 +233,16 @@ test("defaultDragon RouterCombosFetcher: throws on non-2xx with status code in m
   }
 });
 
-test("defaultDragon RouterCombosFetcher: throws when apiKey missing", async () => {
+test("defaultDragonRouterCombosFetcher: throws when apiKey missing", async () => {
   await assert.rejects(
-    async () => defaultDragon RouterCombosFetcher("https://or.example.com", ""),
+    async () => defaultDragonRouterCombosFetcher("https://or.example.com", ""),
     /apiKey required/
   );
 });
 
-test("defaultDragon RouterCombosFetcher: throws when baseURL missing", async () => {
+test("defaultDragonRouterCombosFetcher: throws when baseURL missing", async () => {
   await assert.rejects(
-    async () => defaultDragon RouterCombosFetcher("", "sk-test"),
+    async () => defaultDragonRouterCombosFetcher("", "sk-test"),
     /baseURL required/
   );
 });
@@ -415,7 +415,7 @@ test("mapComboToModelV2: api block matches providerId + baseURL", () => {
 });
 
 test("mapComboToModelV2: explicit member temperature=false drops combo temperature=false", () => {
-  const tempFalse: Dragon RouterRawModelEntry = {
+  const tempFalse: DragonRouterRawModelEntry = {
     id: "no-temp",
     capabilities: { tool_calling: true, temperature: false },
     context_length: 100_000,
@@ -433,13 +433,13 @@ test("mapComboToModelV2: explicit member temperature=false drops combo temperatu
 });
 
 // ────────────────────────────────────────────────────────────────────────────
-// createDragon RouterProviderHook — combos merge + collision + soft-fail + cache
+// createDragonRouterProviderHook — combos merge + collision + soft-fail + cache
 // ────────────────────────────────────────────────────────────────────────────
 
 test("models() returns combo entries merged into the map", async () => {
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY, MODEL_SECONDARY, MODEL_NO_TOOLS]);
   const combosFetcher = stubCombosFetcher([COMBO_CLAUDE_TIER]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -473,7 +473,7 @@ test("models(): combo with unknown member ids degrades to all-false LCD posture"
       ],
     },
   ]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -500,7 +500,7 @@ test("models(): hidden combos are excluded from the map", async () => {
       models: [{ id: "s1", kind: "model", model: "claude-primary", weight: 100 }],
     },
   ]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -511,16 +511,16 @@ test("models(): hidden combos are excluded from the map", async () => {
 
 test("models(): combo name exactly matches raw model id → raw deleted, raw deleted, no warn", async () => {
   // Combo.name === raw model id triggers the dedup deletion. This mirrors
-  // the real Dragon Router payload where /v1/models pre-mirrors combos as
+  // the real DragonRouter payload where /v1/models pre-mirrors combos as
   // no-slash raw entries whose ids match /api/combos friendly names.
-  const colliderCombo: Dragon RouterRawCombo = {
+  const colliderCombo: DragonRouterRawCombo = {
     id: "uuid-collider",
     name: "claude-primary", // EXACT match to MODEL_PRIMARY.id
     models: [{ id: "s1", kind: "model", model: "claude-secondary", weight: 100 }],
   };
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY, MODEL_SECONDARY]);
   const combosFetcher = stubCombosFetcher([colliderCombo]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -543,7 +543,7 @@ test("models(): combo name exactly matches raw model id → raw deleted, raw del
 
 test("models(): two combos with same slug → second gets disambiguator suffix", async () => {
   // Both combos slug to `claude` — second must get `claude-<id-prefix>`.
-  const combos: Dragon RouterRawCombo[] = [
+  const combos: DragonRouterRawCombo[] = [
     {
       id: "uuid-a",
       name: "Claude",
@@ -555,7 +555,7 @@ test("models(): two combos with same slug → second gets disambiguator suffix",
       models: [{ id: "s", kind: "model", model: "claude-secondary", weight: 1 }],
     },
   ];
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     {
       fetcher: stubModelsFetcher([MODEL_PRIMARY, MODEL_SECONDARY]),
@@ -572,7 +572,7 @@ test("models(): two combos with same slug → second gets disambiguator suffix",
 test("models(): combos fetch fails → falls back to models-only, warn emitted, no throw", async () => {
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY, MODEL_SECONDARY]);
   const combosFetcher = failingCombosFetcher(new Error("ECONNRESET"));
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -599,7 +599,7 @@ test("models(): combos cached + reused within TTL (one combo fetch per TTL windo
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY, MODEL_SECONDARY]);
   const combosFetcher = stubCombosFetcher([COMBO_CLAUDE_TIER]);
   let nowMs = 1_000_000;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1", modelCacheTtl: 60_000 },
     { fetcher: modelsFetcher, combosFetcher, now: () => nowMs }
   );
@@ -616,7 +616,7 @@ test("models(): combos refetched after TTL expiry (same key as models)", async (
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY]);
   const combosFetcher = stubCombosFetcher([COMBO_CLAUDE_TIER]);
   let nowMs = 1_000_000;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1", modelCacheTtl: 60_000 },
     { fetcher: modelsFetcher, combosFetcher, now: () => nowMs }
   );
@@ -631,7 +631,7 @@ test("models(): combos refetched after TTL expiry (same key as models)", async (
 test("models(): combos fetcher receives the resolved baseURL + apiKey", async () => {
   const modelsFetcher = stubModelsFetcher([MODEL_PRIMARY]);
   const combosFetcher = stubCombosFetcher([COMBO_CLAUDE_TIER]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );
@@ -696,7 +696,7 @@ test("models(): nested combo-ref context is the min of nested + raw members", as
       ],
     },
   ]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher: modelsFetcher, combosFetcher }
   );

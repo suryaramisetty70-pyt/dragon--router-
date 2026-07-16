@@ -1,9 +1,6 @@
 import { unavailableResponse } from "../../utils/error.ts";
 import { selectProvider as selectAutoProvider } from "../autoCombo/engine.ts";
-import {
-  resolveRequestModePack,
-  parseRequestBudgetCap,
-} from "../autoCombo/requestControls.ts";
+import { resolveRequestModePack, parseRequestBudgetCap } from "../autoCombo/requestControls.ts";
 import { selectWithStrategy } from "../autoCombo/routerStrategy.ts";
 import { buildComplexityRoutingHint } from "../autoCombo/complexityRouter";
 import { recordComboIntent } from "../comboMetrics.ts";
@@ -54,9 +51,9 @@ export interface ResolveAutoStrategyDeps {
   relayOptions?: {
     bypassProviderQuotaPolicy?: boolean;
     sessionId?: string | null;
-    /** Per-request X-Dragon Router-Mode value (#6024/#6025). */
+    /** Per-request X-DragonRouter-Mode value (#6024/#6025). */
     mode?: string | null;
-    /** Per-request X-Dragon Router-Budget value in USD (#6023). */
+    /** Per-request X-DragonRouter-Budget value in USD (#6023). */
     budgetCap?: number | null;
   } | null;
   resilienceSettings: ResilienceSettings;
@@ -162,8 +159,8 @@ export async function resolveAutoStrategyOrder(
     slaPolicy,
   } = parseAutoConfig(combo, eligibleTargets);
 
-  // Per-request overrides (#6023 / #6024 / #6025): X-Dragon Router-Budget and
-  // X-Dragon Router-Mode headers (threaded via relayOptions) take precedence over
+  // Per-request overrides (#6023 / #6024 / #6025): X-DragonRouter-Budget and
+  // X-DragonRouter-Mode headers (threaded via relayOptions) take precedence over
   // the combo's stored config for this single request. Unknown/garbage header
   // values are ignored so the saved config is preserved.
   const requestBudgetCap = parseRequestBudgetCap(relayOptions?.budgetCap);

@@ -1,7 +1,7 @@
 /**
  * T-03 provider-hook contract tests.
  *
- * Covers `createDragon RouterProviderHook(opts, deps)`:
+ * Covers `createDragonRouterProviderHook(opts, deps)`:
  *   - hook.id binds to resolved providerId (single + multi-instance)
  *   - models() narrows ctx.auth, fetches via injected fetcher, caches per
  *     (baseURL, apiKey) tuple, refetches after TTL
@@ -16,13 +16,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  createDragon RouterProviderHook,
+  createDragonRouterProviderHook,
   mapRawModelToModelV2,
-  type Dragon RouterRawModelEntry,
-  type Dragon RouterModelsFetcher,
+  type DragonRouterRawModelEntry,
+  type DragonRouterModelsFetcher,
 } from "../src/index.js";
 
-const FIXTURE: Dragon RouterRawModelEntry[] = [
+const FIXTURE: DragonRouterRawModelEntry[] = [
   {
     id: "claude-primary",
     object: "model",
@@ -55,12 +55,12 @@ const FIXTURE: Dragon RouterRawModelEntry[] = [
   },
 ];
 
-function stubFetcher(payload: Dragon RouterRawModelEntry[]): Dragon RouterModelsFetcher & {
+function stubFetcher(payload: DragonRouterRawModelEntry[]): DragonRouterModelsFetcher & {
   callCount: () => number;
   callsBy: () => Array<[string, string]>;
 } {
   let calls: Array<[string, string]> = [];
-  const f: Dragon RouterModelsFetcher = async (baseURL, apiKey) => {
+  const f: DragonRouterModelsFetcher = async (baseURL, apiKey) => {
     calls.push([baseURL, apiKey]);
     return payload;
   };
@@ -73,17 +73,17 @@ function stubFetcher(payload: Dragon RouterRawModelEntry[]): Dragon RouterModels
 const apiAuth = (key: string, baseURL?: string): unknown =>
   baseURL ? { type: "api", key, baseURL } : { type: "api", key };
 
-test("createDragon RouterProviderHook: default providerId is 'dragonrouter'", () => {
-  const hook = createDragon RouterProviderHook(undefined, { combosFetcher: async () => [] });
+test("createDragonRouterProviderHook: default providerId is 'dragonrouter'", () => {
+  const hook = createDragonRouterProviderHook(undefined, { combosFetcher: async () => [] });
   assert.equal(hook.id, "opencode-dragonrouter");
 });
 
-test("createDragon RouterProviderHook: custom providerId binds to hook.id (multi-instance)", () => {
-  const a = createDragon RouterProviderHook(
+test("createDragonRouterProviderHook: custom providerId binds to hook.id (multi-instance)", () => {
+  const a = createDragonRouterProviderHook(
     { providerId: "dragonrouter-preprod" },
     { combosFetcher: async () => [] }
   );
-  const b = createDragon RouterProviderHook(
+  const b = createDragonRouterProviderHook(
     { providerId: "dragonrouter-local" },
     { combosFetcher: async () => [] }
   );
@@ -93,7 +93,7 @@ test("createDragon RouterProviderHook: custom providerId binds to hook.id (multi
 
 test("models: extracts apiKey from ctx.auth (type=api) and calls fetcher with it", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher, combosFetcher: async () => [] }
   );
@@ -106,7 +106,7 @@ test("models: extracts apiKey from ctx.auth (type=api) and calls fetcher with it
 
 test("models: returns {} when ctx.auth is null/undefined/wrong-type/empty-key", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1" },
     { fetcher, combosFetcher: async () => [] }
   );
@@ -128,7 +128,7 @@ test("models: returns {} when ctx.auth is null/undefined/wrong-type/empty-key", 
 
 test("models: returns {} when no baseURL resolvable (no opts.baseURL and no auth.baseURL)", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook({}, { fetcher, combosFetcher: async () => [] });
+  const hook = createDragonRouterProviderHook({}, { fetcher, combosFetcher: async () => [] });
   // valid api auth but neither opts nor auth carries a baseURL
   assert.deepEqual(await hook.models!({} as never, { auth: apiAuth("sk-x") as never }), {});
   assert.equal(fetcher.callCount(), 0);
@@ -136,7 +136,7 @@ test("models: returns {} when no baseURL resolvable (no opts.baseURL and no auth
 
 test("models: baseURL falls back to auth.baseURL when opts.baseURL absent", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook({}, { fetcher, combosFetcher: async () => [] });
+  const hook = createDragonRouterProviderHook({}, { fetcher, combosFetcher: async () => [] });
   const out = await hook.models!({} as never, {
     auth: apiAuth("sk-y", "https://or.creds-attached.example/v1") as never,
   });
@@ -147,7 +147,7 @@ test("models: baseURL falls back to auth.baseURL when opts.baseURL absent", asyn
 
 test("models: maps a sample /v1/models entry to ModelV2 (sanity)", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { providerId: "dragonrouter", baseURL: "https://or.example.com/v1" },
     { fetcher, combosFetcher: async () => [] }
   );
@@ -173,7 +173,7 @@ test("models: maps a sample /v1/models entry to ModelV2 (sanity)", async () => {
   assert.equal(claude.capabilities.input.audio, false);
   assert.equal(claude.capabilities.output.text, true);
   assert.equal(claude.capabilities.output.image, false);
-  // cost is zeroed (Dragon Router /v1/models has no pricing)
+  // cost is zeroed (DragonRouter /v1/models has no pricing)
   assert.deepEqual(claude.cost, { input: 0, output: 0, cache: { read: 0, write: 0 } });
   // limits
   assert.equal(claude.limit.context, 200000);
@@ -214,7 +214,7 @@ test("mapRawModelToModelV2: missing capabilities defaults to all-false (except t
 test("models: caches result for second call within TTL (fetcher called once)", async () => {
   const fetcher = stubFetcher(FIXTURE);
   let nowMs = 1_000_000;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1", modelCacheTtl: 60_000 },
     { fetcher, now: () => nowMs, combosFetcher: async () => [] }
   );
@@ -230,7 +230,7 @@ test("models: caches result for second call within TTL (fetcher called once)", a
 test("models: refetches after TTL expires", async () => {
   const fetcher = stubFetcher(FIXTURE);
   let nowMs = 1_000_000;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1", modelCacheTtl: 60_000 },
     { fetcher, now: () => nowMs, combosFetcher: async () => [] }
   );
@@ -243,7 +243,7 @@ test("models: refetches after TTL expires", async () => {
 
 test("models: caches per (baseURL, apiKey) tuple (different keys → independent fetches)", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { baseURL: "https://or.example.com/v1", modelCacheTtl: 300_000 },
     { fetcher, combosFetcher: async () => [] }
   );
@@ -257,7 +257,7 @@ test("models: caches per (baseURL, apiKey) tuple (different keys → independent
 
 test("models: caches per (baseURL, apiKey) tuple (different baseURL → independent fetches)", async () => {
   const fetcher = stubFetcher(FIXTURE);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { modelCacheTtl: 300_000 }, // no opts.baseURL → falls back to auth.baseURL
     { fetcher, combosFetcher: async () => [] }
   );

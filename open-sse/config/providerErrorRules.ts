@@ -43,8 +43,8 @@ export type ProviderErrorRuleMatch = {
 // every model on the same provider until the 5h window resets.
 //
 // Scope note: `scope: "connection"` (not "provider") is correct because the
-// upstream quota is per-account, and a single Dragon Router provider entry maps to
-// one user account. Multiple Dragon Router connections under the same provider
+// upstream quota is per-account, and a single DragonRouter provider entry maps to
+// one user account. Multiple DragonRouter connections under the same provider
 // name mean the user has multiple upstream accounts — locking at the provider
 // level would disable every one of them when only one is exhausted. See
 // Issue #2 (Monthly quota exhausted treated as transient 429).
@@ -194,7 +194,9 @@ export function getProviderErrorRuleMatch(
  */
 export function parseResetCountdownMs(text: string): number | null {
   if (typeof text !== "string" || text.length === 0) return null;
-  const match = text.match(/resets?\s+in\s+(\d+)\s+(day|days|hour|hours|minute|minutes|second|seconds)\b/);
+  const match = text.match(
+    /resets?\s+in\s+(\d+)\s+(day|days|hour|hours|minute|minutes|second|seconds)\b/
+  );
   if (!match) return null;
   const n = Number(match[1]);
   if (!Number.isFinite(n) || n <= 0) return null;

@@ -5,14 +5,14 @@
  * metadata fetchers + the MCP auto-emit branch on the config hook.
  *
  * Surfaces tested:
- *   - `parseDragon RouterPluginOptions({ features: ... })`  → schema accept/reject
+ *   - `parseDragonRouterPluginOptions({ features: ... })`  → schema accept/reject
  *   - `applyEnrichment(model, entry)`                   → mutation semantics
  *   - `formatCompressionPipeline(steps)`                → display formatting
- *   - `createDragon RouterProviderHook` with mocked
+ *   - `createDragonRouterProviderHook` with mocked
  *     `enrichmentFetcher` / `compressionMetaFetcher`    → overlay applied,
  *                                                         off-by-default
  *                                                         gating works.
- *   - `createDragon RouterConfigHook` with `features.mcpAutoEmit:true`
+ *   - `createDragonRouterConfigHook` with `features.mcpAutoEmit:true`
  *                                                       → emits mcp entry
  *                                                       → falls back to
  *                                                         provider apiKey
@@ -34,31 +34,31 @@ import {
   buildAliasIndex,
   buildCanonicalToAliasMap,
   canonicalDedupSet,
-  createDragon RouterConfigHook,
-  createDragon RouterProviderHook,
-  defaultDragon RouterEnrichmentFetcher,
-  defaultDragon RouterCompressionMetaFetcher,
+  createDragonRouterConfigHook,
+  createDragonRouterProviderHook,
+  defaultDragonRouterEnrichmentFetcher,
+  defaultDragonRouterCompressionMetaFetcher,
   formatCompressionPipeline,
   lookupEnrichment,
-  parseDragon RouterPluginOptions,
+  parseDragonRouterPluginOptions,
   PROVIDER_TAG_SEPARATOR,
   resolveProviderTagEntry,
-  type Dragon RouterEnrichmentMap,
-  type Dragon RouterCompressionCombo,
-  type Dragon RouterRawModelEntry,
+  type DragonRouterEnrichmentMap,
+  type DragonRouterCompressionCombo,
+  type DragonRouterRawModelEntry,
 } from "../src/index.js";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Zod schema — features block
 // ─────────────────────────────────────────────────────────────────────────
 
-test("parseDragon RouterPluginOptions: empty features object → preserved", () => {
-  const r = parseDragon RouterPluginOptions({ features: {} });
+test("parseDragonRouterPluginOptions: empty features object → preserved", () => {
+  const r = parseDragonRouterPluginOptions({ features: {} });
   assert.deepEqual(r, { features: {} });
 });
 
-test("parseDragon RouterPluginOptions: all boolean features set → preserved", () => {
-  const r = parseDragon RouterPluginOptions({
+test("parseDragonRouterPluginOptions: all boolean features set → preserved", () => {
+  const r = parseDragonRouterPluginOptions({
     features: {
       combos: true,
       enrichment: true,
@@ -74,36 +74,36 @@ test("parseDragon RouterPluginOptions: all boolean features set → preserved", 
   assert.equal(r.features?.mcpAutoEmit, true);
 });
 
-test("parseDragon RouterPluginOptions: mcpToken string → preserved", () => {
-  const r = parseDragon RouterPluginOptions({
+test("parseDragonRouterPluginOptions: mcpToken string → preserved", () => {
+  const r = parseDragonRouterPluginOptions({
     features: { mcpAutoEmit: true, mcpToken: "sk-mcp-only-token-12345" },
   });
   assert.equal(r.features?.mcpToken, "sk-mcp-only-token-12345");
 });
 
-test("parseDragon RouterPluginOptions: unknown features key → throws (strict)", () => {
+test("parseDragonRouterPluginOptions: unknown features key → throws (strict)", () => {
   assert.throws(
     () =>
-      parseDragon RouterPluginOptions({
+      parseDragonRouterPluginOptions({
         features: { combos: true, unknown_field: "oops" },
       }),
     /Invalid @dragonrouter\/opencode-plugin options/
   );
 });
 
-test("parseDragon RouterPluginOptions: non-boolean for boolean feature → throws", () => {
+test("parseDragonRouterPluginOptions: non-boolean for boolean feature → throws", () => {
   assert.throws(
     () =>
-      parseDragon RouterPluginOptions({
+      parseDragonRouterPluginOptions({
         features: { combos: "yes" as unknown as boolean },
       }),
     /Invalid @dragonrouter\/opencode-plugin options/
   );
 });
 
-test("parseDragon RouterPluginOptions: empty mcpToken → throws (min 1)", () => {
+test("parseDragonRouterPluginOptions: empty mcpToken → throws (min 1)", () => {
   assert.throws(
-    () => parseDragon RouterPluginOptions({ features: { mcpToken: "" } }),
+    () => parseDragonRouterPluginOptions({ features: { mcpToken: "" } }),
     /Invalid @dragonrouter\/opencode-plugin options/
   );
 });
@@ -339,7 +339,7 @@ test("formatCompressionPipeline: unknown intensity falls back to raw text", () =
 // Provider hook — enrichment applied via injected fetcher
 // ─────────────────────────────────────────────────────────────────────────
 
-const SAMPLE_RAW: Dragon RouterRawModelEntry[] = [
+const SAMPLE_RAW: DragonRouterRawModelEntry[] = [
   {
     id: "claude-sonnet-4-6",
     object: "model",
@@ -360,10 +360,10 @@ const apiAuth = (key: string) => ({ type: "api" as const, key });
 
 test("provider hook: enrichment fetcher called when features.enrichment !== false", async () => {
   let called = 0;
-  const enrichment: Dragon RouterEnrichmentMap = new Map([
+  const enrichment: DragonRouterEnrichmentMap = new Map([
     ["claude-sonnet-4-6", { name: "Claude Sonnet 4.6", pricing: { input: 3, output: 15 } }],
   ]);
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { providerId: "dragonrouter", baseURL: "https://or.example.com/v1" },
     {
       fetcher: async () => SAMPLE_RAW,
@@ -384,7 +384,7 @@ test("provider hook: enrichment fetcher called when features.enrichment !== fals
 
 test("provider hook: enrichment fetcher NOT called when features.enrichment:false", async () => {
   let called = 0;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     {
       providerId: "dragonrouter",
       baseURL: "https://or.example.com/v1",
@@ -410,7 +410,7 @@ test("provider hook: enrichment fetcher NOT called when features.enrichment:fals
 
 test("provider hook: compression metadata fetcher NOT called by default (opt-in)", async () => {
   let called = 0;
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     { providerId: "dragonrouter", baseURL: "https://or.example.com/v1" },
     {
       fetcher: async () => SAMPLE_RAW,
@@ -428,7 +428,7 @@ test("provider hook: compression metadata fetcher NOT called by default (opt-in)
 
 test("provider hook: compression metadata fetcher called when opted in", async () => {
   let called = 0;
-  const compressionCombos: Dragon RouterCompressionCombo[] = [
+  const compressionCombos: DragonRouterCompressionCombo[] = [
     {
       id: "default-caveman",
       name: "Standard Savings",
@@ -439,7 +439,7 @@ test("provider hook: compression metadata fetcher called when opted in", async (
       isDefault: true,
     },
   ];
-  const hook = createDragon RouterProviderHook(
+  const hook = createDragonRouterProviderHook(
     {
       providerId: "dragonrouter",
       baseURL: "https://or.example.com/v1",
@@ -481,7 +481,7 @@ const stubAuthJson = (apiKey: string) => async () => ({
 });
 
 test("config hook: MCP auto-emit OFF by default (no mcp entry)", async () => {
-  const hook = createDragon RouterConfigHook(
+  const hook = createDragonRouterConfigHook(
     { providerId: "dragonrouter", baseURL: "https://or.example.com/v1" },
     {
       readAuthJson: stubAuthJson("sk-prod"),
@@ -497,7 +497,7 @@ test("config hook: MCP auto-emit OFF by default (no mcp entry)", async () => {
 });
 
 test("config hook: features.mcpAutoEmit:true writes mcp entry with provider apiKey", async () => {
-  const hook = createDragon RouterConfigHook(
+  const hook = createDragonRouterConfigHook(
     {
       providerId: "dragonrouter",
       baseURL: "https://or.example.com/v1",
@@ -513,8 +513,7 @@ test("config hook: features.mcpAutoEmit:true writes mcp entry with provider apiK
   const input: { provider?: Record<string, unknown>; mcp?: Record<string, unknown> } = {};
   await hook(input as never);
   const entry = input.mcp?.["opencode-dragonrouter"] as
-    | { type: string; url: string; enabled: boolean; headers: Record<string, string> }
-    | undefined;
+    { type: string; url: string; enabled: boolean; headers: Record<string, string> } | undefined;
   assert.ok(entry, "mcp entry written");
   assert.equal(entry.type, "remote");
   assert.equal(
@@ -527,7 +526,7 @@ test("config hook: features.mcpAutoEmit:true writes mcp entry with provider apiK
 });
 
 test("config hook: features.mcpToken overrides provider apiKey in mcp Bearer", async () => {
-  const hook = createDragon RouterConfigHook(
+  const hook = createDragonRouterConfigHook(
     {
       providerId: "dragonrouter",
       baseURL: "https://or.example.com/v1",
@@ -551,7 +550,7 @@ test("config hook: features.mcpToken overrides provider apiKey in mcp Bearer", a
 });
 
 test("config hook: existing operator mcp.<providerId> wins (no overwrite)", async () => {
-  const hook = createDragon RouterConfigHook(
+  const hook = createDragonRouterConfigHook(
     {
       providerId: "dragonrouter",
       baseURL: "https://or.example.com/v1",
@@ -565,7 +564,9 @@ test("config hook: existing operator mcp.<providerId> wins (no overwrite)", asyn
     }
   );
   const input: { provider?: Record<string, unknown>; mcp?: Record<string, unknown> } = {
-    mcp: { "opencode-dragonrouter": { type: "custom-user-entry", url: "https://manual.example/mcp" } },
+    mcp: {
+      "opencode-dragonrouter": { type: "custom-user-entry", url: "https://manual.example/mcp" },
+    },
   };
   await hook(input as never);
   assert.deepEqual(
@@ -576,7 +577,7 @@ test("config hook: existing operator mcp.<providerId> wins (no overwrite)", asyn
 });
 
 test("config hook: features.mcpAutoEmit:true with /v1 in baseURL → strips correctly", async () => {
-  const hook = createDragon RouterConfigHook(
+  const hook = createDragonRouterConfigHook(
     {
       providerId: "dragonrouter-preprod",
       baseURL: "https://or-preprod.example.com/v1",
@@ -605,18 +606,18 @@ test("config hook: features.mcpAutoEmit:true with /v1 in baseURL → strips corr
 // Default fetchers — soft-fail behavior (no real network)
 // ─────────────────────────────────────────────────────────────────────────
 
-test("defaultDragon RouterEnrichmentFetcher: empty baseURL → empty map", async () => {
-  const m = await defaultDragon RouterEnrichmentFetcher("", "sk", 100);
+test("defaultDragonRouterEnrichmentFetcher: empty baseURL → empty map", async () => {
+  const m = await defaultDragonRouterEnrichmentFetcher("", "sk", 100);
   assert.equal(m.size, 0);
 });
 
-test("defaultDragon RouterEnrichmentFetcher: empty apiKey → empty map", async () => {
-  const m = await defaultDragon RouterEnrichmentFetcher("https://or.example.com", "", 100);
+test("defaultDragonRouterEnrichmentFetcher: empty apiKey → empty map", async () => {
+  const m = await defaultDragonRouterEnrichmentFetcher("https://or.example.com", "", 100);
   assert.equal(m.size, 0);
 });
 
-test("defaultDragon RouterCompressionMetaFetcher: empty baseURL → empty array", async () => {
-  const arr = await defaultDragon RouterCompressionMetaFetcher("", "sk", 100);
+test("defaultDragonRouterCompressionMetaFetcher: empty baseURL → empty array", async () => {
+  const arr = await defaultDragonRouterCompressionMetaFetcher("", "sk", 100);
   assert.equal(arr.length, 0);
 });
 
@@ -627,7 +628,7 @@ test("defaultDragon RouterCompressionMetaFetcher: empty baseURL → empty array"
 // installed on globalThis.
 // ─────────────────────────────────────────────────────────────────────────
 
-test("defaultDragon RouterEnrichmentFetcher: merges names from /api/pricing/models and prices from /api/pricing", async () => {
+test("defaultDragonRouterEnrichmentFetcher: merges names from /api/pricing/models and prices from /api/pricing", async () => {
   const origFetch = globalThis.fetch;
   const calls: string[] = [];
   globalThis.fetch = (async (input: unknown) => {
@@ -673,7 +674,7 @@ test("defaultDragon RouterEnrichmentFetcher: merges names from /api/pricing/mode
   }) as typeof fetch;
 
   try {
-    const map = await defaultDragon RouterEnrichmentFetcher(
+    const map = await defaultDragonRouterEnrichmentFetcher(
       "https://or.example.com/v1",
       "sk-test",
       5_000
@@ -707,7 +708,7 @@ test("defaultDragon RouterEnrichmentFetcher: merges names from /api/pricing/mode
   }
 });
 
-test("defaultDragon RouterEnrichmentFetcher: name-only when pricing endpoint 5xxs", async () => {
+test("defaultDragonRouterEnrichmentFetcher: name-only when pricing endpoint 5xxs", async () => {
   const origFetch = globalThis.fetch;
   globalThis.fetch = (async (input: unknown) => {
     const url = typeof input === "string" ? input : (input as { url: string }).url;
@@ -722,7 +723,11 @@ test("defaultDragon RouterEnrichmentFetcher: name-only when pricing endpoint 5xx
     return new Response("boom", { status: 500 });
   }) as typeof fetch;
   try {
-    const map = await defaultDragon RouterEnrichmentFetcher("https://or.example.com", "sk-test", 5_000);
+    const map = await defaultDragonRouterEnrichmentFetcher(
+      "https://or.example.com",
+      "sk-test",
+      5_000
+    );
     const opus = map.get("cc/claude-opus-4-7");
     assert.equal(opus?.name, "Claude Opus 4.7", "name still present");
     assert.equal(opus?.pricing, undefined, "no pricing when /api/pricing fails");
@@ -731,7 +736,7 @@ test("defaultDragon RouterEnrichmentFetcher: name-only when pricing endpoint 5xx
   }
 });
 
-test("defaultDragon RouterEnrichmentFetcher: pricing-only when catalog endpoint 5xxs", async () => {
+test("defaultDragonRouterEnrichmentFetcher: pricing-only when catalog endpoint 5xxs", async () => {
   const origFetch = globalThis.fetch;
   globalThis.fetch = (async (input: unknown) => {
     const url = typeof input === "string" ? input : (input as { url: string }).url;
@@ -744,7 +749,11 @@ test("defaultDragon RouterEnrichmentFetcher: pricing-only when catalog endpoint 
     return new Response("boom", { status: 500 });
   }) as typeof fetch;
   try {
-    const map = await defaultDragon RouterEnrichmentFetcher("https://or.example.com", "sk-test", 5_000);
+    const map = await defaultDragonRouterEnrichmentFetcher(
+      "https://or.example.com",
+      "sk-test",
+      5_000
+    );
     const opus = map.get("cc/claude-opus-4-7");
     assert.equal(opus?.pricing?.input, 5);
     assert.equal(opus?.pricing?.output, 25);
@@ -766,8 +775,8 @@ function makeEnrichmentMap(
     providerCanonical?: string;
     providerDisplayName?: string;
   }>
-): Dragon RouterEnrichmentMap {
-  const map: Dragon RouterEnrichmentMap = new Map();
+): DragonRouterEnrichmentMap {
+  const map: DragonRouterEnrichmentMap = new Map();
   for (const e of entries) {
     map.set(e.key, {
       name: e.name,
@@ -871,9 +880,9 @@ test("canonicalDedupSet: drops canonical row when alias twin present", () => {
     { key: "cc/claude-opus-4-7", providerAlias: "cc", providerCanonical: "claude" },
   ]);
   const c2a = buildCanonicalToAliasMap(map);
-  const raw: Dragon RouterRawModelEntry[] = [
-    { id: "cc/claude-opus-4-7" } as Dragon RouterRawModelEntry,
-    { id: "claude/claude-opus-4-7" } as Dragon RouterRawModelEntry,
+  const raw: DragonRouterRawModelEntry[] = [
+    { id: "cc/claude-opus-4-7" } as DragonRouterRawModelEntry,
+    { id: "claude/claude-opus-4-7" } as DragonRouterRawModelEntry,
   ];
   const drop = canonicalDedupSet(raw, c2a);
   assert.equal(drop.has("claude/claude-opus-4-7"), true);
@@ -888,17 +897,17 @@ test("canonicalDedupSet: keeps standalone canonical row (no alias twin) — neve
     { key: "cc/claude-opus-4-7", providerAlias: "cc", providerCanonical: "claude" },
   ]);
   const c2a = buildCanonicalToAliasMap(map);
-  const raw: Dragon RouterRawModelEntry[] = [
-    { id: "claude/claude-opus-99" } as Dragon RouterRawModelEntry, // canonical only — no `cc/claude-opus-99`
+  const raw: DragonRouterRawModelEntry[] = [
+    { id: "claude/claude-opus-99" } as DragonRouterRawModelEntry, // canonical only — no `cc/claude-opus-99`
   ];
   const drop = canonicalDedupSet(raw, c2a);
   assert.equal(drop.size, 0);
 });
 
 test("canonicalDedupSet: no enrichment / empty canonicalToAlias → no drops", () => {
-  const raw: Dragon RouterRawModelEntry[] = [
-    { id: "claude/claude-opus-4-7" } as Dragon RouterRawModelEntry,
-    { id: "cc/claude-opus-4-7" } as Dragon RouterRawModelEntry,
+  const raw: DragonRouterRawModelEntry[] = [
+    { id: "claude/claude-opus-4-7" } as DragonRouterRawModelEntry,
+    { id: "cc/claude-opus-4-7" } as DragonRouterRawModelEntry,
   ];
   const drop = canonicalDedupSet(raw, new Map());
   assert.equal(drop.size, 0);
@@ -911,13 +920,13 @@ test("canonicalDedupSet: multi-provider — drops all canonical twins where alia
     { key: "pol/openai-large", providerAlias: "pol", providerCanonical: "pollinations" },
   ]);
   const c2a = buildCanonicalToAliasMap(map);
-  const raw: Dragon RouterRawModelEntry[] = [
-    { id: "cc/claude-opus-4-7" } as Dragon RouterRawModelEntry,
-    { id: "claude/claude-opus-4-7" } as Dragon RouterRawModelEntry,
-    { id: "cx/gpt-5.5" } as Dragon RouterRawModelEntry,
-    { id: "codex/gpt-5.5" } as Dragon RouterRawModelEntry,
-    { id: "pol/openai-large" } as Dragon RouterRawModelEntry,
-    { id: "pollinations/openai-large" } as Dragon RouterRawModelEntry,
+  const raw: DragonRouterRawModelEntry[] = [
+    { id: "cc/claude-opus-4-7" } as DragonRouterRawModelEntry,
+    { id: "claude/claude-opus-4-7" } as DragonRouterRawModelEntry,
+    { id: "cx/gpt-5.5" } as DragonRouterRawModelEntry,
+    { id: "codex/gpt-5.5" } as DragonRouterRawModelEntry,
+    { id: "pol/openai-large" } as DragonRouterRawModelEntry,
+    { id: "pollinations/openai-large" } as DragonRouterRawModelEntry,
   ];
   const drop = canonicalDedupSet(raw, c2a);
   assert.equal(drop.has("claude/claude-opus-4-7"), true);

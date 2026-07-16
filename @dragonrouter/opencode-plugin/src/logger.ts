@@ -1,5 +1,5 @@
 /**
- * Structured logger for the Dragon Router plugin.
+ * Structured logger for the DragonRouter plugin.
  *
  * Levels: error < warn < info < debug
  * Default: warn (matches current console.warn behavior)

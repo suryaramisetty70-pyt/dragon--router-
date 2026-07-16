@@ -32,7 +32,8 @@ const DEFAULT_TIMEOUT_MS =
 const HARD_TIMEOUT_GRACE_MS =
   Number.parseInt(process.env.DRAGON_ROUTER_CHATGPT_TLS_GRACE_MS || "", 10) || 10_000;
 const STREAM_FIRST_BYTE_TIMEOUT_MS =
-  Number.parseInt(process.env.DRAGON_ROUTER_CHATGPT_STREAM_FIRST_BYTE_TIMEOUT_MS || "", 10) || 30_000;
+  Number.parseInt(process.env.DRAGON_ROUTER_CHATGPT_STREAM_FIRST_BYTE_TIMEOUT_MS || "", 10) ||
+  30_000;
 
 function installExitHook(): void {
   if (exitHookInstalled) return;
@@ -128,7 +129,7 @@ async function getClient(): Promise<{
         const TLSClient = (mod as { TLSClient: new (opts?: Record<string, unknown>) => unknown })
           .TLSClient;
         // Native mode loads the shared library directly via koffi, avoiding the
-        // managed sidecar's localhost HTTP calls that Dragon Router's global fetch
+        // managed sidecar's localhost HTTP calls that DragonRouter's global fetch
         // proxy patch interferes with.
         const client = new TLSClient({ runtimeMode: "native" }) as {
           start: () => Promise<void>;

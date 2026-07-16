@@ -4,7 +4,7 @@
  * Claude Code has no native profile files (unlike Codex). The idiomatic way to
  * keep multiple named configs is `CLAUDE_CONFIG_DIR` — a separate config dir per
  * profile (its own settings.json, credentials, history, cache). This command
- * fetches the live /v1/models catalog from a (possibly remote) Dragon Router and
+ * fetches the live /v1/models catalog from a (possibly remote) DragonRouter and
  * writes `~/.claude/profiles/<name>/settings.json` for each supported model,
  * reusing the SAME profile names as `setup-codex` (glm52, kimi-k27, …).
  *
@@ -144,7 +144,7 @@ export async function runSetupClaudeCommand(opts = {}) {
   const profilesRoot = join(claudeHome, "profiles");
   const dryRun = Boolean(opts.dryRun ?? opts["dry-run"]);
 
-  printHeading("Dragon Router → Claude Code profile generator");
+  printHeading("DragonRouter → Claude Code profile generator");
   printInfo(`Connecting to ${baseUrl} …`);
 
   // ── Fetch model catalog ───────────────────────────────────────────────────
@@ -162,8 +162,8 @@ export async function runSetupClaudeCommand(opts = {}) {
   } catch (err) {
     printError(`Failed to fetch models: ${err.message}`);
     printInfo(
-      "Make sure Dragon Router is running and the --remote URL is correct.\n" +
-        "You may also need --api-key if Dragon Router requires authentication."
+      "Make sure DragonRouter is running and the --remote URL is correct.\n" +
+        "You may also need --api-key if DragonRouter requires authentication."
     );
     return 1;
   }
@@ -185,7 +185,9 @@ export async function runSetupClaudeCommand(opts = {}) {
     printSuccess(`${written} Claude Code profiles written to ${profilesRoot}`);
     if (skipped > 0) printInfo(`${skipped} models skipped (no matching profile pattern)`);
     console.log("\nTo use a profile:");
-    console.log("  dragon-router launch --profile <name>     # e.g. dragon-router launch --profile glm52");
+    console.log(
+      "  dragon-router launch --profile <name>     # e.g. dragon-router launch --profile glm52"
+    );
     console.log(
       "  # or: CLAUDE_CONFIG_DIR=~/.claude/profiles/<name> claude  (export ANTHROPIC_AUTH_TOKEN first)"
     );
@@ -200,12 +202,12 @@ export function registerSetupClaude(program) {
   program
     .command("setup-claude")
     .description(
-      "Fetch the live model catalog from Dragon Router (local or remote VPS) and generate " +
+      "Fetch the live model catalog from DragonRouter (local or remote VPS) and generate " +
         "~/.claude/profiles/<name>/ Claude Code profiles (CLAUDE_CONFIG_DIR) for each model"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote DragonRouter URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "DragonRouter API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--claude-home <dir>", "Claude home dir (default: ~/.claude)")
     .option(
       "--only <patterns>",

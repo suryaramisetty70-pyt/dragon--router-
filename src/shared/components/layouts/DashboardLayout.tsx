@@ -8,6 +8,7 @@ import Breadcrumbs from "../Breadcrumbs";
 import MaintenanceBanner from "../MaintenanceBanner";
 import CommandPalette from "../CommandPalette";
 import NavigationProgress from "../NavigationProgress";
+import AIAssistant from "../AIAssistant";
 import { useIsElectron } from "@/shared/hooks/useElectron";
 import {
   installDashboardCsrfFetch,
@@ -126,6 +127,7 @@ export default function DashboardLayout({ children }) {
       <NotificationToast />
 
       <CommandPalette isOpen={commandPaletteOpen} onClose={() => setCommandPaletteOpen(false)} />
+      <AIAssistant />
     </div>
   );
 }

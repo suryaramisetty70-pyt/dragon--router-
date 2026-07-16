@@ -13,6 +13,6 @@ export default defineConfig({
   minify: false,
 });
 
-// CJS consumers should prefer named imports (`require(pkg).createDragon RouterProvider`).
+// CJS consumers should prefer named imports (`require(pkg).createDragonRouterProvider`).
 // The `default` export is also exposed for ESM ergonomics, which makes tsup warn
 // about mixed exports — that's expected and harmless for this package.

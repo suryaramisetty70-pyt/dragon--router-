@@ -204,11 +204,11 @@ function hasActiveClaudeThinking(body: Record<string, unknown>): boolean {
 }
 
 /**
- * Strip the Dragon Router provider prefix from versioned built-in tool model
+ * Strip the DragonRouter provider prefix from versioned built-in tool model
  * fields (e.g. `cc/claude-opus-4-8` → `claude-opus-4-8`). Versioned built-in
  * tool types carry an 8-digit date suffix (`advisor_20260301`, `bash_20250124`);
  * the real Claude CLI sends a bare model id there, never a prefixed one, so a
- * leaked Dragon Router prefix makes Anthropic reject the request. Mutates in place.
+ * leaked DragonRouter prefix makes Anthropic reject the request. Mutates in place.
  */
 export function stripVersionedToolModelPrefix(tools: unknown): void {
   if (!Array.isArray(tools)) return;
@@ -807,7 +807,7 @@ export class BaseExecutor {
             for (const t of tb.tools as Array<Record<string, unknown>>) {
               delete t.cache_control;
             }
-            // Also strip Dragon Router provider prefix from versioned built-in tool
+            // Also strip DragonRouter provider prefix from versioned built-in tool
             // model fields (e.g. cc/claude-opus-4-8 → claude-opus-4-8).
             stripVersionedToolModelPrefix(tb.tools);
           }
@@ -818,12 +818,13 @@ export class BaseExecutor {
           // A header value applies only when the corresponding body field is
           // not already set; "off" force-strips the field.
           const headerEffort = (
-            clientHeaders?.["x-dragon-router-effort"] ?? clientHeaders?.["X-Dragon Router-Effort"]
+            clientHeaders?.["x-dragon-router-effort"] ?? clientHeaders?.["X-DragonRouter-Effort"]
           )
             ?.trim()
             .toLowerCase();
           const headerThinking = (
-            clientHeaders?.["x-dragon-router-thinking"] ?? clientHeaders?.["X-Dragon Router-Thinking"]
+            clientHeaders?.["x-dragon-router-thinking"] ??
+            clientHeaders?.["X-DragonRouter-Thinking"]
           )
             ?.trim()
             .toLowerCase();
@@ -941,7 +942,7 @@ export class BaseExecutor {
           // For any Claude OAuth request, ignore client-supplied metadata.user_id /
           // X-Claude-Code-Session-Id and synthesize per-account: the CC device_id from
           // ~/.claude.json is shared across every account on one machine, which lets
-          // Anthropic correlate accounts behind one Dragon Router.
+          // Anthropic correlate accounts behind one DragonRouter.
           const cloakIdentity = isClaudeCodeClient || hasClaudeOAuthToken;
           const upstreamUserId = cloakIdentity ? null : parseUpstreamMetadataUserId(tb);
           if (upstreamUserId) {

@@ -1,7 +1,7 @@
 /**
  * `</think>` close-marker client policy.
  *
- * When Dragon Router translates a Claude-native streamed response to OpenAI Chat
+ * When DragonRouter translates a Claude-native streamed response to OpenAI Chat
  * Completions shape (`claude-to-openai.ts`), it emits a single `</think>`
  * close marker as `delta.content` so clients that scan content for the marker
  * (Claude Code, Cursor) can split reasoning from the final answer — see #4633.
@@ -46,9 +46,7 @@ export function shouldSuppressThinkCloseMarker(userAgent: string | null | undefi
  * Returns `true` (suppress the marker), `false` (force-keep the marker), or
  * `null` when the header is absent/unrecognized (defer to the UA policy).
  */
-export function thinkingMarkerHeaderSignal(
-  headerValue: string | null | undefined
-): boolean | null {
+export function thinkingMarkerHeaderSignal(headerValue: string | null | undefined): boolean | null {
   if (typeof headerValue !== "string") return null;
   const value = headerValue.trim().toLowerCase();
   if (value === "off" || value === "false" || value === "0" || value === "suppress") return true;

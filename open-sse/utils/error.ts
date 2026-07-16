@@ -399,7 +399,7 @@ export function providerCircuitOpenResponse(
       headers: {
         "Content-Type": "application/json",
         "Retry-After": String(retryAfterSec),
-        "X-Dragon Router-Provider-Breaker": "open",
+        "X-DragonRouter-Provider-Breaker": "open",
       },
     }
   );

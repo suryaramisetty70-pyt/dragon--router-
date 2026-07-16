@@ -179,7 +179,7 @@ export async function runSetupCommand(opts = {}) {
   const prompt = createPrompt();
 
   try {
-    printHeading("Dragon Router Setup");
+    printHeading("DragonRouter Setup");
     const { db, dbPath } = await openDragonRouterDb();
     printInfo(`Database: ${dbPath}`);
 

@@ -77,8 +77,8 @@ export function getNodeRuntimeWarning(version = process.versions.node) {
   }
 
   if (support.reason === "unreleased-major") {
-    return `Node.js ${support.nodeVersion} is outside the supported LTS lines. Dragon Router currently supports Node.js 22.x, 24.x, 25.x, and 26.x.`;
+    return `Node.js ${support.nodeVersion} is outside the supported LTS lines. DragonRouter currently supports Node.js 22.x, 24.x, 25.x, and 26.x.`;
   }
 
-  return `Node.js ${support.nodeVersion} is outside Dragon Router's approved secure runtime policy.`;
+  return `Node.js ${support.nodeVersion} is outside DragonRouter's approved secure runtime policy.`;
 }

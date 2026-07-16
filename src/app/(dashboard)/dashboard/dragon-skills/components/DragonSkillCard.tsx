@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 
-export interface OmniSkill {
+export interface DragonSkill {
   id: string;
   name: string;
   version: string;
@@ -15,13 +15,13 @@ export interface OmniSkill {
   createdAt: string;
 }
 
-interface OmniSkillCardProps {
-  skill: OmniSkill;
+interface DragonSkillCardProps {
+  skill: DragonSkill;
   selected: boolean;
   onClick: () => void;
 }
 
-export function OmniSkillCard({ skill, selected, onClick }: OmniSkillCardProps): JSX.Element {
+export function DragonSkillCard({ skill, selected, onClick }: DragonSkillCardProps): JSX.Element {
   const t = useTranslations("skills");
   const effectiveMode = skill.mode || (skill.enabled ? "on" : "off");
 
@@ -87,7 +87,9 @@ export function OmniSkillCard({ skill, selected, onClick }: OmniSkillCardProps):
         <div className="flex items-center gap-1.5 shrink-0">
           <span className={`inline-block size-2 rounded-full ${modeDot}`} />
           <span className={`text-[10px] font-medium ${modeColor}`}>
-            {t(effectiveMode === "on" ? "onMode" : effectiveMode === "auto" ? "autoMode" : "offMode")}
+            {t(
+              effectiveMode === "on" ? "onMode" : effectiveMode === "auto" ? "autoMode" : "offMode"
+            )}
           </span>
         </div>
       </div>
@@ -95,4 +97,4 @@ export function OmniSkillCard({ skill, selected, onClick }: OmniSkillCardProps):
   );
 }
 
-export default OmniSkillCard;
+export default DragonSkillCard;

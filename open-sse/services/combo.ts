@@ -1548,7 +1548,7 @@ export async function handleComboChat({
           // Success — validate response quality before returning
           if (result.ok) {
             const selectedConnectionId =
-              result.headers?.get("X-Dragon Router-Selected-Connection-Id") ||
+              result.headers?.get("X-DragonRouter-Selected-Connection-Id") ||
               result.headers?.get("x-dragon-router-selected-connection-id") ||
               undefined;
             const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
@@ -1910,7 +1910,7 @@ export async function handleComboChat({
           );
           const { cooldownMs } = fallbackResult;
           const selectedConnectionId =
-            result.headers?.get("X-Dragon Router-Selected-Connection-Id") ||
+            result.headers?.get("X-DragonRouter-Selected-Connection-Id") ||
             result.headers?.get("x-dragon-router-selected-connection-id") ||
             undefined;
           const targetWithConnection = selectedConnectionId
@@ -2688,7 +2688,7 @@ async function handleRoundRobinCombo({
           recordedAttempts++;
 
           const selectedConnectionId =
-            result.headers?.get("X-Dragon Router-Selected-Connection-Id") ||
+            result.headers?.get("X-DragonRouter-Selected-Connection-Id") ||
             result.headers?.get("x-dragon-router-selected-connection-id") ||
             undefined;
           const effectiveConnectionId = selectedConnectionId || target.connectionId || "";
@@ -2843,7 +2843,7 @@ async function handleRoundRobinCombo({
         );
         const { cooldownMs } = fallbackResult;
         const selectedConnectionId =
-          result.headers?.get("X-Dragon Router-Selected-Connection-Id") ||
+          result.headers?.get("X-DragonRouter-Selected-Connection-Id") ||
           result.headers?.get("x-dragon-router-selected-connection-id") ||
           undefined;
         const targetWithConnection = selectedConnectionId
@@ -2922,7 +2922,10 @@ async function handleRoundRobinCombo({
           resilienceSettings.providerCooldown.enabled &&
           provider &&
           provider !== "unknown" &&
-          !(result.status === 500 && hasPerModelQuota(provider, parseModel(modelStr).model || modelStr))
+          !(
+            result.status === 500 &&
+            hasPerModelQuota(provider, parseModel(modelStr).model || modelStr)
+          )
         ) {
           recordProviderCooldown(
             provider,

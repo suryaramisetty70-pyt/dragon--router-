@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Dragon Router CLI entry point.
+ * DragonRouter CLI entry point.
  *
  * Special bypasses (handled before Commander):
  *   --mcp                     Start MCP server over stdio
@@ -94,7 +94,7 @@ loadEnvFile();
 
 // Generate STORAGE_ENCRYPTION_KEY if not set (persisted to ~/.dragon-router/.env)
 // This ensures the key survives across upgrades and is not regenerated on each install.
-// See: https://github.com/diegosouzapw/Dragon Router/issues/1622
+// See: https://github.com/diegosouzapw/DragonRouter/issues/1622
 //
 // Only provision for commands that actually touch encrypted storage. Purely
 // informational invocations (`--version`, `--help`, `help`) must not create a
@@ -162,9 +162,7 @@ if (shouldProvisionStorageKey(process.argv)) {
   const langEnv = process.env.DRAGON_ROUTER_LANG;
   const chosen = langArg || langEnv;
   if (chosen) {
-    const { setLocale } = await import(
-      pathToFileURL(join(ROOT, "bin", "cli", "i18n.mjs")).href
-    );
+    const { setLocale } = await import(pathToFileURL(join(ROOT, "bin", "cli", "i18n.mjs")).href);
     setLocale(chosen);
   }
 }
@@ -179,7 +177,15 @@ process.on("exit", () => {
   const outputIdx = process.argv.indexOf("--output");
   const outputVal = outputIdx >= 0 ? process.argv[outputIdx + 1] : null;
   if (outputVal === "json" || outputVal === "jsonl" || outputVal === "csv") return;
-  if (process.argv.some((a) => a.startsWith("--output=json") || a.startsWith("--output=jsonl") || a.startsWith("--output=csv"))) return;
+  if (
+    process.argv.some(
+      (a) =>
+        a.startsWith("--output=json") ||
+        a.startsWith("--output=jsonl") ||
+        a.startsWith("--output=csv")
+    )
+  )
+    return;
   if (_notifier.update) {
     _notifier.notify({
       defer: false,
@@ -218,6 +224,6 @@ try {
   await program.parseAsync(process.argv);
 } catch (err) {
   if (err.exitCode !== undefined) process.exit(err.exitCode);
-  console.error("\x1b[31m✖", err.message, "\x1b[0m");
+  console.error("\x1b[31m✖", err.stack || err.message, "\x1b[0m");
   process.exit(1);
 }

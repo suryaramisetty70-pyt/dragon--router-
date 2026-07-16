@@ -34,7 +34,7 @@ export function ensureRuntimeDir() {
           name: "dragon-router-runtime",
           version: "1.0.0",
           private: true,
-          description: "User-writable runtime deps for Dragon Router (native binaries)",
+          description: "User-writable runtime deps for DragonRouter (native binaries)",
         },
         null,
         2

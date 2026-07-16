@@ -7,12 +7,12 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 import {
-  buildDragon RouterOpenCodeConfig,
-  createDragon RouterAgentBlock,
-  createDragon RouterComboConfig,
-  createDragon RouterMCPEntry,
-  createDragon RouterModesBlock,
-  createDragon RouterProvider,
+  buildDragonRouterOpenCodeConfig,
+  createDragonRouterAgentBlock,
+  createDragonRouterComboConfig,
+  createDragonRouterMCPEntry,
+  createDragonRouterModesBlock,
+  createDragonRouterProvider,
   fetchLiveModels,
   listCombos,
   mergeIntoExistingConfig,
@@ -46,32 +46,32 @@ test("normalizeBaseURL rejects malformed URLs", () => {
   assert.throws(() => normalizeBaseURL("not a url"), /not a valid URL/);
 });
 
-test("createDragon RouterProvider validates required fields", () => {
+test("createDragonRouterProvider validates required fields", () => {
   assert.throws(
-    () => createDragon RouterProvider({ baseURL: "", apiKey: "x" } as never),
+    () => createDragonRouterProvider({ baseURL: "", apiKey: "x" } as never),
     /baseURL is required/
   );
   assert.throws(
-    () => createDragon RouterProvider({ baseURL: "http://x", apiKey: "" } as never),
+    () => createDragonRouterProvider({ baseURL: "http://x", apiKey: "" } as never),
     /apiKey is required/
   );
 });
 
-test("createDragon RouterProvider produces the OpenCode-compatible shape", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider produces the OpenCode-compatible shape", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
 
   assert.equal(provider.npm, DRAGONROUTER_PROVIDER_NPM);
-  assert.equal(provider.name, "Dragon Router");
+  assert.equal(provider.name, "DragonRouter");
   assert.equal(provider.options.baseURL, "http://localhost:20128/v1");
   assert.equal(provider.options.apiKey, "sk_dragonrouter");
   assert.equal(typeof provider.models, "object");
 });
 
-test("createDragon RouterProvider seeds the default model catalog", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider seeds the default model catalog", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -85,8 +85,8 @@ test("createDragon RouterProvider seeds the default model catalog", () => {
   }
 });
 
-test("createDragon RouterProvider honours a custom models list and labels", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider honours a custom models list and labels", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: ["auto", "claude-opus-4-7"],
@@ -98,8 +98,8 @@ test("createDragon RouterProvider honours a custom models list and labels", () =
   assert.equal(provider.models["claude-opus-4-7"].name, "Opus 4.7");
 });
 
-test("createDragon RouterProvider deduplicates and trims model ids", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider deduplicates and trims model ids", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: ["  auto  ", "auto", "", "claude-opus-4-7"],
@@ -107,17 +107,17 @@ test("createDragon RouterProvider deduplicates and trims model ids", () => {
   assert.deepEqual(Object.keys(provider.models), ["auto", "claude-opus-4-7"]);
 });
 
-test("createDragon RouterProvider honours displayName override", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider honours displayName override", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
-    displayName: "Local Dragon Router",
+    displayName: "Local DragonRouter",
   });
-  assert.equal(provider.name, "Local Dragon Router");
+  assert.equal(provider.name, "Local DragonRouter");
 });
 
-test("buildDragon RouterOpenCodeConfig wraps the provider with the OpenCode schema", () => {
-  const doc = buildDragon RouterOpenCodeConfig({
+test("buildDragonRouterOpenCodeConfig wraps the provider with the OpenCode schema", () => {
+  const doc = buildDragonRouterOpenCodeConfig({
     baseURL: "http://localhost:20128/v1",
     apiKey: "sk_dragonrouter",
   });
@@ -128,7 +128,7 @@ test("buildDragon RouterOpenCodeConfig wraps the provider with the OpenCode sche
 });
 
 test("config document is JSON-serialisable", () => {
-  const doc = buildDragon RouterOpenCodeConfig({
+  const doc = buildDragonRouterOpenCodeConfig({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -136,8 +136,8 @@ test("config document is JSON-serialisable", () => {
   assert.deepEqual(round, doc);
 });
 
-test("buildDragon RouterOpenCodeConfig emits model and small_model prefixed with provider key", () => {
-  const doc = buildDragon RouterOpenCodeConfig({
+test("buildDragonRouterOpenCodeConfig emits model and small_model prefixed with provider key", () => {
+  const doc = buildDragonRouterOpenCodeConfig({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     model: "claude-sonnet-4-5-thinking",
@@ -147,8 +147,8 @@ test("buildDragon RouterOpenCodeConfig emits model and small_model prefixed with
   assert.equal(doc.small_model, "dragonrouter/gemini-3-flash");
 });
 
-test("buildDragon RouterOpenCodeConfig omits model and small_model when not supplied", () => {
-  const doc = buildDragon RouterOpenCodeConfig({
+test("buildDragonRouterOpenCodeConfig omits model and small_model when not supplied", () => {
+  const doc = buildDragonRouterOpenCodeConfig({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -158,8 +158,8 @@ test("buildDragon RouterOpenCodeConfig omits model and small_model when not supp
   assert.ok(!("small_model" in doc));
 });
 
-test("buildDragon RouterOpenCodeConfig ignores blank model strings", () => {
-  const doc = buildDragon RouterOpenCodeConfig({
+test("buildDragonRouterOpenCodeConfig ignores blank model strings", () => {
+  const doc = buildDragonRouterOpenCodeConfig({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     model: "   ",
@@ -202,7 +202,9 @@ test("mergeIntoExistingConfig overwrites existing dragonrouter entry", () => {
     apiKey: "new-key",
     displayName: "NEW",
   });
-  const dragonrouter = (result.provider as Record<string, unknown>).dragonrouter as { name: string };
+  const dragonrouter = (result.provider as Record<string, unknown>).dragonrouter as {
+    name: string;
+  };
   assert.equal(dragonrouter.name, "NEW");
 });
 
@@ -234,8 +236,8 @@ test("DRAGONROUTER_MCP_DEFAULT_SCOPES contains 7 read-only scopes", () => {
   assert.ok(DRAGONROUTER_MCP_DEFAULT_SCOPES.every((s) => s.startsWith("read:")));
 });
 
-test("createDragon RouterMCPEntry defaults to tsx runtime", () => {
-  const entry = createDragon RouterMCPEntry({
+test("createDragonRouterMCPEntry defaults to tsx runtime", () => {
+  const entry = createDragonRouterMCPEntry({
     serverPath: "/path/to/server.ts",
     apiKey: "sk_dragonrouter",
   });
@@ -246,8 +248,8 @@ test("createDragon RouterMCPEntry defaults to tsx runtime", () => {
   assert.ok(!("DRAGONROUTER_MANAGEMENT_API_KEY" in entry.env));
 });
 
-test("createDragon RouterMCPEntry uses node runtime when specified", () => {
-  const entry = createDragon RouterMCPEntry({
+test("createDragonRouterMCPEntry uses node runtime when specified", () => {
+  const entry = createDragonRouterMCPEntry({
     serverPath: "/path/to/server.js",
     apiKey: "sk_dragonrouter",
     runtime: "node",
@@ -256,8 +258,8 @@ test("createDragon RouterMCPEntry uses node runtime when specified", () => {
   assert.deepEqual(entry.args, ["/path/to/server.js"]);
 });
 
-test("createDragon RouterMCPEntry sets management key and scopes when supplied", () => {
-  const entry = createDragon RouterMCPEntry({
+test("createDragonRouterMCPEntry sets management key and scopes when supplied", () => {
+  const entry = createDragonRouterMCPEntry({
     serverPath: "/path/to/server.ts",
     apiKey: "sk_dragonrouter",
     managementApiKey: "sk_manage",
@@ -268,13 +270,13 @@ test("createDragon RouterMCPEntry sets management key and scopes when supplied",
   assert.equal(entry.env.DRAGONROUTER_MCP_SCOPES, "read:health,read:combos,execute:completions");
 });
 
-test("createDragon RouterMCPEntry rejects missing required fields", () => {
+test("createDragonRouterMCPEntry rejects missing required fields", () => {
   assert.throws(
-    () => createDragon RouterMCPEntry({ serverPath: "", apiKey: "x" }),
+    () => createDragonRouterMCPEntry({ serverPath: "", apiKey: "x" }),
     /serverPath is required/
   );
   assert.throws(
-    () => createDragon RouterMCPEntry({ serverPath: "/p", apiKey: "" }),
+    () => createDragonRouterMCPEntry({ serverPath: "/p", apiKey: "" }),
     /apiKey is required/
   );
 });
@@ -367,8 +369,8 @@ test("listCombos normalises compressionOverride", async () => {
   }
 });
 
-test("createDragon RouterComboConfig builds minimal payload", () => {
-  const payload = createDragon RouterComboConfig({ name: "my-combo", strategy: "priority" });
+test("createDragonRouterComboConfig builds minimal payload", () => {
+  const payload = createDragonRouterComboConfig({ name: "my-combo", strategy: "priority" });
   assert.equal(payload.name, "my-combo");
   assert.equal(payload.strategy, "priority");
   assert.equal(payload.active, true);
@@ -376,8 +378,8 @@ test("createDragon RouterComboConfig builds minimal payload", () => {
   assert.ok(!("providers" in payload));
 });
 
-test("createDragon RouterComboConfig includes optional fields when supplied", () => {
-  const payload = createDragon RouterComboConfig({
+test("createDragonRouterComboConfig includes optional fields when supplied", () => {
+  const payload = createDragonRouterComboConfig({
     name: "full",
     strategy: "weighted",
     compressionOverride: "aggressive",
@@ -412,8 +414,8 @@ test("DRAGONROUTER_DEFAULT_MODEL_CONTEXT_LENGTHS covers every default model id",
   }
 });
 
-test("createDragon RouterProvider emits limit.context on default model entries", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider emits limit.context on default model entries", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -423,8 +425,8 @@ test("createDragon RouterProvider emits limit.context on default model entries",
   assert.equal(provider.models["cc/claude-opus-4-7"].limit!.context, 1_000_000);
 });
 
-test("createDragon RouterProvider omits limit.context for unknown model ids", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider omits limit.context for unknown model ids", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: ["completely-unknown-model"],
@@ -433,27 +435,30 @@ test("createDragon RouterProvider omits limit.context for unknown model ids", ()
   assert.equal(entry.limit, undefined);
 });
 
-test("createDragon RouterProvider reads contextLength from a live model entry for ids absent from the static map", () => {
+test("createDragonRouterProvider reads contextLength from a live model entry for ids absent from the static map", () => {
   // #3298 regression guard: the static DRAGONROUTER_DEFAULT_MODEL_CONTEXT_LENGTHS
   // map only covers the legacy 8 Claude/Gemini ids. Before this change, any
   // other model got `undefined` context (see the test above, string form) and
   // OpenCode silently fell back to its 128K internal default. A live model
   // entry carrying `contextLength` must now surface as `limit.context`.
-  const provider = createDragon RouterProvider({
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: [{ id: "completely-unknown-model", contextLength: 262_144 }],
   });
   const entry = provider.models["completely-unknown-model"];
-  assert.ok(entry.limit, "a live contextLength should produce a limit field even for ids absent from the static map");
+  assert.ok(
+    entry.limit,
+    "a live contextLength should produce a limit field even for ids absent from the static map"
+  );
   assert.equal(entry.limit!.context, 262_144);
 });
 
-test("createDragon RouterProvider: a live model contextLength wins over the static default map", () => {
+test("createDragonRouterProvider: a live model contextLength wins over the static default map", () => {
   // `cc/claude-opus-4-8` has a static default (1_000_000). A live entry carrying
   // a different contextLength must take precedence (live > modelContextLengths >
   // static defaults).
-  const provider = createDragon RouterProvider({
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: [{ id: "cc/claude-opus-4-8", contextLength: 524_288 }],
@@ -461,8 +466,8 @@ test("createDragon RouterProvider: a live model contextLength wins over the stat
   assert.equal(provider.models["cc/claude-opus-4-8"].limit!.context, 524_288);
 });
 
-test("createDragon RouterProvider serialises limit.context to JSON", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider serialises limit.context to JSON", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -508,8 +513,8 @@ test("DRAGONROUTER_DEFAULT_MODEL_CAPABILITIES covers every default model id", ()
   }
 });
 
-test("createDragon RouterProvider emits default capability flags inline with the model entry", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider emits default capability flags inline with the model entry", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
   });
@@ -521,8 +526,8 @@ test("createDragon RouterProvider emits default capability flags inline with the
   assert.equal(entry.tool_call, true);
 });
 
-test("createDragon RouterProvider modelCapabilities overrides defaults and merges per id", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider modelCapabilities overrides defaults and merges per id", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     modelCapabilities: {
@@ -536,8 +541,8 @@ test("createDragon RouterProvider modelCapabilities overrides defaults and merge
   assert.equal(entry.tool_call, true);
 });
 
-test("createDragon RouterProvider applies capability overrides to non-default model ids", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider applies capability overrides to non-default model ids", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: ["custom-model"],
@@ -553,8 +558,8 @@ test("createDragon RouterProvider applies capability overrides to non-default mo
   assert.equal(entry.temperature, undefined);
 });
 
-test("createDragon RouterProvider modelLabels still works when modelCapabilities omits label", () => {
-  const provider = createDragon RouterProvider({
+test("createDragonRouterProvider modelLabels still works when modelCapabilities omits label", () => {
+  const provider = createDragonRouterProvider({
     baseURL: "http://localhost:20128",
     apiKey: "sk_dragonrouter",
     models: ["claude-opus-4-5-thinking"],
@@ -563,8 +568,8 @@ test("createDragon RouterProvider modelLabels still works when modelCapabilities
   assert.equal(provider.models["claude-opus-4-5-thinking"].name, "Opus 4.5 (legacy label)");
 });
 
-test("createDragon RouterAgentBlock builds provider-prefixed entries per role", () => {
-  const block = createDragon RouterAgentBlock({
+test("createDragonRouterAgentBlock builds provider-prefixed entries per role", () => {
+  const block = createDragonRouterAgentBlock({
     roles: {
       build: { modelId: "claude-sonnet-4-5-thinking", temperature: 0.2 },
       plan: { modelId: "claude-opus-4-5-thinking", top_p: 0.95 },
@@ -579,8 +584,8 @@ test("createDragon RouterAgentBlock builds provider-prefixed entries per role", 
   assert.equal(block.review.temperature, 0.0);
 });
 
-test("createDragon RouterAgentBlock omits optional fields when not supplied", () => {
-  const block = createDragon RouterAgentBlock({
+test("createDragonRouterAgentBlock omits optional fields when not supplied", () => {
+  const block = createDragonRouterAgentBlock({
     roles: { build: { modelId: "claude-sonnet-4-5-thinking" } },
   });
   assert.equal(block.build.model, "dragonrouter/claude-sonnet-4-5-thinking");
@@ -590,8 +595,8 @@ test("createDragon RouterAgentBlock omits optional fields when not supplied", ()
   assert.ok(!("prompt" in block.build));
 });
 
-test("createDragon RouterAgentBlock skips roles with empty modelId", () => {
-  const block = createDragon RouterAgentBlock({
+test("createDragonRouterAgentBlock skips roles with empty modelId", () => {
+  const block = createDragonRouterAgentBlock({
     roles: {
       build: { modelId: "claude-sonnet-4-5-thinking" },
       plan: { modelId: "   " },
@@ -601,8 +606,8 @@ test("createDragon RouterAgentBlock skips roles with empty modelId", () => {
   assert.deepEqual(Object.keys(block), ["build"]);
 });
 
-test("createDragon RouterAgentBlock emits tools as Record<string, boolean> per OC schema", () => {
-  const block = createDragon RouterAgentBlock({
+test("createDragonRouterAgentBlock emits tools as Record<string, boolean> per OC schema", () => {
+  const block = createDragonRouterAgentBlock({
     roles: {
       build: {
         modelId: "claude-sonnet-4-5-thinking",
@@ -615,8 +620,8 @@ test("createDragon RouterAgentBlock emits tools as Record<string, boolean> per O
   assert.equal(block.build.prompt, "Edit files carefully.");
 });
 
-test("createDragon RouterAgentBlock filters invalid tool entries and omits empty maps", () => {
-  const block = createDragon RouterAgentBlock({
+test("createDragonRouterAgentBlock filters invalid tool entries and omits empty maps", () => {
+  const block = createDragonRouterAgentBlock({
     roles: {
       build: {
         modelId: "claude-sonnet-4-5-thinking",
@@ -633,8 +638,8 @@ test("createDragon RouterAgentBlock filters invalid tool entries and omits empty
   assert.ok(!("tools" in block.plan));
 });
 
-test("createDragon RouterModesBlock builds provider-prefixed mode entries", () => {
-  const block = createDragon RouterModesBlock({
+test("createDragonRouterModesBlock builds provider-prefixed mode entries", () => {
+  const block = createDragonRouterModesBlock({
     modes: {
       build: { modelId: "claude-sonnet-4-5-thinking", tools: { edit: true, bash: true } },
       plan: { modelId: "claude-opus-4-5-thinking", prompt: "Plan first, code later." },
@@ -647,8 +652,8 @@ test("createDragon RouterModesBlock builds provider-prefixed mode entries", () =
   assert.equal(block.review.model, "dragonrouter/gemini-3-flash");
 });
 
-test("createDragon RouterModesBlock skips modes with empty modelId", () => {
-  const block = createDragon RouterModesBlock({
+test("createDragonRouterModesBlock skips modes with empty modelId", () => {
+  const block = createDragonRouterModesBlock({
     modes: {
       build: { modelId: "claude-sonnet-4-5-thinking" },
       plan: { modelId: "" },
@@ -657,8 +662,8 @@ test("createDragon RouterModesBlock skips modes with empty modelId", () => {
   assert.deepEqual(Object.keys(block), ["build"]);
 });
 
-test("createDragon RouterModesBlock honours numeric overrides limited to OC schema", () => {
-  const block = createDragon RouterModesBlock({
+test("createDragonRouterModesBlock honours numeric overrides limited to OC schema", () => {
+  const block = createDragonRouterModesBlock({
     modes: {
       build: {
         modelId: "claude-sonnet-4-5-thinking",

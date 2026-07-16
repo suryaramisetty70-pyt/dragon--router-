@@ -19,7 +19,7 @@ function runNpm(args) {
 const TEMPLATE_INDEX = `export const meta = {
   name: "PLUGIN_NAME",
   version: "0.1.0",
-  description: "Dragon Router plugin",
+  description: "DragonRouter plugin",
   dragon_routerApi: ">=4.0.0",
 };
 
@@ -200,7 +200,7 @@ export function registerPlugin(program) {
             version: "0.1.0",
             type: "module",
             main: "index.mjs",
-            description: `Dragon Router CLI plugin: ${safeName}`,
+            description: `DragonRouter CLI plugin: ${safeName}`,
             engines: { "dragon-router": ">=4.0.0" },
             keywords: ["dragon-router-plugin", "dragon-router-cmd"],
           },
@@ -211,7 +211,7 @@ export function registerPlugin(program) {
       writeFileSync(join(dir, "index.mjs"), TEMPLATE_INDEX.replace(/PLUGIN_NAME/g, safeName));
       writeFileSync(
         join(dir, "README.md"),
-        `# dragon-router-cmd-${safeName}\n\nAn Dragon Router CLI plugin.\n\n## Install\n\n\`\`\`bash\ndragon_router plugin install ${safeName}\n\`\`\`\n`
+        `# dragon-router-cmd-${safeName}\n\nAn DragonRouter CLI plugin.\n\n## Install\n\n\`\`\`bash\ndragon_router plugin install ${safeName}\n\`\`\`\n`
       );
       process.stdout.write(`✓ Scaffolded: ${dir}\n`);
       process.stdout.write(`  Run: cd ${dir} && dragon-router plugin install .\n`);

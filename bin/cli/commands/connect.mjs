@@ -6,7 +6,7 @@ import { t } from "../i18n.mjs";
 /**
  * `dragon-router connect <host>` — remote mode.
  *
- * Logs into a remote Dragon Router server and saves the result as the active context
+ * Logs into a remote DragonRouter server and saves the result as the active context
  * so every subsequent command targets that server. Two flows:
  *   - password: prompts for the management password → POST /api/cli/connect →
  *     server mints a scoped access token (default scope: admin).
@@ -31,7 +31,9 @@ export function normalizeBaseUrl(host, port) {
 
 /** Derive a clean context name from a host (strip scheme/port). */
 export function hostLabel(host) {
-  let value = String(host || "").trim().replace(/^https?:\/\//i, "");
+  let value = String(host || "")
+    .trim()
+    .replace(/^https?:\/\//i, "");
   value = value.split("/")[0].split(":")[0];
   return value || "remote";
 }
@@ -104,7 +106,7 @@ export async function runConnectCommand(host, opts = {}) {
     baseUrl,
     accessToken,
     scope,
-    description: `Remote Dragon Router (${host})`,
+    description: `Remote DragonRouter (${host})`,
   };
   cfg.currentContext = name;
   saveContexts(cfg);
@@ -119,7 +121,7 @@ export function registerConnect(program) {
   program
     .command("connect <host>")
     .description(
-      t("connect.description") || "Connect to a remote Dragon Router server and enter remote mode"
+      t("connect.description") || "Connect to a remote DragonRouter server and enter remote mode"
     )
     .option("--port <port>", "Server port when the host has none", "20128")
     .option("--key <token>", "Use a pre-generated scoped access token (skips the password prompt)")

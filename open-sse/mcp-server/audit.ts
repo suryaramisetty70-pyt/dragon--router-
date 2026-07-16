@@ -225,7 +225,10 @@ async function openNodeSqliteAuditDb(dbPath: string): Promise<AuditDatabase> {
   return createNodeSqliteAuditAdapter(new DatabaseSync(dbPath));
 }
 
-async function openFallbackAuditDb(dbPath: string, nativeMessage: string): Promise<AuditDatabase | null> {
+async function openFallbackAuditDb(
+  dbPath: string,
+  nativeMessage: string
+): Promise<AuditDatabase | null> {
   if (!nodeSqliteFallbackAvailable()) {
     console.error(
       `[MCP Audit] better-sqlite3 native binding unavailable and Node ${process.version} ` +
@@ -251,7 +254,7 @@ async function openFallbackAuditDb(dbPath: string, nativeMessage: string): Promi
 
 /**
  * Lazy-load the database connection.
- * Uses the same SQLite database as the main Dragon Router app.
+ * Uses the same SQLite database as the main DragonRouter app.
  *
  * Driver priority:
  *   1. better-sqlite3 — fast native binding (when its compiled `.node`

@@ -1,5 +1,5 @@
 /**
- * Dragon Router Electron Desktop App - Preload Script
+ * DragonRouter Electron Desktop App - Preload Script
  *
  * Secure bridge between renderer (Next.js) and main process (Electron).
  * Uses contextIsolation: true for maximum security.

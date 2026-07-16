@@ -62,7 +62,7 @@ export async function handleGoogleFlowVideoGeneration({
       success: false,
       status: 400,
       error:
-        "Missing Google projectId for Google Flow. Please reconnect OAuth in Providers so Dragon Router can fetch your Cloud Code project.",
+        "Missing Google projectId for Google Flow. Please reconnect OAuth in Providers so DragonRouter can fetch your Cloud Code project.",
     };
   }
 

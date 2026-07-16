@@ -12,7 +12,7 @@ interface Execution {
   createdAt: string;
 }
 
-interface OmniExecutionsTabProps {
+interface DragonExecutionsTabProps {
   executions: Execution[];
   execPage: number;
   execTotalPages: number;
@@ -21,14 +21,14 @@ interface OmniExecutionsTabProps {
   onPageNext: () => void;
 }
 
-export function OmniExecutionsTab({
+export function DragonExecutionsTab({
   executions,
   execPage,
   execTotalPages,
   execTotal,
   onPagePrev,
   onPageNext,
-}: OmniExecutionsTabProps): JSX.Element {
+}: DragonExecutionsTabProps): JSX.Element {
   const t = useTranslations("skills");
 
   return (
@@ -103,4 +103,4 @@ export function OmniExecutionsTab({
   );
 }
 
-export default OmniExecutionsTab;
+export default DragonExecutionsTab;

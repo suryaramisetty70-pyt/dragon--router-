@@ -271,7 +271,7 @@ async function handleDashscopeVideoGeneration({
   }
 }
 
-// Map Dragon Router size/aspect_ratio → Alibaba DashScope "WxH" (1280*720).
+// Map DragonRouter size/aspect_ratio → Alibaba DashScope "WxH" (1280*720).
 // Accepts "1280*720", "1280x720", or a ratio "16:9". Returns undefined if unparseable
 // (then omitted from the payload so DashScope applies its own default).
 function normalizeDashscopeSize(size: unknown, aspectRatio: unknown): string | undefined {

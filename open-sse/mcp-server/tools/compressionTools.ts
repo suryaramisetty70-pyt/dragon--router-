@@ -1,5 +1,5 @@
 /**
- * Dragon Router MCP Compression Tools — Manage and monitor prompt compression.
+ * DragonRouter MCP Compression Tools — Manage and monitor prompt compression.
  *
  * Tools:
  *   1. dragon_router_compression_status   — Get compression config, analytics, and cache stats
@@ -323,12 +323,24 @@ export async function handleCompressionComboStats(
 // T07 — RTK learn/discover exposed via MCP (read-only; suggestions only). Mines the opt-in
 // raw-output sample store, exactly like the /api/context/rtk/{discover,learn} routes.
 const rtkDiscoverInput = z.object({
-  limit: z.number().int().positive().max(2000).optional().describe("Max samples to scan (default 500)"),
+  limit: z
+    .number()
+    .int()
+    .positive()
+    .max(2000)
+    .optional()
+    .describe("Max samples to scan (default 500)"),
 });
 
 const rtkLearnInput = z.object({
   command: z.string().min(1).max(500).describe("The command to learn an RTK filter draft for"),
-  limit: z.number().int().positive().max(2000).optional().describe("Max samples to scan (default 500)"),
+  limit: z
+    .number()
+    .int()
+    .positive()
+    .max(2000)
+    .optional()
+    .describe("Max samples to scan (default 500)"),
 });
 
 function resolveSampleLimit(limit?: number): number {
@@ -415,7 +427,7 @@ export const compressionTools = {
       // Retrieve must use the SAME principal the CCR store used at compression time:
       // `String(apiKeyInfo.id)` (chatCore → getApiKeyMetadata(rawKey)). On MCP HTTP
       // transports the raw key lives in httpAuthContext (not in extra.authInfo, since
-      // Dragon Router auth is API-key not OAuth-clientId) — resolve it to the same key id
+      // DragonRouter auth is API-key not OAuth-clientId) — resolve it to the same key id
       // so the block is found. Without this the caller resolved to "anonymous" and the
       // store-key never matched (#5649). Cross-tenant IDOR stays closed: a different
       // key → different id → miss; no key → undefined → anonymous bucket only.

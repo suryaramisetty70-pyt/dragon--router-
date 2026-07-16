@@ -26,7 +26,7 @@ const TRANSLATIONS = {
   ar: {
     common: {
       error: "خطأ: {message}",
-      serverOffline: "خادم Dragon Router غير متصل. ابدأ بالأمر: dragon-router serve",
+      serverOffline: "خادم DragonRouter غير متصل. ابدأ بالأمر: dragon-router serve",
       authRequired: "المصادقة مطلوبة. عيّن DRAGON_ROUTER_API_KEY أو شغّل: dragon-router setup",
       rateLimited: "تم تجاوز حد الطلبات. أعد المحاولة بعد {seconds} ثانية.",
       timeout: "انتهت مهلة الطلب بعد {ms}ms.",
@@ -40,14 +40,14 @@ const TRANSLATIONS = {
       yesOpt: "تخطي رسالة التأكيد",
     },
     program: {
-      description: "Dragon Router — جهاز توجيه الذكاء الاصطناعي مع التبديل التلقائي",
+      description: "DragonRouter — جهاز توجيه الذكاء الاصطناعي مع التبديل التلقائي",
       version: "عرض الإصدار والخروج",
       output: "تنسيق الإخراج (table, json, jsonl, csv)",
       quiet: "إخفاء المخرجات غير الأساسية",
       no_color: "تعطيل الإخراج الملوّن",
       timeout: "مهلة طلب HTTP بالميلي ثانية",
-      api_key: "مفتاح API لخادم Dragon Router",
-      base_url: "عنوان URL الأساسي لخادم Dragon Router",
+      api_key: "مفتاح API لخادم DragonRouter",
+      base_url: "عنوان URL الأساسي لخادم DragonRouter",
       context: "سياق/ملف تعريف الخادم المستخدم في هذا الأمر",
       lang: "تعيين لغة عرض CLI (يتجاوز DRAGON_ROUTER_LANG)",
     },
@@ -55,7 +55,7 @@ const TRANSLATIONS = {
   az: {
     common: {
       error: "Xəta: {message}",
-      serverOffline: "Dragon Router serveri oflayndır. Başladın: dragon-router serve",
+      serverOffline: "DragonRouter serveri oflayndır. Başladın: dragon-router serve",
       authRequired:
         "Autentifikasiya tələb olunur. DRAGON_ROUTER_API_KEY təyin edin və ya işə salın: dragon-router setup",
       rateLimited: "Sorğu limiti aşıldı. {seconds} saniyə sonra yenidən cəhd edin.",
@@ -70,14 +70,14 @@ const TRANSLATIONS = {
       yesOpt: "Təsdiq sorğusunu keç",
     },
     program: {
-      description: "Dragon Router — Avtomatik Fallback ilə Ağıllı AI Marşrutlaşdırıcısı",
+      description: "DragonRouter — Avtomatik Fallback ilə Ağıllı AI Marşrutlaşdırıcısı",
       version: "Versiyasını çap et və çıx",
       output: "Çıxış formatı (table, json, jsonl, csv)",
       quiet: "Vacib olmayan çıxışı gizlət",
       no_color: "Rəngli çıxışı deaktiv et",
       timeout: "HTTP sorğusu üçün zaman aşımı (millisaniyə)",
-      api_key: "Dragon Router serveri üçün API açarı",
-      base_url: "Dragon Router server baza URL-i",
+      api_key: "DragonRouter serveri üçün API açarı",
+      base_url: "DragonRouter server baza URL-i",
       context: "Bu əmr üçün server konteksti/profili",
       lang: "CLI ekran dilini təyin edin (DRAGON_ROUTER_LANG-ı keçir)",
     },
@@ -85,7 +85,7 @@ const TRANSLATIONS = {
   bg: {
     common: {
       error: "Грешка: {message}",
-      serverOffline: "Сървърът Dragon Router е офлайн. Стартирайте с: dragon-router serve",
+      serverOffline: "Сървърът DragonRouter е офлайн. Стартирайте с: dragon-router serve",
       authRequired:
         "Необходима е автентикация. Задайте DRAGON_ROUTER_API_KEY или изпълнете: dragon-router setup",
       rateLimited: "Превишен лимит на заявки. Опитайте след {seconds}с.",
@@ -100,14 +100,14 @@ const TRANSLATIONS = {
       yesOpt: "Пропускане на потвърждение",
     },
     program: {
-      description: "Dragon Router — Интелигентен AI рутер с автоматично превключване",
+      description: "DragonRouter — Интелигентен AI рутер с автоматично превключване",
       version: "Покажи версията и излез",
       output: "Формат на изхода (table, json, jsonl, csv)",
       quiet: "Потисни несъществена информация",
       no_color: "Деактивирай цветния изход",
       timeout: "Таймаут за HTTP заявки в милисекунди",
-      api_key: "API ключ за сървъра Dragon Router",
-      base_url: "Базов URL на сървъра Dragon Router",
+      api_key: "API ключ за сървъра DragonRouter",
+      base_url: "Базов URL на сървъра DragonRouter",
       context: "Контекст/профил на сървъра за тази команда",
       lang: "Задай език на CLI (замества DRAGON_ROUTER_LANG)",
     },
@@ -115,8 +115,9 @@ const TRANSLATIONS = {
   cs: {
     common: {
       error: "Chyba: {message}",
-      serverOffline: "Server Dragon Router je offline. Spusťte: dragon-router serve",
-      authRequired: "Vyžaduje se ověření. Nastavte DRAGON_ROUTER_API_KEY nebo spusťte: dragon-router setup",
+      serverOffline: "Server DragonRouter je offline. Spusťte: dragon-router serve",
+      authRequired:
+        "Vyžaduje se ověření. Nastavte DRAGON_ROUTER_API_KEY nebo spusťte: dragon-router setup",
       rateLimited: "Překročen limit požadavků. Zkuste za {seconds}s.",
       timeout: "Požadavek vypršel po {ms}ms.",
       success: "Hotovo.",
@@ -129,14 +130,14 @@ const TRANSLATIONS = {
       yesOpt: "Přeskočit potvrzení",
     },
     program: {
-      description: "Dragon Router — Chytrý AI router s automatickým přepínáním",
+      description: "DragonRouter — Chytrý AI router s automatickým přepínáním",
       version: "Vypsat verzi a skončit",
       output: "Formát výstupu (table, json, jsonl, csv)",
       quiet: "Potlačit nepodstatný výstup",
       no_color: "Zakázat barevný výstup",
       timeout: "Časový limit HTTP požadavků v milisekundách",
-      api_key: "API klíč pro server Dragon Router",
-      base_url: "Základní URL serveru Dragon Router",
+      api_key: "API klíč pro server DragonRouter",
+      base_url: "Základní URL serveru DragonRouter",
       context: "Kontext/profil serveru pro tento příkaz",
       lang: "Nastavit jazyk CLI (přepisuje DRAGON_ROUTER_LANG)",
     },
@@ -144,7 +145,7 @@ const TRANSLATIONS = {
   da: {
     common: {
       error: "Fejl: {message}",
-      serverOffline: "Dragon Router-serveren er offline. Start med: dragon-router serve",
+      serverOffline: "DragonRouter-serveren er offline. Start med: dragon-router serve",
       authRequired: "Godkendelse kræves. Sæt DRAGON_ROUTER_API_KEY eller kør: dragon-router setup",
       rateLimited: "Anmodningsgrænse overskredet. Prøv igen om {seconds}s.",
       timeout: "Anmodningen timed ud efter {ms}ms.",
@@ -158,14 +159,14 @@ const TRANSLATIONS = {
       yesOpt: "Spring bekræftelse over",
     },
     program: {
-      description: "Dragon Router — Smart AI-router med automatisk fallback",
+      description: "DragonRouter — Smart AI-router med automatisk fallback",
       version: "Vis version og afslut",
       output: "Outputformat (table, json, jsonl, csv)",
       quiet: "Undertryk ikke-essentielt output",
       no_color: "Deaktiver farvet output",
       timeout: "HTTP-anmodnings timeout i millisekunder",
-      api_key: "API-nøgle til Dragon Router-serveren",
-      base_url: "Dragon Router-serverens basis-URL",
+      api_key: "API-nøgle til DragonRouter-serveren",
+      base_url: "DragonRouter-serverens basis-URL",
       context: "Server-kontekst/profil til denne kommando",
       lang: "Angiv CLI-visningssprog (tilsidesætter DRAGON_ROUTER_LANG)",
     },
@@ -173,7 +174,7 @@ const TRANSLATIONS = {
   de: {
     common: {
       error: "Fehler: {message}",
-      serverOffline: "Dragon Router-Server ist offline. Starten mit: dragon-router serve",
+      serverOffline: "DragonRouter-Server ist offline. Starten mit: dragon-router serve",
       authRequired:
         "Authentifizierung erforderlich. DRAGON_ROUTER_API_KEY setzen oder ausführen: dragon-router setup",
       rateLimited: "Anfragelimit überschritten. Erneut versuchen in {seconds}s.",
@@ -188,14 +189,14 @@ const TRANSLATIONS = {
       yesOpt: "Bestätigung überspringen",
     },
     program: {
-      description: "Dragon Router — Intelligenter AI-Router mit automatischem Fallback",
+      description: "DragonRouter — Intelligenter AI-Router mit automatischem Fallback",
       version: "Version ausgeben und beenden",
       output: "Ausgabeformat (table, json, jsonl, csv)",
       quiet: "Unwesentliche Ausgabe unterdrücken",
       no_color: "Farbige Ausgabe deaktivieren",
       timeout: "HTTP-Anfrage-Timeout in Millisekunden",
-      api_key: "API-Schlüssel für den Dragon Router-Server",
-      base_url: "Dragon Router-Server-Basis-URL",
+      api_key: "API-Schlüssel für den DragonRouter-Server",
+      base_url: "DragonRouter-Server-Basis-URL",
       context: "Server-Kontext/Profil für diesen Befehl",
       lang: "CLI-Anzeigesprache festlegen (überschreibt DRAGON_ROUTER_LANG)",
     },
@@ -203,7 +204,7 @@ const TRANSLATIONS = {
   es: {
     common: {
       error: "Error: {message}",
-      serverOffline: "El servidor Dragon Router está offline. Inícielo con: dragon-router serve",
+      serverOffline: "El servidor DragonRouter está offline. Inícielo con: dragon-router serve",
       authRequired:
         "Autenticación requerida. Configure DRAGON_ROUTER_API_KEY o ejecute: dragon-router setup",
       rateLimited: "Límite de solicitudes excedido. Reintente en {seconds}s.",
@@ -218,14 +219,14 @@ const TRANSLATIONS = {
       yesOpt: "Omitir confirmación",
     },
     program: {
-      description: "Dragon Router — Router de IA inteligente con fallback automático",
+      description: "DragonRouter — Router de IA inteligente con fallback automático",
       version: "Mostrar versión y salir",
       output: "Formato de salida (table, json, jsonl, csv)",
       quiet: "Suprimir salida no esencial",
       no_color: "Deshabilitar salida en color",
       timeout: "Tiempo de espera de solicitudes HTTP en milisegundos",
-      api_key: "Clave de API para el servidor Dragon Router",
-      base_url: "URL base del servidor Dragon Router",
+      api_key: "Clave de API para el servidor DragonRouter",
+      base_url: "URL base del servidor DragonRouter",
       context: "Contexto/perfil del servidor para este comando",
       lang: "Establecer idioma del CLI (reemplaza DRAGON_ROUTER_LANG)",
     },
@@ -233,7 +234,8 @@ const TRANSLATIONS = {
   fa: {
     common: {
       error: "خطا: {message}",
-      serverOffline: "سرور Dragon Router آفلاین است. با این دستور راه‌اندازی کنید: dragon-router serve",
+      serverOffline:
+        "سرور DragonRouter آفلاین است. با این دستور راه‌اندازی کنید: dragon-router serve",
       authRequired:
         "احراز هویت لازم است. DRAGON_ROUTER_API_KEY را تنظیم کنید یا اجرا کنید: dragon-router setup",
       rateLimited: "محدودیت درخواست رسیده است. پس از {seconds} ثانیه دوباره تلاش کنید.",
@@ -248,14 +250,14 @@ const TRANSLATIONS = {
       yesOpt: "رد کردن تأیید",
     },
     program: {
-      description: "Dragon Router — روتر هوشمند هوش مصنوعی با fallback خودکار",
+      description: "DragonRouter — روتر هوشمند هوش مصنوعی با fallback خودکار",
       version: "نمایش نسخه و خروج",
       output: "فرمت خروجی (table, json, jsonl, csv)",
       quiet: "حذف خروجی غیر ضروری",
       no_color: "غیرفعال کردن خروجی رنگی",
       timeout: "تایم‌اوت درخواست HTTP به میلی‌ثانیه",
-      api_key: "کلید API برای سرور Dragon Router",
-      base_url: "URL پایه سرور Dragon Router",
+      api_key: "کلید API برای سرور DragonRouter",
+      base_url: "URL پایه سرور DragonRouter",
       context: "زمینه/پروفایل سرور برای این دستور",
       lang: "تنظیم زبان نمایش CLI (DRAGON_ROUTER_LANG را نادیده می‌گیرد)",
     },
@@ -263,8 +265,9 @@ const TRANSLATIONS = {
   fi: {
     common: {
       error: "Virhe: {message}",
-      serverOffline: "Dragon Router-palvelin on offline. Käynnistä komennolla: dragon-router serve",
-      authRequired: "Todennus vaaditaan. Aseta DRAGON_ROUTER_API_KEY tai suorita: dragon-router setup",
+      serverOffline: "DragonRouter-palvelin on offline. Käynnistä komennolla: dragon-router serve",
+      authRequired:
+        "Todennus vaaditaan. Aseta DRAGON_ROUTER_API_KEY tai suorita: dragon-router setup",
       rateLimited: "Pyyntöraja ylitetty. Yritä uudelleen {seconds}s kuluttua.",
       timeout: "Pyyntö aikakatkaistiin {ms}ms jälkeen.",
       success: "Valmis.",
@@ -277,14 +280,14 @@ const TRANSLATIONS = {
       yesOpt: "Ohita vahvistuspyyntö",
     },
     program: {
-      description: "Dragon Router — Älykäs AI-reititin automaattisella fallbackilla",
+      description: "DragonRouter — Älykäs AI-reititin automaattisella fallbackilla",
       version: "Tulosta versio ja poistu",
       output: "Tulostusmuoto (table, json, jsonl, csv)",
       quiet: "Piilota epäolennaiset tulosteet",
       no_color: "Poista väritulostus käytöstä",
       timeout: "HTTP-pyyntöjen aikakatkaisu millisekunteina",
-      api_key: "API-avain Dragon Router-palvelimelle",
-      base_url: "Dragon Router-palvelimen perus-URL",
+      api_key: "API-avain DragonRouter-palvelimelle",
+      base_url: "DragonRouter-palvelimen perus-URL",
       context: "Palvelimen konteksti/profiili tälle komennolle",
       lang: "Aseta CLI-näyttökieli (ohittaa DRAGON_ROUTER_LANG)",
     },
@@ -292,7 +295,7 @@ const TRANSLATIONS = {
   fr: {
     common: {
       error: "Erreur : {message}",
-      serverOffline: "Le serveur Dragon Router est hors ligne. Démarrez avec : dragon-router serve",
+      serverOffline: "Le serveur DragonRouter est hors ligne. Démarrez avec : dragon-router serve",
       authRequired:
         "Authentification requise. Définissez DRAGON_ROUTER_API_KEY ou exécutez : dragon-router setup",
       rateLimited: "Limite de requêtes atteinte. Réessayez dans {seconds}s.",
@@ -307,14 +310,14 @@ const TRANSLATIONS = {
       yesOpt: "Ignorer la confirmation",
     },
     program: {
-      description: "Dragon Router — Routeur IA intelligent avec basculement automatique",
+      description: "DragonRouter — Routeur IA intelligent avec basculement automatique",
       version: "Afficher la version et quitter",
       output: "Format de sortie (table, json, jsonl, csv)",
       quiet: "Supprimer les sorties non essentielles",
       no_color: "Désactiver la sortie en couleur",
       timeout: "Délai d'expiration des requêtes HTTP en millisecondes",
-      api_key: "Clé API pour le serveur Dragon Router",
-      base_url: "URL de base du serveur Dragon Router",
+      api_key: "Clé API pour le serveur DragonRouter",
+      base_url: "URL de base du serveur DragonRouter",
       context: "Contexte/profil du serveur pour cette commande",
       lang: "Définir la langue d'affichage du CLI (remplace DRAGON_ROUTER_LANG)",
     },
@@ -322,8 +325,9 @@ const TRANSLATIONS = {
   hi: {
     common: {
       error: "त्रुटि: {message}",
-      serverOffline: "Dragon Router सर्वर ऑफलाइन है। शुरू करें: dragon-router serve",
-      authRequired: "प्रमाणीकरण आवश्यक है। DRAGON_ROUTER_API_KEY सेट करें या चलाएं: dragon-router setup",
+      serverOffline: "DragonRouter सर्वर ऑफलाइन है। शुरू करें: dragon-router serve",
+      authRequired:
+        "प्रमाणीकरण आवश्यक है। DRAGON_ROUTER_API_KEY सेट करें या चलाएं: dragon-router setup",
       rateLimited: "अनुरोध सीमा पार हो गई। {seconds}s बाद पुनः प्रयास करें।",
       timeout: "{ms}ms के बाद अनुरोध समय समाप्त हुआ।",
       success: "पूर्ण।",
@@ -336,14 +340,14 @@ const TRANSLATIONS = {
       yesOpt: "पुष्टि छोड़ें",
     },
     program: {
-      description: "Dragon Router — ऑटो फॉलबैक के साथ स्मार्ट AI राउटर",
+      description: "DragonRouter — ऑटो फॉलबैक के साथ स्मार्ट AI राउटर",
       version: "संस्करण प्रिंट करें और बाहर निकलें",
       output: "आउटपुट प्रारूप (table, json, jsonl, csv)",
       quiet: "गैर-आवश्यक आउटपुट दबाएं",
       no_color: "रंगीन आउटपुट अक्षम करें",
       timeout: "HTTP अनुरोध टाइमआउट मिलीसेकंड में",
-      api_key: "Dragon Router सर्वर के लिए API कुंजी",
-      base_url: "Dragon Router सर्वर का बेस URL",
+      api_key: "DragonRouter सर्वर के लिए API कुंजी",
+      base_url: "DragonRouter सर्वर का बेस URL",
       context: "इस कमांड के लिए सर्वर संदर्भ/प्रोफ़ाइल",
       lang: "CLI प्रदर्शन भाषा सेट करें (DRAGON_ROUTER_LANG को ओवरराइड करता है)",
     },
@@ -351,7 +355,7 @@ const TRANSLATIONS = {
   hu: {
     common: {
       error: "Hiba: {message}",
-      serverOffline: "Az Dragon Router szerver offline. Indítsa el: dragon-router serve",
+      serverOffline: "Az DragonRouter szerver offline. Indítsa el: dragon-router serve",
       authRequired:
         "Hitelesítés szükséges. Állítsa be az DRAGON_ROUTER_API_KEY-t vagy futtassa: dragon-router setup",
       rateLimited: "Kérési korlát túllépve. Próbálja újra {seconds}s múlva.",
@@ -366,14 +370,14 @@ const TRANSLATIONS = {
       yesOpt: "Megerősítés kihagyása",
     },
     program: {
-      description: "Dragon Router — Intelligens AI útválasztó automatikus fallbackkel",
+      description: "DragonRouter — Intelligens AI útválasztó automatikus fallbackkel",
       version: "Verzió kiírása és kilépés",
       output: "Kimeneti formátum (table, json, jsonl, csv)",
       quiet: "Nem lényeges kimenet elnyomása",
       no_color: "Színes kimenet letiltása",
       timeout: "HTTP kérés időtúllépése ezredmásodpercben",
-      api_key: "API kulcs az Dragon Router szerverhez",
-      base_url: "Az Dragon Router szerver alap URL-je",
+      api_key: "API kulcs az DragonRouter szerverhez",
+      base_url: "Az DragonRouter szerver alap URL-je",
       context: "Szerverkontextus/profil ehhez a parancshoz",
       lang: "CLI megjelenítési nyelv beállítása (felülírja az DRAGON_ROUTER_LANG-ot)",
     },
@@ -381,7 +385,7 @@ const TRANSLATIONS = {
   id: {
     common: {
       error: "Kesalahan: {message}",
-      serverOffline: "Server Dragon Router sedang offline. Mulai dengan: dragon-router serve",
+      serverOffline: "Server DragonRouter sedang offline. Mulai dengan: dragon-router serve",
       authRequired:
         "Autentikasi diperlukan. Setel DRAGON_ROUTER_API_KEY atau jalankan: dragon-router setup",
       rateLimited: "Batas permintaan terlampaui. Coba lagi dalam {seconds}d.",
@@ -396,14 +400,14 @@ const TRANSLATIONS = {
       yesOpt: "Lewati konfirmasi",
     },
     program: {
-      description: "Dragon Router — Router AI Cerdas dengan Fallback Otomatis",
+      description: "DragonRouter — Router AI Cerdas dengan Fallback Otomatis",
       version: "Cetak versi dan keluar",
       output: "Format keluaran (table, json, jsonl, csv)",
       quiet: "Sembunyikan output yang tidak penting",
       no_color: "Nonaktifkan output berwarna",
       timeout: "Batas waktu permintaan HTTP dalam milidetik",
-      api_key: "Kunci API untuk server Dragon Router",
-      base_url: "URL dasar server Dragon Router",
+      api_key: "Kunci API untuk server DragonRouter",
+      base_url: "URL dasar server DragonRouter",
       context: "Konteks/profil server untuk perintah ini",
       lang: "Atur bahasa tampilan CLI (menggantikan DRAGON_ROUTER_LANG)",
     },
@@ -411,7 +415,7 @@ const TRANSLATIONS = {
   it: {
     common: {
       error: "Errore: {message}",
-      serverOffline: "Il server Dragon Router è offline. Avviarlo con: dragon-router serve",
+      serverOffline: "Il server DragonRouter è offline. Avviarlo con: dragon-router serve",
       authRequired:
         "Autenticazione richiesta. Impostare DRAGON_ROUTER_API_KEY o eseguire: dragon-router setup",
       rateLimited: "Limite di richieste superato. Riprovare tra {seconds}s.",
@@ -426,14 +430,14 @@ const TRANSLATIONS = {
       yesOpt: "Salta la conferma",
     },
     program: {
-      description: "Dragon Router — Router AI intelligente con fallback automatico",
+      description: "DragonRouter — Router AI intelligente con fallback automatico",
       version: "Stampa la versione ed esci",
       output: "Formato di output (table, json, jsonl, csv)",
       quiet: "Sopprimi l'output non essenziale",
       no_color: "Disabilita l'output colorato",
       timeout: "Timeout delle richieste HTTP in millisecondi",
-      api_key: "Chiave API per il server Dragon Router",
-      base_url: "URL base del server Dragon Router",
+      api_key: "Chiave API per il server DragonRouter",
+      base_url: "URL base del server DragonRouter",
       context: "Contesto/profilo del server per questo comando",
       lang: "Imposta la lingua di visualizzazione della CLI (sovrascrive DRAGON_ROUTER_LANG)",
     },
@@ -441,7 +445,7 @@ const TRANSLATIONS = {
   ja: {
     common: {
       error: "エラー: {message}",
-      serverOffline: "Dragon Routerサーバーはオフラインです。起動: dragon-router serve",
+      serverOffline: "DragonRouterサーバーはオフラインです。起動: dragon-router serve",
       authRequired:
         "認証が必要です。DRAGON_ROUTER_API_KEYを設定するか実行してください: dragon-router setup",
       rateLimited: "リクエスト制限を超えました。{seconds}秒後に再試行してください。",
@@ -456,14 +460,14 @@ const TRANSLATIONS = {
       yesOpt: "確認をスキップ",
     },
     program: {
-      description: "Dragon Router — 自動フォールバック付きスマートAIルーター",
+      description: "DragonRouter — 自動フォールバック付きスマートAIルーター",
       version: "バージョンを表示して終了",
       output: "出力形式 (table, json, jsonl, csv)",
       quiet: "重要でない出力を抑制",
       no_color: "カラー出力を無効化",
       timeout: "HTTPリクエストタイムアウト（ミリ秒）",
-      api_key: "Dragon RouterサーバーのAPIキー",
-      base_url: "Dragon RouterサーバーのベースURL",
+      api_key: "DragonRouterサーバーのAPIキー",
+      base_url: "DragonRouterサーバーのベースURL",
       context: "このコマンドで使用するサーバーコンテキスト/プロファイル",
       lang: "CLI表示言語を設定（DRAGON_ROUTER_LANGを上書き）",
     },
@@ -471,8 +475,9 @@ const TRANSLATIONS = {
   ko: {
     common: {
       error: "오류: {message}",
-      serverOffline: "Dragon Router 서버가 오프라인입니다. 시작: dragon-router serve",
-      authRequired: "인증이 필요합니다. DRAGON_ROUTER_API_KEY를 설정하거나 실행하세요: dragon-router setup",
+      serverOffline: "DragonRouter 서버가 오프라인입니다. 시작: dragon-router serve",
+      authRequired:
+        "인증이 필요합니다. DRAGON_ROUTER_API_KEY를 설정하거나 실행하세요: dragon-router setup",
       rateLimited: "요청 제한 초과. {seconds}초 후 다시 시도하세요.",
       timeout: "{ms}ms 후 요청 시간 초과.",
       success: "완료.",
@@ -485,14 +490,14 @@ const TRANSLATIONS = {
       yesOpt: "확인 건너뛰기",
     },
     program: {
-      description: "Dragon Router — 자동 폴백 기능을 갖춘 스마트 AI 라우터",
+      description: "DragonRouter — 자동 폴백 기능을 갖춘 스마트 AI 라우터",
       version: "버전 출력 후 종료",
       output: "출력 형식 (table, json, jsonl, csv)",
       quiet: "불필요한 출력 억제",
       no_color: "색상 출력 비활성화",
       timeout: "HTTP 요청 타임아웃(밀리초)",
-      api_key: "Dragon Router 서버의 API 키",
-      base_url: "Dragon Router 서버 기본 URL",
+      api_key: "DragonRouter 서버의 API 키",
+      base_url: "DragonRouter 서버 기본 URL",
       context: "이 명령에 사용할 서버 컨텍스트/프로필",
       lang: "CLI 표시 언어 설정 (DRAGON_ROUTER_LANG 재정의)",
     },
@@ -500,8 +505,9 @@ const TRANSLATIONS = {
   nl: {
     common: {
       error: "Fout: {message}",
-      serverOffline: "Dragon Router-server is offline. Start met: dragon-router serve",
-      authRequired: "Authenticatie vereist. Stel DRAGON_ROUTER_API_KEY in of voer uit: dragon-router setup",
+      serverOffline: "DragonRouter-server is offline. Start met: dragon-router serve",
+      authRequired:
+        "Authenticatie vereist. Stel DRAGON_ROUTER_API_KEY in of voer uit: dragon-router setup",
       rateLimited: "Verzoeklimiet overschreden. Probeer opnieuw na {seconds}s.",
       timeout: "Verzoek verlopen na {ms}ms.",
       success: "Klaar.",
@@ -514,14 +520,14 @@ const TRANSLATIONS = {
       yesOpt: "Bevestiging overslaan",
     },
     program: {
-      description: "Dragon Router — Slimme AI-router met automatische fallback",
+      description: "DragonRouter — Slimme AI-router met automatische fallback",
       version: "Versie afdrukken en afsluiten",
       output: "Uitvoerformaat (table, json, jsonl, csv)",
       quiet: "Niet-essentiële uitvoer onderdrukken",
       no_color: "Gekleurde uitvoer uitschakelen",
       timeout: "HTTP-verzoek timeout in milliseconden",
-      api_key: "API-sleutel voor de Dragon Router-server",
-      base_url: "Basis-URL van de Dragon Router-server",
+      api_key: "API-sleutel voor de DragonRouter-server",
+      base_url: "Basis-URL van de DragonRouter-server",
       context: "Servercontext/profiel voor dit commando",
       lang: "CLI-weergavetaal instellen (overschrijft DRAGON_ROUTER_LANG)",
     },
@@ -529,8 +535,9 @@ const TRANSLATIONS = {
   no: {
     common: {
       error: "Feil: {message}",
-      serverOffline: "Dragon Router-serveren er offline. Start med: dragon-router serve",
-      authRequired: "Autentisering kreves. Angi DRAGON_ROUTER_API_KEY eller kjør: dragon-router setup",
+      serverOffline: "DragonRouter-serveren er offline. Start med: dragon-router serve",
+      authRequired:
+        "Autentisering kreves. Angi DRAGON_ROUTER_API_KEY eller kjør: dragon-router setup",
       rateLimited: "Forespørselgrense overskredet. Prøv igjen om {seconds}s.",
       timeout: "Forespørselen tidsavbrutt etter {ms}ms.",
       success: "Ferdig.",
@@ -543,14 +550,14 @@ const TRANSLATIONS = {
       yesOpt: "Hopp over bekreftelse",
     },
     program: {
-      description: "Dragon Router — Smart AI-ruter med automatisk fallback",
+      description: "DragonRouter — Smart AI-ruter med automatisk fallback",
       version: "Skriv ut versjon og avslutt",
       output: "Utdataformat (table, json, jsonl, csv)",
       quiet: "Undertrykk ikke-essensiell utdata",
       no_color: "Deaktiver farget utdata",
       timeout: "HTTP-forespørsel timeout i millisekunder",
-      api_key: "API-nøkkel for Dragon Router-serveren",
-      base_url: "Dragon Router-serverens basis-URL",
+      api_key: "API-nøkkel for DragonRouter-serveren",
+      base_url: "DragonRouter-serverens basis-URL",
       context: "Serverkontekst/profil for denne kommandoen",
       lang: "Angi CLI-visningsspråk (overstyrer DRAGON_ROUTER_LANG)",
     },
@@ -558,7 +565,7 @@ const TRANSLATIONS = {
   pl: {
     common: {
       error: "Błąd: {message}",
-      serverOffline: "Serwer Dragon Router jest offline. Uruchom: dragon-router serve",
+      serverOffline: "Serwer DragonRouter jest offline. Uruchom: dragon-router serve",
       authRequired:
         "Wymagane uwierzytelnienie. Ustaw DRAGON_ROUTER_API_KEY lub uruchom: dragon-router setup",
       rateLimited: "Przekroczono limit żądań. Spróbuj ponownie za {seconds}s.",
@@ -573,14 +580,14 @@ const TRANSLATIONS = {
       yesOpt: "Pomiń potwierdzenie",
     },
     program: {
-      description: "Dragon Router — Inteligentny router AI z automatycznym fallbackiem",
+      description: "DragonRouter — Inteligentny router AI z automatycznym fallbackiem",
       version: "Wydrukuj wersję i wyjdź",
       output: "Format wyjścia (table, json, jsonl, csv)",
       quiet: "Pomiń nieistotne wyjście",
       no_color: "Wyłącz kolorowe wyjście",
       timeout: "Limit czasu żądania HTTP w milisekundach",
-      api_key: "Klucz API dla serwera Dragon Router",
-      base_url: "Bazowy URL serwera Dragon Router",
+      api_key: "Klucz API dla serwera DragonRouter",
+      base_url: "Bazowy URL serwera DragonRouter",
       context: "Kontekst/profil serwera dla tego polecenia",
       lang: "Ustaw język wyświetlania CLI (nadpisuje DRAGON_ROUTER_LANG)",
     },
@@ -588,8 +595,9 @@ const TRANSLATIONS = {
   pt: {
     common: {
       error: "Erro: {message}",
-      serverOffline: "O servidor Dragon Router está offline. Inicie com: dragon-router serve",
-      authRequired: "Autenticação necessária. Defina DRAGON_ROUTER_API_KEY ou execute: dragon-router setup",
+      serverOffline: "O servidor DragonRouter está offline. Inicie com: dragon-router serve",
+      authRequired:
+        "Autenticação necessária. Defina DRAGON_ROUTER_API_KEY ou execute: dragon-router setup",
       rateLimited: "Limite de pedidos atingido. Tente novamente em {seconds}s.",
       timeout: "O pedido expirou após {ms}ms.",
       success: "Concluído.",
@@ -602,14 +610,14 @@ const TRANSLATIONS = {
       yesOpt: "Ignorar confirmação",
     },
     program: {
-      description: "Dragon Router — Router de IA inteligente com fallback automático",
+      description: "DragonRouter — Router de IA inteligente com fallback automático",
       version: "Mostrar versão e sair",
       output: "Formato de saída (table, json, jsonl, csv)",
       quiet: "Suprimir saída não essencial",
       no_color: "Desativar saída colorida",
       timeout: "Timeout de pedidos HTTP em milissegundos",
-      api_key: "Chave de API para o servidor Dragon Router",
-      base_url: "URL base do servidor Dragon Router",
+      api_key: "Chave de API para o servidor DragonRouter",
+      base_url: "URL base do servidor DragonRouter",
       context: "Contexto/perfil do servidor para este comando",
       lang: "Definir idioma de apresentação do CLI (substitui DRAGON_ROUTER_LANG)",
     },
@@ -617,8 +625,9 @@ const TRANSLATIONS = {
   ro: {
     common: {
       error: "Eroare: {message}",
-      serverOffline: "Serverul Dragon Router este offline. Porniți cu: dragon-router serve",
-      authRequired: "Autentificare necesară. Setați DRAGON_ROUTER_API_KEY sau rulați: dragon-router setup",
+      serverOffline: "Serverul DragonRouter este offline. Porniți cu: dragon-router serve",
+      authRequired:
+        "Autentificare necesară. Setați DRAGON_ROUTER_API_KEY sau rulați: dragon-router setup",
       rateLimited: "Limita de cereri depășită. Încercați din nou după {seconds}s.",
       timeout: "Cererea a expirat după {ms}ms.",
       success: "Gata.",
@@ -631,14 +640,14 @@ const TRANSLATIONS = {
       yesOpt: "Omite confirmarea",
     },
     program: {
-      description: "Dragon Router — Router AI inteligent cu fallback automat",
+      description: "DragonRouter — Router AI inteligent cu fallback automat",
       version: "Afișează versiunea și ieși",
       output: "Format de ieșire (table, json, jsonl, csv)",
       quiet: "Suprimă ieșirile neesențiale",
       no_color: "Dezactivează ieșirea colorată",
       timeout: "Timeout cereri HTTP în milisecunde",
-      api_key: "Cheie API pentru serverul Dragon Router",
-      base_url: "URL de bază al serverului Dragon Router",
+      api_key: "Cheie API pentru serverul DragonRouter",
+      base_url: "URL de bază al serverului DragonRouter",
       context: "Contextul/profilul serverului pentru această comandă",
       lang: "Setează limba de afișare CLI (suprascrie DRAGON_ROUTER_LANG)",
     },
@@ -646,7 +655,7 @@ const TRANSLATIONS = {
   ru: {
     common: {
       error: "Ошибка: {message}",
-      serverOffline: "Сервер Dragon Router отключён. Запустите: dragon-router serve",
+      serverOffline: "Сервер DragonRouter отключён. Запустите: dragon-router serve",
       authRequired:
         "Требуется аутентификация. Установите DRAGON_ROUTER_API_KEY или выполните: dragon-router setup",
       rateLimited: "Превышен лимит запросов. Повторите через {seconds}с.",
@@ -661,14 +670,14 @@ const TRANSLATIONS = {
       yesOpt: "Пропустить подтверждение",
     },
     program: {
-      description: "Dragon Router — Умный AI-маршрутизатор с автоматическим переключением",
+      description: "DragonRouter — Умный AI-маршрутизатор с автоматическим переключением",
       version: "Вывести версию и выйти",
       output: "Формат вывода (table, json, jsonl, csv)",
       quiet: "Подавить несущественный вывод",
       no_color: "Отключить цветной вывод",
       timeout: "Таймаут HTTP-запросов в миллисекундах",
-      api_key: "API-ключ для сервера Dragon Router",
-      base_url: "Базовый URL сервера Dragon Router",
+      api_key: "API-ключ для сервера DragonRouter",
+      base_url: "Базовый URL сервера DragonRouter",
       context: "Контекст/профиль сервера для этой команды",
       lang: "Установить язык отображения CLI (переопределяет DRAGON_ROUTER_LANG)",
     },
@@ -676,7 +685,7 @@ const TRANSLATIONS = {
   sk: {
     common: {
       error: "Chyba: {message}",
-      serverOffline: "Server Dragon Router je offline. Spustite: dragon-router serve",
+      serverOffline: "Server DragonRouter je offline. Spustite: dragon-router serve",
       authRequired:
         "Vyžaduje sa overenie. Nastavte DRAGON_ROUTER_API_KEY alebo spustite: dragon-router setup",
       rateLimited: "Prekročený limit požiadaviek. Skúste za {seconds}s.",
@@ -691,14 +700,14 @@ const TRANSLATIONS = {
       yesOpt: "Preskočiť potvrdenie",
     },
     program: {
-      description: "Dragon Router — Inteligentný AI router s automatickým prepínaním",
+      description: "DragonRouter — Inteligentný AI router s automatickým prepínaním",
       version: "Vypísať verziu a skončiť",
       output: "Formát výstupu (table, json, jsonl, csv)",
       quiet: "Potlačiť nepodstatný výstup",
       no_color: "Zakázať farebný výstup",
       timeout: "Časový limit HTTP požiadaviek v milisekundách",
-      api_key: "API kľúč pre server Dragon Router",
-      base_url: "Základná URL servera Dragon Router",
+      api_key: "API kľúč pre server DragonRouter",
+      base_url: "Základná URL servera DragonRouter",
       context: "Kontext/profil servera pre tento príkaz",
       lang: "Nastaviť jazyk zobrazenia CLI (prepíše DRAGON_ROUTER_LANG)",
     },
@@ -706,8 +715,9 @@ const TRANSLATIONS = {
   sv: {
     common: {
       error: "Fel: {message}",
-      serverOffline: "Dragon Router-servern är offline. Starta med: dragon-router serve",
-      authRequired: "Autentisering krävs. Ange DRAGON_ROUTER_API_KEY eller kör: dragon-router setup",
+      serverOffline: "DragonRouter-servern är offline. Starta med: dragon-router serve",
+      authRequired:
+        "Autentisering krävs. Ange DRAGON_ROUTER_API_KEY eller kör: dragon-router setup",
       rateLimited: "Begäransgräns nådd. Försök igen om {seconds}s.",
       timeout: "Begäran tog slut efter {ms}ms.",
       success: "Klar.",
@@ -720,14 +730,14 @@ const TRANSLATIONS = {
       yesOpt: "Hoppa över bekräftelse",
     },
     program: {
-      description: "Dragon Router — Smart AI-router med automatisk fallback",
+      description: "DragonRouter — Smart AI-router med automatisk fallback",
       version: "Skriv ut version och avsluta",
       output: "Utdataformat (table, json, jsonl, csv)",
       quiet: "Undertryck icke-väsentlig utdata",
       no_color: "Inaktivera färgad utdata",
       timeout: "HTTP-begärans timeout i millisekunder",
-      api_key: "API-nyckel för Dragon Router-servern",
-      base_url: "Dragon Router-serverns bas-URL",
+      api_key: "API-nyckel för DragonRouter-servern",
+      base_url: "DragonRouter-serverns bas-URL",
       context: "Serverkontext/profil för det här kommandot",
       lang: "Ange CLI-visningsspråk (åsidosätter DRAGON_ROUTER_LANG)",
     },
@@ -735,8 +745,9 @@ const TRANSLATIONS = {
   th: {
     common: {
       error: "ข้อผิดพลาด: {message}",
-      serverOffline: "เซิร์ฟเวอร์ Dragon Router ออฟไลน์ เริ่มด้วย: dragon-router serve",
-      authRequired: "ต้องการการยืนยันตัวตน ตั้งค่า DRAGON_ROUTER_API_KEY หรือรัน: dragon-router setup",
+      serverOffline: "เซิร์ฟเวอร์ DragonRouter ออฟไลน์ เริ่มด้วย: dragon-router serve",
+      authRequired:
+        "ต้องการการยืนยันตัวตน ตั้งค่า DRAGON_ROUTER_API_KEY หรือรัน: dragon-router setup",
       rateLimited: "เกินขีดจำกัดคำขอ ลองใหม่หลังจาก {seconds}วินาที",
       timeout: "คำขอหมดเวลาหลังจาก {ms}ms",
       success: "เสร็จสิ้น",
@@ -749,14 +760,14 @@ const TRANSLATIONS = {
       yesOpt: "ข้ามการยืนยัน",
     },
     program: {
-      description: "Dragon Router — AI Router อัจฉริยะพร้อม Auto Fallback",
+      description: "DragonRouter — AI Router อัจฉริยะพร้อม Auto Fallback",
       version: "แสดงเวอร์ชันและออก",
       output: "รูปแบบเอาต์พุต (table, json, jsonl, csv)",
       quiet: "ซ่อนเอาต์พุตที่ไม่จำเป็น",
       no_color: "ปิดใช้งานเอาต์พุตสี",
       timeout: "หมดเวลา HTTP request ในมิลลิวินาที",
-      api_key: "API Key สำหรับ Dragon Router server",
-      base_url: "Base URL ของ Dragon Router server",
+      api_key: "API Key สำหรับ DragonRouter server",
+      base_url: "Base URL ของ DragonRouter server",
       context: "บริบท/โปรไฟล์ของเซิร์ฟเวอร์สำหรับคำสั่งนี้",
       lang: "ตั้งค่าภาษาแสดงผล CLI (แทนที่ DRAGON_ROUTER_LANG)",
     },
@@ -764,7 +775,7 @@ const TRANSLATIONS = {
   tr: {
     common: {
       error: "Hata: {message}",
-      serverOffline: "Dragon Router sunucusu çevrimdışı. Başlatın: dragon-router serve",
+      serverOffline: "DragonRouter sunucusu çevrimdışı. Başlatın: dragon-router serve",
       authRequired:
         "Kimlik doğrulama gerekli. DRAGON_ROUTER_API_KEY ayarlayın veya çalıştırın: dragon-router setup",
       rateLimited: "İstek limiti aşıldı. {seconds}s sonra tekrar deneyin.",
@@ -779,14 +790,14 @@ const TRANSLATIONS = {
       yesOpt: "Onayı atla",
     },
     program: {
-      description: "Dragon Router — Otomatik Fallback ile Akıllı AI Yönlendirici",
+      description: "DragonRouter — Otomatik Fallback ile Akıllı AI Yönlendirici",
       version: "Sürümü yazdır ve çık",
       output: "Çıktı formatı (table, json, jsonl, csv)",
       quiet: "Önemsiz çıktıyı gizle",
       no_color: "Renkli çıktıyı devre dışı bırak",
       timeout: "HTTP istek zaman aşımı (milisaniye)",
-      api_key: "Dragon Router sunucusu için API anahtarı",
-      base_url: "Dragon Router sunucusu temel URL'si",
+      api_key: "DragonRouter sunucusu için API anahtarı",
+      base_url: "DragonRouter sunucusu temel URL'si",
       context: "Bu komut için sunucu bağlamı/profili",
       lang: "CLI görüntüleme dilini ayarla (DRAGON_ROUTER_LANG'ı geçersiz kılar)",
     },
@@ -794,7 +805,7 @@ const TRANSLATIONS = {
   "uk-UA": {
     common: {
       error: "Помилка: {message}",
-      serverOffline: "Сервер Dragon Router відключено. Запустіть: dragon-router serve",
+      serverOffline: "Сервер DragonRouter відключено. Запустіть: dragon-router serve",
       authRequired:
         "Потрібна автентифікація. Встановіть DRAGON_ROUTER_API_KEY або виконайте: dragon-router setup",
       rateLimited: "Перевищено ліміт запитів. Повторіть через {seconds}с.",
@@ -809,14 +820,14 @@ const TRANSLATIONS = {
       yesOpt: "Пропустити підтвердження",
     },
     program: {
-      description: "Dragon Router — Розумний AI-маршрутизатор з автоматичним перемиканням",
+      description: "DragonRouter — Розумний AI-маршрутизатор з автоматичним перемиканням",
       version: "Вивести версію та вийти",
       output: "Формат виведення (table, json, jsonl, csv)",
       quiet: "Приховати несуттєвий вивід",
       no_color: "Вимкнути кольоровий вивід",
       timeout: "Тайм-аут HTTP-запитів у мілісекундах",
-      api_key: "API-ключ для сервера Dragon Router",
-      base_url: "Базовий URL сервера Dragon Router",
+      api_key: "API-ключ для сервера DragonRouter",
+      base_url: "Базовий URL сервера DragonRouter",
       context: "Контекст/профіль сервера для цієї команди",
       lang: "Встановити мову відображення CLI (замінює DRAGON_ROUTER_LANG)",
     },
@@ -824,7 +835,7 @@ const TRANSLATIONS = {
   vi: {
     common: {
       error: "Lỗi: {message}",
-      serverOffline: "Máy chủ Dragon Router đang offline. Khởi động với: dragon-router serve",
+      serverOffline: "Máy chủ DragonRouter đang offline. Khởi động với: dragon-router serve",
       authRequired: "Cần xác thực. Đặt DRAGON_ROUTER_API_KEY hoặc chạy: dragon-router setup",
       rateLimited: "Đã vượt giới hạn yêu cầu. Thử lại sau {seconds}s.",
       timeout: "Yêu cầu hết thời gian sau {ms}ms.",
@@ -838,14 +849,14 @@ const TRANSLATIONS = {
       yesOpt: "Bỏ qua xác nhận",
     },
     program: {
-      description: "Dragon Router — Bộ định tuyến AI thông minh với tự động chuyển đổi dự phòng",
+      description: "DragonRouter — Bộ định tuyến AI thông minh với tự động chuyển đổi dự phòng",
       version: "In phiên bản và thoát",
       output: "Định dạng đầu ra (table, json, jsonl, csv)",
       quiet: "Ẩn đầu ra không cần thiết",
       no_color: "Tắt đầu ra màu sắc",
       timeout: "Thời gian chờ yêu cầu HTTP tính bằng mili giây",
-      api_key: "Khóa API cho máy chủ Dragon Router",
-      base_url: "URL cơ sở của máy chủ Dragon Router",
+      api_key: "Khóa API cho máy chủ DragonRouter",
+      base_url: "URL cơ sở của máy chủ DragonRouter",
       context: "Bối cảnh/hồ sơ máy chủ cho lệnh này",
       lang: "Đặt ngôn ngữ hiển thị CLI (ghi đè DRAGON_ROUTER_LANG)",
     },
@@ -853,7 +864,7 @@ const TRANSLATIONS = {
   "zh-CN": {
     common: {
       error: "错误：{message}",
-      serverOffline: "Dragon Router 服务器已离线。请启动：dragon-router serve",
+      serverOffline: "DragonRouter 服务器已离线。请启动：dragon-router serve",
       authRequired: "需要认证。请设置 DRAGON_ROUTER_API_KEY 或运行：dragon-router setup",
       rateLimited: "请求超出限制。请在 {seconds}s 后重试。",
       timeout: "请求在 {ms}ms 后超时。",
@@ -867,14 +878,14 @@ const TRANSLATIONS = {
       yesOpt: "跳过确认",
     },
     program: {
-      description: "Dragon Router — 具有自动故障转移的智能 AI 路由器",
+      description: "DragonRouter — 具有自动故障转移的智能 AI 路由器",
       version: "打印版本并退出",
       output: "输出格式（table, json, jsonl, csv）",
       quiet: "禁止非必要输出",
       no_color: "禁用彩色输出",
       timeout: "HTTP 请求超时（毫秒）",
-      api_key: "Dragon Router 服务器的 API 密钥",
-      base_url: "Dragon Router 服务器的基础 URL",
+      api_key: "DragonRouter 服务器的 API 密钥",
+      base_url: "DragonRouter 服务器的基础 URL",
       context: "此命令使用的服务器上下文/配置文件",
       lang: "设置 CLI 显示语言（覆盖 DRAGON_ROUTER_LANG）",
     },

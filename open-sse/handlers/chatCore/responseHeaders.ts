@@ -20,7 +20,7 @@ const STREAMING_RESPONSE_HEADER_DENYLIST = new Set([
  * `x-middleware-next`, `x-middleware-override-headers`,
  * `x-middleware-set-cookie`, and the `x-middleware-request-*` family.
  *
- * Dragon Router forwards upstream response headers verbatim. If we re-emit those
+ * DragonRouter forwards upstream response headers verbatim. If we re-emit those
  * headers from an App Router route handler, Next 16's `app-route` runtime
  * interprets `x-middleware-rewrite` as a `NextResponse.rewrite()` call and
  * throws `NextResponse.rewrite() was used in a app route handler` — turning a

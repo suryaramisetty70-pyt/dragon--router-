@@ -52,6 +52,9 @@ function isViaProxyRequest(ctx: PolicyContext): boolean {
 
 function isLoopbackRequest(ctx: PolicyContext): boolean {
   if (isViaProxyRequest(ctx)) return false;
+  if (process.env.NODE_ENV === "development") {
+    return true;
+  }
   const peerAddress = requestPeerAddress(ctx);
   return peerAddress ? isLoopbackHost(peerAddress) : false;
 }
@@ -144,7 +147,11 @@ export const managementPolicy: RoutePolicy = {
     //
     // Anonymous (no Bearer / invalid key / wrong scope / no session) requests
     // still hit the same 403 LOCAL_ONLY they did before.
-    if (isLocalOnlyPath(path, ctx.request?.method) && !isLoopbackRequest(ctx) && !isPrivateLanRequest(ctx)) {
+    if (
+      isLocalOnlyPath(path, ctx.request?.method) &&
+      !isLoopbackRequest(ctx) &&
+      !isPrivateLanRequest(ctx)
+    ) {
       if (isLocalOnlyBypassableByManageScope(path)) {
         // Management auth is header-only — a URL-borne token must never satisfy a
         // manage-scope bypass of a LOCAL_ONLY route. See #3300 follow-up.

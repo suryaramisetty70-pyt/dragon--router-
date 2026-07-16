@@ -1,10 +1,10 @@
 /**
- * MCP Tool Schemas — Contracts for all 23 core and advanced Dragon Router MCP tools.
+ * MCP Tool Schemas — Contracts for all 23 core and advanced DragonRouter MCP tools.
  *
  * Defines input/output Zod schemas, descriptions, scopes, and audit levels
  * for both essential (Phase 1) and advanced (Phase 2) MCP tools.
  *
- * Each tool wraps existing Dragon Router API endpoints and exposes them through
+ * Each tool wraps existing DragonRouter API endpoints and exposes them through
  * the Model Context Protocol, enabling AI agents in IDEs (VS Code, Cursor,
  * Copilot, Claude Desktop) to intelligently query gateway state.
  */
@@ -71,7 +71,7 @@ export const getHealthOutput = z.object({
 export const getHealthTool: McpToolDefinition<typeof getHealthInput, typeof getHealthOutput> = {
   name: "dragon_router_get_health",
   description:
-    "Returns the current health status of Dragon Router including uptime, memory usage, circuit breaker states for all providers, rate limit status, and cache statistics.",
+    "Returns the current health status of DragonRouter including uptime, memory usage, circuit breaker states for all providers, rate limit status, and cache statistics.",
   inputSchema: getHealthInput,
   outputSchema: getHealthOutput,
   scopes: ["read:health"],
@@ -283,7 +283,7 @@ export const routeRequestTool: McpToolDefinition<
 > = {
   name: "dragon_router_route_request",
   description:
-    "Sends a chat completion request through Dragon Router's intelligent routing pipeline. Supports combo selection, budget limits, and task role hints for optimal provider matching.",
+    "Sends a chat completion request through DragonRouter's intelligent routing pipeline. Supports combo selection, budget limits, and task role hints for optimal provider matching.",
   inputSchema: routeRequestInput,
   outputSchema: routeRequestOutput,
   scopes: ["execute:completions"],
@@ -437,7 +437,7 @@ export const webSearchOutput = z.object({
 export const webSearchTool: McpToolDefinition<typeof webSearchInput, typeof webSearchOutput> = {
   name: "dragon_router_web_search",
   description:
-    "Performs a web search using Dragon Router's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily, Google PSE, Linkup, SearchAPI, SearXNG) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
+    "Performs a web search using DragonRouter's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily, Google PSE, Linkup, SearchAPI, SearXNG) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
   inputSchema: webSearchInput,
   outputSchema: webSearchOutput,
   scopes: ["execute:search"],
@@ -496,7 +496,7 @@ export const webFetchOutput = z.object({
 export const webFetchTool: McpToolDefinition<typeof webFetchInput, typeof webFetchOutput> = {
   name: "dragon_router_web_fetch",
   description:
-    "Fetches and extracts content from a URL using Dragon Router's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
+    "Fetches and extracts content from a URL using DragonRouter's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
   inputSchema: webFetchInput,
   outputSchema: webFetchOutput,
   scopes: ["execute:search"],
@@ -905,7 +905,7 @@ export const dbHealthCheckTool: McpToolDefinition<
 > = {
   name: "dragon_router_db_health_check",
   description:
-    "Diagnoses Dragon Router database drift such as orphan quota/domain rows, invalid JSON state, and broken combo references. Set autoRepair=true to repair those rows before returning the report.",
+    "Diagnoses DragonRouter database drift such as orphan quota/domain rows, invalid JSON state, and broken combo references. Set autoRepair=true to repair those rows before returning the report.",
   inputSchema: dbHealthCheckInput,
   outputSchema: dbHealthCheckOutput,
   scopes: ["read:health", "write:resilience"],
@@ -941,7 +941,7 @@ export const syncPricingTool: McpToolDefinition<typeof syncPricingInput, typeof 
   {
     name: "dragon_router_sync_pricing",
     description:
-      "Syncs pricing data from external sources (LiteLLM) into Dragon Router. Synced pricing fills gaps not covered by hardcoded defaults without overwriting user-set prices. Use dryRun=true to preview.",
+      "Syncs pricing data from external sources (LiteLLM) into DragonRouter. Synced pricing fills gaps not covered by hardcoded defaults without overwriting user-set prices. Use dryRun=true to preview.",
     inputSchema: syncPricingInput,
     outputSchema: syncPricingOutput,
     scopes: ["pricing:write"],
@@ -1354,7 +1354,7 @@ export const agentSkillsListTool: McpToolDefinition<
 > = {
   name: "dragon_router_agent_skills_list",
   description:
-    "List Dragon Router agent skills with optional filtering by category (api/cli) or area. Returns skill metadata including id, name, description, endpoints/commands, and URLs.",
+    "List DragonRouter agent skills with optional filtering by category (api/cli) or area. Returns skill metadata including id, name, description, endpoints/commands, and URLs.",
   inputSchema: agentSkillsListInput,
   outputSchema: agentSkillsListOutput,
   scopes: ["read:catalog"],

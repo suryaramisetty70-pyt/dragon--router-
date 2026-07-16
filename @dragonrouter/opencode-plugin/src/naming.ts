@@ -1,5 +1,5 @@
 /**
- * Universal model naming template for the Dragon Router plugin.
+ * Universal model naming template for the DragonRouter plugin.
  *
  * Naming pipeline:
  *   [tag] <provider-label><separator><display-name><suffix>

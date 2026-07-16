@@ -45,7 +45,8 @@ const PACKAGE_ROOT = resolve(__dirname, "..", "..", "..");
 // (see root package.json `files`: ["@dragon-router/", ...]). The env override
 // exists so tests can point at a fixture without building the real plugin.
 const BUNDLED_PLUGIN_DIR =
-  process.env.DRAGON_ROUTER_OPENCODE_PLUGIN_DIR || join(PACKAGE_ROOT, "@dragon-router", "opencode-plugin");
+  process.env.DRAGON_ROUTER_OPENCODE_PLUGIN_DIR ||
+  join(PACKAGE_ROOT, "@dragon-router", "opencode-plugin");
 
 /**
  * Resolve the OpenCode config directory. Honours XDG_CONFIG_HOME and the
@@ -270,7 +271,7 @@ export async function runSetupOpenCodeCommand(opts = {}) {
   const wantsAuth = Boolean(opts.auth);
   const nonInteractive = Boolean(opts.nonInteractive);
 
-  printHeading("Dragon Router → OpenCode Plugin Setup");
+  printHeading("DragonRouter → OpenCode Plugin Setup");
 
   const resolvedDirs = resolveOpenCodeDirs();
   const opencodeConfigDir = opts.configDir || resolvedDirs.configDir;
@@ -367,11 +368,11 @@ export function registerSetupOpenCode(setupCommand) {
     )
     .option(
       "--base-url <url>",
-      "Dragon Router base URL the plugin should talk to (default: active context or http://localhost:20128)"
+      "DragonRouter base URL the plugin should talk to (default: active context or http://localhost:20128)"
     )
     .option(
       "--remote <url>",
-      "Remote Dragon Router URL, e.g. http://192.168.0.15:20128 (overrides --base-url and the context)"
+      "Remote DragonRouter URL, e.g. http://192.168.0.15:20128 (overrides --base-url and the context)"
     )
     .option("--display-name <name>", "Display name in the OpenCode UI (optional)")
     .option(

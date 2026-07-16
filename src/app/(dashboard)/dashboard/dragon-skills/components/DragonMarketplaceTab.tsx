@@ -21,15 +21,15 @@ interface SkillsShSkill {
   source: string;
 }
 
-interface OmniMarketplaceTabProps {
+interface DragonMarketplaceTabProps {
   skillsProvider: SkillsProvider;
   onRefreshSkills: () => Promise<void>;
 }
 
-export function OmniMarketplaceTab({
+export function DragonMarketplaceTab({
   skillsProvider,
   onRefreshSkills,
-}: OmniMarketplaceTabProps): JSX.Element {
+}: DragonMarketplaceTabProps): JSX.Element {
   const t = useTranslations("skills");
   const [mpQuery, setMpQuery] = useState("");
   const [mpResults, setMpResults] = useState<MarketplaceSkill[]>([]);
@@ -52,7 +52,9 @@ export function OmniMarketplaceTab({
       if (!res.ok) {
         setMpError((data as { error?: string }).error || t("marketplaceError"));
       } else {
-        setMpResults(Array.isArray(data) ? data : (data as { skills?: MarketplaceSkill[] }).skills || []);
+        setMpResults(
+          Array.isArray(data) ? data : (data as { skills?: MarketplaceSkill[] }).skills || []
+        );
       }
     } catch (err) {
       setMpError(err instanceof Error ? err.message : t("marketplaceError"));
@@ -151,7 +153,9 @@ export function OmniMarketplaceTab({
             type="text"
             value={skillsProvider === "skillsmp" ? mpQuery : shQuery}
             onChange={(e) =>
-              skillsProvider === "skillsmp" ? setMpQuery(e.target.value) : setShQuery(e.target.value)
+              skillsProvider === "skillsmp"
+                ? setMpQuery(e.target.value)
+                : setShQuery(e.target.value)
             }
             onKeyDown={(e) =>
               e.key === "Enter" &&
@@ -241,4 +245,4 @@ export function OmniMarketplaceTab({
   );
 }
 
-export default OmniMarketplaceTab;
+export default DragonMarketplaceTab;

@@ -7,7 +7,7 @@
  *   node bin/reset-password.mjs
  *   npx dragon-router reset-password
  *
- * Resets the admin password for Dragon Router.
+ * Resets the admin password for DragonRouter.
  * Prompts for a new password and updates the database directly.
  *
  * @module bin/reset-password
@@ -36,14 +36,14 @@ function exitWithError(message) {
   process.exit(1);
 }
 
-console.log("\n🔑 Dragon Router — Password Reset\n");
+console.log("\n🔑 DragonRouter — Password Reset\n");
 
 async function main() {
   // Check if database exists
   const passwordState = await readManagementPasswordState(DB_PATH);
   if (!passwordState.exists) {
     console.error(`❌ Database not found at: ${DB_PATH}`);
-    console.error(`   Make sure Dragon Router has been started at least once.`);
+    console.error(`   Make sure DragonRouter has been started at least once.`);
     console.error(`   Or set DATA_DIR env var to your data directory.\n`);
     process.exit(1);
   }
@@ -70,7 +70,7 @@ async function main() {
   rl.close();
 
   console.log("\n✅ Password reset successfully!");
-  console.log("   Restart Dragon Router for changes to take effect.\n");
+  console.log("   Restart DragonRouter for changes to take effect.\n");
 }
 
 main().catch((err) => {

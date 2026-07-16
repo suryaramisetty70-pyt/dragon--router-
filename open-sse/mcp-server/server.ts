@@ -204,7 +204,7 @@ export async function omniRouteFetch(path: string, options: RequestInit = {}): P
 
   if (!response.ok) {
     const errorText = await response.text().catch(() => "Unknown error");
-    throw new Error(`Dragon Router API error [${response.status}]: ${errorText}`);
+    throw new Error(`DragonRouter API error [${response.status}]: ${errorText}`);
   }
 
   return response.json();
@@ -362,7 +362,14 @@ async function handleGetComboMetrics(args: { comboId: string }) {
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_get_combo_metrics", args, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_get_combo_metrics",
+      args,
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }
@@ -533,7 +540,14 @@ async function handleListModelsCatalog(args: { provider?: string; capability?: s
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_list_models_catalog", args, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_list_models_catalog",
+      args,
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }
@@ -684,7 +698,7 @@ export function createMcpServer(): McpServer {
     "dragon_router_get_health",
     {
       description:
-        "Returns Dragon Router health status including uptime, memory, circuit breakers, rate limits, and cache stats",
+        "Returns DragonRouter health status including uptime, memory, circuit breakers, rate limits, and cache stats",
       inputSchema: getHealthInput,
     },
     withScopeEnforcement("dragon_router_get_health", async (args) => {
@@ -741,7 +755,7 @@ export function createMcpServer(): McpServer {
   server.registerTool(
     "dragon_router_route_request",
     {
-      description: "Sends a chat completion request through Dragon Router intelligent routing",
+      description: "Sends a chat completion request through DragonRouter intelligent routing",
       inputSchema: routeRequestInput,
     },
     withScopeEnforcement("dragon_router_route_request", (args) =>
@@ -866,7 +880,16 @@ export function createMcpServer(): McpServer {
     )
   );
 
-  server.registerTool("dragon_router_pick_fastest_model", { description: "Picks the fastest reliable provider-model pair from live telemetry.", inputSchema: pickFastestModelInput }, withScopeEnforcement("dragon_router_pick_fastest_model", (args) => handlePickFastestModel(pickFastestModelInput.parse(args))));
+  server.registerTool(
+    "dragon_router_pick_fastest_model",
+    {
+      description: "Picks the fastest reliable provider-model pair from live telemetry.",
+      inputSchema: pickFastestModelInput,
+    },
+    withScopeEnforcement("dragon_router_pick_fastest_model", (args) =>
+      handlePickFastestModel(pickFastestModelInput.parse(args))
+    )
+  );
 
   server.registerTool(
     "dragon_router_get_session_snapshot",
@@ -885,7 +908,7 @@ export function createMcpServer(): McpServer {
     "dragon_router_db_health_check",
     {
       description:
-        "Diagnoses or repairs Dragon Router database drift, including broken combo references and orphan quota/domain rows",
+        "Diagnoses or repairs DragonRouter database drift, including broken combo references and orphan quota/domain rows",
       inputSchema: dbHealthCheckInput,
     },
     withScopeEnforcement("dragon_router_db_health_check", (args) =>
@@ -897,7 +920,7 @@ export function createMcpServer(): McpServer {
     "dragon_router_sync_pricing",
     {
       description:
-        "Syncs pricing data from external sources (LiteLLM) into Dragon Router without overwriting user-set prices",
+        "Syncs pricing data from external sources (LiteLLM) into DragonRouter without overwriting user-set prices",
       inputSchema: syncPricingInput,
     },
     withScopeEnforcement("dragon_router_sync_pricing", (args) =>
@@ -909,7 +932,7 @@ export function createMcpServer(): McpServer {
     "dragon_router_web_search",
     {
       description:
-        "Performs a web search using Dragon Router's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
+        "Performs a web search using DragonRouter's search gateway. Supports multiple providers (Serper, Brave, Perplexity, Exa, Tavily) with automatic failover. Returns search results with titles, URLs, snippets, and position data.",
       inputSchema: webSearchInput,
     },
     withScopeEnforcement("dragon_router_web_search", (args) =>
@@ -921,10 +944,12 @@ export function createMcpServer(): McpServer {
     "dragon_router_web_fetch",
     {
       description:
-        "Fetches and extracts content from a URL using Dragon Router's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
+        "Fetches and extracts content from a URL using DragonRouter's web fetch gateway. Supports multiple providers (Firecrawl, Jina Reader, Tavily) with automatic failover. Returns the page content as markdown, HTML, links, or screenshot, along with metadata.",
       inputSchema: webFetchInput,
     },
-    withScopeEnforcement("dragon_router_web_fetch", (args) => handleWebFetch(webFetchInput.parse(args)))
+    withScopeEnforcement("dragon_router_web_fetch", (args) =>
+      handleWebFetch(webFetchInput.parse(args))
+    )
   );
 
   server.registerTool(
@@ -1073,17 +1098,21 @@ export function createMcpServer(): McpServer {
         // @ts-ignore: dynamic zod access
         inputSchema: toolDef.inputSchema,
       },
-      withScopeEnforcement(toolDef.name, async (args) => {
-        try {
-          const parsedArgs = toolDef.inputSchema.parse(args ?? {});
-          // @ts-expect-error - handler type lost through dynamic Object.values() access
-          const result = await toolDef.handler(parsedArgs);
-          return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
-        } catch (err) {
-          const msg = err instanceof Error ? err.message : String(err);
-          return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
-        }
-      }, toolDef.scopes)
+      withScopeEnforcement(
+        toolDef.name,
+        async (args) => {
+          try {
+            const parsedArgs = toolDef.inputSchema.parse(args ?? {});
+            // @ts-expect-error - handler type lost through dynamic Object.values() access
+            const result = await toolDef.handler(parsedArgs);
+            return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
+          }
+        },
+        toolDef.scopes
+      )
     );
   });
 
@@ -1333,10 +1362,10 @@ export async function startMcpStdio(): Promise<void> {
   process.once("SIGINT", stopHeartbeatOnce);
   process.once("SIGTERM", stopHeartbeatOnce);
 
-  console.error("[MCP] Dragon Router MCP Server starting (stdio transport)...");
+  console.error("[MCP] DragonRouter MCP Server starting (stdio transport)...");
   try {
     await server.connect(transport);
-    console.error("[MCP] Dragon Router MCP Server connected and ready.");
+    console.error("[MCP] DragonRouter MCP Server connected and ready.");
   } finally {
     if (closeAuditDb()) {
       console.error("[MCP] Audit database checkpointed and closed.");

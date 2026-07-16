@@ -1,5 +1,5 @@
 /**
- * dragon-router setup-qwen — configure Qwen Code (QwenLM/qwen-code) for Dragon Router.
+ * dragon-router setup-qwen — configure Qwen Code (QwenLM/qwen-code) for DragonRouter.
  *
  * Qwen Code is a terminal AI agent with a file-based config at
  * ~/.qwen/settings.json. For a custom OpenAI-compatible endpoint it uses a
@@ -44,7 +44,7 @@ export function resolveQwenTarget(opts = {}) {
   return { baseUrl: ensureV1(root), apiKey };
 }
 
-/** Merge the Dragon Router modelProvider into Qwen's settings.json (preserve rest). */
+/** Merge the DragonRouter modelProvider into Qwen's settings.json (preserve rest). */
 export function buildQwenSettings(existing, { baseUrl, model }) {
   const s = existing && typeof existing === "object" ? { ...existing } : {};
   const providers = Array.isArray(s.modelProviders)
@@ -52,7 +52,7 @@ export function buildQwenSettings(existing, { baseUrl, model }) {
     : [];
   providers.push({
     id: "dragon-router",
-    name: "Dragon Router",
+    name: "DragonRouter",
     authType: "openai",
     baseUrl,
     envKey: "DRAGON_ROUTER_API_KEY",
@@ -97,7 +97,7 @@ export async function runSetupQwenCommand(opts = {}) {
   const configPath =
     opts.configPath ?? opts["config-path"] ?? join(os.homedir(), ".qwen", "settings.json");
 
-  printHeading("Dragon Router → Qwen Code (openai-compatible)");
+  printHeading("DragonRouter → Qwen Code (openai-compatible)");
   printInfo(`baseUrl: ${baseUrl}`);
 
   let model = opts.model;
@@ -140,11 +140,11 @@ export function registerSetupQwen(program) {
   program
     .command("setup-qwen")
     .description(
-      "Configure Qwen Code for Dragon Router: write ~/.qwen/settings.json (openai modelProvider)"
+      "Configure Qwen Code for DragonRouter: write ~/.qwen/settings.json (openai modelProvider)"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote DragonRouter URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "DragonRouter API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--model <id>", "Model id for Qwen (required unless picked interactively)")
     .option("--config-path <path>", "settings.json path (default: ~/.qwen/settings.json)")
     .option("--yes", "Non-interactive: do not prompt (requires --model)")

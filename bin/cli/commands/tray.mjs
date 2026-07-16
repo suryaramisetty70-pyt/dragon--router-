@@ -25,7 +25,7 @@ export function registerTray(program) {
 
   cmd
     .command("quit")
-    .description(t("tray.quit") || "Quit Dragon Router via tray")
+    .description(t("tray.quit") || "Quit DragonRouter via tray")
     .action(async () => {
       const { default: pidUtils } = await import("../utils/pid.mjs").catch(() => ({
         default: null,

@@ -2,7 +2,7 @@
  * Regression tests for `isUsableCombo` (release/v3.8.2 code review, finding C1).
  *
  * The combo member refs returned by `/api/combos` do NOT carry a separate
- * `providerId` field — Dragon Router's `normalizeComboRecord` folds the provider
+ * `providerId` field — DragonRouter's `normalizeComboRecord` folds the provider
  * id INTO the full model string (e.g. "cc/claude-opus-4-7"). The previous
  * implementation read `step.providerId` (always `undefined`), so the
  * `usableOnly` combo filter silently never dropped anything. These tests pin
@@ -13,7 +13,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { isUsableCombo, type Dragon RouterRawCombo } from "../src/index.js";
+import { isUsableCombo, type DragonRouterRawCombo } from "../src/index.js";
 
 /** Build a `usable` set bundle for the tests. */
 function buildUsable(opts: { aliases?: string[]; canonicals?: string[]; known?: string[] }): {
@@ -30,7 +30,7 @@ function buildUsable(opts: { aliases?: string[]; canonicals?: string[]; known?: 
   };
 }
 
-function combo(models: Dragon RouterRawCombo["models"]): Dragon RouterRawCombo {
+function combo(models: DragonRouterRawCombo["models"]): DragonRouterRawCombo {
   return { id: "c1", name: "Test Combo", models };
 }
 

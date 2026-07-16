@@ -189,7 +189,7 @@ export async function runAvailableCommand(opts = {}) {
   if (opts.json) {
     console.log(JSON.stringify({ count: providers.length, categories, providers }, null, 2));
   } else {
-    printHeading("Dragon Router Available Providers");
+    printHeading("DragonRouter Available Providers");
     printAvailableProviderTable(providers, categories);
   }
 
@@ -203,7 +203,7 @@ export async function runListCommand(opts = {}) {
     if (opts.json) {
       console.log(JSON.stringify({ providers: connections }, null, 2));
     } else {
-      printHeading("Dragon Router Providers");
+      printHeading("DragonRouter Providers");
       printProviderTable(connections);
     }
     return 0;
@@ -261,7 +261,7 @@ export async function runTestAllCommand(opts = {}) {
     if (opts.json) {
       console.log(JSON.stringify({ results }, null, 2));
     } else {
-      printHeading("Dragon Router Provider Tests");
+      printHeading("DragonRouter Provider Tests");
       for (const result of results) {
         const label = result.valid
           ? "\x1b[32mOK\x1b[0m"
@@ -287,7 +287,7 @@ export async function runValidateCommand(opts = {}) {
     if (opts.json) {
       console.log(JSON.stringify({ results }, null, 2));
     } else {
-      printHeading("Dragon Router Provider Validation");
+      printHeading("DragonRouter Provider Validation");
       if (results.length === 0) {
         console.log("No providers configured.");
       }
@@ -500,7 +500,7 @@ export function registerProviders(program) {
 
   providers
     .command("available")
-    .description("Show available providers in the Dragon Router catalog")
+    .description("Show available providers in the DragonRouter catalog")
     .option("--json", "Print machine-readable JSON")
     .option("--search <query>", "Filter by id, name, alias, or category")
     .option("-q, --q <query>", "Alias for --search")

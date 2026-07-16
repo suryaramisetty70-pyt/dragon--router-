@@ -1,7 +1,7 @@
 /**
  * T-08 multi-instance smoke.
  *
- * Validates that two `Dragon RouterPlugin(input, opts)` invocations with
+ * Validates that two `DragonRouterPlugin(input, opts)` invocations with
  * different `providerId` values coexist without sharing mutable state.
  * This is the contract that lets opencode.json declare prod + preprod
  * side by side:
@@ -24,16 +24,16 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
-import { Dragon RouterPlugin } from "../src/index.js";
+import { DragonRouterPlugin } from "../src/index.js";
 
-const fakeInput = {} as Parameters<typeof Dragon RouterPlugin>[0];
+const fakeInput = {} as Parameters<typeof DragonRouterPlugin>[0];
 
 test("multi-instance: two plugin invocations bind to their own providerId", async () => {
-  const a = await Dragon RouterPlugin(fakeInput, {
+  const a = await DragonRouterPlugin(fakeInput, {
     providerId: "dragonrouter-prod",
     baseURL: "https://a.example/v1",
   });
-  const b = await Dragon RouterPlugin(fakeInput, {
+  const b = await DragonRouterPlugin(fakeInput, {
     providerId: "dragonrouter-preprod",
     baseURL: "https://b.example/v1",
   });
@@ -43,11 +43,11 @@ test("multi-instance: two plugin invocations bind to their own providerId", asyn
 });
 
 test("multi-instance: hook objects + nested arrays are independent references", async () => {
-  const a = await Dragon RouterPlugin(fakeInput, {
+  const a = await DragonRouterPlugin(fakeInput, {
     providerId: "alpha",
     baseURL: "https://a.example/v1",
   });
-  const b = await Dragon RouterPlugin(fakeInput, {
+  const b = await DragonRouterPlugin(fakeInput, {
     providerId: "bravo",
     baseURL: "https://b.example/v1",
   });
@@ -63,8 +63,8 @@ test("multi-instance: hook objects + nested arrays are independent references", 
 
 test("multi-instance: identical opts twice still yield independent objects", async () => {
   const opts = { providerId: "twin", baseURL: "https://twin.example/v1" };
-  const first = await Dragon RouterPlugin(fakeInput, { ...opts });
-  const second = await Dragon RouterPlugin(fakeInput, { ...opts });
+  const first = await DragonRouterPlugin(fakeInput, { ...opts });
+  const second = await DragonRouterPlugin(fakeInput, { ...opts });
 
   assert.notEqual(first, second);
   assert.notEqual(first.auth, second.auth);
@@ -75,11 +75,11 @@ test("multi-instance: identical opts twice still yield independent objects", asy
 });
 
 test("multi-instance: mutating instance A's auth.methods does not affect instance B", async () => {
-  const a = await Dragon RouterPlugin(fakeInput, {
+  const a = await DragonRouterPlugin(fakeInput, {
     providerId: "iso-a",
     baseURL: "https://a.example/v1",
   });
-  const b = await Dragon RouterPlugin(fakeInput, {
+  const b = await DragonRouterPlugin(fakeInput, {
     providerId: "iso-b",
     baseURL: "https://b.example/v1",
   });
@@ -96,11 +96,11 @@ test("multi-instance: loader closures see their own opts (not last-write-wins)",
   // captured at invocation time. If the factory accidentally shared a closure
   // (e.g. a module-scope let that the last invocation overwrites), both
   // loaders would emit the same baseURL. Verify they don't.
-  const a = await Dragon RouterPlugin(fakeInput, {
+  const a = await DragonRouterPlugin(fakeInput, {
     providerId: "dragonrouter-prod",
     baseURL: "https://prod.example/v1",
   });
-  const b = await Dragon RouterPlugin(fakeInput, {
+  const b = await DragonRouterPlugin(fakeInput, {
     providerId: "dragonrouter-preprod",
     baseURL: "https://preprod.example/v1",
   });
@@ -125,10 +125,10 @@ test("multi-instance: invalid opts on one instance does not poison the other", a
   // good call must still produce a working hooks object. Confirms no
   // half-built module-level state survives a failed parse.
   await assert.rejects(
-    () => Dragon RouterPlugin(fakeInput, { providerId: "bad id!" } as never),
+    () => DragonRouterPlugin(fakeInput, { providerId: "bad id!" } as never),
     /providerId/
   );
-  const ok = await Dragon RouterPlugin(fakeInput, {
+  const ok = await DragonRouterPlugin(fakeInput, {
     providerId: "recovered",
     baseURL: "https://ok.example/v1",
   });

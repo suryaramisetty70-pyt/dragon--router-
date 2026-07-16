@@ -44,6 +44,7 @@ export { default as PresetSlider } from "./PresetSlider";
 export { default as DistributeProxiesButton } from "./DistributeProxiesButton";
 
 export { SkillsConceptCard } from "./SkillsConceptCard";
+export { default as AIAssistant } from "./AIAssistant";
 
 // Layouts
 export * from "./layouts";

@@ -1,8 +1,4 @@
-import {
-  generateSignature,
-  getCachedResponse,
-  isCacheableForRead,
-} from "@/lib/semanticCache";
+import { generateSignature, getCachedResponse, isCacheableForRead } from "@/lib/semanticCache";
 import { calculateCost } from "@/lib/usage/costCalculator";
 import { trackPendingRequest } from "@/lib/usageDb";
 import { synthesizeOpenAiSseFromJson } from "../../utils/jsonToSse.ts";
@@ -75,8 +71,8 @@ export async function checkSemanticCache({
         [DRAGON_ROUTER_RESPONSE_HEADERS.cache]: "HIT",
       };
       // A cache HIT serves WITHOUT an upstream call, so the incremental cost billed to
-      // the client is 0 (consumers that sum X-Dragon Router-Response-Cost must not charge for
-      // hits). The original/would-have-been cost is surfaced via X-Dragon Router-Cost-Saved.
+      // the client is 0 (consumers that sum X-DragonRouter-Response-Cost must not charge for
+      // hits). The original/would-have-been cost is surfaced via X-DragonRouter-Cost-Saved.
       attachDragonRouterMetaHeaders(headers, {
         provider,
         model,

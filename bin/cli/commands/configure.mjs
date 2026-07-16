@@ -7,7 +7,7 @@ import { t } from "../i18n.mjs";
 
 /**
  * `dragon-router configure <cli>` — interactive provider+model picker that writes a
- * local CLI config pointed at the ACTIVE Dragon Router context (local or remote).
+ * local CLI config pointed at the ACTIVE DragonRouter context (local or remote).
  *
  * The model catalog comes from the active context's GET /v1/models, so when you
  * are in remote mode (`dragon-router connect ...`) you pick from the remote server's
@@ -130,7 +130,9 @@ export async function runConfigureCommand(cli, opts = {}, cmd) {
       }
       const inProvider = ids.filter((id) => providerList.includes(providerOf(byId(models, id))));
       const candidates = inProvider.length ? inProvider : ids;
-      printInfo(`Models: ${candidates.slice(0, 40).join(", ")}${candidates.length > 40 ? " …" : ""}`);
+      printInfo(
+        `Models: ${candidates.slice(0, 40).join(", ")}${candidates.length > 40 ? " …" : ""}`
+      );
       chosenId = await prompt.ask("Model id");
     } finally {
       prompt.close();

@@ -12,7 +12,7 @@ function stripTrailingSlash(value) {
 }
 
 /**
- * Build a clean child env for Claude Code pointed at Dragon Router.
+ * Build a clean child env for Claude Code pointed at DragonRouter.
  *
  * Strips inherited ANTHROPIC_* (avoids a stale shell token leaking through), then
  * injects the base URL, gateway model discovery, and auto-compact window.
@@ -40,7 +40,7 @@ export function buildClaudeEnv(baseEnv, baseUrlOrPort, authToken, opts = {}) {
 
   env.ANTHROPIC_BASE_URL = baseUrl;
   // Always set a token: when none is resolved, a sentinel keeps newer Claude Code
-  // from stopping at its local login gate before it ever contacts Dragon Router (an
+  // from stopping at its local login gate before it ever contacts DragonRouter (an
   // open backend ignores the value). Mirrors free-claude-code. ANTHROPIC_API_KEY
   // stays stripped (above) so it can't shadow the Bearer token.
   env.ANTHROPIC_AUTH_TOKEN = (authToken && String(authToken).trim()) || "dragon-router-no-auth";
@@ -54,7 +54,7 @@ export function buildClaudeEnv(baseEnv, baseUrlOrPort, authToken, opts = {}) {
 }
 
 /**
- * Resolve the Dragon Router base URL + auth for launch, honouring (in order):
+ * Resolve the DragonRouter base URL + auth for launch, honouring (in order):
  * explicit flags → the active context (remote mode) → localhost:<port>.
  * @param {{port?:string, remote?:string, baseUrl?:string, token?:string, apiKey?:string, context?:string}} opts
  * @returns {{ baseUrl:string, authToken:string|undefined }}
@@ -106,10 +106,10 @@ export async function runLaunchCommand(opts = {}, claudeArgs = []) {
     if (!res.ok) throw new Error(`status ${res.status}`);
   } catch {
     console.error(
-      (t("launch.notRunning") || "Dragon Router is not reachable at {port}. Start it with 'dragon-router serve'.").replace(
-        "{port}",
-        baseUrl
-      )
+      (
+        t("launch.notRunning") ||
+        "DragonRouter is not reachable at {port}. Start it with 'dragon-router serve'."
+      ).replace("{port}", baseUrl)
     );
     return 1;
   }
@@ -138,13 +138,19 @@ export function registerLaunch(program) {
   program
     .command("launch")
     .description(
-      t("launch.description") || "Launch Claude Code pointed at Dragon Router (local or remote)"
+      t("launch.description") || "Launch Claude Code pointed at DragonRouter (local or remote)"
     )
     .option("--port <port>", t("serve.port") || "Proxy port", "20128")
-    .option("--remote <url>", "Remote Dragon Router base URL (overrides --port and the active context)")
-    .option("--profile <name>", "Claude Code profile to use (CLAUDE_CONFIG_DIR ~/.claude/profiles/<name>)")
+    .option(
+      "--remote <url>",
+      "Remote DragonRouter base URL (overrides --port and the active context)"
+    )
+    .option(
+      "--profile <name>",
+      "Claude Code profile to use (CLAUDE_CONFIG_DIR ~/.claude/profiles/<name>)"
+    )
     .option("--token <token>", t("launch.token") || "Token Claude sends (ANTHROPIC_AUTH_TOKEN)")
-    .option("--api-key <key>", "Alias for --token (Dragon Router access token / API key)")
+    .option("--api-key <key>", "Alias for --token (DragonRouter access token / API key)")
     .allowUnknownOption(true)
     .allowExcessArguments(true)
     .argument("[claudeArgs...]", "arguments passed through to the claude binary")

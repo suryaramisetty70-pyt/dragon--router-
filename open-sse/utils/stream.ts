@@ -1033,7 +1033,7 @@ export function createSSEStream(options: StreamOptions = {}) {
     item.summary = [
       {
         type: "summary_text",
-        text: "Codex is reasoning, but the upstream Responses API exposed this reasoning block only as encrypted state. Dragon Router cannot recover the private reasoning text.",
+        text: "Codex is reasoning, but the upstream Responses API exposed this reasoning block only as encrypted state. DragonRouter cannot recover the private reasoning text.",
       },
     ];
     return true;
@@ -1639,7 +1639,7 @@ export function createSSEStream(options: StreamOptions = {}) {
                   //
                   // For a malformed empty `choices: []` chunk WITHOUT valid usage we DROP
                   // it (log server-side only). We must NOT inject an assistant-content
-                  // chunk like "[Dragon Router] Upstream returned an empty response. Please
+                  // chunk like "[DragonRouter] Upstream returned an empty response. Please
                   // retry." with finish_reason: "stop" — clients (Goose/opencode) feed that
                   // text back as a turn and spin in a retry loop. This restores the #3400
                   // behavior that #3422 inadvertently reverted (regression #3388/#3502).
@@ -2269,8 +2269,7 @@ export function createSSEStream(options: StreamOptions = {}) {
                     if (Array.isArray(flushedParsed.choices)) {
                       for (const choice of flushedParsed.choices as JsonRecord[]) {
                         const tcs = (choice as JsonRecord | undefined)?.delta as
-                          | JsonRecord
-                          | undefined;
+                          JsonRecord | undefined;
                         if (Array.isArray(tcs?.tool_calls)) {
                           for (const tc of tcs.tool_calls as JsonRecord[]) {
                             if (tc?.id != null && typeof tc.id !== "string") {
@@ -2644,17 +2643,15 @@ export function createSSEStream(options: StreamOptions = {}) {
               let content = (state?.accumulatedContent ?? "").trim() || "";
               const normalizedToolCalls: ToolCall[] = state?.toolCalls?.size
                 ? [...state.toolCalls.values()]
-                    .map(
-                      (tc: Record<string, unknown>): ToolCall => ({
-                        id: tc.id != null ? String(tc.id) : null,
-                        index: (tc.index as number) ?? (tc.blockIndex as number) ?? 0,
-                        type: (tc.type as string) ?? "function",
-                        function: (tc.function as ToolCall["function"]) ?? {
-                          name: (tc.name as string) ?? "",
-                          arguments: "",
-                        },
-                      })
-                    )
+                    .map((tc: Record<string, unknown>): ToolCall => ({
+                      id: tc.id != null ? String(tc.id) : null,
+                      index: (tc.index as number) ?? (tc.blockIndex as number) ?? 0,
+                      type: (tc.type as string) ?? "function",
+                      function: (tc.function as ToolCall["function"]) ?? {
+                        name: (tc.name as string) ?? "",
+                        arguments: "",
+                      },
+                    }))
                     .sort((a, b) => a.index - b.index)
                 : [];
               const textualToolCall = parseTextualToolCallFromContent(content);

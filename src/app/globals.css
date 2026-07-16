@@ -30,6 +30,84 @@
 :root {
   --desktop-safe-top: 0px;
   --desktop-safe-bottom: 0px;
+  color-scheme: light;
+
+  /* Primary - Sky Blue */
+  --color-primary: #0ea5e9;
+  --color-primary-hover: #0284c7;
+
+  /* Accent - Light Pink / Pastel (buttons, links, gradients) */
+  --color-accent: #f472b6;
+  --color-accent-hover: #db2777;
+  --color-accent-light: #38bdf8;
+
+  /* Semantic */
+  --color-error: #ef4444;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+
+  /* Traffic lights */
+  --color-traffic-red: #ef4444;
+  --color-traffic-yellow: #f59e0b;
+  --color-traffic-green: #10b981;
+
+  /* Light pastel theme by default */
+  --color-bg: #f8fafc;
+  --color-bg-alt: #f1f5f9;
+  --color-bg-primary: #f8fafc;
+  --color-bg-subtle: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-card: #ffffff;
+  --color-sidebar: #e0f2fe;
+  --color-border: rgba(14, 165, 233, 0.12);
+  --color-text-main: #0f172a;
+  --color-text-primary: #0f172a;
+  --color-text-muted: #64748b;
+
+  /* Fumadocs light theme */
+  --color-fd-background: #f8fafc;
+  --color-fd-foreground: #0f172a;
+  --color-fd-muted: #f1f5f9;
+  --color-fd-muted-foreground: #64748b;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #0f172a;
+  --color-fd-card: #ffffff;
+  --color-fd-card-foreground: #0f172a;
+  --color-fd-border: rgba(14, 165, 233, 0.08);
+  --color-fd-primary: #0ea5e9;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #e0f2fe;
+  --color-fd-secondary-foreground: #0f172a;
+  --color-fd-accent: rgba(14, 165, 233, 0.1);
+  --color-fd-accent-foreground: #0f172a;
+  --color-fd-ring: #0ea5e9;
+
+  /* Shadows */
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.015);
+  --shadow-warm: 0 2px 12px -2px rgba(14, 165, 233, 0.1);
+  --shadow-elevated: 0 12px 28px -4px rgba(20, 20, 40, 0.04);
+
+  /* Graph-paper wallpaper grid */
+  --grid-line: rgba(14, 165, 233, 0.06);
+  --grid-size: 32px;
+  --section-alt: rgba(14, 165, 233, 0.015);
+
+  /* Identity tokens */
+  --surface-2: #f1f5f9;
+  --radius: 14px;
+  --radius-control: 9px;
+  --grad-brand: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+
+  /* Data-table surfaces */
+  --table-header-bg: rgba(248, 250, 252, 0.95);
+  --table-row-zebra: rgba(0, 0, 0, 0.015);
+  --table-row-hover: rgba(0, 0, 0, 0.03);
+  --table-cell-border: rgba(0, 0, 0, 0.03);
+  --table-row-selected: rgba(14, 165, 233, 0.08);
+}
+
+.dark {
+  /* Dark theme (Fire Dragon deep) */
   color-scheme: dark;
 
   /* Primary - Magma Red */
@@ -51,71 +129,6 @@
   --color-traffic-yellow: #ff9100;
   --color-traffic-green: #00e676;
 
-  /* Magma-dark theme by default */
-  --color-bg: #080505;
-  --color-bg-alt: #120a0a;
-  --color-bg-primary: #080505;
-  --color-bg-subtle: #120a0a;
-  --color-surface: #160e0e;
-  --color-card: #160e0e;
-  --color-sidebar: #0c0707;
-  --color-border: rgba(255, 61, 0, 0.15);
-  --color-text-main: #f5f5f5;
-  --color-text-primary: #f5f5f5;
-  --color-text-muted: #a39797;
-
-  /* Fumadocs light theme */
-  --color-fd-background: #f9f9fb;
-  --color-fd-foreground: #1a1a2e;
-  --color-fd-muted: #f0f0f5;
-  --color-fd-muted-foreground: #71717a;
-  --color-fd-popover: #ffffff;
-  --color-fd-popover-foreground: #1a1a2e;
-  --color-fd-card: #ffffff;
-  --color-fd-card-foreground: #1a1a2e;
-  --color-fd-border: rgba(0, 0, 0, 0.08);
-  --color-fd-primary: #ff3d00;
-  --color-fd-primary-foreground: #ffffff;
-  --color-fd-secondary: #120a0a;
-  --color-fd-secondary-foreground: #f5f5f5;
-  --color-fd-accent: rgba(255, 61, 0, 0.12);
-  --color-fd-accent-foreground: #f5f5f5;
-  --color-fd-ring: #ff3d00;
-
-  /* Shadows */
-  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.02), 0 4px 12px rgba(0, 0, 0, 0.015);
-  --shadow-warm: 0 2px 12px -2px rgba(229, 77, 94, 0.12);
-  --shadow-elevated: 0 12px 28px -4px rgba(20, 20, 40, 0.06);
-
-  /* Graph-paper wallpaper grid — shared visual identity with the marketing site
-     (_mono_repo/dragon_routerSite/css). Light theme values. Rendered by body::before.
-     Opacity tuned up from the site's 0.045 so the wallpaper is actually visible on
-     the dense dashboard (cards/chrome cover most of the viewport). */
-  --grid-line: rgba(0, 0, 0, 0.07);
-  --grid-size: 32px;
-  --section-alt: rgba(0, 0, 0, 0.022);
-
-  /* Identity tokens mirrored from the site. Definitions only in this phase —
-     components are repointed to them in a later phase. */
-  --surface-2: #f5f5fa;
-  --radius: 14px;
-  --radius-control: 9px;
-  --grad-brand: linear-gradient(135deg, var(--color-primary), var(--color-accent-light));
-
-  /* Data-table surfaces — theme-aware. The DARK values (in .dark below) exactly mirror
-     the previous hardcoded rgba in DataTable.tsx so dark stays byte-identical; these
-     light values are the fix (the old code was always-dark via dead var fallbacks). */
-  --table-header-bg: rgba(249, 249, 251, 0.95);
-  --table-row-zebra: rgba(0, 0, 0, 0.02);
-  --table-row-hover: rgba(0, 0, 0, 0.04);
-  --table-cell-border: rgba(0, 0, 0, 0.04);
-  /* Selected row — an accent tint that reads on both themes (inherited by .dark). */
-  --table-row-selected: rgba(99, 102, 241, 0.1);
-}
-
-.dark {
-  /* Dark theme (Fire Dragon deep) */
-  color-scheme: dark;
   --color-bg: #080505;
   --color-bg-alt: #120a0a;
   --color-bg-primary: #080505;
@@ -150,12 +163,12 @@
   --shadow-warm: 0 2px 12px -2px rgba(229, 77, 94, 0.15);
   --shadow-elevated: 0 12px 28px -4px rgba(0, 0, 0, 0.3);
 
-  /* Graph-paper wallpaper grid — dark theme values (tuned up from 0.035 for visibility). */
+  /* Graph-paper wallpaper grid */
   --grid-line: rgba(255, 255, 255, 0.06);
   --section-alt: rgba(255, 255, 255, 0.018);
   --surface-2: #1c2230;
 
-  /* Data-table surfaces — dark = the exact old hardcoded values (byte-identical). */
+  /* Data-table surfaces */
   --table-header-bg: rgba(15, 15, 25, 0.95);
   --table-row-zebra: rgba(255, 255, 255, 0.02);
   --table-row-hover: rgba(255, 255, 255, 0.04);

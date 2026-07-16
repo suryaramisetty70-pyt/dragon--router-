@@ -4,8 +4,8 @@
  * These let a caller steer an `auto` combo on a single request via response-safe
  * request headers, without changing the combo's stored config:
  *
- *   X-Dragon Router-Mode:   fast | balanced | quality | <raw mode-pack name>  (#6024/#6025)
- *   X-Dragon Router-Budget: <max USD per request>                             (#6023)
+ *   X-DragonRouter-Mode:   fast | balanced | quality | <raw mode-pack name>  (#6024/#6025)
+ *   X-DragonRouter-Budget: <max USD per request>                             (#6023)
  *
  * Both resolvers are pure so they can be unit-tested and reused by the entry
  * handler (src/sse/handlers/chat.ts) and the combo router (open-sse/services/combo.ts).
@@ -41,7 +41,7 @@ export interface RequestModePack {
 }
 
 /**
- * Resolve the `X-Dragon Router-Mode` header value into a mode-pack override.
+ * Resolve the `X-DragonRouter-Mode` header value into a mode-pack override.
  *
  * - A friendly alias (`fast`, `quality`, `cheap`, …) or a raw mode-pack name
  *   (`ship-fast`, `quality-first`, …) → `{ override: true, modePack: <name> }`.
@@ -64,17 +64,13 @@ export function resolveRequestModePack(input: unknown): RequestModePack {
 }
 
 /**
- * Parse the `X-Dragon Router-Budget` header into a hard per-request cost ceiling (USD).
+ * Parse the `X-DragonRouter-Budget` header into a hard per-request cost ceiling (USD).
  * Only a finite, strictly-positive amount is accepted; anything else returns
  * `undefined` so the combo's own stored `budgetCap` (if any) stays in effect.
  */
 export function parseRequestBudgetCap(input: unknown): number | undefined {
   const n =
-    typeof input === "number"
-      ? input
-      : typeof input === "string"
-        ? Number(input.trim())
-        : NaN;
+    typeof input === "number" ? input : typeof input === "string" ? Number(input.trim()) : NaN;
   if (!Number.isFinite(n) || n <= 0) return undefined;
   return n;
 }

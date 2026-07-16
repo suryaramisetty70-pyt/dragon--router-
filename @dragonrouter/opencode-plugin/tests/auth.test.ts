@@ -1,7 +1,7 @@
 /**
  * T-02 auth-hook contract tests.
  *
- * Covers the `createDragon RouterAuthHook(opts)` factory and its loader behaviour
+ * Covers the `createDragonRouterAuthHook(opts)` factory and its loader behaviour
  * against every Auth flavor (`api`, `oauth`, null, empty key). Validates the
  * multi-instance fix: provider id flows from plugin options, not a module
  * constant.
@@ -9,35 +9,35 @@
 
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createDragon RouterAuthHook } from "../src/index.js";
+import { createDragonRouterAuthHook } from "../src/index.js";
 
-test("createDragon RouterAuthHook: default providerId is 'dragonrouter'", () => {
-  const hook = createDragon RouterAuthHook();
+test("createDragonRouterAuthHook: default providerId is 'dragonrouter'", () => {
+  const hook = createDragonRouterAuthHook();
   assert.equal(hook.provider, "opencode-dragonrouter");
 });
 
-test("createDragon RouterAuthHook: custom providerId binds to hook.provider (multi-instance)", () => {
-  const hook = createDragon RouterAuthHook({ providerId: "dragonrouter-preprod" });
+test("createDragonRouterAuthHook: custom providerId binds to hook.provider (multi-instance)", () => {
+  const hook = createDragonRouterAuthHook({ providerId: "dragonrouter-preprod" });
   assert.equal(hook.provider, "opencode-dragonrouter-preprod");
 });
 
-test("createDragon RouterAuthHook: methods[0] is type 'api' with label including displayName", () => {
-  const hook = createDragon RouterAuthHook();
+test("createDragonRouterAuthHook: methods[0] is type 'api' with label including displayName", () => {
+  const hook = createDragonRouterAuthHook();
   assert.equal(Array.isArray(hook.methods), true);
   assert.equal(hook.methods.length, 1);
   const m = hook.methods[0];
   assert.equal(m.type, "api");
-  assert.equal(m.label, "Dragon Router API Key");
+  assert.equal(m.label, "DragonRouter API Key");
 
-  const custom = createDragon RouterAuthHook({ providerId: "dragonrouter-preprod" });
-  assert.equal(custom.methods[0].label, "Dragon Router (opencode-dragonrouter-preprod) API Key");
+  const custom = createDragonRouterAuthHook({ providerId: "dragonrouter-preprod" });
+  assert.equal(custom.methods[0].label, "DragonRouter (opencode-dragonrouter-preprod) API Key");
 });
 
-test("createDragon RouterAuthHook: prompts[0] uses key='apiKey' per @opencode-ai/plugin contract", () => {
+test("createDragonRouterAuthHook: prompts[0] uses key='apiKey' per @opencode-ai/plugin contract", () => {
   // NOTE: spec referenced `name: "apiKey"`; the official
   // @opencode-ai/plugin@1.15.6 prompt shape uses `key` + `message` (no
   // `name`/`label`/`mask` fields). Asserting against the real type contract.
-  const hook = createDragon RouterAuthHook();
+  const hook = createDragonRouterAuthHook();
   const m = hook.methods[0];
   assert.equal(m.type, "api");
   // narrow: api method may carry prompts
@@ -58,7 +58,7 @@ test("loader: valid api auth → {apiKey} when no baseURL option (T-04: fetch om
   // interceptor cannot gate-keep requests, so the loader falls back to
   // apiKey-only and the AI-SDK uses its default fetch. See fetch-interceptor
   // tests for the wired-fetch branches.
-  const hook = createDragon RouterAuthHook();
+  const hook = createDragonRouterAuthHook();
   assert.ok(hook.loader, "loader must be defined");
   const result = await hook.loader!(
     async () => ({ type: "api", key: "sk-test" }) as never,
@@ -68,7 +68,7 @@ test("loader: valid api auth → {apiKey} when no baseURL option (T-04: fetch om
 });
 
 test("loader: valid api auth → {apiKey, baseURL, fetch} when baseURL option set (T-04)", async () => {
-  const hook = createDragon RouterAuthHook({ baseURL: "https://or.example.com/v1" });
+  const hook = createDragonRouterAuthHook({ baseURL: "https://or.example.com/v1" });
   const result = await hook.loader!(
     async () => ({ type: "api", key: "sk-x" }) as never,
     {} as never
@@ -85,7 +85,7 @@ test("loader: valid api auth → {apiKey, baseURL, fetch} when baseURL option se
 test("loader: features.fetchInterceptor=false AND geminiSanitization=false → no custom fetch (flags honored)", async () => {
   // Regression: both fetch-layer flags were documented + schema-validated but
   // silently ignored. Disabling both must fall back to the SDK default fetch.
-  const hook = createDragon RouterAuthHook({
+  const hook = createDragonRouterAuthHook({
     baseURL: "https://or.example.com/v1",
     features: { fetchInterceptor: false, geminiSanitization: false },
   });
@@ -102,7 +102,7 @@ test("loader: features.fetchInterceptor=false AND geminiSanitization=false → n
 });
 
 test("loader: features.fetchInterceptor=false but geminiSanitization=true → fetch still wired (sanitizer only)", async () => {
-  const hook = createDragon RouterAuthHook({
+  const hook = createDragonRouterAuthHook({
     baseURL: "https://or.example.com/v1",
     features: { fetchInterceptor: false, geminiSanitization: true },
   });
@@ -118,7 +118,7 @@ test("loader: features.fetchInterceptor=false but geminiSanitization=true → fe
 });
 
 test("loader: null/undefined auth → {} (no creds yet, OC surfaces /connect)", async () => {
-  const hook = createDragon RouterAuthHook();
+  const hook = createDragonRouterAuthHook();
   const r1 = await hook.loader!(async () => null as never, {} as never);
   assert.deepEqual(r1, {});
   const r2 = await hook.loader!(async () => undefined as never, {} as never);
@@ -126,7 +126,7 @@ test("loader: null/undefined auth → {} (no creds yet, OC surfaces /connect)", 
 });
 
 test("loader: oauth-flavored auth → {} (wrong method type, ignored)", async () => {
-  const hook = createDragon RouterAuthHook();
+  const hook = createDragonRouterAuthHook();
   const result = await hook.loader!(
     async () =>
       ({
@@ -141,7 +141,7 @@ test("loader: oauth-flavored auth → {} (wrong method type, ignored)", async ()
 });
 
 test("loader: api auth with empty key → {} (empty creds rejected)", async () => {
-  const hook = createDragon RouterAuthHook();
+  const hook = createDragonRouterAuthHook();
   const result = await hook.loader!(async () => ({ type: "api", key: "" }) as never, {} as never);
   assert.deepEqual(result, {});
 });

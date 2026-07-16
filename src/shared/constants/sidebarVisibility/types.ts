@@ -1,7 +1,7 @@
 export const HIDEABLE_SIDEBAR_ITEM_IDS = [
   // Home
   "home",
-  // OmniProxy — flat
+  // DragonProxy — flat
   "api-manager",
   "endpoints",
   "providers",
@@ -9,7 +9,7 @@ export const HIDEABLE_SIDEBAR_ITEM_IDS = [
   "combos",
   "combos-live",
   "quota",
-  // OmniProxy > Compression Context (Settings → Combos → engines → Studio)
+  // DragonProxy > Compression Context (Settings → Combos → engines → Studio)
   "context-settings",
   "context-combos",
   "context-caveman",
@@ -22,7 +22,7 @@ export const HIDEABLE_SIDEBAR_ITEM_IDS = [
   "context-aggressive",
   "context-ultra",
   "compression-studio",
-  // OmniProxy > Tools
+  // DragonProxy > Tools
   "cli-code",
   "cli-agents",
   "acp-agents",
@@ -30,10 +30,10 @@ export const HIDEABLE_SIDEBAR_ITEM_IDS = [
   "agent-bridge",
   "traffic-inspector",
   "discovery",
-  // OmniProxy > Integrations
+  // DragonProxy > Integrations
   "api-endpoints",
   "webhooks",
-  // OmniProxy — proxy
+  // DragonProxy — proxy
   "proxy",
   "mitm-proxy",
   "1proxy",
@@ -106,7 +106,7 @@ export type HideableSidebarItemId = (typeof HIDEABLE_SIDEBAR_ITEM_IDS)[number];
 
 export type SidebarSectionId =
   | "home"
-  | "omni-proxy"
+  | "dragon-proxy"
   | "analytics"
   | "costs"
   | "monitoring"

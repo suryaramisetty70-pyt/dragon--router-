@@ -1,5 +1,5 @@
 /**
- * Welcome Banner Plugin — PoC demonstrating the Dragon Router plugin system.
+ * Welcome Banner Plugin — PoC demonstrating the DragonRouter plugin system.
  *
  * Adds a banner message to request metadata on every request.
  * Logs a delivery confirmation on every response.
@@ -19,7 +19,7 @@ export function onRequest(ctx) {
   const enabled = config.enabled !== false; // default true
   if (!enabled) return;
 
-  const bannerText = config.bannerText || "Welcome to Dragon Router!";
+  const bannerText = config.bannerText || "Welcome to DragonRouter!";
   if (ctx.metadata) {
     ctx.metadata.banner = bannerText;
   }

@@ -16,7 +16,7 @@ export function createSqliteNativeError(error) {
   if (message.includes("NODE_MODULE_VERSION") || message.includes("ERR_DLOPEN_FAILED")) {
     return new Error(
       "better-sqlite3 native binding is incompatible with this Node.js runtime. " +
-        "Run `npm rebuild better-sqlite3` in the Dragon Router project and try again. " +
+        "Run `npm rebuild better-sqlite3` in the DragonRouter project and try again. " +
         "Or run: dragon-router runtime repair  " +
         "(rebuilds into a user-writable runtime; works without a C++ toolchain)."
     );

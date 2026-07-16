@@ -1,7 +1,7 @@
 /**
  * dragon-router setup-codex — Remote-aware Codex CLI profile generator.
  *
- * Connects to a running Dragon Router instance (local or remote VPS), fetches the
+ * Connects to a running DragonRouter instance (local or remote VPS), fetches the
  * live model catalog via GET /v1/models, then generates ~/.codex/<name>.config.toml
  * profile files for each model — so you can switch providers with a single flag
  * (`codex --profile glm52`) without editing config files by hand.
@@ -305,7 +305,7 @@ export async function runSetupCodexCommand(opts = {}) {
   const dryRun = Boolean(opts.dryRun ?? opts["dry-run"]);
   const onlyFilter = opts.only ? opts.only.split(",").map((s) => s.trim()) : null;
 
-  printHeading(`Dragon Router → Codex CLI profile generator`);
+  printHeading(`DragonRouter → Codex CLI profile generator`);
   printInfo(`Connecting to ${baseUrl} …`);
 
   // ── Fetch model catalog ───────────────────────────────────────────────────
@@ -324,8 +324,8 @@ export async function runSetupCodexCommand(opts = {}) {
   } catch (err) {
     printError(`Failed to fetch models: ${err.message}`);
     printInfo(
-      "Make sure Dragon Router is running and the --remote URL is correct.\n" +
-        "You may also need --api-key if Dragon Router requires authentication."
+      "Make sure DragonRouter is running and the --remote URL is correct.\n" +
+        "You may also need --api-key if DragonRouter requires authentication."
     );
     return 1;
   }
@@ -362,17 +362,17 @@ export function registerSetupCodex(program) {
   program
     .command("setup-codex")
     .description(
-      "Fetch the live model catalog from Dragon Router (local or remote VPS) and generate " +
+      "Fetch the live model catalog from DragonRouter (local or remote VPS) and generate " +
         "~/.codex/<name>.config.toml profiles for each supported model"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
     .option(
       "--remote <url>",
-      "Remote Dragon Router URL, e.g. http://100.67.86.91:20128 — fetches models from there"
+      "Remote DragonRouter URL, e.g. http://100.67.86.91:20128 — fetches models from there"
     )
     .option(
       "--api-key <key>",
-      "Dragon Router API key for the remote instance (defaults to DRAGON_ROUTER_API_KEY env var)"
+      "DragonRouter API key for the remote instance (defaults to DRAGON_ROUTER_API_KEY env var)"
     )
     .option("--codex-home <dir>", "Directory where profile files are written (default: ~/.codex)")
     .option(

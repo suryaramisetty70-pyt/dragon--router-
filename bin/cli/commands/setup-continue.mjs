@@ -1,5 +1,5 @@
 /**
- * dragon-router setup-continue — configure Continue (continue.dev) for Dragon Router.
+ * dragon-router setup-continue — configure Continue (continue.dev) for DragonRouter.
  *
  * Continue uses a file-based, mergeable ~/.continue/config.yaml shared by the VS
  * Code / JetBrains extensions AND the `cn` CLI. Models use `provider: openai`
@@ -56,7 +56,7 @@ export function buildContinueModels(modelIds, apiBase) {
     const roles = ["chat", "edit", "apply"];
     if (cfg.effort === "low") roles.push("autocomplete"); // fast tier → autocomplete
     out.push({
-      name: `Dragon Router: ${id}`,
+      name: `DragonRouter: ${id}`,
       provider: "openai",
       model: id,
       apiBase,
@@ -68,7 +68,7 @@ export function buildContinueModels(modelIds, apiBase) {
 }
 
 /**
- * Merge Dragon Router models into an existing Continue config object: drop any prior
+ * Merge DragonRouter models into an existing Continue config object: drop any prior
  * models pointing at this apiBase, keep everything else, append the new set.
  */
 export function mergeContinueConfig(existing, newModels, apiBase) {
@@ -76,7 +76,7 @@ export function mergeContinueConfig(existing, newModels, apiBase) {
   const prior = Array.isArray(cfg.models) ? cfg.models : [];
   const kept = prior.filter((m) => !m || m.apiBase !== apiBase);
   cfg.models = [...kept, ...newModels];
-  if (!cfg.name) cfg.name = "Dragon Router Config";
+  if (!cfg.name) cfg.name = "DragonRouter Config";
   if (!cfg.version) cfg.version = "1.0";
   if (!cfg.schema) cfg.schema = "v1";
   return cfg;
@@ -92,7 +92,7 @@ async function fetchModelIds(apiBase, apiKey) {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const body = await res.json();
-    const list = Array.isArray(body) ? body : body.data ?? body.models ?? [];
+    const list = Array.isArray(body) ? body : (body.data ?? body.models ?? []);
     return list.map((m) => (typeof m === "string" ? m : m?.id)).filter(Boolean);
   } catch (e) {
     throw new Error(`Could not fetch models: ${e.message}`);
@@ -102,10 +102,16 @@ async function fetchModelIds(apiBase, apiKey) {
 export async function runSetupContinueCommand(opts = {}) {
   const { apiBase, apiKey } = resolveContinueTarget(opts);
   const dryRun = Boolean(opts.dryRun ?? opts["dry-run"]);
-  const only = opts.only ? opts.only.split(",").map((s) => s.trim()).filter(Boolean) : null;
-  const configPath = opts.configPath ?? opts["config-path"] ?? join(os.homedir(), ".continue", "config.yaml");
+  const only = opts.only
+    ? opts.only
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : null;
+  const configPath =
+    opts.configPath ?? opts["config-path"] ?? join(os.homedir(), ".continue", "config.yaml");
 
-  printHeading("Dragon Router → Continue (config.yaml)");
+  printHeading("DragonRouter → Continue (config.yaml)");
   printInfo(`apiBase: ${apiBase}`);
 
   let ids;
@@ -113,7 +119,7 @@ export async function runSetupContinueCommand(opts = {}) {
     ids = await fetchModelIds(apiBase, apiKey);
   } catch (e) {
     printError(e.message);
-    printInfo("Make sure Dragon Router is running and --remote/--api-key are correct.");
+    printInfo("Make sure DragonRouter is running and --remote/--api-key are correct.");
     return 1;
   }
   if (only) ids = ids.filter((id) => only.some((f) => id.includes(f)));
@@ -140,17 +146,17 @@ export async function runSetupContinueCommand(opts = {}) {
 
   if (dryRun) {
     console.log("\n" + (out.length > 3500 ? out.slice(0, 3500) + "\n… (truncated)" : out));
-    printInfo(`[dry-run] ${models.length} Dragon Router model(s) → ${configPath}`);
+    printInfo(`[dry-run] ${models.length} DragonRouter model(s) → ${configPath}`);
     return 0;
   }
 
   mkdirSync(join(configPath, ".."), { recursive: true });
   writeFileSync(configPath, out, "utf8");
-  printSuccess(`Wrote ${configPath} (${models.length} Dragon Router models)`);
+  printSuccess(`Wrote ${configPath} (${models.length} DragonRouter models)`);
   printInfo("\nProvide the key (config.yaml references it, not stores it):");
   printInfo("  cn CLI:  export DRAGON_ROUTER_API_KEY=...   (read from your shell)");
   printInfo("  IDE:     echo 'DRAGON_ROUTER_API_KEY=...' >> ~/.continue/.env");
-  printInfo("Run:  cn -p \"reply OK\"");
+  printInfo('Run:  cn -p "reply OK"');
   return 0;
 }
 
@@ -158,11 +164,11 @@ export function registerSetupContinue(program) {
   program
     .command("setup-continue")
     .description(
-      "Generate ~/.continue/config.yaml (Continue / cn CLI) from the Dragon Router model catalog"
+      "Generate ~/.continue/config.yaml (Continue / cn CLI) from the DragonRouter model catalog"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote DragonRouter URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "DragonRouter API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--only <patterns>", "Comma-separated substrings — keep only matching model IDs")
     .option("--config-path <path>", "config.yaml path (default: ~/.continue/config.yaml)")
     .option("--dry-run", "Print what would be written without touching the filesystem")

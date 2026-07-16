@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Card } from "@/shared/components";
 
-export function OmniSandboxTab(): JSX.Element {
+export function DragonSandboxTab(): JSX.Element {
   const t = useTranslations("skills");
 
   return (
@@ -45,4 +45,4 @@ export function OmniSandboxTab(): JSX.Element {
   );
 }
 
-export default OmniSandboxTab;
+export default DragonSandboxTab;

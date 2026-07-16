@@ -67,7 +67,7 @@ function installPath(shell) {
 function generateZshScript() {
   return `#compdef dragon-router
 
-# Dragon Router zsh completion (dynamic)
+# DragonRouter zsh completion (dynamic)
 _dragon_router_get_cache() {
   local key="$1"
   local cache="$HOME/.dragon-router/completion-cache.json"
@@ -87,10 +87,10 @@ _dragon_router_get_cache() {
 _dragon_router() {
   local -a commands
   commands=(
-    'serve:Start the Dragon Router server'
+    'serve:Start the DragonRouter server'
     'stop:Stop the server'
     'restart:Restart the server'
-    'setup:Configure Dragon Router'
+    'setup:Configure DragonRouter'
     'doctor:Run health diagnostics'
     'status:Show server status'
     'logs:View application logs'
@@ -174,7 +174,7 @@ compdef _dragon_router dragon-router
 
 function generateBashScript() {
   return `#!/bin/bash
-# Dragon Router CLI bash completion (dynamic)
+# DragonRouter CLI bash completion (dynamic)
 
 _dragon_router_get_cache() {
   local key="$1"
@@ -227,7 +227,7 @@ complete -F _dragon_router dragon-router
 }
 
 function generateFishScript() {
-  return `# Dragon Router CLI fish completion (dynamic)
+  return `# DragonRouter CLI fish completion (dynamic)
 complete -c dragon-router -f
 
 set -l commands serve stop restart setup doctor status logs providers config keys models combo chat stream completion dashboard open backup restore health quota cache mcp a2a tunnel env memory skills update test

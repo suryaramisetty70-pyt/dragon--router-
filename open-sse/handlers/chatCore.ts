@@ -737,7 +737,7 @@ export async function handleChatCore({
     body = bodyWithWebSearchFallback as typeof body;
     log?.info?.(
       "TOOLS",
-      `Converted ${webSearchFallbackPlan.convertedToolCount} web_search tool(s) to Dragon Router fallback for ${provider}`
+      `Converted ${webSearchFallbackPlan.convertedToolCount} web_search tool(s) to DragonRouter fallback for ${provider}`
     );
   }
   const noLogEnabled = apiKeyInfo?.noLog === true;
@@ -858,7 +858,7 @@ export async function handleChatCore({
   const explicitStreamAlias = resolveExplicitStreamAlias(body);
 
   // Remove non-standard non-stream aliases before provider translation/execution.
-  // They are accepted for compatibility at the Dragon Router API boundary only.
+  // They are accepted for compatibility at the DragonRouter API boundary only.
   if (body && typeof body === "object") {
     const b = body as Record<string, unknown>;
     if (explicitStreamAlias !== undefined) {
@@ -2001,7 +2001,7 @@ export async function handleChatCore({
   }
 
   // Xiaomi MiMo controls reasoning ONLY via `thinking:{type:"enabled"|"disabled"}` and
-  // rejects unknown/extra params with a strict "400 Param Incorrect". Map Dragon Router's
+  // rejects unknown/extra params with a strict "400 Param Incorrect". Map DragonRouter's
   // OpenAI reasoning signals onto that native shape: reduce any thinking object to
   // `{type}` and drop `reasoning_effort`/`reasoning`. See services/mimoThinking.ts.
   if (provider === "xiaomi-mimo") {

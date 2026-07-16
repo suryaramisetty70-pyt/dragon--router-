@@ -77,7 +77,15 @@ export async function isCliTokenAuthValid(request: Request): Promise<boolean> {
   const token = await readHeader(request, HEADER_NAME);
   if (!token) return false;
 
-  if (!(await isLocalCliRequest(request as RequestWithPeer))) return false;
+  if (process.env.NODE_ENV === "development") {
+    const forwardedPeer =
+      firstHeaderIp(await readHeader(request, "cf-connecting-ip")) ||
+      firstHeaderIp(await readHeader(request, "x-forwarded-for")) ||
+      firstHeaderIp(await readHeader(request, "x-real-ip"));
+    if (forwardedPeer) return false;
+  } else {
+    if (!(await isLocalCliRequest(request as RequestWithPeer))) return false;
+  }
 
   const expectedTokens = [getMachineTokenSync(), getLegacyCliTokenSync()].filter(Boolean);
   return expectedTokens.some((expected) => {

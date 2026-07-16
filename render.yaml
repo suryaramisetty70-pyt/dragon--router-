@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dragon-router
+    env: docker
+    plan: starter # Starter ($7/mo) is required to support Persistent Disks on Render
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 20128
+      - key: DATA_DIR
+        value: /app/data
+      - key: DRAGONROUTER_USE_TURBOPACK
+        value: "0" # Disables Turbopack during build to prevent NFT file-tracing errors
+      - key: TZ
+        value: UTC
+    disk:
+      name: dragon-data
+      mountPath: /app/data
+      sizeGB: 1

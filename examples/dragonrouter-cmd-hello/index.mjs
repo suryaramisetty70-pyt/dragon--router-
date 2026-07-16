@@ -1,4 +1,4 @@
-// Minimal Dragon Router CLI plugin example.
+// Minimal DragonRouter CLI plugin example.
 // Usage:
 //   1. Copy this folder to ~/.dragonrouter/plugins/dragonrouter-cmd-hello/
 //   2. Run `dragonrouter hello`
@@ -7,7 +7,7 @@
 export const meta = {
   name: "dragonrouter-cmd-hello",
   version: "0.1.0",
-  description: "Hello-world Dragon Router CLI plugin example.",
+  description: "Hello-world DragonRouter CLI plugin example.",
   dragonrouterApi: ">=3.0.0",
 };
 

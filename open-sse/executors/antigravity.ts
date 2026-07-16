@@ -543,7 +543,7 @@ export class AntigravityExecutor extends BaseExecutor {
       Authorization: `Bearer ${credentials.accessToken}`,
       "User-Agent": antigravityUserAgent(),
       Accept: "text/event-stream",
-      "X-Dragon Router-Source": "dragon-router",
+      "X-DragonRouter-Source": "dragon-router",
     };
     // Scrub proxy/fingerprint headers that reveal non-native traffic
     return scrubProxyAndFingerprintHeaders(raw);
@@ -700,7 +700,9 @@ export class AntigravityExecutor extends BaseExecutor {
     };
 
     const transformedRequest = isClaude
-      ? stripTrailingAntigravityAssistantTurn(sanitizeAntigravityGeminiRequest(rawTransformedRequest))
+      ? stripTrailingAntigravityAssistantTurn(
+          sanitizeAntigravityGeminiRequest(rawTransformedRequest)
+        )
       : rawTransformedRequest;
 
     // Obfuscate sensitive client names in user content (e.g. "OpenCode", "Cursor")

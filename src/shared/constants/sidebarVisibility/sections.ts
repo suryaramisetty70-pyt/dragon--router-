@@ -18,7 +18,7 @@ const HOME_ITEMS: readonly SidebarItemDefinition[] = [
   },
 ];
 
-const OMNI_PROXY_ITEMS: readonly SidebarItemDefinition[] = [
+const DRAGON_PROXY_ITEMS: readonly SidebarItemDefinition[] = [
   {
     id: "endpoints",
     href: "/dashboard/endpoint",
@@ -509,9 +509,9 @@ const AGENTIC_FEATURES_ITEMS: readonly SidebarSectionChild[] = [
   },
   {
     id: "skills",
-    href: "/dashboard/omni-skills",
-    i18nKey: "omniSkills",
-    subtitleKey: "omniSkillsSubtitle",
+    href: "/dashboard/dragon-skills",
+    i18nKey: "dragonSkills",
+    subtitleKey: "dragonSkillsSubtitle",
     icon: "auto_fix_high",
   },
   MCP_ITEM,
@@ -705,11 +705,11 @@ export const SIDEBAR_SECTIONS: readonly SidebarSectionDefinition[] = [
     showTitle: false,
   },
   {
-    id: "omni-proxy",
-    titleKey: "omniProxySection",
-    titleFallback: "OmniProxy",
+    id: "dragon-proxy",
+    titleKey: "dragonProxySection",
+    titleFallback: "DragonProxy",
     children: [
-      ...OMNI_PROXY_ITEMS,
+      ...DRAGON_PROXY_ITEMS,
       COMPRESSION_CONTEXT_GROUP,
       TOOLS_GROUP,
       INTEGRATIONS_GROUP,

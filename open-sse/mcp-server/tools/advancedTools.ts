@@ -1,6 +1,6 @@
 /**
- * Dragon Router MCP Advanced Tools — 13 intelligence tools that differentiate
- * Dragon Router from all other AI gateways.
+ * DragonRouter MCP Advanced Tools — 13 intelligence tools that differentiate
+ * DragonRouter from all other AI gateways.
  *
  * Tools:
  *   1. dragon_router_simulate_route     — Dry-run routing simulation
@@ -469,7 +469,14 @@ export async function handleSetRoutingStrategy(args: {
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_set_routing_strategy", args, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_set_routing_strategy",
+      args,
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }
@@ -487,7 +494,7 @@ export async function handleSetResilienceProfile(args: {
       };
     }
 
-    // Apply to Dragon Router via API using the plan-aligned resilience structure.
+    // Apply to DragonRouter via API using the plan-aligned resilience structure.
     await apiFetch("/api/resilience", {
       method: "PATCH",
       body: JSON.stringify(settings),
@@ -495,7 +502,13 @@ export async function handleSetResilienceProfile(args: {
 
     const result = { applied: true, profile: args.profile, settings };
 
-    await logToolCall("dragon_router_set_resilience_profile", args, result, Date.now() - start, true);
+    await logToolCall(
+      "dragon_router_set_resilience_profile",
+      args,
+      result,
+      Date.now() - start,
+      true
+    );
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -663,7 +676,14 @@ export async function handleGetProviderMetrics(args: { provider: string }) {
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_get_provider_metrics", args, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_get_provider_metrics",
+      args,
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }
@@ -746,7 +766,14 @@ export async function handleBestComboForTask(args: {
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_best_combo_for_task", args, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_best_combo_for_task",
+      args,
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }
@@ -884,7 +911,14 @@ export async function handleGetSessionSnapshot() {
     return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    await logToolCall("dragon_router_get_session_snapshot", {}, null, Date.now() - start, false, msg);
+    await logToolCall(
+      "dragon_router_get_session_snapshot",
+      {},
+      null,
+      Date.now() - start,
+      false,
+      msg
+    );
     return { content: [{ type: "text" as const, text: `Error: ${msg}` }], isError: true };
   }
 }

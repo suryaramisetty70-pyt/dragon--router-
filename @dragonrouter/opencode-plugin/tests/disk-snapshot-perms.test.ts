@@ -15,10 +15,10 @@ import path from "node:path";
 import {
   defaultDiskSnapshotWriter,
   diskSnapshotPath,
-  type Dragon RouterFetchCacheEntry,
+  type DragonRouterFetchCacheEntry,
 } from "../src/index.js";
 
-function makeEntry(): Omit<Dragon RouterFetchCacheEntry, "expiresAt"> {
+function makeEntry(): Omit<DragonRouterFetchCacheEntry, "expiresAt"> {
   return {
     rawModels: [],
     rawCombos: [],

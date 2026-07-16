@@ -12,8 +12,10 @@ export function registerTunnel(program) {
     .description(t("tunnel.listDescription"))
     .option("--json", t("common.jsonOpt"))
     .action(async (opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelListCommand({ ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelListCommand({ ...actualOpts, output: globalOpts.output });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -24,8 +26,13 @@ export function registerTunnel(program) {
       new Argument("[type]", "Tunnel type").choices(VALID_TUNNEL_TYPES).default("cloudflare")
     )
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelCreateCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelCreateCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -34,8 +41,13 @@ export function registerTunnel(program) {
     .description(t("tunnel.stopDescription"))
     .option("--yes", t("common.yesOpt"))
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelStopCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelStopCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -44,8 +56,13 @@ export function registerTunnel(program) {
     .description(t("tunnel.statusDescription"))
     .option("--json", t("common.jsonOpt"))
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelStatusCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelStatusCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -54,8 +71,13 @@ export function registerTunnel(program) {
     .description(t("tunnel.logsDescription"))
     .option("--tail <n>", t("tunnel.tailOpt"), "50")
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelLogsCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelLogsCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -64,8 +86,13 @@ export function registerTunnel(program) {
     .description(t("tunnel.infoDescription"))
     .option("--json", t("common.jsonOpt"))
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelInfoCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelInfoCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 
@@ -74,8 +101,13 @@ export function registerTunnel(program) {
     .description(t("tunnel.rotateDescription"))
     .option("--yes", t("common.yesOpt"))
     .action(async (type, opts, cmd) => {
-      const globalOpts = cmd.parent.optsWithGlobals();
-      const exitCode = await runTunnelRotateCommand(type, { ...opts, output: globalOpts.output });
+      const commandObj = cmd || opts;
+      const globalOpts = commandObj.parent ? commandObj.parent.optsWithGlobals() : {};
+      const actualOpts = cmd ? opts : {};
+      const exitCode = await runTunnelRotateCommand(type, {
+        ...actualOpts,
+        output: globalOpts.output,
+      });
       if (exitCode !== 0) process.exit(exitCode);
     });
 }

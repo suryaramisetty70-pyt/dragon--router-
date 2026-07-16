@@ -869,7 +869,7 @@
     "cloudAgents": "Cloud Agents",
     "memory": "Memory",
     "skills": "Skills",
-    "omniSkills": "OmniSkills",
+    "dragonSkills": "DragonSkills",
     "agentSkills": "AgentSkills",
     "docs": "Docs",
     "issues": "Issues",
@@ -1006,7 +1006,7 @@
     "settingsResilience": "Resilience",
     "modelLockout": "Model Lockout",
     "settingsAdvanced": "Advanced",
-    "omniProxySection": "OmniProxy",
+    "dragonProxySection": "DragonProxy",
     "quotaTracker": "Provider Quota",
     "providerQuota": "Provider Quota",
     "runtime": "Runtime",
@@ -1068,7 +1068,7 @@
     "playgroundSubtitle": "Test prompts live",
     "searchToolsSubtitle": "Search tool registry",
     "memorySubtitle": "Persistent agent memory",
-    "omniSkillsSubtitle": "Sandbox skill registry",
+    "dragonSkillsSubtitle": "Sandbox skill registry",
     "agentSkillsSubtitle": "A2A skill registry",
     "mcpSubtitle": "MCP server controls",
     "a2aSubtitle": "A2A protocol server",
@@ -1470,7 +1470,7 @@
     "settingsAdvancedDescription": "Advanced payload rules, request limits, and proxy API settings",
     "mitmProxyDescription": "Configure MITM proxy settings for traffic inspection and debugging",
     "oneProxyDescription": "Configure 1Proxy settings for advanced proxy chaining",
-    "omniSkillsDescription": "Install and manage sandbox skills for automated prompt and tool execution"
+    "dragonSkillsDescription": "Install and manage sandbox skills for automated prompt and tool execution"
   },
   "home": {
     "quickStart": "Quick Start",
@@ -8959,13 +8959,13 @@
         "crossLinkLabel": "Understand the difference →"
       },
       "omni": {
-        "title": "Omni Skills — Inbound",
-        "description": "Omni Skills are sandbox tools that Dragon Router injects into the model's context on every request. They are executed by Dragon Router, not read by the agent.",
+        "title": "Dragon Skills — Inbound",
+        "description": "Dragon Skills are sandbox tools that Dragon Router injects into the model's context on every request. They are executed by Dragon Router, not read by the agent.",
         "crossLinkLabel": "Understand the difference →"
       },
       "comparison": {
         "colAgent": "Agent Skills",
-        "colOmni": "Omni Skills",
+        "colOmni": "Dragon Skills",
         "whatIs": {
           "label": "What it is",
           "agent": "Machine-readable SKILL.md that teaches an external agent to operate Dragon Router",

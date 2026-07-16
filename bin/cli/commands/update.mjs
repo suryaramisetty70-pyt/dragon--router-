@@ -31,9 +31,13 @@ export async function getCurrentVersion() {
 // they were already on the latest version (#4376). `execFn` is injectable for tests.
 export async function getLatestVersion(execFn = execFileAsync) {
   try {
-    const { stdout } = await execFn("npm", ["view", "dragon-router", "version", "--prefer-online"], {
-      timeout: 15000,
-    });
+    const { stdout } = await execFn(
+      "npm",
+      ["view", "dragon-router", "version", "--prefer-online"],
+      {
+        timeout: 15000,
+      }
+    );
     return stdout.trim();
   } catch {
     return null;
@@ -52,7 +56,12 @@ function compareVersions(a, b) {
 
 export async function createBackup() {
   const binPath = BIN_DIR;
-  const backupDir = path.join(homedir(), ".dragon-router", "backups", `dragon-router-${Date.now()}`);
+  const backupDir = path.join(
+    homedir(),
+    ".dragon-router",
+    "backups",
+    `dragon-router-${Date.now()}`
+  );
 
   try {
     const { mkdirSync, cpSync, existsSync } = await import("node:fs");
@@ -128,7 +137,7 @@ export async function runUpdateCommand(opts = {}) {
     return 0;
   }
 
-  printHeading("Dragon Router Update");
+  printHeading("DragonRouter Update");
   console.log(`  Current version: ${current}`);
   console.log(`  Latest version:  ${latest}`);
 
@@ -175,7 +184,7 @@ export async function runUpdateCommand(opts = {}) {
     }
   }
 
-  printInfo("Updating Dragon Router...");
+  printInfo("Updating DragonRouter...");
   try {
     const { execSync } = await import("child_process");
     // --include=optional keeps the optionalDependencies (better-sqlite3, keytar,

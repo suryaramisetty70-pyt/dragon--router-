@@ -18,7 +18,7 @@ import assert from "node:assert/strict";
 import {
   __resetGeminiStreamingWarning,
   createGeminiSanitizingFetch,
-  createDragon RouterFetchInterceptor,
+  createDragonRouterFetchInterceptor,
   sanitizeGeminiToolSchemas,
   shouldSanitizeForGemini,
 } from "../src/index.js";
@@ -371,7 +371,7 @@ test("createGeminiSanitizingFetch: empty body → pass through unchanged", async
   assert.equal(rec.calls.length, 1);
 });
 
-test("createGeminiSanitizingFetch: composes correctly with createDragon RouterFetchInterceptor (Bearer + sanitization)", async () => {
+test("createGeminiSanitizingFetch: composes correctly with createDragonRouterFetchInterceptor (Bearer + sanitization)", async () => {
   // Save and replace globalThis.fetch — the Bearer interceptor calls global
   // fetch when the URL targets its baseURL.
   const originalFetch = globalThis.fetch;
@@ -383,7 +383,7 @@ test("createGeminiSanitizingFetch: composes correctly with createDragon RouterFe
 
   try {
     const composed = createGeminiSanitizingFetch(
-      createDragon RouterFetchInterceptor({
+      createDragonRouterFetchInterceptor({
         apiKey: "sk-test",
         baseURL: "https://or.example.com/v1",
       })

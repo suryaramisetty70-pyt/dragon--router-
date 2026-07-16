@@ -5,11 +5,11 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/shared/components";
 import { SkillsConceptCard } from "@/shared/components";
 import type { SkillsProvider } from "@/lib/skills/providerSettings";
-import { OmniSkillsList } from "./components/OmniSkillsList";
-import { OmniExecutionsTab } from "./components/OmniExecutionsTab";
-import { OmniSandboxTab } from "./components/OmniSandboxTab";
-import { OmniMarketplaceTab } from "./components/OmniMarketplaceTab";
-import type { OmniSkill } from "./components/OmniSkillCard";
+import { DragonSkillsList } from "./components/DragonSkillsList";
+import { DragonExecutionsTab } from "./components/DragonExecutionsTab";
+import { DragonSandboxTab } from "./components/DragonSandboxTab";
+import { DragonMarketplaceTab } from "./components/DragonMarketplaceTab";
+import type { DragonSkill } from "./components/DragonSkillCard";
 
 interface Execution {
   id: string;
@@ -20,8 +20,8 @@ interface Execution {
   createdAt: string;
 }
 
-export function OmniSkillsPageClient(): JSX.Element {
-  const [skills, setSkills] = useState<OmniSkill[]>([]);
+export function DragonSkillsPageClient(): JSX.Element {
+  const [skills, setSkills] = useState<DragonSkill[]>([]);
   const [executions, setExecutions] = useState<Execution[]>([]);
   const [loading, setLoading] = useState(true);
   const [skillsPage, setSkillsPage] = useState(1);
@@ -59,7 +59,7 @@ export function OmniSkillsPageClient(): JSX.Element {
     if (modeFilter !== "all") params.set("mode", modeFilter);
 
     const res = await fetch(`/api/skills?${params.toString()}`).then((r) => r.json());
-    setSkills((res as { data?: OmniSkill[] }).data || []);
+    setSkills((res as { data?: DragonSkill[] }).data || []);
     setSkillsTotal((res as { total?: number }).total || 0);
     setSkillsTotalPages((res as { totalPages?: number }).totalPages || 1);
     setPopularDefaults(
@@ -83,7 +83,7 @@ export function OmniSkillsPageClient(): JSX.Element {
       fetch("/api/settings").then((r) => (r.ok ? r.json() : null)),
     ])
       .then(([skillsData, executionsData, settingsData]) => {
-        setSkills((skillsData as { data?: OmniSkill[] }).data || []);
+        setSkills((skillsData as { data?: DragonSkill[] }).data || []);
         setSkillsTotal((skillsData as { total?: number }).total || 0);
         setSkillsTotalPages((skillsData as { totalPages?: number }).totalPages || 1);
         setPopularDefaults(
@@ -198,7 +198,7 @@ export function OmniSkillsPageClient(): JSX.Element {
   return (
     <div className="flex flex-col gap-6">
       {/* Concept card */}
-      <SkillsConceptCard variant="omni" />
+      <SkillsConceptCard variant="dragon" />
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -211,9 +211,7 @@ export function OmniSkillsPageClient(): JSX.Element {
           <p className="text-2xl font-bold text-emerald-400 mt-1">{enabledCount}</p>
         </Card>
         <Card className="p-4">
-          <p className="text-xs text-text-muted uppercase tracking-wide">
-            {t("totalExecutions")}
-          </p>
+          <p className="text-xs text-text-muted uppercase tracking-wide">{t("totalExecutions")}</p>
           <p className="text-2xl font-bold text-violet-400 mt-1">{execTotal}</p>
         </Card>
         <Card className="p-4">
@@ -250,7 +248,7 @@ export function OmniSkillsPageClient(): JSX.Element {
 
       {/* Tab content */}
       {activeTab === "skills" && (
-        <OmniSkillsList
+        <DragonSkillsList
           skills={skills}
           skillsTotal={skillsTotal}
           skillsPage={skillsPage}
@@ -282,7 +280,7 @@ export function OmniSkillsPageClient(): JSX.Element {
       )}
 
       {activeTab === "executions" && (
-        <OmniExecutionsTab
+        <DragonExecutionsTab
           executions={executions}
           execPage={execPage}
           execTotalPages={execTotalPages}
@@ -300,10 +298,10 @@ export function OmniSkillsPageClient(): JSX.Element {
         />
       )}
 
-      {activeTab === "sandbox" && <OmniSandboxTab />}
+      {activeTab === "sandbox" && <DragonSandboxTab />}
 
       {activeTab === "marketplace" && (
-        <OmniMarketplaceTab skillsProvider={skillsProvider} onRefreshSkills={refreshSkills} />
+        <DragonMarketplaceTab skillsProvider={skillsProvider} onRefreshSkills={refreshSkills} />
       )}
 
       {/* Install modal */}
@@ -381,4 +379,4 @@ export function OmniSkillsPageClient(): JSX.Element {
   );
 }
 
-export default OmniSkillsPageClient;
+export default DragonSkillsPageClient;

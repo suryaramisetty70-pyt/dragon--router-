@@ -33,7 +33,7 @@ function tomlAssign(key, value) {
 }
 
 /**
- * Resolve the Dragon Router root base URL + auth for codex, honouring (in order):
+ * Resolve the DragonRouter root base URL + auth for codex, honouring (in order):
  * explicit flags → active context (remote mode) → localhost:<port>.
  * @returns {{ baseUrl:string, authToken:string|undefined }}
  */
@@ -67,7 +67,7 @@ export function resolveCodexTarget(opts = {}) {
   return { baseUrl, authToken };
 }
 
-/** Health-check an Dragon Router root URL before launching Codex. */
+/** Health-check an DragonRouter root URL before launching Codex. */
 async function healthCheck(baseUrl, timeoutMs = 3000) {
   try {
     const res = await fetch(`${baseUrl}/api/monitoring/health`, {
@@ -96,7 +96,7 @@ export function buildCodexEnv(baseEnv, authToken) {
 /**
  * Codex `-c` flags that define the `dragon-router` provider inline, so launch works
  * WITHOUT a pre-existing ~/.codex/config.toml. Mirrors free-claude-code.
- * @param {string} baseUrl  Dragon Router root URL (no /v1)
+ * @param {string} baseUrl  DragonRouter root URL (no /v1)
  * @returns {string[]}
  */
 export function buildCodexProviderArgs(baseUrl) {
@@ -104,7 +104,7 @@ export function buildCodexProviderArgs(baseUrl) {
     "-c",
     tomlAssign("model_provider", "dragon-router"),
     "-c",
-    tomlAssign("model_providers.dragon-router.name", "Dragon Router"),
+    tomlAssign("model_providers.dragon-router.name", "DragonRouter"),
     "-c",
     tomlAssign("model_providers.dragon-router.base_url", `${baseUrl}/v1`),
     "-c",
@@ -126,10 +126,10 @@ export async function runLaunchCodexCommand(opts = {}, codexArgs = []) {
 
   if (!(await healthCheck(baseUrl))) {
     console.error(
-      (t("launch.notRunning") || "Dragon Router is not reachable at {port}. Start it with 'dragon-router serve'.").replace(
-        "{port}",
-        baseUrl
-      )
+      (
+        t("launch.notRunning") ||
+        "DragonRouter is not reachable at {port}. Start it with 'dragon-router serve'."
+      ).replace("{port}", baseUrl)
     );
     return 1;
   }
@@ -162,13 +162,20 @@ export function registerLaunchCodex(program) {
   program
     .command("launch-codex")
     .description(
-      t("launchCodex.description") || "Launch Codex CLI pointed at Dragon Router (local or remote VPS)"
+      t("launchCodex.description") ||
+        "Launch Codex CLI pointed at DragonRouter (local or remote VPS)"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote Dragon Router base URL, e.g. http://192.168.0.15:20128 (overrides --port + context)")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
+    .option(
+      "--remote <url>",
+      "Remote DragonRouter base URL, e.g. http://192.168.0.15:20128 (overrides --port + context)"
+    )
     .option("--profile <name>", "Codex profile to activate (passed as --profile <name>)")
     .option("-p, --p <name>", "Alias for --profile")
-    .option("--api-key <key>", "Dragon Router API key (overrides DRAGON_ROUTER_API_KEY env var for this invocation)")
+    .option(
+      "--api-key <key>",
+      "DragonRouter API key (overrides DRAGON_ROUTER_API_KEY env var for this invocation)"
+    )
     .allowUnknownOption(true)
     .allowExcessArguments(true)
     .argument("[codexArgs...]", "arguments passed through to the codex binary")

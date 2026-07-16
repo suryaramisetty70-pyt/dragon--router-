@@ -5,7 +5,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const APP_LABEL = "com.dragon-router.autostart";
-const WIN_REG_VALUE = "Dragon Router";
+const WIN_REG_VALUE = "DragonRouter";
 const LINUX_SERVICE_NAME = "dragon-router.service";
 const LINUX_DESKTOP_NAME = "dragon-router.desktop";
 
@@ -115,7 +115,7 @@ function writeLinuxSystemdUnit(cliPath) {
   const envFile = join(userHomeDir(), ".dragon-router", ".env");
   const lines = [
     "[Unit]",
-    "Description=Dragon Router AI proxy router",
+    "Description=DragonRouter AI proxy router",
     "After=network-online.target",
     "Wants=network-online.target",
     "",
@@ -137,7 +137,7 @@ function writeLinuxDesktopEntry(cliPath) {
     [
       "[Desktop Entry]",
       "Type=Application",
-      "Name=Dragon Router",
+      "Name=DragonRouter",
       "Comment=AI proxy router with auto fallback",
       `Exec=${buildServeExecLine(cliPath, { tray: true })}`,
       "Terminal=false",
@@ -241,7 +241,7 @@ export function isLaunchdAgentLoaded(runList) {
  * managing under our agent label.
  *
  * `launchctl unload`/`load -w` for a user-domain agent sends SIGTERM to the
- * running process. When the running Dragon Router cli was itself spawned by the
+ * running process. When the running DragonRouter cli was itself spawned by the
  * autostart launchd agent (autostart was enabled, then the machine rebooted,
  * then the user clicked the tray "Disable Autostart" item), an unload would
  * kill the very process executing the click handler — the tray icon would

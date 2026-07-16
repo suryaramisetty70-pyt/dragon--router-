@@ -395,7 +395,10 @@ async function checkServerLiveness(options = {}) {
   // First attempt: configured health endpoint (may require auth token).
   const primary = await probeUrl(url);
   if (primary.ok) {
-    return ok("Server liveness", "Server health endpoint is reachable", { url, status: primary.status });
+    return ok("Server liveness", "Server health endpoint is reachable", {
+      url,
+      status: primary.status,
+    });
   }
 
   // #6162: /api/health and /api/health/degradation require a management token.
@@ -414,7 +417,9 @@ async function checkServerLiveness(options = {}) {
   } catch {
     const port = parsePort(process.env.PORT || "20128", 20128);
     const dashboardPort = parsePort(process.env.DASHBOARD_PORT || String(port), port);
-    const host = String(options.livenessHost || process.env.DRAGON_ROUTER_DOCTOR_HOST || "127.0.0.1")
+    const host = String(
+      options.livenessHost || process.env.DRAGON_ROUTER_DOCTOR_HOST || "127.0.0.1"
+    )
       .trim()
       .replace(/^https?:\/\//, "")
       .replace(/\/.*$/, "");
@@ -426,7 +431,12 @@ async function checkServerLiveness(options = {}) {
     return ok(
       "Server liveness",
       `Server reachable (health endpoint returned ${primary.status}, likely requires MANAGEMENT_TOKEN)`,
-      { primaryUrl: url, primaryStatus: primary.status, fallbackUrl, fallbackStatus: fallback.status }
+      {
+        primaryUrl: url,
+        primaryStatus: primary.status,
+        fallbackUrl,
+        fallbackStatus: fallback.status,
+      }
     );
   }
 
@@ -439,8 +449,7 @@ async function checkServerLiveness(options = {}) {
 
 export async function collectDoctorChecks(context = {}, options = {}) {
   const rootDir =
-    context.rootDir ||
-    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
+    context.rootDir || path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
   const dataDir = resolveDataDir();
   const dbPath = resolveStoragePath(dataDir);
 
@@ -512,7 +521,7 @@ export async function runDoctorCommand(opts = {}, context = {}) {
   if (isJson) {
     console.log(JSON.stringify(result, null, 2));
   } else {
-    printHeading("Dragon Router Doctor");
+    printHeading("DragonRouter Doctor");
     console.log(`Data dir: ${result.dataDir}`);
     console.log(`Database: ${result.dbPath}\n`);
     for (const check of result.checks) {

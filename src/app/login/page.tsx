@@ -213,78 +213,112 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-bg text-text-main relative overflow-hidden font-sans transition-colors duration-500">
+      {/* Background Decorative Neon Glows */}
+      <div className="absolute top-[-15%] left-[-10%] w-[60%] h-[60%] rounded-full bg-primary/10 dark:bg-red-600/10 blur-[130px] pointer-events-none transition-colors duration-500" />
+      <div className="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full bg-accent/15 dark:bg-orange-500/10 blur-[130px] pointer-events-none transition-colors duration-500" />
+
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--grid-line)_1px,transparent_1px),linear-gradient(to_bottom,var(--grid-line)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+
       {nodeWarningBanner && (
-        <div className="flex justify-center pt-6 px-6">{nodeWarningBanner}</div>
+        <div className="flex justify-center pt-6 px-6 relative z-10">{nodeWarningBanner}</div>
       )}
-      <div className="flex-1 flex">
+
+      <div className="flex-1 flex relative z-10">
         <div className="flex-1 flex items-center justify-center p-6">
           <div
-            className={`w-full max-w-sm transition-all duration-700 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            className={`w-full max-w-md transition-all duration-1000 ease-out ${
+              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           >
-            <div className="mb-10">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-[20px]">hub</span>
+            {/* Logo/Branding */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-surface/80 dark:bg-white/5 border border-border backdrop-blur-md mb-6 hover:scale-105 transition-all shadow-sm hover:shadow">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-accent flex items-center justify-center shadow-md shadow-primary/20">
+                  <span className="material-symbols-outlined text-white text-[20px]">
+                    local_fire_department
+                  </span>
                 </div>
-                <span className="text-xl font-semibold text-text-main tracking-tight">
+                <span className="text-base font-bold tracking-wide bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Dragon Router
                 </span>
               </div>
-              <h1 className="text-2xl font-bold text-text-main tracking-tight">{t("signIn")}</h1>
-              <p className="text-text-muted mt-1.5">{t("enterPassword")}</p>
+              <h1 className="text-3xl font-extrabold tracking-tight text-text-main">
+                {t("signIn")}
+              </h1>
+              <p className="text-sm text-text-muted mt-2">{t("enterPassword")}</p>
             </div>
 
-            <form onSubmit={handleLogin} className="space-y-5">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-text-main">{t("password")}</label>
-                <Input
-                  type="password"
-                  placeholder={t("enterPassword")}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoFocus
-                  className="h-11"
-                />
-                {error && (
-                  <p className="text-sm text-red-500 flex items-center gap-1.5 pt-1">
-                    <span className="material-symbols-outlined text-base">error</span>
-                    {error}
+            {/* Login Card */}
+            <div className="bg-surface/75 dark:bg-[#120707]/40 border border-border backdrop-blur-xl rounded-3xl p-8 shadow-soft dark:shadow-[0_0_50px_rgba(220,38,38,0.08)] hover:shadow-soft/80 transition-shadow">
+              <form onSubmit={handleLogin} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text-muted uppercase tracking-wider">
+                    {t("password")}
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type="password"
+                      placeholder={t("enterPassword")}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      autoFocus
+                      className="h-12 bg-bg/50 border-border text-text-main placeholder-text-muted/40 focus:border-primary/50 focus:ring-primary/10 focus:bg-surface transition-all rounded-xl pl-4 pr-4 text-sm"
+                    />
+                  </div>
+                  {error && (
+                    <p className="text-xs text-red-500 dark:text-red-400 flex items-center gap-1.5 pt-1 animate-pulse">
+                      <span className="material-symbols-outlined text-sm">error</span>
+                      {error}
+                    </p>
+                  )}
+                  <p className="text-[11px] text-text-muted/70 leading-normal pt-1">
+                    {t("defaultPasswordHint")}
                   </p>
-                )}
-                <p className="text-xs text-text-muted/60 pt-0.5">{t("defaultPasswordHint")}</p>
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-full h-12 text-sm font-bold tracking-wide bg-gradient-to-r from-primary to-accent hover:brightness-105 text-white rounded-xl shadow-md shadow-primary/10 active:scale-[0.98] transition-all"
+                  loading={loading}
+                >
+                  {t("continue")}
+                </Button>
+              </form>
+
+              <div className="mt-6 pt-5 border-t border-border flex justify-center">
+                <a
+                  href="/forgot-password"
+                  className="text-xs text-text-muted hover:text-primary transition-colors"
+                >
+                  {t("forgotPassword")}
+                </a>
               </div>
-
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-full h-11 text-sm font-medium"
-                loading={loading}
-              >
-                {t("continue")}
-              </Button>
-            </form>
-
-            <div className="mt-6 pt-6 border-t border-border">
-              <a
-                href="/forgot-password"
-                className="text-sm text-text-muted hover:text-primary transition-colors"
-              >
-                {t("forgotPassword")}
-              </a>
             </div>
           </div>
         </div>
 
-        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent items-center justify-center p-12">
+        {/* Right Info Panel */}
+        <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-primary/5 via-transparent to-transparent border-l border-border items-center justify-center p-16 relative">
           <div
-            className={`max-w-md transition-all duration-700 delay-200 ease-out ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+            className={`max-w-md transition-all duration-1000 delay-300 ease-out ${
+              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
           >
-            <div className="space-y-8">
+            <div className="space-y-10">
               <div>
-                <h2 className="text-2xl font-bold text-text-main mb-3">{t("unifiedAiApiProxy")}</h2>
-                <p className="text-text-muted leading-relaxed">{t("unifiedAiApiProxyDesc")}</p>
+                <span className="text-xs font-bold text-primary uppercase tracking-widest">
+                  Enterprise API Gateway
+                </span>
+                <h2 className="text-4xl font-extrabold tracking-tight mt-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  {t("unifiedAiApiProxy")}
+                </h2>
+                <p className="text-sm text-text-muted leading-relaxed mt-4">
+                  {t("unifiedAiApiProxyDesc")}
+                </p>
               </div>
 
               <div className="space-y-4">
@@ -307,16 +341,16 @@ export default function LoginPage() {
                 ].map((item) => (
                   <div
                     key={item.icon}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-surface/50 border border-border"
+                    className="flex items-start gap-4 p-5 rounded-2xl bg-surface/40 border border-border hover:bg-surface/80 hover:border-primary/20 hover:shadow-sm transition-all duration-300"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                      <span className="material-symbols-outlined text-primary text-[20px]">
+                    <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center flex-shrink-0 shadow-sm">
+                      <span className="material-symbols-outlined text-primary text-[22px]">
                         {item.icon}
                       </span>
                     </div>
                     <div>
-                      <h3 className="font-medium text-text-main">{item.title}</h3>
-                      <p className="text-sm text-text-muted">{item.desc}</p>
+                      <h3 className="font-extrabold text-text-main text-sm">{item.title}</h3>
+                      <p className="text-xs text-text-muted mt-1 leading-normal">{item.desc}</p>
                     </div>
                   </div>
                 ))}

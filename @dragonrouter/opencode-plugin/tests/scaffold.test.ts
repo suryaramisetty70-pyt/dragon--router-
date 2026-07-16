@@ -1,63 +1,63 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  Dragon RouterPlugin,
+  DragonRouterPlugin,
   DRAGONROUTER_PROVIDER_KEY,
   DEFAULT_MODEL_CACHE_TTL_MS,
-  resolveDragon RouterPluginOptions,
+  resolveDragonRouterPluginOptions,
 } from "../src/index.js";
 
 test("scaffold: exports public surface", () => {
   assert.equal(
-    typeof Dragon RouterPlugin,
+    typeof DragonRouterPlugin,
     "function",
-    "Dragon RouterPlugin must be a function (Plugin factory)"
+    "DragonRouterPlugin must be a function (Plugin factory)"
   );
   assert.equal(DRAGONROUTER_PROVIDER_KEY, "dragonrouter");
   assert.equal(DEFAULT_MODEL_CACHE_TTL_MS, 300_000);
 });
 
-test("scaffold: default export is v1 plugin shape { id, server: Dragon RouterPlugin }", async () => {
+test("scaffold: default export is v1 plugin shape { id, server: DragonRouterPlugin }", async () => {
   const mod = await import("../src/index.js");
   assert.equal(typeof mod.default, "object");
   assert.equal(mod.default.id, "@dragonrouter/opencode-plugin");
-  assert.equal(mod.default.server, mod.Dragon RouterPlugin);
+  assert.equal(mod.default.server, mod.DragonRouterPlugin);
 });
 
-test("resolveDragon RouterPluginOptions: defaults", () => {
-  const r = resolveDragon RouterPluginOptions();
+test("resolveDragonRouterPluginOptions: defaults", () => {
+  const r = resolveDragonRouterPluginOptions();
   assert.equal(r.providerId, "opencode-dragonrouter");
-  assert.equal(r.displayName, "Dragon Router");
+  assert.equal(r.displayName, "DragonRouter");
   assert.equal(r.modelCacheTtl, 300_000);
   assert.equal(r.baseURL, undefined);
 });
 
-test("resolveDragon RouterPluginOptions: custom providerId derives displayName", () => {
-  const r = resolveDragon RouterPluginOptions({ providerId: "dragonrouter-preprod" });
+test("resolveDragonRouterPluginOptions: custom providerId derives displayName", () => {
+  const r = resolveDragonRouterPluginOptions({ providerId: "dragonrouter-preprod" });
   assert.equal(r.providerId, "opencode-dragonrouter-preprod");
-  assert.equal(r.displayName, "Dragon Router (opencode-dragonrouter-preprod)");
+  assert.equal(r.displayName, "DragonRouter (opencode-dragonrouter-preprod)");
 });
 
-test("resolveDragon RouterPluginOptions: explicit displayName wins", () => {
-  const r = resolveDragon RouterPluginOptions({
+test("resolveDragonRouterPluginOptions: explicit displayName wins", () => {
+  const r = resolveDragonRouterPluginOptions({
     providerId: "dragonrouter-x",
     displayName: "Custom Label",
   });
   assert.equal(r.displayName, "Custom Label");
 });
 
-test("resolveDragon RouterPluginOptions: invalid TTL falls back to default", () => {
-  assert.equal(resolveDragon RouterPluginOptions({ modelCacheTtl: 0 }).modelCacheTtl, 300_000);
-  assert.equal(resolveDragon RouterPluginOptions({ modelCacheTtl: -1 }).modelCacheTtl, 300_000);
+test("resolveDragonRouterPluginOptions: invalid TTL falls back to default", () => {
+  assert.equal(resolveDragonRouterPluginOptions({ modelCacheTtl: 0 }).modelCacheTtl, 300_000);
+  assert.equal(resolveDragonRouterPluginOptions({ modelCacheTtl: -1 }).modelCacheTtl, 300_000);
 });
 
-test("resolveDragon RouterPluginOptions: positive TTL respected", () => {
-  assert.equal(resolveDragon RouterPluginOptions({ modelCacheTtl: 60_000 }).modelCacheTtl, 60_000);
+test("resolveDragonRouterPluginOptions: positive TTL respected", () => {
+  assert.equal(resolveDragonRouterPluginOptions({ modelCacheTtl: 60_000 }).modelCacheTtl, 60_000);
 });
 
-test("Dragon RouterPlugin: returns an empty hooks object (scaffold)", async () => {
-  const fakeCtx = {} as Parameters<typeof Dragon RouterPlugin>[0];
-  const hooks = await Dragon RouterPlugin(fakeCtx);
+test("DragonRouterPlugin: returns an empty hooks object (scaffold)", async () => {
+  const fakeCtx = {} as Parameters<typeof DragonRouterPlugin>[0];
+  const hooks = await DragonRouterPlugin(fakeCtx);
   assert.equal(typeof hooks, "object");
   assert.notEqual(hooks, null);
 });

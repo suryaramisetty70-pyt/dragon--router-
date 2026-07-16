@@ -604,7 +604,7 @@ function wrapInCloudCodeEnvelope(model, cloudCodeRequest, credentials = null) {
 
   if (!projectId) {
     console.warn(
-      `[Dragon Router] Antigravity account is missing projectId. ` +
+      `[DragonRouter] Antigravity account is missing projectId. ` +
         `Attempting request with empty project — reconnect OAuth to resolve.`
     );
     projectId = "";

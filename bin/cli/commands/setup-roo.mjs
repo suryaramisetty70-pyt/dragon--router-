@@ -1,5 +1,5 @@
 /**
- * dragon-router setup-roo — configure Roo Code (RooVeterinaryInc.roo-cline) for Dragon Router.
+ * dragon-router setup-roo — configure Roo Code (RooVeterinaryInc.roo-cline) for DragonRouter.
  *
  * Roo is a VS Code extension (Cline fork). Its live settings live in opaque VS
  * Code globalStorage, but Roo supports **Settings Import** + an
@@ -8,7 +8,7 @@
  * Code settings.json exists) + prints the UI steps as the guaranteed path.
  *
  * OpenAI-compatible: baseUrl WITH /v1 (Roo appends /chat/completions). The model
- * must support native OpenAI tool-calling (Dragon Router does).
+ * must support native OpenAI tool-calling (DragonRouter does).
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -51,9 +51,9 @@ export function resolveRooTarget(opts = {}) {
 export function buildRooImport({ baseUrl, apiKey, model }) {
   return {
     providerProfiles: {
-      currentApiConfigName: "Dragon Router",
+      currentApiConfigName: "DragonRouter",
       apiConfigs: {
-        Dragon Router: {
+        DragonRouter: {
           apiProvider: "openai",
           openAiBaseUrl: baseUrl,
           openAiApiKey: apiKey || "sk_dragon_router",
@@ -89,7 +89,7 @@ async function fetchModelIds(baseUrl, apiKey) {
     });
     if (!res.ok) return [];
     const body = await res.json();
-    const list = Array.isArray(body) ? body : body.data ?? body.models ?? [];
+    const list = Array.isArray(body) ? body : (body.data ?? body.models ?? []);
     return list.map((m) => (typeof m === "string" ? m : m?.id)).filter(Boolean);
   } catch {
     return [];
@@ -99,11 +99,16 @@ async function fetchModelIds(baseUrl, apiKey) {
 export async function runSetupRooCommand(opts = {}) {
   const { baseUrl, apiKey } = resolveRooTarget(opts);
   const dryRun = Boolean(opts.dryRun ?? opts["dry-run"]);
-  const importPath = opts.importPath ?? opts["import-path"] ?? join(os.homedir(), ".dragon-router", "roo-settings.json");
+  const importPath =
+    opts.importPath ??
+    opts["import-path"] ??
+    join(os.homedir(), ".dragon-router", "roo-settings.json");
   const vscodePath =
-    opts.vscodeSettings ?? opts["vscode-settings"] ?? join(os.homedir(), ".config", "Code", "User", "settings.json");
+    opts.vscodeSettings ??
+    opts["vscode-settings"] ??
+    join(os.homedir(), ".config", "Code", "User", "settings.json");
 
-  printHeading("Dragon Router → Roo Code (OpenAI-compatible)");
+  printHeading("DragonRouter → Roo Code (OpenAI-compatible)");
   printInfo(`Server: ${baseUrl}`);
 
   let model = opts.model;
@@ -130,8 +135,27 @@ export async function runSetupRooCommand(opts = {}) {
 
   if (dryRun) {
     console.log(`\n── [dry-run] ${importPath} ──`);
-    console.log(JSON.stringify({ ...importDoc, providerProfiles: { ...importDoc.providerProfiles, apiConfigs: { Dragon Router: { ...importDoc.providerProfiles.apiConfigs.Dragon Router, openAiApiKey: apiKey ? "set" : "sk_dragon_router" } } } }, null, 2));
-    console.log(`\n── [dry-run] ${vscodePath} ── ${vscodeExists ? "(would set roo-cline.autoImportSettingsPath)" : "(skipped — file absent)"}`);
+    console.log(
+      JSON.stringify(
+        {
+          ...importDoc,
+          providerProfiles: {
+            ...importDoc.providerProfiles,
+            apiConfigs: {
+              DragonRouter: {
+                ...importDoc.providerProfiles.apiConfigs.DragonRouter,
+                openAiApiKey: apiKey ? "set" : "sk_dragon_router",
+              },
+            },
+          },
+        },
+        null,
+        2
+      )
+    );
+    console.log(
+      `\n── [dry-run] ${vscodePath} ── ${vscodeExists ? "(would set roo-cline.autoImportSettingsPath)" : "(skipped — file absent)"}`
+    );
   } else {
     mkdirSync(join(importPath, ".."), { recursive: true });
     writeFileSync(importPath, JSON.stringify(importDoc, null, 2) + "\n", "utf8");
@@ -155,14 +179,20 @@ export function registerSetupRoo(program) {
   program
     .command("setup-roo")
     .description(
-      "Configure Roo Code for Dragon Router: write a Roo import JSON + autoImport pointer + print UI steps"
+      "Configure Roo Code for DragonRouter: write a Roo import JSON + autoImport pointer + print UI steps"
     )
-    .option("--port <port>", "Local Dragon Router port (ignored when --remote is set)", "20128")
-    .option("--remote <url>", "Remote Dragon Router URL, e.g. http://192.168.0.15:20128")
-    .option("--api-key <key>", "Dragon Router API key (defaults to DRAGON_ROUTER_API_KEY env var)")
+    .option("--port <port>", "Local DragonRouter port (ignored when --remote is set)", "20128")
+    .option("--remote <url>", "Remote DragonRouter URL, e.g. http://192.168.0.15:20128")
+    .option("--api-key <key>", "DragonRouter API key (defaults to DRAGON_ROUTER_API_KEY env var)")
     .option("--model <id>", "Model id for Roo (required unless picked interactively)")
-    .option("--import-path <path>", "Roo import JSON path (default: ~/.dragon-router/roo-settings.json)")
-    .option("--vscode-settings <path>", "VS Code settings.json (default: ~/.config/Code/User/settings.json)")
+    .option(
+      "--import-path <path>",
+      "Roo import JSON path (default: ~/.dragon-router/roo-settings.json)"
+    )
+    .option(
+      "--vscode-settings <path>",
+      "VS Code settings.json (default: ~/.config/Code/User/settings.json)"
+    )
     .option("--yes", "Non-interactive: do not prompt (requires --model)")
     .option("--dry-run", "Print what would be written without touching the filesystem")
     .action(async (opts) => {

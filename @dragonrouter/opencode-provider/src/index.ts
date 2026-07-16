@@ -1,10 +1,10 @@
 /**
- * OpenCode provider plugin for Dragon Router AI Gateway.
+ * OpenCode provider plugin for DragonRouter AI Gateway.
  *
  * Generates an OpenCode-compatible provider object that points to a running
- * Dragon Router instance. The output follows the OpenCode config schema
+ * DragonRouter instance. The output follows the OpenCode config schema
  * (https://opencode.ai/config.json) and delegates the runtime to
- * `@ai-sdk/openai-compatible` so OpenCode can drive any Dragon Router-exposed
+ * `@ai-sdk/openai-compatible` so OpenCode can drive any DragonRouter-exposed
  * model through its standard OpenAI-compatible client.
  *
  * Two ways to consume the helper:
@@ -12,8 +12,8 @@
  *  1. As code, when you build your own opencode.json programmatically:
  *
  *     ```ts
- *     import { buildDragon RouterOpenCodeConfig } from "@dragonrouter/opencode-provider";
- *     const config = buildDragon RouterOpenCodeConfig({
+ *     import { buildDragonRouterOpenCodeConfig } from "@dragonrouter/opencode-provider";
+ *     const config = buildDragonRouterOpenCodeConfig({
  *       baseURL: "http://localhost:20128",
  *       apiKey: "sk_dragonrouter",
  *     });
@@ -23,8 +23,8 @@
  *  2. As a single-provider entry to merge into an existing opencode.json:
  *
  *     ```ts
- *     import { createDragon RouterProvider } from "@dragonrouter/opencode-provider";
- *     const provider = createDragon RouterProvider({ baseURL, apiKey });
+ *     import { createDragonRouterProvider } from "@dragonrouter/opencode-provider";
+ *     const provider = createDragonRouterProvider({ baseURL, apiKey });
  *     // provider -> the value to place under provider.dragonrouter in opencode.json
  *     ```
  *
@@ -40,7 +40,7 @@ export const OPENCODE_CONFIG_SCHEMA = "https://opencode.ai/config.json" as const
  * Default catalog of models surfaced to OpenCode when the caller does not
  * supply an explicit `models` list.
  *
- * Curated set covering the most commonly deployed Dragon Router models. Synced
+ * Curated set covering the most commonly deployed DragonRouter models. Synced
  * with the Alph4d0g/opencode-dragonrouter-auth DRAGONROUTER_DEFAULT_MODELS constant
  * (https://github.com/Alph4d0g/opencode-dragonrouter-auth, MIT) and extended
  * with Claude Code passthrough models (`cc/` prefix).
@@ -81,7 +81,7 @@ export interface ModelCapabilities {
 
 /**
  * Default per-model context window sizes (tokens) for the curated default catalog.
- * Matches the context lengths used by Dragon Router's provider registry.
+ * Matches the context lengths used by DragonRouter's provider registry.
  */
 export const DRAGONROUTER_DEFAULT_MODEL_CONTEXT_LENGTHS: Record<string, number> = {
   "cc/claude-opus-4-8": 1_000_000,
@@ -99,7 +99,7 @@ export const DRAGONROUTER_DEFAULT_MODEL_CONTEXT_LENGTHS: Record<string, number> 
  *
  * Conservative defaults: every default model accepts attachments, tool calls
  * and temperature; `reasoning` is opt-in per model id. Callers override per
- * model via `Dragon RouterProviderOptions.modelCapabilities`.
+ * model via `DragonRouterProviderOptions.modelCapabilities`.
  */
 export const DRAGONROUTER_DEFAULT_MODEL_CAPABILITIES: Record<string, ModelCapabilities> = {
   "cc/claude-opus-4-8": { attachment: true, reasoning: true, temperature: true, tool_call: true },
@@ -122,12 +122,12 @@ export const DRAGONROUTER_DEFAULT_MODEL_CAPABILITIES: Record<string, ModelCapabi
   "gemini-3-flash": { attachment: true, temperature: true, tool_call: true },
 };
 
-export interface Dragon RouterProviderOptions {
-  /** Dragon Router base URL, with or without trailing `/v1`. Required. */
+export interface DragonRouterProviderOptions {
+  /** DragonRouter base URL, with or without trailing `/v1`. Required. */
   baseURL: string;
-  /** Dragon Router API key. Required. Use `sk_dragonrouter` for local instances without REQUIRE_API_KEY. */
+  /** DragonRouter API key. Required. Use `sk_dragonrouter` for local instances without REQUIRE_API_KEY. */
   apiKey: string;
-  /** Override the display name shown in OpenCode. Default: `"Dragon Router"`. */
+  /** Override the display name shown in OpenCode. Default: `"DragonRouter"`. */
   displayName?: string;
   /** Override the model catalog. Accepts model ids (strings) or live model entries from `fetchLiveModels`. When entries carry a `contextLength`, it is used directly — no hardcoded map needed. */
   models?: readonly (string | { id: string; contextLength?: number })[];
@@ -180,7 +180,7 @@ export interface OpenCodeModelEntry {
 }
 
 export interface OpenCodeProviderEntry {
-  /** Identifier of the OpenCode runtime package that will speak to Dragon Router. */
+  /** Identifier of the OpenCode runtime package that will speak to DragonRouter. */
   npm: typeof DRAGONROUTER_PROVIDER_NPM;
   /** Display name in the OpenCode UI. */
   name: string;
@@ -240,7 +240,9 @@ export function normalizeBaseURL(rawBaseURL: string): string {
  * Build the `provider.dragonrouter` entry for an OpenCode config document.
  * The returned object is JSON-serialisable and safe to embed verbatim.
  */
-export function createDragon RouterProvider(options: Dragon RouterProviderOptions): OpenCodeProviderEntry {
+export function createDragonRouterProvider(
+  options: DragonRouterProviderOptions
+): OpenCodeProviderEntry {
   const baseURL = normalizeBaseURL(options.baseURL);
   const apiKey = requireNonEmpty(options.apiKey, "apiKey");
 
@@ -297,7 +299,7 @@ export function createDragon RouterProvider(options: Dragon RouterProviderOption
 
   return {
     npm: DRAGONROUTER_PROVIDER_NPM,
-    name: options.displayName?.trim() || "Dragon Router",
+    name: options.displayName?.trim() || "DragonRouter",
     options: { baseURL, apiKey },
     models,
   };
@@ -311,13 +313,13 @@ export function createDragon RouterProvider(options: Dragon RouterProviderOption
  * top-level `model` / `small_model` keys prefixed with `"dragonrouter/"` so
  * OpenCode resolves them through the configured provider.
  */
-export function buildDragon RouterOpenCodeConfig(
-  options: Dragon RouterProviderOptions
+export function buildDragonRouterOpenCodeConfig(
+  options: DragonRouterProviderOptions
 ): OpenCodeConfigDocument {
   const doc: OpenCodeConfigDocument = {
     $schema: OPENCODE_CONFIG_SCHEMA,
     provider: {
-      [DRAGONROUTER_PROVIDER_KEY]: createDragon RouterProvider(options),
+      [DRAGONROUTER_PROVIDER_KEY]: createDragonRouterProvider(options),
     },
   };
 
@@ -335,7 +337,7 @@ export function buildDragon RouterOpenCodeConfig(
 }
 
 /**
- * Merge the Dragon Router provider entry (and optional `model` / `small_model`
+ * Merge the DragonRouter provider entry (and optional `model` / `small_model`
  * keys) into an already-existing OpenCode config object.
  *
  * Performs a non-destructive merge: all top-level keys in `existing` are
@@ -358,9 +360,9 @@ export function buildDragon RouterOpenCodeConfig(
  */
 export function mergeIntoExistingConfig(
   existing: Record<string, unknown>,
-  options: Dragon RouterProviderOptions
+  options: DragonRouterProviderOptions
 ): Record<string, unknown> {
-  const partial = buildDragon RouterOpenCodeConfig(options);
+  const partial = buildDragonRouterOpenCodeConfig(options);
 
   const merged: Record<string, unknown> = { ...existing };
 
@@ -394,12 +396,12 @@ export const DRAGONROUTER_MCP_DEFAULT_SCOPES = [
   "read:compression",
 ] as const;
 
-export type Dragon RouterMCPScope = (typeof DRAGONROUTER_MCP_DEFAULT_SCOPES)[number] | string;
+export type DragonRouterMCPScope = (typeof DRAGONROUTER_MCP_DEFAULT_SCOPES)[number] | string;
 
-export interface Dragon RouterMCPOptions {
+export interface DragonRouterMCPOptions {
   /** Absolute path to the MCP server entry point (TypeScript or compiled JS). */
   serverPath: string;
-  /** Dragon Router API key forwarded to the MCP server as `DRAGONROUTER_API_KEY`. */
+  /** DragonRouter API key forwarded to the MCP server as `DRAGONROUTER_API_KEY`. */
   apiKey: string;
   /**
    * Management API key used for management-scoped operations.
@@ -411,7 +413,7 @@ export interface Dragon RouterMCPOptions {
    * When omitted `DRAGONROUTER_MCP_ENFORCE_SCOPES` is not set and all scopes are
    * available (development default). Pass an explicit list to restrict access.
    */
-  scopes?: Dragon RouterMCPScope[];
+  scopes?: DragonRouterMCPScope[];
   /**
    * Runtime used to execute the MCP server.
    *
@@ -432,7 +434,7 @@ export interface OpenCodeMCPServerEntry {
  *
  * @example
  * ```ts
- * const mcpEntry = createDragon RouterMCPEntry({
+ * const mcpEntry = createDragonRouterMCPEntry({
  *   serverPath: "/home/user/.local/share/dragonrouter/open-sse/mcp-server/server.ts",
  *   apiKey: "sk_dragonrouter",
  *   managementApiKey: "sk_manage_...",
@@ -441,7 +443,9 @@ export interface OpenCodeMCPServerEntry {
  * // Place at config.mcp.servers.dragonrouter
  * ```
  */
-export function createDragon RouterMCPEntry(options: Dragon RouterMCPOptions): OpenCodeMCPServerEntry {
+export function createDragonRouterMCPEntry(
+  options: DragonRouterMCPOptions
+): OpenCodeMCPServerEntry {
   const serverPath = requireNonEmpty(options.serverPath, "serverPath");
   const apiKey = requireNonEmpty(options.apiKey, "apiKey");
 
@@ -492,14 +496,14 @@ async function fetchJSON<T>(url: string, apiKey: string, timeoutMs: number): Pro
 
 /**
  * Lightweight model descriptor returned by `fetchLiveModels`.
- * The shape mirrors the subset of fields that Dragon Router's `/v1/models`
+ * The shape mirrors the subset of fields that DragonRouter's `/v1/models`
  * endpoint reliably provides across versions, normalised from both
- * camelCase and snake_case variants used by different Dragon Router releases.
+ * camelCase and snake_case variants used by different DragonRouter releases.
  *
  * Attribution: field-variant normalisation logic adapted from
  * https://github.com/Alph4d0g/opencode-dragonrouter-auth (MIT).
  */
-export interface Dragon RouterLiveModel {
+export interface DragonRouterLiveModel {
   id: string;
   name: string;
   /** Context window length in tokens (e.g. 200000 for Claude, 1000000 for Gemini). */
@@ -507,27 +511,27 @@ export interface Dragon RouterLiveModel {
 }
 
 /**
- * Fetch the live model catalog from a running Dragon Router instance.
+ * Fetch the live model catalog from a running DragonRouter instance.
  *
  * Returns an array of `{ id, name }` objects from `GET /v1/models`. Handles
  * both the camelCase (`modelId`, `displayName`) and snake_case (`model_id`,
- * `display_name`) field variants across Dragon Router versions.
+ * `display_name`) field variants across DragonRouter versions.
  *
  * Useful for dynamically populating the `models` option of
- * `createDragon RouterProvider` / `buildDragon RouterOpenCodeConfig` instead of
+ * `createDragonRouterProvider` / `buildDragonRouterOpenCodeConfig` instead of
  * relying on `DRAGONROUTER_DEFAULT_OPENCODE_MODELS`.
  *
- * @param baseURL   - Dragon Router base URL (with or without `/v1`).
- * @param apiKey    - Dragon Router API key.
+ * @param baseURL   - DragonRouter base URL (with or without `/v1`).
+ * @param apiKey    - DragonRouter API key.
  * @param timeoutMs - Request timeout in milliseconds (default 5000).
  *
  * @example
  * ```ts
  * const models = await fetchLiveModels("http://localhost:20128", "sk_dragonrouter");
- * const config = buildDragon RouterOpenCodeConfig({
+ * const config = buildDragonRouterOpenCodeConfig({
  *   baseURL: "http://localhost:20128",
  *   apiKey: "sk_dragonrouter",
- *   models,                    // Dragon RouterLiveModel[] — contextLength auto-extracted
+ *   models,                    // DragonRouterLiveModel[] — contextLength auto-extracted
  *   modelLabels: Object.fromEntries(models.map((m) => [m.id, m.name])),
  * });
  * ```
@@ -536,7 +540,7 @@ export async function fetchLiveModels(
   baseURL: string,
   apiKey: string,
   timeoutMs = 5_000
-): Promise<Dragon RouterLiveModel[]> {
+): Promise<DragonRouterLiveModel[]> {
   const key = requireNonEmpty(apiKey, "apiKey");
   const url = `${normalizeBaseURL(baseURL)}/models`;
 
@@ -548,7 +552,7 @@ export async function fetchLiveModels(
       ? ((body as { data: unknown[] }).data as unknown[])
       : [];
 
-  const models: Dragon RouterLiveModel[] = [];
+  const models: DragonRouterLiveModel[] = [];
   for (const raw of rawList) {
     if (typeof raw !== "object" || raw === null) continue;
     const r = raw as Record<string, unknown>;
@@ -573,8 +577,8 @@ export async function fetchLiveModels(
             ? r.display_name.trim()
             : id;
 
-    // Extract context_length from Dragon Router's /v1/models response.
-    // Dragon Router returns context_length in snake_case for both synced
+    // Extract context_length from DragonRouter's /v1/models response.
+    // DragonRouter returns context_length in snake_case for both synced
     // models (with inputTokenLimit) and custom models; the catalog's
     // getDefaultContextFallback also injects it from registry defaults.
     const contextLength =
@@ -594,15 +598,8 @@ export async function fetchLiveModels(
  * Valid per-combo compression override values.
  * An empty string clears any existing override (inherits global setting).
  */
-export type Dragon RouterCompressionOverride =
-  | ""
-  | "off"
-  | "lite"
-  | "standard"
-  | "aggressive"
-  | "ultra"
-  | "rtk"
-  | "stacked";
+export type DragonRouterCompressionOverride =
+  "" | "off" | "lite" | "standard" | "aggressive" | "ultra" | "rtk" | "stacked";
 
 const VALID_COMPRESSION_OVERRIDES = new Set<string>([
   "",
@@ -616,16 +613,16 @@ const VALID_COMPRESSION_OVERRIDES = new Set<string>([
 ]);
 
 /** Slim combo descriptor returned by `listCombos`. */
-export interface Dragon RouterCombo {
+export interface DragonRouterCombo {
   id: string;
   name: string;
   strategy: string;
   active: boolean;
-  compressionOverride: Dragon RouterCompressionOverride;
+  compressionOverride: DragonRouterCompressionOverride;
 }
 
 /**
- * Fetch the active routing combo list from a running Dragon Router instance.
+ * Fetch the active routing combo list from a running DragonRouter instance.
  *
  * Returns an array of combo descriptors from `GET /api/combos`. The
  * `compressionOverride` field reflects the per-combo compression strategy
@@ -634,7 +631,7 @@ export interface Dragon RouterCombo {
  * Requires a management-scoped API key (Bearer `manage` scope) when the
  * instance has `REQUIRE_API_KEY` enabled.
  *
- * @param baseURL          - Dragon Router base URL (with or without `/v1`).
+ * @param baseURL          - DragonRouter base URL (with or without `/v1`).
  * @param managementApiKey - API key with `manage` scope.
  * @param timeoutMs        - Request timeout in milliseconds (default 5000).
  */
@@ -642,7 +639,7 @@ export async function listCombos(
   baseURL: string,
   managementApiKey: string,
   timeoutMs = 5_000
-): Promise<Dragon RouterCombo[]> {
+): Promise<DragonRouterCombo[]> {
   const key = requireNonEmpty(managementApiKey, "managementApiKey");
   const base = normalizeBaseURL(baseURL).replace(/\/v1$/, "");
   const url = `${base}/api/combos`;
@@ -654,7 +651,7 @@ export async function listCombos(
       ? ((body as { combos: unknown[] }).combos as unknown[])
       : [];
 
-  const combos: Dragon RouterCombo[] = [];
+  const combos: DragonRouterCombo[] = [];
   for (const raw of rawList) {
     if (typeof raw !== "object" || raw === null) continue;
     const r = raw as Record<string, unknown>;
@@ -668,7 +665,7 @@ export async function listCombos(
 
     const rawOverride = typeof r.compressionOverride === "string" ? r.compressionOverride : "";
     const compressionOverride = VALID_COMPRESSION_OVERRIDES.has(rawOverride)
-      ? (rawOverride as Dragon RouterCompressionOverride)
+      ? (rawOverride as DragonRouterCompressionOverride)
       : "";
 
     combos.push({ id, name, strategy, active, compressionOverride });
@@ -678,11 +675,11 @@ export async function listCombos(
 }
 
 /**
- * Options for `createDragon RouterComboConfig`.
- * Mirrors the subset of combo fields exposed by the Dragon Router `/api/combos`
+ * Options for `createDragonRouterComboConfig`.
+ * Mirrors the subset of combo fields exposed by the DragonRouter `/api/combos`
  * PATCH / POST payload that are safe to set programmatically.
  */
-export interface Dragon RouterComboConfigOptions {
+export interface DragonRouterComboConfigOptions {
   /** Human-readable combo name. */
   name: string;
   /** Routing strategy (e.g. `"priority"`, `"weighted"`, `"round-robin"`). */
@@ -691,7 +688,7 @@ export interface Dragon RouterComboConfigOptions {
    * Per-combo compression override.
    * Empty string removes any override (inherits global setting).
    */
-  compressionOverride?: Dragon RouterCompressionOverride;
+  compressionOverride?: DragonRouterCompressionOverride;
   /** Whether this combo is active for routing. Default: `true`. */
   active?: boolean;
   /**
@@ -702,14 +699,14 @@ export interface Dragon RouterComboConfigOptions {
 }
 
 /**
- * Build a typed combo payload suitable for Dragon Router's management API.
+ * Build a typed combo payload suitable for DragonRouter's management API.
  *
  * The returned object is JSON-serialisable and safe to pass as the body of a
  * `POST /api/combos` (create) or `PATCH /api/combos/:id` (update) request.
  *
  * @example
  * ```ts
- * const payload = createDragon RouterComboConfig({
+ * const payload = createDragonRouterComboConfig({
  *   name: "claude-primary",
  *   strategy: "priority",
  *   compressionOverride: "standard",
@@ -722,8 +719,8 @@ export interface Dragon RouterComboConfigOptions {
  * });
  * ```
  */
-export function createDragon RouterComboConfig(
-  options: Dragon RouterComboConfigOptions
+export function createDragonRouterComboConfig(
+  options: DragonRouterComboConfigOptions
 ): Record<string, unknown> {
   const name = requireNonEmpty(options.name, "name");
   const strategy = requireNonEmpty(options.strategy, "strategy");
@@ -754,16 +751,16 @@ export function createDragon RouterComboConfig(
  * config generator. Only fields present in
  * https://opencode.ai/config.json#AgentConfig are exposed.
  */
-export interface Dragon RouterRoleOverrides {
+export interface DragonRouterRoleOverrides {
   /** Forward to OpenCode's `temperature` field. */
   temperature?: number;
   /** Forward to OpenCode's `top_p` field. */
   top_p?: number;
 }
 
-/** Per-role binding used by `createDragon RouterAgentBlock`. */
-export interface Dragon RouterAgentRole extends Dragon RouterRoleOverrides {
-  /** Dragon Router model id, e.g. `"claude-sonnet-4-5-thinking"`. */
+/** Per-role binding used by `createDragonRouterAgentBlock`. */
+export interface DragonRouterAgentRole extends DragonRouterRoleOverrides {
+  /** DragonRouter model id, e.g. `"claude-sonnet-4-5-thinking"`. */
   modelId: string;
   /** Optional tools allow-list; per OpenCode schema, map of tool name → enabled. */
   tools?: Record<string, boolean>;
@@ -771,14 +768,14 @@ export interface Dragon RouterAgentRole extends Dragon RouterRoleOverrides {
   prompt?: string;
 }
 
-/** Options for `createDragon RouterAgentBlock`. */
-export interface Dragon RouterAgentBlockOptions {
+/** Options for `createDragonRouterAgentBlock`. */
+export interface DragonRouterAgentBlockOptions {
   /** Per-role bindings. Keys become entries under OpenCode's `agent` block. */
-  roles: Record<string, Dragon RouterAgentRole>;
+  roles: Record<string, DragonRouterAgentRole>;
 }
 
 /** Single entry inside the emitted OpenCode `agent` block. */
-export interface OpenCodeAgentEntry extends Dragon RouterRoleOverrides {
+export interface OpenCodeAgentEntry extends DragonRouterRoleOverrides {
   /** Always emitted as `"dragonrouter/<modelId>"`. */
   model: string;
   /** Per OpenCode schema, `Record<string, boolean>`. */
@@ -787,7 +784,7 @@ export interface OpenCodeAgentEntry extends Dragon RouterRoleOverrides {
   prompt?: string;
 }
 
-function buildAgentEntry(role: Dragon RouterAgentRole): OpenCodeAgentEntry | undefined {
+function buildAgentEntry(role: DragonRouterAgentRole): OpenCodeAgentEntry | undefined {
   if (!role || typeof role.modelId !== "string") return undefined;
   const modelId = role.modelId.trim();
   if (!modelId) return undefined;
@@ -811,7 +808,7 @@ function buildAgentEntry(role: Dragon RouterAgentRole): OpenCodeAgentEntry | und
 
 /**
  * Build the OpenCode `agent` block, pre-wired so each agent role routes to a
- * specific Dragon Router model. Useful for `.opencode/agent/*.md` defaults and
+ * specific DragonRouter model. Useful for `.opencode/agent/*.md` defaults and
  * scaffolded `opencode.json` files.
  *
  * Emitted fields are limited to those declared in OpenCode's `AgentConfig`
@@ -822,7 +819,7 @@ function buildAgentEntry(role: Dragon RouterAgentRole): OpenCodeAgentEntry | und
  *
  * @example
  * ```ts
- * const agentBlock = createDragon RouterAgentBlock({
+ * const agentBlock = createDragonRouterAgentBlock({
  *   roles: {
  *     build: { modelId: "claude-sonnet-4-5-thinking", temperature: 0.2 },
  *     plan: { modelId: "claude-opus-4-5-thinking", top_p: 0.95 },
@@ -832,8 +829,8 @@ function buildAgentEntry(role: Dragon RouterAgentRole): OpenCodeAgentEntry | und
  * // -> { build: { model: "dragonrouter/claude-sonnet-4-5-thinking", temperature: 0.2 }, ... }
  * ```
  */
-export function createDragon RouterAgentBlock(
-  options: Dragon RouterAgentBlockOptions
+export function createDragonRouterAgentBlock(
+  options: DragonRouterAgentBlockOptions
 ): Record<string, OpenCodeAgentEntry> {
   const out: Record<string, OpenCodeAgentEntry> = {};
   const roles = options.roles ?? {};
@@ -845,46 +842,46 @@ export function createDragon RouterAgentBlock(
 }
 
 /**
- * Per-mode binding used by `createDragon RouterModesBlock`.
+ * Per-mode binding used by `createDragonRouterModesBlock`.
  *
  * @deprecated OpenCode's top-level `mode` block is deprecated in favour of
- * `agent`. Prefer `Dragon RouterAgentRole` + `createDragon RouterAgentBlock`. This
+ * `agent`. Prefer `DragonRouterAgentRole` + `createDragonRouterAgentBlock`. This
  * type and the corresponding helper are kept for back-compat with configs
  * still using `mode:`.
  */
-export interface Dragon RouterMode extends Dragon RouterAgentRole {}
+export interface DragonRouterMode extends DragonRouterAgentRole {}
 
 /**
- * Options for `createDragon RouterModesBlock`.
+ * Options for `createDragonRouterModesBlock`.
  *
- * @deprecated See `Dragon RouterMode`.
+ * @deprecated See `DragonRouterMode`.
  */
-export interface Dragon RouterModesBlockOptions {
+export interface DragonRouterModesBlockOptions {
   /** Per-mode bindings. Keys become entries under OpenCode's deprecated top-level `mode` block. */
-  modes: Record<string, Dragon RouterMode>;
+  modes: Record<string, DragonRouterMode>;
 }
 
 /**
  * Single entry inside the emitted OpenCode `mode` block.
  *
- * @deprecated See `Dragon RouterMode`.
+ * @deprecated See `DragonRouterMode`.
  */
 export interface OpenCodeModeEntry extends OpenCodeAgentEntry {}
 
 /**
  * Build the OpenCode top-level `mode` block, pre-wired so each mode routes to
- * a specific Dragon Router model. Emits the same shape as the `agent` block since
+ * a specific DragonRouter model. Emits the same shape as the `agent` block since
  * OpenCode's schema treats them identically (both reference `AgentConfig`).
  *
  * Modes with empty / missing `modelId` are skipped.
  *
  * @deprecated OpenCode's top-level `mode` block is deprecated in favour of
- * `agent`. Prefer `createDragon RouterAgentBlock`. This helper is kept for
+ * `agent`. Prefer `createDragonRouterAgentBlock`. This helper is kept for
  * back-compat with configs still using `mode:`.
  *
  * @example
  * ```ts
- * const modesBlock = createDragon RouterModesBlock({
+ * const modesBlock = createDragonRouterModesBlock({
  *   modes: {
  *     build: { modelId: "claude-sonnet-4-5-thinking", tools: { edit: true, bash: true } },
  *     plan: { modelId: "claude-opus-4-5-thinking", prompt: "Plan first, code later." },
@@ -893,8 +890,8 @@ export interface OpenCodeModeEntry extends OpenCodeAgentEntry {}
  * });
  * ```
  */
-export function createDragon RouterModesBlock(
-  options: Dragon RouterModesBlockOptions
+export function createDragonRouterModesBlock(
+  options: DragonRouterModesBlockOptions
 ): Record<string, OpenCodeModeEntry> {
   const out: Record<string, OpenCodeModeEntry> = {};
   const modes = options.modes ?? {};
@@ -905,4 +902,4 @@ export function createDragon RouterModesBlock(
   return out;
 }
 
-export default createDragon RouterProvider;
+export default createDragonRouterProvider;
