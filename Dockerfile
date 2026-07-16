@@ -45,6 +45,7 @@ COPY open-sse/package.json ./open-sse/package.json
 COPY scripts/build/postinstall.mjs ./scripts/build/postinstall.mjs
 COPY scripts/build/postinstallSupport.mjs ./scripts/build/postinstallSupport.mjs
 COPY scripts/build/native-binary-compat.mjs ./scripts/build/native-binary-compat.mjs
+COPY scripts/build/colocateOptionals.mjs ./scripts/build/colocateOptionals.mjs
 ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
 # --ignore-scripts blocks broad dependency install/postinstall hooks, closing
 # the supply-chain attack surface where a transitive dep can run arbitrary code
