@@ -32,11 +32,8 @@ COPY scripts/build/postinstallSupport.mjs ./scripts/build/postinstallSupport.mjs
 COPY scripts/build/native-binary-compat.mjs ./scripts/build/native-binary-compat.mjs
 COPY scripts/build/colocateOptionals.mjs ./scripts/build/colocateOptionals.mjs
 ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
-# --ignore-scripts blocks broad dependency install/postinstall hooks.
-# We then explicitly rebuild better-sqlite3 which downloads prebuilt binaries.
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
-  npm ci --no-audit --no-fund --legacy-peer-deps --ignore-scripts \
-  && npm rebuild better-sqlite3 --build-from-source \
+  npm ci --no-audit --no-fund --legacy-peer-deps \
   && node -e "require('better-sqlite3')(':memory:').close()"
 
 # Build with Turbopack (stable in Next 16, the repo default). The v3.8.27-era
