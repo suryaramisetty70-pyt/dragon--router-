@@ -1,13 +1,9 @@
 # ── Common base with runtime deps ──────────────────────────────────────────
-FROM node:24-trixie-slim AS base
+FROM node:22-slim AS base
 WORKDIR /app
 
-# `apt-get upgrade` pulls the security-patched versions of the Debian (trixie)
-# base-image packages at build time — clears the subset of container-scan CVEs
-# (perl / util-linux / systemd / ncurses / zlib / tar / sqlite / shadow / pam …)
-# that already have a fix published in trixie. CVEs without an upstream fix yet
-# (local-only TOCTOU, etc.) remain until the distro patches them and the image
-# is rebuilt; none are reachable from the proxy's request surface at runtime.
+# `apt-get upgrade` pulls the security-patched versions of the Debian base-image
+# packages at build time — clears the subset of container-scan CVEs.
 RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
   --mount=type=cache,id=apt-lists,target=/var/lib/apt/lists,sharing=shared \
   apt-get update \
@@ -15,12 +11,7 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
   && apt-get install -y --no-install-recommends libsecret-1-0 ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
-# Refresh the globally-installed npm so its *bundled* node_modules (undici, tar)
-# ship the patched versions. These are npm's own internals — not application
-# dependencies (our app already resolves undici@8.5.0 / tar@7.5.16, both fixed) —
-# but the container scanner flags the stale copies under
-# /usr/local/lib/node_modules/npm/node_modules. npm is not invoked at runtime in
-# the runner stages, so this is hygiene, not an exploitable runtime path.
+# Refresh the globally-installed npm
 RUN npm install -g npm@latest \
   && npm cache clean --force
 
@@ -28,7 +19,6 @@ RUN npm install -g npm@latest \
 FROM base AS builder
 
 # Build tools for native module compilation
-# apt-get update needed here because base's rm -rf clears the shared cache
 RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
   --mount=type=cache,id=apt-lists,target=/var/lib/apt/lists,sharing=shared \
   apt-get update \
@@ -36,28 +26,17 @@ RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
   && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
-# Workspace package manifests MUST be present before `npm ci` so npm materializes
-# the workspace and installs its *workspace-only* deps (e.g. safe-regex,
-# @toon-format/toon — declared in open-sse/package.json, not hoisted to root).
-# Without this, `npm ci` skips them and the application build fails with "Module not
-# found" (root cause of the v3.8.39 Docker build break). workspaces = ["open-sse"].
 COPY open-sse/package.json ./open-sse/package.json
 COPY scripts/build/postinstall.mjs ./scripts/build/postinstall.mjs
 COPY scripts/build/postinstallSupport.mjs ./scripts/build/postinstallSupport.mjs
 COPY scripts/build/native-binary-compat.mjs ./scripts/build/native-binary-compat.mjs
 COPY scripts/build/colocateOptionals.mjs ./scripts/build/colocateOptionals.mjs
 ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
-# --ignore-scripts blocks broad dependency install/postinstall hooks, closing
-# the supply-chain attack surface where a transitive dep can run arbitrary code
-# at install time. better-sqlite3 still needs a native binding for the target
-# platform, so rebuild and smoke-test only that known runtime dependency below.
-#
-# We REQUIRE a committed package-lock.json so resolved dependency versions
-# are reproducible.
-RUN test -f package-lock.json \
-  || (echo "package-lock.json is required for reproducible Docker builds" >&2 && exit 1)
+# --ignore-scripts blocks broad dependency install/postinstall hooks.
+# We then explicitly rebuild better-sqlite3 which downloads prebuilt binaries.
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
-  npm ci --no-audit --no-fund --legacy-peer-deps \
+  npm ci --no-audit --no-fund --legacy-peer-deps --ignore-scripts \
+  && npm rebuild better-sqlite3 \
   && node -e "require('better-sqlite3')(':memory:').close()"
 
 # Build with Turbopack (stable in Next 16, the repo default). The v3.8.27-era
