@@ -124,6 +124,9 @@ const nextConfig = {
   // accept for image-bearing requests; tune via env if a deployment needs
   // more.
   experimental: {
+    cpus: 1,
+    workerThreads: false,
+    webpackMemoryOptimizations: true,
     serverActions: {
       bodySizeLimit: process.env.DRAGON_ROUTER_SERVER_ACTIONS_BODY_LIMIT || "50mb",
     },

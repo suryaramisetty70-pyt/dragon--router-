@@ -38,7 +38,7 @@ RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
 # build from 17min to 9min on the same 32-core box. Webpack stays available as the
 # escape hatch: `--build-arg`/-e DRAGONROUTER_USE_TURBOPACK=0.
 # See docs/ops/QUALITY_GATE_PLAYBOOK.md Parte 6.
-ENV DRAGONROUTER_USE_TURBOPACK=1
+ENV DRAGONROUTER_USE_TURBOPACK=0
 
 # Raise the V8 heap ceiling for the build. The webpack production optimization
 # pass needs more than V8's default ceiling (~2 GB) for a codebase this size; a
@@ -49,7 +49,7 @@ ENV DRAGONROUTER_USE_TURBOPACK=1
 # child (build-next-isolated.mjs → resolveNextBuildEnv spreads process.env).
 # Build-only; the runtime heap is set separately on the runner stage
 # (DRAGONROUTER_MEMORY_MB). Override: `--build-arg DRAGONROUTER_BUILD_MEMORY_MB=6144`.
-ARG DRAGONROUTER_BUILD_MEMORY_MB=4096
+ARG DRAGONROUTER_BUILD_MEMORY_MB=2048
 ENV NODE_OPTIONS="--max-old-space-size=${DRAGONROUTER_BUILD_MEMORY_MB}"
 
 COPY . ./
