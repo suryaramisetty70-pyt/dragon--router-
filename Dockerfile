@@ -16,14 +16,8 @@ RUN npm install -g npm@latest \
   && npm cache clean --force
 
 # ── Builder ────────────────────────────────────────────────────────────────
-FROM base AS builder
-
-# Build tools for native module compilation
-RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
-  --mount=type=cache,id=apt-lists,target=/var/lib/apt/lists,sharing=shared \
-  apt-get update \
-  && apt-get install -y --no-install-recommends python3 python-is-python3 make g++ \
-  && rm -rf /var/lib/apt/lists/*
+FROM node:22 AS builder
+WORKDIR /app
 
 COPY package*.json ./
 COPY open-sse/package.json ./open-sse/package.json
