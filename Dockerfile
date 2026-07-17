@@ -22,7 +22,7 @@ FROM base AS builder
 RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt,sharing=shared \
   --mount=type=cache,id=apt-lists,target=/var/lib/apt/lists,sharing=shared \
   apt-get update \
-  && apt-get install -y --no-install-recommends python3 make g++ \
+  && apt-get install -y --no-install-recommends python3 python-is-python3 make g++ \
   && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
@@ -36,7 +36,7 @@ ENV NPM_CONFIG_LEGACY_PEER_DEPS=true
 # We then explicitly rebuild better-sqlite3 which downloads prebuilt binaries.
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
   npm ci --no-audit --no-fund --legacy-peer-deps --ignore-scripts \
-  && npm rebuild better-sqlite3 \
+  && npm rebuild better-sqlite3 --build-from-source \
   && node -e "require('better-sqlite3')(':memory:').close()"
 
 # Build with Turbopack (stable in Next 16, the repo default). The v3.8.27-era
