@@ -1,5 +1,5 @@
 # ── Common base with runtime deps ──────────────────────────────────────────
-FROM node:22-slim AS base
+FROM node:26-slim AS base
 WORKDIR /app
 
 # `apt-get upgrade` pulls the security-patched versions of the Debian base-image
@@ -16,7 +16,7 @@ RUN npm install -g npm@latest \
   && npm cache clean --force
 
 # ── Builder ────────────────────────────────────────────────────────────────
-FROM node:22 AS builder
+FROM node:26 AS builder
 WORKDIR /app
 
 COPY package*.json ./
